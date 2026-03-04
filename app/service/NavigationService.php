@@ -670,7 +670,7 @@ class NavigationService
                 'type'      => 'center',
                 'is_login'  => 1,
                 'badge'     => null,
-                'icon'      => 'icon-user3',
+                'icon'      => 'icon-user-o',
                 'url'       => MyUrl('index/user/index'),
                 'items'     => [],
             ],

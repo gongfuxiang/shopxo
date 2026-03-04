@@ -46,7 +46,7 @@ class Email
 	{
 		$this->interval_time = isset($params['interval_time']) ? intval($params['interval_time']) : 30;
 		$this->expire_time = isset($params['expire_time']) ? intval($params['expire_time']) : 30;
-		$this->key_code = isset($params['key_prefix']) ? trim($params['key_prefix']).'_sms_code' : '_sms_code';
+		$this->key_code = isset($params['key_prefix']) ? trim($params['key_prefix']).'_email_code' : '_email_code';
 		$this->is_frq = isset($params['is_frq']) ? intval($params['is_frq']) : 1;
 		$this->is_log = isset($params['is_log']) ? intval($params['is_log']) : 1;
 	}

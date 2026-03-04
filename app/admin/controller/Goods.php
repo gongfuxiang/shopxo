@@ -57,9 +57,9 @@ class Goods extends Base
             // 商品参数展示范围
             'common_goods_parameters_scope_list'  => MyConst('common_goods_parameters_scope_list'),
             // 商品导航
-            'goods_nav_list'                      => MyLang('goods.goods_nav_list'),
+            'goods_admin_nav_list'                      => ResourcesService::GoodsAdminNavList(),
     	];
-        if(!empty($this->data_detail))
+        if(!empty($this->data_detail) && !empty($this->data_detail['id']))
         {
             // 获取商品编辑规格
             $assign['specifications'] = GoodsService::GoodsEditSpecifications($this->data_detail['id']);
@@ -92,33 +92,36 @@ class Goods extends Base
 		}
 
 		// 模板信息
-		$is_goods_single_category_mode = MyC('common_is_goods_single_category_mode', 0, true);
         $assign = [
             // 站点类型
-            'common_site_type_list'           => MyConst('common_site_type_list'),
+            'common_site_type_list'               => MyConst('common_site_type_list'),
+            // 商品参数展示范围
+            'common_goods_parameters_scope_list'  => MyConst('common_goods_parameters_scope_list'),
             // 当前系统设置的站点类型
-            'common_site_type'                => SystemBaseService::SiteTypeValue(),
+            'common_site_type'                    => SystemBaseService::SiteTypeValue(),
             // 地区信息
-            'region_province_list'            => RegionService::RegionItems(['pid'=>0]),
+            'region_province_list'                => RegionService::RegionItems(['pid'=>0]),
             // 商品分类
-            'goods_category_list'             => GoodsCategoryService::GoodsCategoryAll(),
+            'goods_category_list'                 => GoodsCategoryService::GoodsCategoryAll(),
             // 品牌
-            'brand_list'                      => BrandService::CategoryBrand(),
+            'brand_list'                          => BrandService::CategoryBrand(),
             // 商品导航
-            'goods_nav_list'                  => MyLang('goods.goods_nav_list'),
+            'goods_admin_nav_list'                => ResourcesService::GoodsAdminNavList(),
             // 商品分类模式
-            'is_goods_single_category_mode'   => $is_goods_single_category_mode,
+            'is_goods_single_category_mode'       => MyC('common_is_goods_single_category_mode', 0, true),
+            // 商品参数自定义模式
+            'is_goods_parameters_custom_mode'     => MyC('common_is_goods_parameters_custom_mode', 0, true),
             // 编辑器文件存放地址
-            'editor_path_type'                => ResourcesService::EditorPathTypeValue('goods'),
+            'editor_path_type'                    => ResourcesService::EditorPathTypeValue('goods'),
             // 商品基础禁止操作数据
-            'goods_base_forbid_operate_data'  => GoodsService::GoodsBaseForbidOperateData(empty($params['id']) ? 0 : $params['id'], $data, $params),
+            'goods_base_forbid_operate_data'      => GoodsService::GoodsBaseForbidOperateData(empty($params['id']) ? 0 : $params['id'], $data, $params),
             // 商品参数操作数据
-            'goods_params_operate_data'       => GoodsService::GoodsParamsOperateData(empty($params['id']) ? 0 : $params['id'], $data, $params),
+            'goods_params_operate_data'           => GoodsService::GoodsParamsOperateData(empty($params['id']) ? 0 : $params['id'], $data, $params),
             // 商品规格操作数据
-            'goods_spec_operate_data'         => GoodsService::GoodsSpecOperateData(empty($params['id']) ? 0 : $params['id'], $data, $params),
+            'goods_spec_operate_data'             => GoodsService::GoodsSpecOperateData(empty($params['id']) ? 0 : $params['id'], $data, $params),
 		];
         // 商品单分类模式
-        if($is_goods_single_category_mode == 1)
+        if($assign['is_goods_single_category_mode'] == 1)
         {
             // 加载布局管理
             $assign['is_load_layout_admin'] = 1;
@@ -138,7 +141,7 @@ class Goods extends Base
         	$assign['goods_base_template'] = $goods_base_template['data'];
 
             // 商品单分类模式
-            if($is_goods_single_category_mode == 1)
+            if($assign['is_goods_single_category_mode'] == 1)
             {
                 // 获取分类层级数据
                 $assign['category_level'] = GoodsCategoryService::GoodsCategoryLevel($data['category_ids']);

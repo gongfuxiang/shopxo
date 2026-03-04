@@ -1,52 +1,60 @@
 <!-- 操作栏 -->
-<button type="button" class="am-btn am-btn-default am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/order/detail', ['id'=>$module_data['id']])}}" data-title="{{:MyLang('detail_title')}}" data-offcanvas="right">
-    <i class="am-icon-eye"></i>
-    <span>{{:MyLang('detail_title')}}</span>
-</button>
+{{if AdminIsPower('order', 'detail')}}
+    <button type="button" class="am-btn am-btn-default am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/order/detail', ['id'=>$module_data['id']])}}" data-title="{{:MyLang('detail_title')}}" data-offcanvas="right">
+        <i class="am-icon-eye"></i>
+        <span>{{:MyLang('detail_title')}}</span>
+    </button>
+{{/if}}
 {{if !empty($module_data['operate_data'])}}
-    {{if $module_data['operate_data']['is_confirm'] eq 1}}
+    {{if AdminIsPower('order', 'confirm') and $module_data['operate_data']['is_confirm'] eq 1}}
         <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/confirm')}}" data-id="{{$module_data.id}}" data-value="{{$module_data.user_id}}" data-view="reload" data-msg="{{:MyLang('confirm_confirm_tips')}}">
             <i class="am-icon-check-circle-o"></i>
             <span>{{:MyLang('confirm_title')}}</span>
         </button>
     {{/if}}
-    {{if $module_data['operate_data']['is_pay'] eq 1}}
+    {{if AdminIsPower('order', 'pay') and $module_data['operate_data']['is_pay'] eq 1}}
         <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-btn-block submit-pay" data-id="{{$module_data.id}}" data-payment-id="{{$module_data.payment_id}}" data-am-modal="{target: '#order-pay-popup'}">
             <i class="am-icon-paypal"></i>
             <span>{{:MyLang('payment_title')}}</span>
         </button>
     {{/if}}
-    {{if $module_data['operate_data']['is_take'] eq 1}}
+    {{if AdminIsPower('order', 'delivery') and $module_data['operate_data']['is_take'] eq 1}}
         <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-take" data-id="{{$module_data.id}}" data-user-id="{{$module_data.user_id}}" data-am-modal="{target: '#order-take-modal', closeViaDimmer: 0, width: 300, height: 200}" {{if !empty($module_data) and !empty($module_data['aftersale_first'])}}data-am-popover="{content: '{{:MyLang('delivery_operate_aftersale_tips')}}', trigger: 'hover focus', theme: 'danger sm'}"{{/if}}>
             <i class="am-icon-check"></i>
             <span>{{:MyLang('take_title')}}</span>
         </button>
     {{/if}}
-    {{if $module_data['operate_data']['is_delivery'] eq 1}}
+    {{if AdminIsPower('order', 'deliveryinfo') and $module_data['operate_data']['is_delivery'] eq 1}}
        <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/order/deliveryinfo', ['id'=>$module_data['id']])}}" data-title="{{:MyLang('order.form_delivery_title')}}" {{if !empty($module_data) and !empty($module_data['aftersale_first'])}}data-am-popover="{content: '{{:MyLang('delivery_operate_aftersale_tips')}}', trigger: 'hover focus', theme: 'danger sm'}"{{/if}}>
             <i class="am-icon-send-o"></i>
             <span>{{if $module_data['status'] eq 2}}{{:MyLang('delivery_title')}}{{else /}}{{:MyLang('express_title')}}{{/if}}</span>
         </button>
     {{/if}}
-    {{if $module_data['operate_data']['is_service'] eq 1}}
+    {{if AdminIsPower('order', 'serviceinfo') and $module_data['operate_data']['is_service'] eq 1}}
        <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/order/serviceinfo', ['id'=>$module_data['id']])}}" data-title="{{:MyLang('order.form_service_title')}}" {{if !empty($module_data) and !empty($module_data['aftersale_first'])}}data-am-popover="{content: '{{:MyLang('delivery_operate_aftersale_tips')}}', trigger: 'hover focus', theme: 'danger sm'}"{{/if}}>
             <i class="am-icon-life-ring"></i>
             <span>{{:MyLang('service_title')}}</span>
         </button>
     {{/if}}
-    {{if $module_data['operate_data']['is_collect'] eq 1}}
+    {{if AdminIsPower('order', 'tracesourceinfo') and $module_data['operate_data']['is_tracesource'] eq 1}}
+       <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/order/tracesourceinfo', ['id'=>$module_data['id']])}}" data-title="{{:MyLang('order.form_trace_source_title')}}" {{if !empty($module_data) and !empty($module_data['aftersale_first'])}}data-am-popover="{content: '{{:MyLang('delivery_operate_aftersale_tips')}}', trigger: 'hover focus', theme: 'danger sm'}"{{/if}}>
+            <i class="am-icon-lastfm"></i>
+            <span>{{:MyLang('trace_source_title')}}</span>
+        </button>
+    {{/if}}
+    {{if AdminIsPower('order', 'collect') and $module_data['operate_data']['is_collect'] eq 1}}
         <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/collect')}}" data-id="{{$module_data.id}}" data-value="{{$module_data.user_id}}" data-view="reload" data-msg="{{:MyLang('collect_confirm_tips')}}">
             <i class="am-icon-check-circle-o"></i>
             <span>{{:MyLang('collect_title')}}</span>
         </button>
     {{/if}}
-    {{if $module_data['operate_data']['is_cancel'] eq 1}}
+    {{if AdminIsPower('order', 'cancel') and $module_data['operate_data']['is_cancel'] eq 1}}
         <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/cancel')}}" data-id="{{$module_data.id}}" data-value="{{$module_data.user_id}}" data-view="reload" data-msg="{{:MyLang('cancel_confirm_tips')}}">
             <i class="am-icon-paint-brush"></i>
             <span>{{:MyLang('cancel_title')}}</span>
         </button>
     {{/if}}
-    {{if $module_data['operate_data']['is_delete'] eq 1}}
+    {{if AdminIsPower('order', 'delete') and $module_data['operate_data']['is_delete'] eq 1}}
         <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/delete')}}" data-id="{{$module_data.id}}" data-value="{{$module_data.user_id}}" data-view="delete" data-msg="{{:MyLang('delete_confirm_tips')}}">
             <i class="iconfont icon-delete"></i>
             <span>{{:MyLang('delete_title')}}</span>

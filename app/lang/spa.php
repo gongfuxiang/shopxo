@@ -61,6 +61,8 @@ return [
         'system_download_loading_tips'      => 'El paquete del sistema se está descargando...',
         'upgrade_download_loading_tips'     => 'El paquete de actualización se está descargando...',
         // 公共common.js
+        'yes_title'                         => 'Sí.',
+        'no_title'                          => 'No',
         'operate_name'                      => 'Operación',
         'operate_add_name'                  => 'Nuevo',
         'operate_edit_name'                 => 'Edición',
@@ -140,6 +142,8 @@ return [
     'push_success'                                          => 'Empuje exitoso',
     'grant_fail'                                            => 'Emisión fallida',
     'grant_success'                                         => 'Distribución exitosa',
+    'query_fail'                                            => 'La consulta falló',
+    'query_success'                                         => 'La consulta fue exitosa',
     'join_fail'                                             => 'La adhesión fracasó',
     'join_success'                                          => 'Adhesión exitosa',
     'created_fail'                                          => 'Falló la generación',
@@ -216,6 +220,8 @@ return [
     'collect_fail'                                          => 'Falló la recepción',
     'collect_success'                                       => 'Recepción exitosa',
     'quit_success'                                          => 'Salida exitosa',
+    'no_order'                                              => 'No hay pedidos relacionados',
+    'no_orderaftersale'                                     => 'No hay pedidos post - venta relevantes',
     'no_data'                                               => 'No hay datos relevantes',
     'no_goods'                                              => 'No hay productos relacionados',
     'no_spec'                                               => 'No hay especificaciones relevantes',
@@ -328,7 +334,7 @@ return [
     'store_bind_form_password'                              => 'Contraseña',
     'store_bind_form_password_placeholder'                  => 'Contraseña de inicio de sesión',
     'store_bind_form_password_message'                      => 'Formato de contraseña de inicio de sesión de 6 a 30 caracteres',
-    'store_bind_form_regster_name'                          => 'No hay cuenta, ve a registrarte',
+    'store_bind_form_register_name'                          => 'No hay cuenta, ve a registrarte',
     'store_bind_form_tips'                                  => 'Una cuenta admite vincular varios centros comerciales shopxo',
     // 常用
     'fullscreen_open_title'                                 => 'Abrir pantalla completa',
@@ -344,6 +350,8 @@ return [
     'register_time_title'                                   => 'Tiempo de registro',
     'add_time_title'                                        => 'Añadir tiempo',
     'upd_time_title'                                        => 'Tiempo de actualización',
+    'choice_goods_title'                                    => 'Selección de productos',
+    'add_goods_title'                                       => 'Añadir productos',
     'price_min_title'                                       => 'Precio mínimo',
     'price_max_title'                                       => 'Precio máximo',
     'shop_order'                                            => 'Pedidos del centro comercial',
@@ -388,10 +396,12 @@ return [
     'submit_title'                                          => 'Presentación',
     'booking_title'                                         => 'Hacer una cita',
     'detail_title'                                          => 'Detalles',
+    'view_tap_title'                                        => 'Hacer clic para ver',
     'view_detail_title'                                     => 'Ver detalles',
     'view_all_title'                                        => 'Ver todo',
     'base_title'                                            => 'Base',
     'data_title'                                            => 'Datos',
+    'data_operate_title'                                    => 'Operación de datos',
     'view_title'                                            => 'Ver',
     'preview_title'                                         => 'Vista previa',
     'choice_title'                                          => 'Selección',
@@ -409,6 +419,7 @@ return [
     'close_other_title'                                     => 'Cierre otros',
     'close_all_title'                                       => 'Cerrar todo',
     'notice_title'                                          => 'Anuncio',
+    'explain_title'                                         => 'Explicación',
     'refresh_title'                                         => 'Refrescar',
     'close_title'                                           => 'Cierre',
     'open_title'                                            => 'Abrir',
@@ -425,6 +436,7 @@ return [
     'hot_title'                                             => 'Calor',
     'favor_title'                                           => 'Colección',
     'already_favor_title'                                   => 'Recogida',
+    'miniapp_title'                                         => 'Pequeños programas',
     'comment_title'                                         => 'Evaluación',
     'go_comment_title'                                      => 'Para evaluar',
     'default_title'                                         => 'Predeterminado',
@@ -498,17 +510,22 @@ return [
     'express_title'                                         => 'Expreso',
     'logistics_title'                                       => 'Logística',
     'time_title'                                            => 'Tiempo',
+    'qq_title'                                              => 'QQ',
+    'online_title'                                          => 'En línea',
+    'consult_title'                                         => 'Consulta',
     'tel_title'                                             => 'Teléfono',
     'mobile_title'                                          => 'Teléfono móvil',
     'email_title'                                           => 'Buzón',
     'verification_title'                                    => 'Verificación',
     'check_title'                                           => 'Inspección',
     'service_title'                                         => 'Servicios',
+    'trace_source_title'                                    => 'Trazabilidad',
     'print_title'                                           => 'Imprimir',
     'confirm_print_title'                                   => 'Confirmar Imprimir',
     'transfer_order_title'                                  => 'Orden de transferencia',
     'transfer_audit_title'                                  => 'Remisión',
     'divider_title'                                         => 'Distribución',
+    'tips_title'                                            => 'pista',
     'name_title'                                            => 'Nombre',
     'size_title'                                            => 'Tamaño',
     'status_title'                                          => 'Estado',
@@ -532,6 +549,7 @@ return [
     'gender_title'                                          => 'Género',
     'birthday_title'                                        => 'Cumpleaños',
     'address_title'                                         => 'Dirección',
+    'intro_title'                                           => 'Resumen',
     'bind_title'                                            => 'Vinculación',
     'unbind_title'                                          => 'Desatar',
     'brand_title'                                           => 'Marca',
@@ -548,6 +566,7 @@ return [
     'extend_title'                                          => 'Expansión',
     'import_title'                                          => 'Importar',
     'export_title'                                          => 'Exportar',
+    'content_title'                                         => 'Contenido',
     'images_title'                                          => 'Imagen',
     'icon_title'                                            => 'Iconos',
     'cover_title'                                           => 'Portada',
@@ -587,7 +606,9 @@ return [
     'first_title'                                           => 'Primero',
     'last_title'                                            => 'Finalmente',
     'list_title'                                            => 'Lista',
+    'interact_title'                                        => 'Comunicación',
     'chat_title'                                            => 'Servicio',
+    'online_customer_title'                                 => 'Servicio al cliente en línea',
     'gift_title'                                            => 'Regalos',
     'continue_scan_title'                                   => 'Sigue Escaneando el Código',
     'continue_next_step_title'                              => 'Sigue el siguiente paso',
@@ -599,16 +620,33 @@ return [
     'custom_title'                                          => 'Personalizado',
     'customer_title'                                        => 'Cliente',
     'customer_info_title'                                   => 'Información del cliente',
+    'public_account_title'                                  => 'Cuenta pública',
+    'life_account_title'                                    => 'Número de vida',
     'region_title'                                          => 'Región',
     'compare_title'                                         => 'Comparación',
     'long_term_title'                                       => 'A largo plazo',
     'form_title'                                            => 'formulario',
+    'top_title'                                             => 'En la parte superior',
+    'bottom_title'                                          => 'Poner el Fondo',
+    'type_title'                                            => 'tipo',
+    'config_title'                                          => 'configuración',
+    'dispute_title'                                         => 'disputa',
+    'feed_title'                                            => 'retroalimentación',
+    'handle_title'                                          => 'Tratamiento',
+    'finish_title'                                          => 'acabado',
+    'license_title'                                         => 'Licencia',
+    'platform_client_title'                                 => 'Cliente de plataforma',
+    'start_time_title'                                      => 'Hora de inicio',
+    'expire_time_title'                                     => 'Tiempo de caducidad',
+    'use_guide_title'                                       => 'Guía de uso',
     // 商品基础相关
     'goods_name'                                            => 'Nombre de la mercancía',
     'goods_add_name'                                        => 'Adición de productos básicos',
     'goods_choice_name'                                     => 'Selección de productos básicos',
     'goods_params'                                          => 'Parámetros de los productos básicos',
     'goods_spec'                                            => 'Especificaciones del producto',
+    'goods_base'                                            => 'Base de productos básicos',
+    'goods_detail'                                          => 'Detalles del producto',
     'goods_stop_sale_title'                                 => 'Suspensión de ventas',
     'goods_buy_title'                                       => 'Compra',
     'goods_booking_title'                                   => 'Hacer una cita de inmediato',
@@ -735,10 +773,14 @@ return [
     'form_is_footer_message'                                => 'Si incluye el valor del rango de cola incorrecto',
     'form_is_full_screen_title'                             => 'Si la pantalla está llena',
     'form_is_full_screen_message'                           => 'Si el valor del rango de pantalla completa es incorrecto',
+    'form_is_required_title'                                => 'Si es obligatorio',
     'form_status_range_message'                             => 'El valor del rango de Estado es incorrecto',
     'form_sort_title'                                       => 'Orden',
     'form_status_title'                                     => 'Estado',
     'form_status_message'                                   => 'Por favor, elija el Estado',
+    'form_type_range_message'                               => 'El valor del rango de tipo es incorrecto',
+    'form_type_title'                                       => 'tipo',
+    'form_type_message'                                     => 'Por favor, elija el tipo',
     'form_sort_tips'                                        => 'De pequeño a grande',
     'form_sort_message'                                     => 'Valores entre 0 y 255 en el orden',
     'form_platform_title'                                   => 'Plataforma a la que pertenece',
@@ -764,6 +806,8 @@ return [
     'form_article_category_message'                         => 'Por favor, elija la clasificación del artículo',
     'form_refuse_reason'                                    => 'Razones del rechazo',
     'form_refuse_reason_message'                            => 'Formato de razón de rechazo de 1 a 230 caracteres',
+    'form_close_reason'                                     => 'Razones del cierre',
+    'form_close_reason_message'                             => 'Cierre el formato de la razón de 1 a 230 caracteres',
     'form_operate_reason'                                   => 'Razones de la operación',
     'form_operate_reason_message'                           => 'Formato de la razón de la operación, hasta 230 caracteres',
     'form_search_keywords_placeholder'                      => 'Palabras clave de búsqueda',
@@ -1081,6 +1125,24 @@ return [
         3 => 'Saltar al mapa nativo para ver la ubicación especificada',
         4 => 'Llamar',
     ],
+    // 商品基础字段
+    'common_goods_base_data_fields' => [
+        'brand_name'              => 'marca',
+        'simple_desc'             => 'Breve descripción',
+        'spec_desc'               => 'Descripción de las especificaciones',
+        'approval_number'         => 'Número de aprobación',
+        'approval_number_expire'  => 'Número de aprobación válido',
+        'batch_number'            => 'Número de lote',
+        'batch_number_expire'     => 'Número de lote válido',
+        'coding'                  => 'Código de la mercancía',
+        'model'                   => 'Modelo de producto',
+        'produce_company'         => 'Empresas productoras',
+        'produce_region_name'     => 'Lugar de producción',
+        'spec_weight'             => 'Especificaciones y peso',
+        'spec_volume'             => 'Volumen de especificación',
+        'spec_coding'             => 'Codificación de especificaciones',
+        'spec_barcode'            => 'Código de barras de especificación',
+    ],
     // 下单指定时间
     'common_buy_datetime_config_list' => [
         0 => 'Opcional',
@@ -1261,6 +1323,20 @@ return [
         'fra'  => 'Francés',
         'swe'  => 'Sueco',
         'mn'   => 'Mongol',
+    ],
+    // 商品基础字段
+    'common_goods_base_fields_list' => [
+        'simple_desc'             => 'Breve descripción de los productos básicos',
+        'spec_desc'               => 'Descripción de las especificaciones',
+        'approval_number'         => 'Número de aprobación',
+        'approval_number_expire'  => 'Número de aprobación válido',
+        'batch_number'            => 'Número de lote',
+        'batch_number_expire'     => 'Número de lote válido',
+        'coding'                  => 'Código de la mercancía',
+        'model'                   => 'Modelo de producto',
+        'brand_id'                => 'marca',
+        'produce_company'         => 'Empresas productoras',
+        'produce_region'          => 'Lugar de producción',
     ],
     // token生成规则
     'common_token_created_rules_list' => [
@@ -1521,6 +1597,7 @@ return [
         // 管理员
         'admin'             => [
             // 表单
+            'form_item_avatar'                      => 'Avatar del usuario',
             'form_item_username'                    => 'Nombre de usuario',
             'form_item_username_placeholder'        => 'Introduzca el nombre de usuario',
             'form_item_username_message'            => 'El nombre de usuario debe usar letras, números y subrayado de 2 a 18 caracteres.',
@@ -1942,30 +2019,36 @@ return [
         // 商品
         'goods'                 => [
             // 表单
-            'form_item_title'                       => 'Nombre de la mercancía',
-            'form_item_title_message'               => 'Formato de nombre comercial de 1 a 600 caracteres',
-            'form_item_category_id'                 => 'Clasificación de mercancías',
-            'form_item_category_id_message'         => 'Por favor, elija al menos una clasificación de productos',
-            'form_item_simple_desc'                 => 'Breve descripción de los productos básicos',
-            'form_item_simple_desc_message'         => 'El formato de descripción del producto tiene un máximo de 230 caracteres',
-            'form_item_spec_desc'                   => 'Descripción de las especificaciones',
-            'form_item_spec_desc_message'           => 'El formato de descripción de la especificación tiene un máximo de 230 caracteres',
-            'form_item_approval_number'             => 'Número de aprobación',
-            'form_item_approval_number_message'     => 'El formato del número de aprobación tiene un máximo de 180 caracteres',
-            'form_item_produce_company'             => 'Empresas productoras',
-            'form_item_produce_company_message'     => 'Formato de empresa de producción hasta 180 caracteres',
-            'form_item_coding'                      => 'Código de la mercancía',
-            'form_item_coding_message'              => 'El formato de Codificación de la mercancía tiene un máximo de 180 caracteres',
-            'form_item_model'                       => 'Modelo de producto',
-            'form_item_model_message'               => 'El formato del modelo de producto tiene un máximo de 180 caracteres',
-            'form_item_brand'                       => 'Marca',
-            'form_item_brand_message'               => 'Por favor, elija la marca',
-            'form_item_produce_region'                => 'Lugar de producción',
-            'form_item_produce_region_message'        => 'Por favor, elija el lugar de producción.',
-            'form_item_inventory_unit'              => 'Unidad de medida',
-            'form_item_inventory_unit_message'      => 'Formato de organización de inventario de 1 a 6 palabras',
-            'form_item_give_integral'               => 'Proporción de puntos de regalo de compra',
-            'form_item_give_integral_tips'          => [
+            'form_item_title'                           => 'Nombre de la mercancía',
+            'form_item_title_message'                   => 'Formato de nombre comercial de 1 a 600 caracteres',
+            'form_item_category_id'                     => 'Clasificación de mercancías',
+            'form_item_category_id_message'             => 'Por favor, elija al menos una clasificación de productos',
+            'form_item_simple_desc'                     => 'Breve descripción de los productos básicos',
+            'form_item_simple_desc_message'             => 'Por favor, rellene la descripción del producto, hasta 230 caracteres',
+            'form_item_spec_desc'                       => 'Descripción de las especificaciones',
+            'form_item_spec_desc_message'               => 'Por favor, rellene la descripción de la especificación, hasta 230 caracteres',
+            'form_item_approval_number'                 => 'Número de aprobación',
+            'form_item_approval_number_message'         => 'Por favor, rellene el número de aprobación, hasta 180 caracteres',
+            'form_item_approval_number_expire'          => 'Número de aprobación válido',
+            'form_item_approval_number_expire_message'  => 'Por favor, elija el período de validez del número de aprobación.',
+            'form_item_batch_number'                    => 'Número de lote',
+            'form_item_batch_number_message'            => 'Por favor, rellene el número de lote, hasta 180 caracteres',
+            'form_item_batch_number_expire'             => 'Número de lote válido',
+            'form_item_batch_number_expire_message'     => 'Por favor, elija el número de lote válido.',
+            'form_item_coding'                          => 'Código de la mercancía',
+            'form_item_coding_message'                  => 'Por favor, rellene el Código de la mercancía, hasta 180 caracteres',
+            'form_item_model'                           => 'Modelo de producto',
+            'form_item_model_message'                   => 'Por favor, rellene el modelo de producto, hasta 180 caracteres',
+            'form_item_brand_id'                        => 'marca',
+            'form_item_brand_id_message'                => 'Por favor, elija la marca',
+            'form_item_produce_company'                 => 'Empresas productoras',
+            'form_item_produce_company_message'         => 'Por favor, rellene la empresa de producción, hasta 180 caracteres',
+            'form_item_produce_region'                  => 'Lugar de producción',
+            'form_item_produce_region_message'          => 'Por favor, elija el lugar de producción.',
+            'form_item_inventory_unit'                  => 'Unidad de medida',
+            'form_item_inventory_unit_message'          => 'Formato de la unidad de medida de 1 a 6 caracteres',
+            'form_item_give_integral'                   => 'Proporción de puntos de regalo de compra',
+            'form_item_give_integral_tips'              => [
                 '1. distribución de acuerdo con la proporción de la cantidad de la mercancía multiplicada por la proporción de la cantidad',
                 '2. la finalización del pedido se emitirá automáticamente a los puntos de bloqueo del usuario.',
                 '3. configuración del sitio - > procesamiento de guiones en expansión para emitir puntos',
@@ -1992,11 +2075,6 @@ return [
             'form_item_is_shelves_tips'             => 'Los usuarios no son visibles después de salir de los estantes',
             'form_item_extends_popup_title'         => 'Datos de extensión de especificaciones',
             // 规格
-            'form_spec_top_list_tips'               => [
-                '1. la adición de especificaciones por lotes puede crear rápidamente SKU de producto, ahorrando mucho tiempo de Edición de sku, los datos de operación rápida no afectan a los datos de sku, sólo se generan para volver a cubrir sku.',
-                '2. se puede configurar la plantilla de especificaciones en las especificaciones de productos básicos en segundo plano, seleccionar el módulo de especificaciones de productos básicos para generar rápidamente los datos de especificaciones correspondientes y proporcionar eficiencia efectiva.',
-                '3. después de la adición exitosa de la mercancía, la gestión del almacén - > agregar y configurar el inventario en la mercancía del almacén',
-            ],
             'form_spec_template_tips'               => 'Los datos de la plantilla de especificaciones son incorrectos',
             'form_spec_template_name_exist_tips'    => 'El mismo nombre de especificación ya existe',
             'form_spec_template_placeholder'        => 'Plantilla de especificaciones de productos...',
@@ -2064,7 +2142,6 @@ return [
             'form_video_top_tips'                   => 'Los vídeos son más traídos que los gráficos y solo admiten el formato mp4',
             'form_video_button_add_name'            => 'Subir vídeo',
             // 手机详情
-            'form_app_top_tips'                     => 'Después de configurar los detalles del teléfono, los detalles del teléfono se mostrarán en modo móvil, como [pequeños programas, aplicaciones]',
             'form_app_value_title'                  => 'Contenido del texto',
             'form_app_value_message'                => 'El contenido del texto tiene un máximo de 105.000 caracteres',
             'form_app_button_add_name'              => 'Añadir detalles del teléfono',
@@ -2104,6 +2181,56 @@ return [
             'base_spec_empty_tips'                  => 'No hay especificaciones relevantes',
             'base_spec_type_empty_tips'             => 'No hay tipos de especificaciones relevantes',
             'base_buy_stock_error_tips'             => 'La cantidad comprada es incorrecta',
+            // 商品管理导航
+            'goods_admin_nav_list'                  => [
+                'base' => [
+                    'name' => 'Información Básica',
+                ],
+                'spec' => [
+                    'name' => 'Especificaciones del Producto',
+                    'tips' => [
+                        '1. La adición por lotes de especificaciones le permite crear SKUs de productos rápidamente, lo que ahorra mucho tiempo en la edición de SKUs. Los datos de la operación rápida no afectan los datos existentes de los SKUs, sino que solo los sobrescriben al generar nuevos.',
+                        '2. Puede configurar plantillas de especificaciones en el panel de control bajo Gestión de Productos -> Especificaciones de Productos, y seleccionar módulos de especificaciones de productos para generar rápidamente datos de especificaciones correspondientes, mejorando eficazmente la eficiencia.',
+                        '3. Después de agregar el producto con éxito, agregue y configure el inventario en Gestión de Almacén -> Productos de Almacén.',
+                    ],
+                ],
+                'spec_images' => [
+                    'name' => 'Imágenes de Especificaciones',
+                ],
+                'parameters' => [
+                    'name' => 'Parámetros del Producto',
+                ],
+                'photo' => [
+                    'name' => 'Álbum del Producto',
+                    'tips' => 'Puede arrastrar y soltar las imágenes para ordenarlas. Se recomienda que las imágenes tengan el mismo tamaño de 800*800px y el número máximo de imágenes es 30',
+                ],
+                'video' => [
+                    'name' => 'Vídeo del Producto',
+                    'tips' => 'Los vídeos son más inmersivos que las imágenes y el texto, y solo se admite el formato mp4',
+                ],
+                'app' => [
+                    'name' => 'Detalles Móviles',
+                    'tips' => 'Después de configurar los detalles móviles, se mostrarán en modo móvil (por ejemplo, Mini Programas, APPs)',
+                ],
+                'web' => [
+                    'name' => 'Detalles de Escritorio',
+                    'tips' => 'Describa con precisión las características y funciones del producto, y suba imágenes completas y claras',
+                ],
+                'fictitious' => [
+                    'name' => 'Información Virtual',
+                    'tips' => 'Como información virtual que incluye contraseñas de tarjetas y direcciones de discos en la nube, así como tipos de pedidos virtuales, que se mostrarán en los detalles del pedido después de que el usuario realice la compra',
+                ],
+                'extends' => [
+                    'name' => 'Datos Extendidos',
+                ],
+                'use_guide' => [
+                    'name' => 'Guía de Uso',
+                    'tips' => 'Complete con precisión las instrucciones de uso y las precauciones del producto',
+                ],
+                'seo' => [
+                    'name' => 'Información de SEO',
+                ],
+            ],
         ],
         // 商品分类
         'goodscategory'         => [
@@ -2329,26 +2456,26 @@ return [
             'orderaftersale_step_tips_msg'          => [
                 0 => [
                     'title' => 'Pendiente de revisión del vendedor',
-                    'desc'  => '¡¡ se ha presentado la solicitud y se espera la confirmación del vendedor!'
+                    'desc'  => '¡¡ se ha presentado la solicitud y se espera la confirmación del vendedor!',
                 ],
                 1 => [
-                    'title' => '¡El vendedor ha confirmado, ¡ por favor complete la devolución lo antes posible!'
+                    'title' => '¡El vendedor ha confirmado, ¡ por favor complete la devolución lo antes posible!',
                 ],
                 2 => [
-                    'title' => 'A la espera de que el vendedor confirme la recepción',
-                    'desc'  => '¡¡ la mercancía ha sido devuelta y está a la espera de que el vendedor la revise!'
+                    'title' => 'A la espera de que el vendedor confirme la revisión "',
+                    'desc'  => '¡¡ se ha devuelto o reembolsado, esperando la revisión del vendedor!',
                 ],
                 3 => [
                     'title' => 'Reembolso exitoso',
-                    'desc'  => '¡Se ha terminado el procesamiento!'
+                    'desc'  => '¡Se ha terminado el procesamiento!',
                 ],
                 4 => [
-                    'title' => 'El vendedor se ha negado y el reembolso está cerrado',
-                    'desc'  => '¡¡ la solicitud ha sido rechazada!'
+                    'title' => '¡El vendedor se ha negado, ¡ puede volver a solicitar si tiene objeciones',
+                    'desc'  => '¡¡ la solicitud ha sido rechazada!',
                 ],
                 5 => [
                     'title' => 'La posventa ha sido cancelada',
-                    'desc'  => '¡¡ la posventa ha sido cancelada y se puede volver a solicitar!'
+                    'desc'  => '¡¡ la posventa ha sido cancelada y se puede volver a solicitar!',
                 ],
             ], 
         ],
@@ -2383,11 +2510,20 @@ return [
             'order_goods_sales_count_inc_fail_tips' => 'El aumento de las ventas de bienes pedidos fracasó',
             'order_detail_goods_empty_tips'         => 'El pedido es incorrecto y no se encontraron los productos relacionados.',
             'pay_have_in_hand_tips'                 => 'En pago',
+            'order_under_line_tips'                 => 'En la actualidad, es el método de pago fuera de línea (...: pago)), que necesita la confirmación del Administrador antes de que pueda entrar en vigor, y si necesita otros pagos, puede cambiar el pago y reiniciar el pago.',
+            'order_delivery_tips'                   => 'Las mercancías se están empacando y saliendo del almacén...',
             // 取消
             'order_cancel_message_data'             => [
                 'title'  => 'Cancelación de pedidos',
                 'desc'   => 'El pedido fue cancelado con éxito.',
             ],
+            // 追溯
+            'form_item_trace_source_code'                         => 'Código de Seguimiento',
+            'form_item_trace_source_code_message'                 => 'Formato del código de seguimiento: 1 a 80 caracteres',
+            'form_item_trace_source_batch_number'                 => 'Número de Lote',
+            'form_item_trace_source_batch_number_message'         => 'Por favor, ingrese el número de lote',
+            'form_item_trace_source_batch_number_expire'          => 'Plazo de Validez del Lote',
+            'form_item_trace_source_batch_number_expire_message'  => 'Por favor, seleccione el plazo de validez del lote',
             // 发货、取货、服务
             'delivery_express_id_message'           => 'El método de mensajería es incorrecto',
             'delivery_express_number_message'       => 'El número de la lista de mensajería es incorrecto.',
@@ -2839,6 +2975,7 @@ return [
         // 用户
         'user'                      => [
             // 表单
+            'form_item_avatar'                      => 'Avatar del usuario',
             'form_item_username'                    => 'Nombre de usuario',
             'form_item_username_message'            => 'Nombre de usuario de 2 a 30 caracteres',
             'form_item_nickname'                    => 'Apodo',
@@ -3614,10 +3751,6 @@ return [
             'desc' => 'Access Key Secret',
             'tips' => 'Por favor, rellene el acceso Key Secret',
         ],
-        'common_customer_store_tel'  => [
-            'name' => 'Teléfono de la tienda',
-            'desc' => 'Vacío sin mostrar',
-        ],
         'common_email_currency_template'  => [
             'name' => 'General - plantilla de correo',
             'desc' => 'Verify Code variable identifier (...)',
@@ -3662,6 +3795,10 @@ return [
             'name' => 'La búsqueda prohíbe al usergagent',
             'desc' => 'Identificación prohibida (introduzca la devolución)',
             'tips' => 'Por favor, rellene la búsqueda para prohibir el agente de usuario',
+        ],
+        'home_search_prohibit_keywords'  => [
+            'name' => 'Palabras clave prohibidas de búsqueda',
+            'desc' => 'Una línea, una palabra clave',
         ],
         'common_order_is_booking'  => [
             'name' => 'Modo de reserva de pedidos',
@@ -3792,6 +3929,29 @@ return [
             'desc' => 'Clasificación Múltiple predeterminada',
             'tips' => 'Por favor, elija el modo de clasificación de la lista de productos.',
         ],
+        'common_is_goods_parameters_custom_mode'  => [
+            'name' => 'Modo personalizado de parámetros de productos',
+            'desc' => 'Por defecto: Modo de plantilla',
+            'tips' => 'Seleccione el modo personalizado de parámetros de productos',
+        ],
+        'common_goods_base_fields_required_data'  => [
+            'name' => 'Los campos básicos de los productos básicos deben rellenarse bajo la clasificación correspondiente.',
+            'desc' => 'Incluir subclases',
+        ],
+        'common_goods_admin_nav_custom_data'  => [
+            'name' => 'Nombre y Consejos Personalizados para la Navegación de Gestión de Productos',
+        ],
+        'common_order_detail_goods_use_guide_title'  => [
+            'name' => 'Título de la Guía de Uso del Producto en los Detalles del Pedido',
+            'desc' => 'Por defecto: Guía de Uso',
+        ],
+        'common_order_detail_goods_use_guide_describe'  => [
+            'name' => 'Descripción de la Guía de Uso del Producto en los Detalles del Pedido',
+        ],
+        'common_order_trace_source_config'  => [
+            'name' => 'Requerir Información de Seguimiento para Pedidos de Categorías Especificadas',
+            'desc' => 'Por defecto: Todos los Pedidos. Después de la configuración, se debe completar la información de seguimiento primero antes de procesar el pedido [Entrega, Recogida, Servicio].',
+        ],
         'common_route_separator'  => [
             'name' => 'Separadores de ruta',
             'desc' => 'Se recomienda rellenar[-] por defecto, [-] válido solo en modo pathinfo + modo dirección corta',
@@ -3838,14 +3998,42 @@ return [
             'name' => 'Anuncio del centro comercial',
             'desc' => 'El vacío no muestra el anuncio',
         ],
-        'common_customer_store_email'  => [
-            'name' => 'Buzón de la tienda',
+        'common_customer_store_chat_tel'  => [
+            'name' => 'Teléfono de servicio al cliente',
+            'desc' => 'Vacío sin mostrar',
+        ],
+        'common_customer_store_chat_email'  => [
+            'name' => 'Buzón de servicio al cliente',
             'desc' => 'Vacío sin mostrar',
             'tips' => 'El formato del buzón de servicio al cliente es incorrecto',
         ],
-        'common_customer_store_qrcode'  => [
-            'name' => 'Código QR de la tienda',
-            'desc' => 'Vacío pero no mostrado',
+        'common_customer_store_chat_qq'  => [
+            'name' => 'Servicio al Cliente QQ',
+            'desc' => 'No se muestra si está vacío',
+        ],
+        'common_customer_store_chat_url'  => [
+            'name' => 'URL de Servicio al Cliente',
+            'desc' => 'No se muestra si está vacío',
+        ],
+        'common_customer_store_chat_line'  => [
+            'name' => 'Servicio al Cliente LINE',
+            'desc' => 'No se muestra si está vacío',
+        ],
+        'common_customer_store_chat_weixin'  => [
+            'name' => 'Servicio al Cliente WeChat',
+            'desc' => 'No se muestra si está vacío',
+        ],
+        'common_customer_store_public_alipay'  => [
+            'name' => 'Cuenta Oficial de Alipay',
+            'desc' => 'No se muestra si está vacío',
+        ],
+        'common_customer_store_public_weixin'  => [
+            'name' => 'Cuenta de Vida de WeChat',
+            'desc' => 'No se muestra si está vacío',
+        ],
+        'common_customer_store_platform_client'  => [
+            'name' => 'Cliente de la Plataforma',
+            'desc' => 'No se muestra si está vacío',
         ],
         'common_self_extraction_address'  => [
             'name' => 'Dirección autodidacta',
@@ -4148,12 +4336,12 @@ return [
             'desc' => 'Consulta inmediata por defecto, nombre de ocupación del botón [compra inmediata] de la página del producto en modo de exhibición',
             'tips' => 'Por favor, rellene el nombre de la operación de exhibición.',
         ],
-        'common_site_fictitious_return_title'  => [
+        'common_site_fictitious_title'  => [
             'name' => 'Título de la información virtual',
             'desc' => 'Información clave predeterminada, el título de la información virtual que el usuario muestra en los detalles del pedido después de comprar el producto virtual',
             'tips' => 'Por favor, rellene el título de la información virtual',
         ],
-        'common_site_fictitious_return_tips'  => [
+        'common_site_fictitious_use_tips'  => [
             'name' => 'Mensaje de recordatorio',
             'desc' => 'Información de recordatorio que el usuario muestra al usuario en los detalles del pedido después de comprar el producto virtual',
             'tips' => 'Por favor, rellene la información de recordatorio.',
@@ -4509,6 +4697,14 @@ return [
             'name' => 'La portada del producto está muy estirada (extremo del teléfono móvil)',
             'desc' => 'Cuadrado predeterminado',
             'tips' => 'Por favor, elija la altura de estiramiento de la portada del producto (extremo del teléfono móvil)',
+        ],
+        'common_goods_close_buy_button'  => [
+            'name' => 'Cierre el botón de pedido de productos',
+            'tips' => 'Por favor, elija cerrar el botón de pedido de productos',
+        ],
+        'common_goods_detail_base_fields_show'  => [
+            'name' => 'Presentación del campo básico de detalles del producto',
+            'tips' => 'Por favor, seleccione el campo básico para mostrar los detalles del producto.',
         ],
         'common_app_h5_url'  => [
             'name' => 'Dirección h5 del teléfono móvil',

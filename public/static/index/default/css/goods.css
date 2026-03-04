@@ -713,7 +713,7 @@ i.buy-event {
 /**
  * 面板销量
  */
-.sales-volume::before {
+.sales-volume.exist-qrcode::before {
     content: '';
     position: absolute;
     width: 0.1rem;
@@ -733,11 +733,19 @@ i.buy-event {
     padding-right: 2rem;
 }
 
-.goods-qrcode i {
-    font-size: 18px;
+.goods-qrcode i.am-icon-qrcode {
+    font-size: 1.6rem;
     position: absolute;
-    top: -2px;
-    right: -20px;
+    top: -0.1rem;
+    right: -2rem;
+}
+
+.goods-qrcode .am-dropdown-content {
+    width: 36rem;
+}
+
+.goods-qrcode .am-dropdown-content .name {
+    max-width: 10rem;
 }
 
 /* 视频 */
@@ -803,8 +811,7 @@ i.buy-event {
 
 /*销量*/
 .tm-ind-panel,
-.buy-spec-info-container,
-.parameters-base {
+.buy-spec-info-container {
     border-bottom: 0.1rem solid #EEEEEE;
 }
 
@@ -840,14 +847,13 @@ i.buy-event {
 /**
  * 商品基础参数
  */
-.parameters-base {
-    color: #666666;
+.parameters-content-base {
     display: flex;
     flex-wrap: wrap;
     padding-left: 2rem;
 }
 
-.parameters-base li {
+.parameters-content-base li {
     padding: 0 2rem 0.5rem 0;
 }
 
@@ -921,7 +927,7 @@ i.buy-event {
         margin-bottom: 4.8rem;
     }
 
-    .parameters-base {
+    .parameters-content-base {
         padding-left: 0;
     }
 
@@ -1204,21 +1210,6 @@ i.buy-event {
     border: 0;
 }
 
-.introduce-main .am-tab-panel .parameters-detail {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    padding: 1.2rem 0;
-}
-
-.introduce-main .am-tab-panel .parameters-detail li {
-    width: calc(50% - 1rem);
-}
-
-.introduce-main .am-tab-panel .parameters-detail li span {
-    color: #666666;
-}
-
 .introduce-main .buy-submit-top {
     position: absolute;
     right: 0.5rem;
@@ -1241,14 +1232,6 @@ i.buy-event {
 @media only screen and (min-width: 641px) {
     .introduce {
         padding: 2rem;
-    }
-
-    .introduce-main .am-tab-panel .parameters-detail {
-        padding: 2rem;
-    }
-
-    .introduce-main .am-tab-panel .parameters-detail li {
-        width: calc(33.33333333% - 1rem);
     }
 }
 
@@ -1578,8 +1561,11 @@ i.buy-event {
     text-align: right;
     cursor: pointer;
     bottom: 1rem;
-    right: 12rem;
+    right: 1.5rem;
     color: #666666;
+}
+.sales-volume.exist-qrcode {
+    right: 12rem;
 }
 
 .sales-volume .tm-count {

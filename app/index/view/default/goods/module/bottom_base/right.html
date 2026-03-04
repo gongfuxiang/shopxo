@@ -42,27 +42,38 @@
                         </li>
                     {{/foreach}}
                 </ul>
+
                 <!-- tab内容 -->
                 <div class="am-tabs-bd">
                     <!-- 详情 -->
                     {{if in_array('detail', $middle_tabs_nav['type'])}}
                         <div class="am-tab-panel am-in am-active" id="goods-middle-tabs-nav-detail">
+                            <!-- 商品基础数据 -->
+                            {{if !empty($goods['base_data']) and is_array($goods['base_data'])}}
+                                <ul class="goods-base-data-content am-avg-sm-2 am-avg-md-3 am-color-grey-dark am-background-grey-f9 am-padding-top am-padding-bottom-xs am-padding-horizontal-sm am-radius am-margin-top">
+                                    {{foreach $goods.base_data as $v}}
+                                        <li class="am-padding-bottom-xs am-padding-horizontal-sm">
+                                            <span>{{$v.name}}:</span>
+                                            <span>{{$v.value}}</span>
+                                        </li>
+                                    {{/foreach}}
+                                </ul>
+                            {{/if}}
+
+                            <!-- 商品详情参数 -->
                             {{if !empty($goods['parameters']) and !empty($goods['parameters']['detail'])}}
-                                <!-- 商品详情参数 -->
-                                <div class="am-cf tabs-nav-base-container">
-                                    <ul class="parameters-content parameters-detail">
-                                        {{foreach $goods.parameters.detail as $v}}
-                                            <li class="am-padding-vertical-xs am-padding-horizontal-sm">
-                                                <span>{{$v.name}}:</span>
-                                                <span>{{$v.value}}</span>
-                                            </li>
-                                        {{/foreach}}
-                                    </ul>
-                                </div>
+                                <ul class="parameters-content-detail am-avg-sm-2 am-avg-md-3 am-color-grey-dark am-border-bottom-grey-light am-margin-top">
+                                    {{foreach $goods.parameters.detail as $v}}
+                                        <li class="am-padding-bottom-xs am-padding-horizontal-sm">
+                                            <span>{{$v.name}}:</span>
+                                            <span>{{$v.value}}</span>
+                                        </li>
+                                    {{/foreach}}
+                                </ul>
                             {{/if}}
 
                             <!-- 详情内容 -->
-                            <div class="detail-content am-margin-top-sm">
+                            <div class="detail-content am-margin-top">
                                 <!-- 详情内容顶部钩子 -->
                                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                     <div class="plugins-tag">

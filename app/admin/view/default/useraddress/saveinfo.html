@@ -6,31 +6,16 @@
         <!-- nav start -->
         {{:ModuleInclude('public/admin_nav', [
             'title'     => MyLang('useraddress.base_nav_title').(empty($data['id']) ? MyLang('created_title') : MyLang('edit_title')),
-            'back_url'  => MyUrl('admin/useraddress/index', $params)
+            'back_url'  => MyUrl('admin/useraddress/index', $form_back_params)
         ])}}
         <!-- nav end -->
         <!-- form start -->
-        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/useraddress/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/useraddress/index', $params)}}">
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/useraddress/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/useraddress/index', $form_back_params)}}">
             {{if !empty($data) and !empty($data['user'])}}
-                <div class="am-form-group">
-                    <label>头像</label>
-                    <img src="{{$data.user.avatar}}" alt="{{$data.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0" width="75" height="75" />
-                </div>
-                <div class="am-form-group">
-                    <label>{{:MyLang('user_username_title')}}</label>
-                    <input type="text" name="name" class="am-radius" value="{{if empty($data['user']['username'])}}{{:MyLang('no_filled_tips')}}{{else /}}{{$data.user.username}}{{/if}}" disabled />
-                </div>
-                <div class="am-form-group">
-                    <label>{{:MyLang('user_nickname_title')}}</label>
-                    <input type="text" name="name" class="am-radius" value="{{if empty($data['user']['nickname'])}}{{:MyLang('no_filled_tips')}}{{else /}}{{$data.user.nickname}}{{/if}}" disabled />
-                </div>
-                <div class="am-form-group">
-                    <label>{{:MyLang('user_mobile_title')}}</label>
-                    <input type="text" name="name" class="am-radius" value="{{if empty($data['user']['mobile'])}}{{:MyLang('no_filled_tips')}}{{else /}}{{$data.user.mobile}}{{/if}}" disabled />
-                </div>
-                <div class="am-form-group">
-                    <label>{{:MyLang('user_email_title')}}</label>
-                    <input type="text" name="name" class="am-radius" value="{{if empty($data['user']['email'])}}{{:MyLang('no_filled_tips')}}{{else /}}{{$data.user.email}}{{/if}}" disabled />
+                <div class="am-padding-bottom-xl">
+                    {{:ModuleInclude('lib/module/user', [
+                        'user'  => $data.user,
+                    ])}}
                 </div>
             {{/if}}
 

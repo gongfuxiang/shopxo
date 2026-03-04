@@ -29,10 +29,9 @@ class DataPrintHandleModule
      * @version 1.0.0
      * @date    2022-09-18
      * @desc    description
-     * @param   [string]       $control  [控制器]
      * @param   [array]        $params   [输入参数]
      */
-    public static function PrintTemplateTypeData($control, $params = [])
+    public static function PrintTemplateTypeData($params = [])
     {
         // 组件是否隐藏标题
         $is_hide_title = (isset($params['is_hide_title']) && $params['is_hide_title'] == 1) ? 1 : 0;
@@ -44,21 +43,26 @@ class DataPrintHandleModule
         $text_style_type_options = [
             // 普通文本样式
             'text' => [
-                'height'        => 30,
+                'height'        => 14,
                 'width'         => 100,
                 'textAlign'     => $text_align,
-                'lineHeight'    => 30,
+                'lineHeight'    => 14,
                 'hideTitle'     => $is_hide_title,
             ],
             // 标题文本样式
             'title' => [
-                'height'        => 30,
+                'height'        => 26,
                 'width'         => 200,
                 'fontWeight'    => 700,
                 'fontSize'      => 20,
                 'textAlign'     => $text_align,
-                'lineHeight'    => 30,
+                'lineHeight'    => 26,
                 'hideTitle'     => true,
+            ],
+            // 图片样式
+            'image' => [
+                'width'         => 50,
+                'height'        => 50,
             ],
         ];
 
@@ -146,7 +150,7 @@ class DataPrintHandleModule
 
         // 获取业务表单数据
         $business = [];
-        $ret = self::FormDataToPrintData($control, 'Run', 'index', array_merge($params, ['text_style_options'=>$text_style_type_options['text']]));
+        $ret = self::FormDataToPrintData(array_merge($params, ['text_style_type_options'=>$text_style_type_options]));
         if($ret['code'] == 0 && !empty($ret['data']))
         {
             $business = $ret['data'];
@@ -166,21 +170,12 @@ class DataPrintHandleModule
      * @version 1.0.0
      * @date    2022-09-18
      * @desc    description
-     * @param   [string]          $control    [控制器名称]
-     * @param   [string]          $action     [方法]
-     * @param   [string]          $group      [组 admin 或 index, 空则自动读取当前模块组]
      * @param   [array]           $params     [输入参数]
      */
-    public static function FormDataToPrintData($control, $action = 'Run', $group = '', $params = [])
+    public static function FormDataToPrintData($params = [])
     {
-        // 组空则当前模块组
-        if(empty($group))
-        {
-            $group = RequestModule();
-        }
-
         // 获取表格配置数据
-        $ret = self::FormConfigData($group, $control, $action, $params);
+        $ret = self::FormConfigData($params);
         if($ret['code'] != 0)
         {
             return $ret;
@@ -189,24 +184,32 @@ class DataPrintHandleModule
 
         // 数据组合
         $result = [];
-        foreach($form_data['form'] as $v)
+        // 表单基础字段
+        if(!empty($form_data['form']) && is_array($form_data['form']))
         {
-            if(isset($v['view_type']) && $v['view_type'] == 'field' && !empty($v['view_key']))
+            foreach($form_data['form'] as $v)
             {
-                $temp = [
-                    'field'     => $v['view_key'],
-                    'tid'       => 'config_module.'.$v['view_key'],
-                    'type'      => 'text',
-                    'data'      => $v['label'],
-                    'title'     => $v['label'],
-                ];
-                if(!empty($params['text_style_options']))
+                if(isset($v['view_type']) && in_array($v['view_type'], ['field', 'images']) && !empty($v['view_key']))
                 {
-                    $temp['options'] = $params['text_style_options'];
-                    $temp['options']['field'] = $v['view_key'];
-                    $temp['options']['testData'] = $v['label'];
+                    $temp = [
+                        'field'     => $v['view_key'],
+                        'tid'       => 'config_module.'.$v['view_key'],
+                        'type'      => ($v['view_type'] == 'images') ? 'image' : 'text',
+                        'data'      => $v['label'],
+                        'title'     => $v['label'],
+                    ];
+                    if($v['view_type'] == 'images')
+                    {
+                        $temp['data'] = SystemBaseService::AttachmentHost().'/static/common/images/default-images.jpg';
+                        $temp['options'] = $params['text_style_type_options']['image'];
+                        $temp['options']['field'] = $v['view_key'];
+                    } else {
+                        $temp['options'] = $params['text_style_type_options']['text'];
+                        $temp['options']['field'] = $v['view_key'];
+                        $temp['options']['testData'] = $v['label'];
+                    }
+                    $result[] = $temp;
                 }
-                $result[] = $temp;
             }
         }
 
@@ -287,30 +290,20 @@ class DataPrintHandleModule
      * @version 1.0.0
      * @date    2022-09-21
      * @desc    description
-     * @param   [string]          $group      [组]
-     * @param   [string]          $control    [控制器]
-     * @param   [string]          $run        [表单入口方法]
      * @param   [array]           $params     [输入参数]
      */
-    public static function FormConfigData($group, $control, $run = 'Run', $params = [])
+    public static function FormConfigData($params = [])
     {
         // 获取表格配置
-        $result = FormModuleData([
-            'group'          => $group,
-            'control'        => $control,
-            'run'            => $run,
+        $result = FormModuleData(array_merge($params, [
             'data_type'      => 'table',
             'is_data_query'  => 0,
-        ]);
-        if(empty($result))
-        {
-            return DataReturn(MyLang('data_print.template_table_config_error_tips').'['.$control.']', -1);
-        }
+        ]));
 
         // 配置是否正确
-        if(empty($result['form']) || !is_array($result['form']))
+        if(empty($result) || empty($result['form']) || !is_array($result['form']))
         {
-            return DataReturn(MyLang('data_print.template_table_config_error_tips').'['.$control.'-form]', -1);
+            return DataReturn(MyLang('data_print.template_table_config_error_tips'), -1);
         }
 
         // 返回表格配置数据
@@ -385,16 +378,15 @@ class DataPrintHandleModule
      * @version 1.0.0
      * @date    2022-09-18
      * @desc    description
-     * @param   [string]       $control   [控制器]
      * @param   [array]        $params    [输入参数]
      */
-    public static function PrintTemplateBusinessData($control, $params = [])
+    public static function PrintTemplateBusinessData($params = [])
     {
-        $result = FormModuleData([
-            'control'    => $control,
-            'action'     => 'index',
+        $result = FormModuleData(array_merge($params, [
             'page_size'  => 1,
-        ]);
+            'action'     => 'index',
+            'data_type'  => 'data_list',
+        ]));
         return (empty($result) || empty($result['data_list']) || empty($result['data_list'][0])) ? null : $result['data_list'][0];
     }
 }

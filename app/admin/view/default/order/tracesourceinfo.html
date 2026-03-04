@@ -1,0 +1,63 @@
+{{:ModuleInclude('public/header')}}
+
+<div class="am-padding-sm">
+    {{if empty($data)}}
+        {{:ModuleInclude('public/not_data')}}
+    {{else /}}
+        <!-- form start -->
+        <form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/order/tracesource')}}" method="POST" request-type="ajax-reload" request-value="parent">
+            {{foreach $data.items as $k=>$v}}
+                {{if isset($v['is_trace_source']) and $v['is_trace_source'] eq 1}}
+                    <div class="am-padding-bottom-xl am-margin-bottom-xl">
+                        <div class="am-flex am-gap-1">
+                            <a href="{{$v.goods_url}}" target="_blank">
+                                <img src="{{$v.images}}" class="am-radius am-border-grey" width="60" height="60" />
+                            </a>
+                            <div>
+                                <a href="{{$v.goods_url}}" target="_blank" class="am-text-truncates">{{$v.title}}</a>
+                                <p>{{$data.currency_data.currency_symbol}}{{$v.price}} x{{$v.buy_number}}</p>
+                            </div>
+                        </div>
+                        <div class="am-margin-top-sm">
+                            {{for start="1" end="$v.buy_number" comparison="elt"}}
+                                <div class="am-flex am-flex-items-center {{if $i gt 1}}am-margin-top{{/if}}">
+                                    <p>{{:MyLang('number_title')}}{{$i}}：</p>
+                                    <div class="am-flex am-gap-1">
+                                        <input type="hidden" name="data[{{$v.id}}][{{$i}}][goods_id]" value="{{$v.goods_id}}" />
+                                        <div>
+                                            <p>{{:MyLang('common_service.order.form_item_trace_source_code')}}{{if !empty($v['trace_source_required']) and in_array('code', $v['trace_source_required'])}}<span class="am-form-group-label-tips-must">*</span>{{/if}}</p>
+                                            <input type="text" name="data[{{$v.id}}][{{$i}}][code]" class="am-form-field am-radius" placeholder="{{:MyLang('common_service.order.form_item_trace_source_code')}}" data-validation-message="{{:MyLang('common_service.order.form_item_trace_source_code_message')}}" maxlength="80" value="{{if !empty($data['trace_source_data']) and !empty($data['trace_source_data'][$v['id']]) and !empty($data['trace_source_data'][$v['id']][$i]) and !empty($data['trace_source_data'][$v['id']][$i]['code'])}}{{$data['trace_source_data'][$v['id']][$i]['code']}}{{/if}}" {{if !empty($v['trace_source_required']) and in_array('code', $v['trace_source_required'])}}required{{/if}} />
+                                        </div>
+                                        <div>
+                                            <p>{{:MyLang('common_service.order.form_item_trace_source_batch_number')}}{{if !empty($v['trace_source_required']) and in_array('batch_number', $v['trace_source_required'])}}<span class="am-form-group-label-tips-must">*</span>{{/if}}</p>
+                                            <input type="text" name="data[{{$v.id}}][{{$i}}][batch_number]" class="am-form-field am-radius" placeholder="{{:MyLang('common_service.order.form_item_trace_source_batch_number')}}" data-validation-message="{{:MyLang('common_service.order.form_item_trace_source_batch_number_message')}}" maxlength="180" value="{{if !empty($data['trace_source_data']) and !empty($data['trace_source_data'][$v['id']]) and !empty($data['trace_source_data'][$v['id']][$i])}}{{if !empty($data['trace_source_data'][$v['id']][$i]['batch_number'])}}{{$data['trace_source_data'][$v['id']][$i]['batch_number']}}{{/if}}{{else /}}{{if !empty($v['batch_number'])}}{{$v.batch_number}}{{/if}}{{/if}}" {{if !empty($v['trace_source_required']) and in_array('batch_number', $v['trace_source_required'])}}required{{/if}} />
+                                        </div>
+                                        <div>
+                                            <p>{{:MyLang('common_service.order.form_item_trace_source_batch_number_expire')}}{{if !empty($v['trace_source_required']) and in_array('batch_number_expire', $v['trace_source_required'])}}<span class="am-form-group-label-tips-must">*</span>{{/if}}</p>
+                                            <input type="text" autocomplete="off" name="data[{{$v.id}}][{{$i}}][batch_number_expire]" class="Wdate am-radius" placeholder="{{:MyLang('common_service.order.form_item_trace_source_batch_number_expire')}}" data-validation-message="{{:MyLang('common_service.order.form_item_trace_source_batch_number_expire_message')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" value="{{if !empty($data['trace_source_data']) and !empty($data['trace_source_data'][$v['id']]) and !empty($data['trace_source_data'][$v['id']][$i])}}{{if !empty($data['trace_source_data'][$v['id']][$i]['batch_number_expire'])}}{{$data['trace_source_data'][$v['id']][$i]['batch_number_expire']}}{{/if}}{{else /}}{{if !empty($v['batch_number_expire'])}}{{$v.batch_number_expire}}{{/if}}{{/if}}" {{if !empty($v['trace_source_required']) and in_array('batch_number_expire', $v['trace_source_required'])}}required{{/if}} />
+                                        </div>
+                                    </div>
+                                </div>
+                            {{/for}}
+                        </div>
+                    </div>
+                {{/if}}
+            {{/foreach}}
+            <div class="am-form-popup-submit">
+                <input type="hidden" name="id" value="{{$data.id}}"/>
+                <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs" data-am-modal-close>
+                    <i class="am-icon-paint-brush"></i>
+                    <span>{{:MyLang('cancel_title')}}</span>
+                </button>
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('submit_title')}}'}">
+                    <i class="am-icon-check"></i>
+                    <span>{{:MyLang('submit_title')}}</span>
+                </button>
+            </div>
+        </form>
+        <!-- form end -->
+    {{/if}}
+</div>
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}

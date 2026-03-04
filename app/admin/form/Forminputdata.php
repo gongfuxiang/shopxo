@@ -64,7 +64,7 @@ class FormInputData
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
-                'is_delete'     => 1,
+                'is_delete'     => AdminIsPower('forminputdata', 'delete') ? 1 : 0,
                 'delete_key'    => 'ids',
                 'search_url'    => MyUrl('admin/forminputdata/index', $this->url_where),
             ],

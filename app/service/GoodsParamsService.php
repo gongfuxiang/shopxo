@@ -57,7 +57,21 @@ class GoodsParamsService
                 ['category_id', 'in', $ids],
                 ['is_enable', '=', 1],
             ];
-            $data = self::GoodsParamsTemplateListHandle(Db::name('GoodsParamsTemplate')->where($where)->field('id,name,config_count')->order('id desc')->select()->toArray(), $params);
+            $data = Db::name('GoodsParamsTemplate')->where($where)->field('id,name,config_count')->order('id desc')->select()->toArray();
+            if(empty($data))
+            {
+                // 子分类没有模板，则向上的分类获取模板
+                $ids = GoodsCategoryService::GoodsCategoryParentIds($params['category_ids']);
+                if(!empty($ids))
+                {
+                    $where = [
+                        ['category_id', 'in', $ids],
+                        ['is_enable', '=', 1],
+                    ];
+                    $data = Db::name('GoodsParamsTemplate')->where($where)->field('id,name,config_count')->order('id desc')->select()->toArray();
+                }
+            }
+            $data = self::GoodsParamsTemplateListHandle($data, $params);
         }
         return DataReturn(MyLang('operate_success'), 0, $data);
     }
@@ -385,6 +399,7 @@ class GoodsParamsService
                             'data_type'  => $params['parameters_data_type'][$k],
                             'name'       => $params['parameters_name'][$k],
                             'value'      => $params['parameters_value'][$k],
+                            'md5_key'    => empty($params['parameters_value'][$k]) ? '' : md5($params['parameters_value'][$k]),
                         ];
                     }
                 }

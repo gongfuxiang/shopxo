@@ -13,6 +13,7 @@ namespace app\admin\controller;
 use app\admin\controller\Base;
 use app\service\ApiService;
 use app\service\ConfigService;
+use app\service\GoodsCategoryService;
 
 /**
  * 配置设置
@@ -52,6 +53,12 @@ class Config extends Base
 			'common_close_open_list'           => MyConst('common_close_open_list'),
 			// 是否
 			'common_is_text_list'              => MyConst('common_is_text_list'),
+			// 商品基础字段
+			'common_goods_base_fields_list'    => MyConst('common_goods_base_fields_list'),
+			// 商品导航
+			'goods_admin_nav_list'                   => MyConst('common_goods_admin_nav_list'),
+			// 商品分类
+			'goods_category_list'              => GoodsCategoryService::GoodsCategoryAll(),
 		];
 		MyViewAssign($assign);
 		return MyView();
@@ -69,9 +76,11 @@ class Config extends Base
 		// 模板数据
 		$assign = [
 			// 数据
-			'data'		=> ConfigService::ConfigList(),
+			'data'                  => ConfigService::ConfigList(),
+			// 平台客户端
+			'common_platform_type'  => MyConst('common_platform_type'),
 			// 页面类型
-			'view_type'	=> 'store',
+			'view_type'             => 'store',
 		];
 		MyViewAssign($assign);
 		return MyView();
@@ -87,7 +96,7 @@ class Config extends Base
 	public function Save()
 	{
 		// 参数
-		$params = $_POST;
+		$params = $this->data_request;
 
 		// 字段不存在赋值
 		$field_list = [];
@@ -106,7 +115,11 @@ class Config extends Base
 
 			// 商店信息
 			case 'store' :
-				$field_list[] = 'common_customer_store_qrcode';
+				$field_list[] = 'common_customer_store_public_weixin';
+				$field_list[] = 'common_customer_store_public_alipay';
+				$field_list[] = 'common_customer_store_chat_line';
+				$field_list[] = 'common_customer_store_chat_weixin';
+				$field_list[] = 'common_customer_store_platform_client';
 				break;
 		}
 

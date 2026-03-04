@@ -35,6 +35,20 @@
     <div class="am-u-md-10 am-u-md-push-2 article-right">
         <div class="am-background-white am-radius am-padding-lg">
             <div class="article-data theme-data-edit-event" data-id="{{$article.id}}" data-module="article">
+                <!-- 文章内容内顶部钩子 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_article_detail_inside_top</span>
+                    </div>
+                {{/if}}
+                {{if !empty($plugins_view_article_detail_inside_top_data) and is_array($plugins_view_article_detail_inside_top_data)}}
+                    {{foreach $plugins_view_article_detail_inside_top_data as $hook}}
+                        {{if is_string($hook) or is_int($hook)}}
+                            {{$hook|raw}}
+                        {{/if}}
+                    {{/foreach}}
+                {{/if}}
+
                 <div class="article-header am-text-center am-padding-0">
                     <h1 class="am-article-title">{{$article.title}}</h1>
                     <p class="am-article-meta am-margin-top-sm">
@@ -44,7 +58,7 @@
                     <hr data-am-widget="divider" class="am-divider am-divider-default" />
                 </div>
 
-                <!-- 文章内容底部钩子 -->
+                <!-- 文章内容顶部钩子 -->
                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                     <div class="plugins-tag">
                         <span>plugins_view_article_detail_content_top</span>

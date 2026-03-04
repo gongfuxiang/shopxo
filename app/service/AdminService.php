@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\ResourcesService;
 use app\service\SystemService;
 use app\service\ApiService;
 use app\service\AdminPowerService;
@@ -165,18 +166,26 @@ class AdminService
             return DataReturn($ret, -1);
         }
 
+        // 附件
+        $attachment = ResourcesService::AttachmentParams($params, ['avatar']);
+        if($attachment['code'] != 0)
+        {
+            return $attachment;
+        }
+
         // 添加账号
         $salt = GetNumberCode(6);
         $data = [
-            'username'      => $params['username'],
-            'login_salt'    => $salt,
-            'login_pwd'     => LoginPwdEncryption($params['login_pwd'], $salt),
-            'mobile'        => empty($params['mobile']) ? '' : $params['mobile'],
-            'email'         => empty($params['email']) ? '' : $params['email'],
-            'gender'        => intval($params['gender']),
-            'status'        => intval($params['status']),
-            'role_id'       => intval($params['role_id']),
-            'add_time'      => time(),
+            'avatar'      => $attachment['data']['avatar'],
+            'username'    => $params['username'],
+            'login_salt'  => $salt,
+            'login_pwd'   => LoginPwdEncryption($params['login_pwd'], $salt),
+            'mobile'      => empty($params['mobile']) ? '' : $params['mobile'],
+            'email'       => empty($params['email']) ? '' : $params['email'],
+            'gender'      => intval($params['gender']),
+            'status'      => intval($params['status']),
+            'role_id'     => intval($params['role_id']),
+            'add_time'    => time(),
         ];
 
         // 添加
@@ -227,13 +236,21 @@ class AdminService
             return DataReturn(MyLang('illegal_operate_tips'), -1);
         }
 
+        // 附件
+        $attachment = ResourcesService::AttachmentParams($params, ['avatar']);
+        if($attachment['code'] != 0)
+        {
+            return $attachment;
+        }
+
         // 数据
         $data = [
-            'mobile'        => empty($params['mobile']) ? '' : $params['mobile'],
-            'email'         => empty($params['email']) ? '' : $params['email'],
-            'gender'        => intval($params['gender']),
-            'status'        => intval($params['status']),
-            'upd_time'      => time(),
+            'avatar'    => $attachment['data']['avatar'],
+            'mobile'    => empty($params['mobile']) ? '' : $params['mobile'],
+            'email'     => empty($params['email']) ? '' : $params['email'],
+            'gender'    => intval($params['gender']),
+            'status'    => intval($params['status']),
+            'upd_time'  => time(),
         ];
 
         // 密码
@@ -256,7 +273,15 @@ class AdminService
             {
                 self::LoginLogout();
             }
-            
+
+            // 当前登录用户为当前修改用户则更新数据
+            $login_admin_info = self::LoginInfo();
+            if(!empty($login_admin_info) && $login_admin_info['id'] == $params['id'])
+            {
+                $admin = self::AdminInfoHandle(Db::name('Admin')->field('id,token,avatar,username,mobile,email,login_pwd,login_salt,login_total,role_id')->where(['id'=>$login_admin_info['id'], 'status'=>0])->find());
+                self::LoginSession($admin);
+            }
+
             return DataReturn(MyLang('edit_success'), 0);
         }
         return DataReturn(MyLang('edit_fail'), -100);
@@ -415,7 +440,7 @@ class AdminService
         }
 
         // 获取管理员
-        $admin = Db::name('Admin')->field('id,token,username,mobile,email,login_pwd,login_salt,login_total,role_id')->where([$ac['data']=>$params['accounts'], 'status'=>0])->find();
+        $admin = self::AdminInfoHandle(Db::name('Admin')->field('id,token,avatar,username,mobile,email,login_pwd,login_salt,login_total,role_id')->where([$ac['data']=>$params['accounts'], 'status'=>0])->find());
         if(empty($admin))
         {
             return DataReturn(MyLang('account_abnormal_tips'), -2);
@@ -466,6 +491,7 @@ class AdminService
                 MyCache(SystemService::CacheKey('shopxo.cache_admin_left_menu_key').$admin['id'], null);
                 MyCache(SystemService::CacheKey('shopxo.cache_admin_power_key').$admin['id'], null);
                 MyCache(SystemService::CacheKey('shopxo.cache_admin_power_plugins_key').$admin['id'], null);
+                MyCache(SystemService::CacheKey('shopxo.cache_admin_power_all_plugins_key').$admin['id'], null);
 
                 // 权限菜单初始化
                 AdminPowerService::PowerMenuInit($admin);
@@ -523,11 +549,32 @@ class AdminService
             }
         } else {
             // 获取管理员信息
-            $info = Db::name('Admin')->field('id,token,username,mobile,email,login_total,role_id,login_total,login_salt')->where(['token'=>$params['token'], 'status'=>0])->find();
+            $info = self::AdminInfoHandle(Db::name('Admin')->field('id,token,avatar,username,mobile,email,login_total,role_id,login_total,login_salt')->where(['token'=>$params['token'], 'status'=>0])->find());
             if(!empty($info) && ApiService::CreatedUserToken($info['id'], $info['login_salt']) == $info['token'])
             {
                 unset($info['login_salt']);
                 $admin = $info;
+            }
+        }
+        return $admin;
+    }
+
+    /**
+     * 管理员数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-12-21
+     * @desc    description
+     * @param   [array]          $admin [管理员数据]
+     */
+    public static function AdminInfoHandle($admin)
+    {
+        if(!empty($admin))
+        {
+            if(array_key_exists('avatar', $admin))
+            {
+                $admin['avatar'] = empty($admin['avatar']) ? UserDefaultAvatar() : ResourcesService::AttachmentPathViewHandle($admin['avatar']);
             }
         }
         return $admin;
@@ -687,7 +734,7 @@ class AdminService
                 // 手机号码格式
                 if(!CheckMobile($params['accounts']))
                 {
-                     return DataReturn(MyLang('mobile_format_error_tips'), -2);
+                    return DataReturn(MyLang('mobile_format_error_tips'), -2);
                 }
 
                 // 手机号码是否存在
@@ -703,13 +750,13 @@ class AdminService
                 // 电子邮箱格式
                 if(!CheckEmail($params['accounts']))
                 {
-                     return DataReturn(MyLang('email_format_error_tips'), -2);
+                    return DataReturn(MyLang('email_format_error_tips'), -2);
                 }
 
                 // 电子邮箱是否存在
                 if(!self::IsExistAccounts($params['accounts'], 'email'))
                 {
-                     return DataReturn(MyLang('email_no_exist_error_tips'), -3);
+                    return DataReturn(MyLang('email_no_exist_error_tips'), -3);
                 }
                 $field = 'email';
                 break;
@@ -719,30 +766,19 @@ class AdminService
                 // 用户名格式
                 if(!CheckUserName($params['accounts']))
                 {
-                     return DataReturn(MyLang('common_service.admin.form_item_username_message'), -2);
+                    return DataReturn(MyLang('common_service.admin.form_item_username_message'), -2);
                 }
 
                 // 用户名是否存在
                 if(!self::IsExistAccounts($params['accounts'], 'username'))
                 {
-                     return DataReturn(MyLang('accounts_error_tips'), -3);
+                    return DataReturn(MyLang('accounts_error_tips'), -3);
                 }
                 $field = 'username';
                 break;
         }
         return DataReturn(MyLang('operate_success'), 0, $field);
     }
-
-    /**
-     * 
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-03-08T10:27:14+0800
-     * @param    [string] $accounts     [账户名称]
-     * @param    [string] $field        [字段名称]
-     * @return   [boolean]              [存在true, 不存在false]
-     */
     
     /**
      * 账户是否存在

@@ -35,12 +35,6 @@ class Order extends Base
      */
     public function Index()
     {
-        // 模板数据
-        $assign = [
-            // 默认不加载视频扫码组件
-            'is_load_video_scan'    => 1,
-        ];
-
         // 发起支付 - 支付方式
         $pay_wparams = [
             'where' => [
@@ -48,10 +42,15 @@ class Order extends Base
                 ['payment', 'in', MyConfig('shopxo.under_line_list')],
             ],
         ];
-        $assign['buy_payment_list'] = PaymentService::BuyPaymentList($pay_wparams);
+        $buy_payment_list = PaymentService::BuyPaymentList($pay_wparams);
 
         // 数据赋值
-        MyViewAssign($assign);
+        MyViewAssign([
+            // 支付方式
+            'buy_payment_list'    => $buy_payment_list,
+            // 默认不加载视频扫码组件
+            'is_load_video_scan'  => 1,
+        ]);
         return MyView();
     }
 
@@ -97,22 +96,54 @@ class Order extends Base
     }
 
     /**
-     * 订单删除
+     * 追溯页面
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2018-09-28
      * @desc    description
      */
-    public function Delete()
+    public function TraceSourceInfo()
     {
-        // 删除操作
+        MyViewAssign('data', OrderService::OrderDataTraceSourceFilter($this->data_detail));
+        return MyView();
+    }
+
+    /**
+     * 订单追溯
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
+     */
+    public function TraceSource()
+    {
+        // 取消操作
+        $params = $this->data_request;
+        $params['creator'] = $this->admin['id'];
+        $params['creator_name'] = $this->admin['username'];
+        $params['user_type'] = 'admin';
+        return ApiService::ApiDataReturn(OrderService::OrderTraceSource($params));
+    }
+
+    /**
+     * 订单确认
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
+     */
+    public function Confirm()
+    {
+        // 订单确认
         $params = $this->data_request;
         $params['user_id'] = $params['value'];
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
         $params['user_type'] = 'admin';
-        return ApiService::ApiDataReturn(OrderService::OrderDelete($params));
+        return ApiService::ApiDataReturn(OrderService::OrderConfirm($params));
     }
 
     /**
@@ -172,25 +203,6 @@ class Order extends Base
     }
 
     /**
-     * 订单确认
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-28
-     * @desc    description
-     */
-    public function Confirm()
-    {
-        // 订单确认
-        $params = $this->data_request;
-        $params['user_id'] = $params['value'];
-        $params['creator'] = $this->admin['id'];
-        $params['creator_name'] = $this->admin['username'];
-        $params['user_type'] = 'admin';
-        return ApiService::ApiDataReturn(OrderService::OrderConfirm($params));
-    }
-
-    /**
      * 订单支付
      * @author  Devil
      * @blog    http://gong.gg/
@@ -206,6 +218,25 @@ class Order extends Base
         $params['creator_name'] = $this->admin['username'];
         $params['user_type'] = 'admin';
         return ApiService::ApiDataReturn(OrderService::OrderPaymentUnderLinePay($params));
+    }
+
+    /**
+     * 订单删除
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
+     */
+    public function Delete()
+    {
+        // 删除操作
+        $params = $this->data_request;
+        $params['user_id'] = $params['value'];
+        $params['creator'] = $this->admin['id'];
+        $params['creator_name'] = $this->admin['username'];
+        $params['user_type'] = 'admin';
+        return ApiService::ApiDataReturn(OrderService::OrderDelete($params));
     }
 }
 ?>

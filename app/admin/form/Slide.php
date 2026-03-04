@@ -42,7 +42,7 @@ class Slide
                 'status_field'          => 'is_enable',
                 'is_middle'             => 0,
                 'is_search'             => 1,
-                'is_delete'             => 1,
+                'is_delete'             => AdminIsPower('slide', 'delete') ? 1 : 0,
                 'is_data_export_excel'  => 1,
             ],
             // 表单配置

@@ -17,11 +17,26 @@
                 <button class="am-btn am-btn-default am-radius" type="button">{{:MyLang('data_print.form_panel_custom')}}</button>
             </span>
         </div>
-        <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs am-margin-left-xs iconfont icon-refresh" onclick="rotatePaper()"> {{:MyLang('data_print.form_panel_rotate')}}</button>
-        <button type="button" class="am-btn am-btn-danger-plain am-radius am-btn-xs am-margin-left-xs iconfont icon-clear" onclick="clearTemplate()"> {{:MyLang('data_print.form_panel_clear')}}</button>
-        <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs am-margin-left-xs iconfont icon-eye-circle hiprint-preview-submit"> {{:MyLang('preview_title')}}</button>
-        <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs am-margin-left-xs iconfont icon-data-print hiprint-print-submit"> {{:MyLang('print_title')}}</button>
-        <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs am-margin-left-xs iconfont icon-pdf hiprint-export-pdf-submit"> {{:MyLang('data_print.form_panel_export_pdf')}}</button>
+        <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs am-margin-left-xs" onclick="rotatePaper()">
+            <i class="iconfont icon-refresh"></i>
+            <span>{{:MyLang('data_print.form_panel_rotate')}}</span>
+        </button>
+        <button type="button" class="am-btn am-btn-danger-plain am-radius am-btn-xs am-margin-left-xs" onclick="clearTemplate()">
+            <i class="iconfont icon-clear"></i>
+            <span>{{:MyLang('data_print.form_panel_clear')}}</span>
+        </button>
+        <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs am-margin-left-xs hiprint-preview-submit">
+            <i class="iconfont icon-eye-circle"></i>
+            <span>{{:MyLang('preview_title')}}</span>
+        </button>
+        <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs am-margin-left-xs hiprint-print-submit">
+            <i class="iconfont icon-data-print"></i>
+            <span>{{:MyLang('print_title')}}</span>
+        </button>
+        <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs am-margin-left-xs hiprint-export-pdf-submit">
+            <i class="iconfont icon-pdf"></i>
+            <span>{{:MyLang('data_print.form_panel_export_pdf')}}</span>
+        </button>
     </div>
     <!-- 中间打印布局和右侧配置 -->
     <div class="am-cf">
@@ -30,7 +45,7 @@
                 {{if !empty($module_data['type_data']) and !empty($module_data['type_data']['common'])}}
                     <li>
                         <p class="am-margin-bottom-xs"><strong class="am-text-sm">{{:MyLang('data_print.form_panel_public')}}</strong></p>
-                        <ul class="hiprint-drag-list data-avg-text-list am-avg-sm-2">
+                        <ul class="hiprint-drag-list data-avg-text-list am-avg-sm-2 am-margin-top-xs">
                             {{foreach $module_data.type_data.common as $v}}
                                 <li>
                                     <div class="item">
@@ -43,8 +58,8 @@
                 {{/if}}
                 {{if !empty($module_data['type_data']) and !empty($module_data['type_data']['business'])}}
                     <li>
-                        <p class="am-margin-bottom-xs am-margin-top"><strong class="am-text-sm">{{:MyLang('data_print.form_panel_business')}}</strong></p>
-                        <ul class="hiprint-drag-list data-avg-text-list am-avg-sm-2">
+                        <p class="am-margin-top"><strong class="am-text-sm">{{:MyLang('data_print.form_panel_business')}}</strong></p>
+                        <ul class="hiprint-drag-list data-avg-text-list am-avg-sm-2 am-margin-top-xs">
                             {{foreach $module_data.type_data.business as $v}}
                                 <li>
                                     <div class="item">
@@ -57,8 +72,8 @@
                 {{/if}}
                 {{if !empty($module_data['type_data']) and !empty($module_data['type_data']['assist'])}}
                     <li>
-                        <p class="am-margin-bottom-xs am-margin-top"><strong class="am-text-sm">{{:MyLang('data_print.form_panel_assist')}}</strong></p>
-                        <ul class="hiprint-drag-list data-avg-text-list am-avg-sm-2">
+                        <p class="am-margin-top"><strong class="am-text-sm">{{:MyLang('data_print.form_panel_assist')}}</strong></p>
+                        <ul class="hiprint-drag-list data-avg-text-list am-avg-sm-2 am-margin-top-xs">
                             {{foreach $module_data.type_data.assist as $v}}
                                 <li>
                                     <div class="item">
@@ -91,7 +106,10 @@
         </div>
         <div class="am-popup-bd">
             <div class="am-text-right am-margin-bottom-sm">
-                <button class="am-btn am-btn-primary am-radius am-btn-xs am-icon-print hiprint-print-submit"> {{:MyLang('data_print.form_panel_direct_print')}}</button>
+                <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs hiprint-print-submit">
+                    <i class="iconfont icon-print"></i>
+                    <span>{{:MyLang('data_print.form_panel_direct_print')}}</span>
+                </button>
             </div>
             <div class="preview-content"></div>
         </div>

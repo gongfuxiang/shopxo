@@ -162,6 +162,17 @@
                 </div>
 
                 <div class="am-form-group">
+                    <label>{{$data.common_goods_detail_base_fields_show.name}}</label>
+                    <div class="am-checkbox-group">
+                        {{foreach $common_goods_base_fields_list as $k=>$v}}
+                            <label class="am-checkbox-inline">
+                                <input type="checkbox" name="{{$data.common_goods_detail_base_fields_show.only_tag}}" value="{{$k}}" {{if isset($data['common_goods_detail_base_fields_show']['value']) and in_array($k, $data['common_goods_detail_base_fields_show']['value'])}}checked{{/if}} data-validation-message="{{$data.common_goods_detail_base_fields_show.error_tips}}" data-am-ucheck> {{$v}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+
+                <div class="am-form-group">
                     <label>{{$data.common_show_goods_category_level.name}}<span class="am-form-group-label-tips">{{$data.common_show_goods_category_level.describe}}</span></label>
                     <div class="am-radio-group level-type">
                         {{foreach $common_show_goods_category_level_list as $v}}

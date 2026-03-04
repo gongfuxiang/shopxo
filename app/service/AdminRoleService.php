@@ -13,6 +13,7 @@ namespace app\service;
 use think\facade\Db;
 use app\service\AdminPowerService;
 use app\service\PluginsAdminService;
+use app\service\PluginsService;
 
 /**
  * 角色服务层
@@ -58,26 +59,149 @@ class AdminRoleService
     {
         if(!empty($data))
         {
+            // 全部菜单数据
+            $powers_all_data_group = [];
+            $powers_all_data = Db::name('Power')->field('id,pid,name')->order('sort asc, id desc')->select()->toArray();
+            if(!empty($powers_all_data))
+            {
+                foreach($powers_all_data as $p)
+                {
+                    if($p['pid'] == 0)
+                    {
+                        $powers_all_data_group[$p['id']] = [
+                            'id'    => $p['id'],
+                            'name'  => $p['name'],
+                            'item'  => [],
+                        ];
+                    }
+                }
+                foreach($powers_all_data as $p)
+                {
+                    if(array_key_exists($p['pid'], $powers_all_data_group))
+                    {
+                        if(!array_key_exists('item', $powers_all_data_group[$p['pid']]))
+                        {
+                            $powers_all_data_group[$p['pid']]['item'] = [];
+                        }
+                        $power_data = [];
+                        foreach($powers_all_data as $pt)
+                        {
+                            if($pt['pid'] == $p['id'])
+                            {
+                                $power_data[$pt['id']] = $pt['name'];
+                            }
+                        }
+                        $powers_all_data_group[$p['pid']]['item'][$p['id']] = [
+                            'id'          => $p['id'],
+                            'name'        => $p['name'],
+                            'power_data'  => $power_data,
+                        ];
+                    }
+                }
+            }
+
             // 获取对应菜单权限数据
             $power_list = [];
             $ids = array_column($data, 'id');
-            $powers_data = Db::name('Role')->alias('r')->join('role_power rp', 'rp.role_id = r.id')->join('power p', 'rp.power_id = p.id')->where(['r.id'=>$ids])->field('rp.role_id, rp.power_id, p.name')->select()->toArray();
-            if(!empty($powers_data))
+            $powers_data = Db::name('Role')->alias('r')->join('role_power rp', 'rp.role_id = r.id')->where(['r.id'=>$ids])->field('rp.role_id, rp.power_id')->select()->toArray();
+            if(!empty($powers_data) && !empty($powers_all_data_group))
             {
-                foreach($powers_data as $p)
+                $powers_data_group = [];
+                foreach($powers_data as $v)
                 {
-                    $power_list[$p['role_id']][] = $p['name'];
+                    if(!array_key_exists($v['role_id'], $powers_data_group))
+                    {
+                        $powers_data_group[$v['role_id']] = [];
+                    }
+                    $powers_data_group[$v['role_id']][] = $v['power_id'];
+                }
+                foreach($powers_data_group as $k=>$v)
+                {
+                    if(!array_key_exists($k, $power_list))
+                    {
+                        $power_list[$k] = [];
+                    }
+                    foreach($powers_all_data_group as $pv)
+                    {
+                        if(in_array($pv['id'], $v))
+                        {
+                            $power_list[$k][$pv['id']] = [
+                                'id'    => $pv['id'],
+                                'name'  => $pv['name'],
+                                'item'  => [],
+                            ];
+                        }
+                        if(!empty($pv['item']))
+                        {
+                            foreach($pv['item'] as $pvv)
+                            {
+                                $power_data = [];
+                                if(!empty($pvv['power_data']))
+                                {
+                                    foreach($pvv['power_data'] as $pvvk=>$pvvs)
+                                    {
+                                        if(in_array($pvvk, $v))
+                                        {
+                                            $power_data[] = $pvvs;
+                                        }
+                                    }
+                                }
+                                if(in_array($pvv['id'], $v) || !empty($power_data))
+                                {
+                                    $power_list[$k][$pv['id']]['item'][] = [
+                                        'name'        => $pvv['name'].(in_array($pvv['id'], $v) ? '' : '（'.MyLang('no_power_tips').'）'),
+                                        'power_data'  => $power_data,
+                                    ];
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
             // 获取插件权限
             $power_plugins_list = [];
-            $powers_data = Db::name('Role')->alias('r')->join('role_plugins rp', 'rp.role_id = r.id')->where(['r.id'=>$ids])->field('rp.role_id, rp.plugins, rp.name')->select()->toArray();
+            $powers_data = Db::name('Role')->alias('r')->join('role_plugins rp', 'rp.role_id = r.id')->where(['r.id'=>$ids])->field('rp.role_id, rp.plugins, rp.power, rp.name')->select()->toArray();
             if(!empty($powers_data))
             {
                 foreach($powers_data as $p)
                 {
-                    $power_plugins_list[$p['role_id']][] = $p['name'];
+                    $temp_plugins_item = [
+                        'name'     => $p['name'],
+                        'plugins'  => $p['plugins'],
+                        'item'     => [],
+                    ];
+                    $power = empty($p['power']) ? '' : json_decode($p['power'], true);
+                    if(!empty($power))
+                    {
+                        $power_menu = PluginsService::PluginsAdminPowerMenu($p['plugins']);
+                        if(!empty($power_menu))
+                        {
+                            foreach($power_menu as $pmv)
+                            {
+                                $power_data = [];
+                                if(!empty($pmv['item']))
+                                {
+                                    foreach($pmv['item'] as $pmvs)
+                                    {
+                                        $control = empty($pmvs['control']) ? $pmv['control'] : $pmvs['control'];
+                                        if(in_array($control.'-'.$pmvs['action'], $power))
+                                        {
+                                            $power_data[] = $pmvs['name'];
+                                        }
+                                    }
+                                }
+                                if(in_array($pmv['control'].'-'.$pmv['action'], $power) || !empty($power_data))
+                                {
+                                    $temp_plugins_item['item'][] = [
+                                        'name'        => $pmv['name'].(in_array($pmv['control'].'-'.$pmv['action'], $power) ? '' : '（'.MyLang('no_power_tips').'）'),
+                                        'power_data'  => $power_data,
+                                    ];
+                                }
+                            }
+                        }
+                    }
+                    $power_plugins_list[$p['role_id']][] = $temp_plugins_item;
                 }
             }
 
@@ -86,13 +210,64 @@ class AdminRoleService
             if(in_array(1, $ids))
             {
                 // 全部菜单
-                $power_list[1] = Db::name('Power')->column('name');
+                if(!empty($powers_all_data_group))
+                {
+                    foreach($powers_all_data_group as $pv)
+                    {
+                        $power_list[1][$pv['id']] = [
+                            'id'    => $pv['id'],
+                            'name'  => $pv['name'],
+                            'item'  => [],
+                        ];
+                        if(!empty($pv['item']))
+                        {
+                            foreach($pv['item'] as $pvv)
+                            {
+                                $power_data = empty($pvv['power_data']) ? [] : array_values($pvv['power_data']);
+                                $power_list[1][$pv['id']]['item'][] = [
+                                    'name'        => $pvv['name'],
+                                    'power_data'  => $power_data,
+                                ];
+                            }
+                        }
+                    }
+                }
 
                 // 全部插件
                 $plugins_data = self::PluginsList();
-                $power_plugins_list[1] = empty($plugins_data) ? [] : array_column($plugins_data, 'name');
+                if(!empty($plugins_data))
+                {
+                    foreach($plugins_data as $p)
+                    {
+                        $temp_plugins_item = [
+                            'name'     => $p['name'],
+                            'plugins'  => $p['plugins'],
+                            'item'     => [],
+                        ];
+                        $power_menu = PluginsService::PluginsAdminPowerMenu($p['plugins']);
+                        if(!empty($power_menu))
+                        {
+                            foreach($power_menu as $pmv)
+                            {
+                                $power_data = [];
+                                if(!empty($pmv['item']))
+                                {
+                                    foreach($pmv['item'] as $pmvs)
+                                    {
+                                        $power_data[] = $pmvs['name'];
+                                    }
+                                }
+                                $temp_plugins_item['item'][] = [
+                                    'name'        => $pmv['name'],
+                                    'power_data'  => $power_data,
+                                ];
+                            }
+                        }
+                        $power_plugins_list[1][] = $temp_plugins_item;
+                    }
+                }
             }
-            
+
             // 循环处理数据
             foreach($data as &$v)
             {
@@ -168,7 +343,7 @@ class AdminRoleService
             foreach($power as &$v)
             {
                 // 是否有权限
-                $v['is_power'] = in_array($v['id'], $action) ? 'ok' : 'no';
+                $v['is_power'] = in_array($v['id'], $action) ? 1 : 0;
 
                 // 获取子权限
                 $item = Db::name('Power')->field($power_field)->where(array('pid'=>$v['id']))->order('sort')->select()->toArray();
@@ -177,7 +352,7 @@ class AdminRoleService
                     foreach($item as $ks=>$vs)
                     {
                         // 是否有权限
-                        $item[$ks]['is_power'] = in_array($vs['id'], $action) ? 'ok' : 'no';
+                        $item[$ks]['is_power'] = in_array($vs['id'], $action) ? 1 : 0;
 
                         // 获取三级
                         $items = Db::name('Power')->field($power_field)->where(array('pid'=>$vs['id']))->order('sort')->select()->toArray();
@@ -186,7 +361,7 @@ class AdminRoleService
                             foreach($items as $kss=>$vss)
                             {
                                 // 是否有权限
-                                $items[$kss]['is_power'] = in_array($vss['id'], $action) ? 'ok' : 'no';
+                                $items[$kss]['is_power'] = in_array($vss['id'], $action) ? 1 : 0;
                             }
                             // 放入二级级数据中
                             $item[$ks]['item'] = $items;
@@ -200,7 +375,7 @@ class AdminRoleService
 
         // 插件权限
         $plugins = [];
-        $action = empty($params['role_id']) ? [] : Db::name('RolePlugins')->where(['role_id'=>$params['role_id']])->column('plugins');
+        $role_plugins = empty($params['role_id']) ? [] : Db::name('RolePlugins')->where(['role_id'=>$params['role_id']])->column('id,plugins,power', 'plugins');
         // 插件列表
         $plugins_data = self::PluginsList();
         if(!empty($plugins_data))
@@ -209,11 +384,38 @@ class AdminRoleService
             {
                 if(!empty($pv['plugins']) && !empty($pv['name']) && !empty($pv['logo']))
                 {
+                    // 权限数据
+                    $temp_role_plugins = (!empty($role_plugins) && array_key_exists($pv['plugins'], $role_plugins)) ? $role_plugins[$pv['plugins']] : '';
+                    if(!empty($temp_role_plugins['power']))
+                    {
+                        $temp_role_plugins['power'] = json_decode($temp_role_plugins['power'], true);
+                    }
+
+                    // 插件自定义权限数据
+                    $item = PluginsService::PluginsAdminPowerMenu($pv['plugins']);
+                    $plugins_class = 'app\plugins\\'.$pv['plugins'].'\service\BaseService';
+                    if(!empty($item) && is_array($item))
+                    {
+                        foreach($item as $plitk=>$plitv)
+                        {
+                            $item[$plitk]['is_power'] = (!empty($temp_role_plugins['power']) && in_array($plitv['control'].'-'.$plitv['action'], $temp_role_plugins['power'])) ? 1 : 0;
+                            if(!empty($plitv['item']))
+                            {
+                                foreach($plitv['item'] as $plitks=>$plitvs)
+                                {
+                                    $item[$plitk]['item'][$plitks]['is_power'] = (!empty($temp_role_plugins['power']) && in_array($plitv['control'].'-'.$plitvs['action'], $temp_role_plugins['power'])) ? 1 : 0;
+                                }
+                            }
+                        }
+                    }
+
+                    // 加入插件权限
                     $plugins[] = [
                         'plugins'   => $pv['plugins'],
                         'name'      => $pv['name'],
                         'logo'      => $pv['logo'],
-                        'is_power'  => (empty($action) || !in_array($pv['plugins'], $action)) ? 'no' : 'ok',
+                        'is_power'  => empty($temp_role_plugins) ? 0 : 1,
+                        'item'      => $item,
                     ];
                 }
             }
@@ -336,17 +538,22 @@ class AdminRoleService
             // 插件权限数据添加
             if(!empty($params['plugins']))
             {
+                if(!is_array($params['plugins']))
+                {
+                    $params['plugins'] = json_decode(htmlspecialchars_decode($params['plugins']), true);
+                }
                 $plugins_data = self::PluginsList();
                 $plugins_list = empty($plugins_data) ? [] : array_column($plugins_data, null, 'plugins');
                 $rp_data = [];
-                foreach(explode(',', $params['plugins']) as $plugins)
+                foreach($params['plugins'] as $v)
                 {
-                    if(!empty($plugins) && array_key_exists($plugins, $plugins_list))
+                    if(!empty($v['plugins']) && array_key_exists($v['plugins'], $plugins_list))
                     {
                         $rp_data[] = [
                             'role_id'   => $role_id,
-                            'name'      => $plugins_list[$plugins]['name'],
-                            'plugins'   => $plugins,
+                            'name'      => $plugins_list[$v['plugins']]['name'],
+                            'plugins'   => $v['plugins'],
+                            'power'     => empty($v['power']) ? '' : json_encode(explode(',', $v['power'])),
                             'add_time'  => time(),
                         ];
                     }

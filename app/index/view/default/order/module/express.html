@@ -5,7 +5,7 @@
             <span class="am-fr text-copy-submit">{{$module_data['express_data'][0]['express_number']}}</span>
         </div>
         {{if count($module_data.express_data) gt 1}}
-            <a href="javascript:;" class="am-text-blue" data-am-modal="{target: '#order-express-modal-{{$module_data.id}}', width: 800}">{{:MyLang('view_title')}}({{:count($module_data.express_data)}}) ></a>
+            <a href="javascript:;" class="am-text-blue" data-am-modal="{target: '#order-express-modal-{{$module_data.id}}', width: 800}">{{:MyLang('view_title')}}({{:count($module_data.express_data)}}) >></a>
             <div class="am-modal am-modal-no-btn" tabindex="-1" id="order-express-modal-{{$module_data.id}}">
                 <div class="am-modal-dialog">
                     <div class="am-modal-hd">
@@ -16,7 +16,7 @@
                         <div class="am-scrollable-horizontal">
                             <table class="am-table am-text-left am-margin-bottom-0 am-text-nowrap">
                                 <thead>
-                                    <tr class="am-color-grey">
+                                    <tr>
                                         <th>{{:MyLang('order.form_table_express.name')}}</th>
                                         <th>{{:MyLang('order.form_table_express.number')}}</th>
                                         <th>{{:MyLang('order.form_table_express.note')}}</th>

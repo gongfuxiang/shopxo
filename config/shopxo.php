@@ -46,9 +46,11 @@ return [
     // 后端菜单缓存key列表
     // 菜单权限缓存存储key
     // 插件权限缓存存储key
+    // 插件全部权限缓存存储key
     'cache_admin_left_menu_key'             =>  'cache_admin_left_menu_',
     'cache_admin_power_key'                 =>  'cache_admin_power_',
     'cache_admin_power_plugins_key'         =>  'cache_admin_power_plugins_',
+    'cache_admin_power_all_plugins_key'     =>  'cache_admin_power_all_plugins_',
 
 
     // 公共缓存key列表
@@ -111,6 +113,9 @@ return [
 
     // 首页展示的友情链接列表数据
     'cache_home_link_list_key'              => 'cache_home_link_list_data',
+
+    // 表主数据
+    'cache_table_main_data_key'             => 'cache_table_main_data_key_data',
 
     // 表结构缓存
     'cache_table_structure_key'             => 'cache_table_structure_key_data',
@@ -209,8 +214,5 @@ return [
 
     // 验证码最大验证次数,防止暴力破解
     'security_prevent_violence_max'         => 6,
-
-    // 动态表格可加入钩子组
-    'module_form_hook_group'                => ['admin', 'index', 'api'],
 ];
 ?>

@@ -181,7 +181,10 @@ header .admin-header-right-list .notice-width {
  * 两行、超出字符省略
  */
 .am-text-truncate-2,
-.am-text-truncate-2-sm {
+.am-text-truncate-2-sm,
+.am-text-truncate-3,
+.am-text-truncate-4,
+.am-text-truncate-5 {
     font-size: 1.2rem;
 }
 

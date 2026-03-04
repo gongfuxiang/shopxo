@@ -35,15 +35,15 @@
         //打印设计
         hiprint_obj.design('.print-template');
 
-        // 打印预览
+        // 打印预览事件
         var $preview_popup = $('#hiprint-preview-popup');
-        $('.hiprint-preview-submit').on('click', function()
+        $(document).on('click', '.hiprint-preview-submit', function()
         {
             $preview_popup.find('.am-popup-bd .preview-content').html(hiprint_obj.getHtml(print_data));
             $preview_popup.modal('open');
         });
         // 打印
-        $('.hiprint-print-submit').on('click', function()
+        $(document).on('click', '.hiprint-print-submit', function()
         {
             hiprint_obj.print(print_data, {});
         });
@@ -57,15 +57,21 @@
             console.log('print error', data);
         });
         // 直接打印
-        $('.hiprint-direct-print-submit').on('click', function()
+        $(document).on('click', '.hiprint-direct-print-submit', function()
         {
             hiprint_obj.print2(print_data, { printer: $('#printerlist select').val(),title:'TestPrint' });
         });
         // 导出pdf
-        $('.hiprint-export-pdf-submit').on('click', function()
+        $(document).on('click', '.hiprint-export-pdf-submit', function()
         {
-            hiprint_obj.toPdf(print_data, 'TestExportPDF');
+            hiprint_obj.toPdf(print_data, 'DataExportPDF');
         });
+
+        // 页面自动打印预览
+        $($('.hiprint-preview-container .preview-content').length > 0)
+        {
+            $('.hiprint-preview-container .preview-content').html(hiprint_obj.getHtml(print_data));
+        }
     });
 
     // 调整纸张、类型或尺寸大小

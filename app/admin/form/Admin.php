@@ -63,7 +63,7 @@ class Admin
             'base' => [
                 'key_field'             => 'id',
                 'is_search'             => 1,
-                'is_delete'             => 1,
+                'is_delete'             => AdminIsPower('admin', 'delete') ? 1 : 0,
                 'is_data_export_excel'  => 1,
             ],
             // 表单配置
@@ -77,6 +77,14 @@ class Admin
                     'not_show_key'      => 'id',
                     'not_show_data'     => [1],
                     'width'             => 80,
+                ],
+                [
+                    'label'         => $lang['avatar'],
+                    'view_type'     => 'images',
+                    'view_key'      => 'avatar',
+                    'images_width'  => 40,
+                    'images_height' => 40,
+                    'width'         => 65,
                 ],
                 [
                     'label'         => $lang['username'],

@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\facade\Db;
 use app\service\UserService;
+use app\service\ConfigService;
 use app\service\SystemBaseService;
 use app\service\AttachmentCategoryService;
 
@@ -193,6 +194,7 @@ class ResourcesService
     {
         // 标签处理，兼容小程序rich-text
         $search = [
+            'style="float:none;"',
             '<img ',
             '<section',
             '/section>',
@@ -204,6 +206,7 @@ class ResourcesService
             '<td',
         ];
         $replace = [
+            '',
             '<img style="max-width:100%;height:auto;margin:0;padding:0;display:block;" ',
             '<div',
             '/div>',
@@ -478,6 +481,210 @@ class ResourcesService
     }
 
     /**
+     * 商店信息数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-12-17
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function SiteInfoData($params = [])
+    {
+        // 数据容器
+        $data = [
+            'base' => [
+                'name' => MyLang('form_base_data_title'),
+                'data' => [
+                    'text'    => [],
+                    'images'  => [],
+                ],
+            ],
+            'chat' => [
+                'name' => MyLang('online_customer_title'),
+                'data' => [
+                    'text'    => [],
+                    'images'  => [],
+                ],
+            ],
+            'client' => [
+                'name' => MyLang('platform_client_title'),
+                'data' => [
+                    'text'    => [],
+                    'images'  => [],
+                ],
+            ],
+        ];
+
+        // 基础（地址、简介）
+        $base_text_arr = [
+            [
+                'name'  => MyLang('address_title'),
+                'key'   => 'address',
+                'icon'  => 'icon-address-round'
+            ],
+            [
+                'name'  => MyLang('intro_title'),
+                'key'   => 'describe',
+                'icon'  => 'icon-describe'
+            ],
+        ];
+        foreach($base_text_arr as $v)
+        {
+            $value = MyC('common_customer_store_'.$v['key'], null, true);
+            if(!empty($value))
+            {
+                $data['base']['data']['text'][$v['key']] = [
+                    'name'   => $v['name'],
+                    'key'    => $v['key'],
+                    'icon'   => $v['icon'],
+                    'value'  => $value,
+                ];
+            }
+        }
+        // 基础（公众号、生活号）
+        $base_qrcode_arr = [
+            [
+                'name'  => MyLang('public_account_title'),
+                'key'   => 'public_weixin',
+                'icon'  => 'icon-wechart'
+            ],
+            [
+                'name'  => MyLang('life_account_title'),
+                'key'   => 'public_alipay',
+                'icon'  => 'icon-life'
+            ],
+        ];
+        foreach($base_qrcode_arr as $v)
+        {
+            $value = ResourcesService::AttachmentPathViewHandle(MyC('common_customer_store_'.$v['key']));
+            if(!empty($value))
+            {
+                $data['base']['data']['images'][$v['key']] = [
+                    'name'   => $v['name'],
+                    'key'    => $v['key'],
+                    'icon'   => $v['icon'],
+                    'value'  => $value,
+                ];
+            }
+        }
+
+        // 客服（电话、邮箱、QQ、url）
+        $chat_text_arr = [
+            [
+                'name'  => MyLang('tel_title'),
+                'key'   => 'tel',
+                'icon'  => 'icon-tel-sound'
+            ],
+            [
+                'name'  => MyLang('email_title'),
+                'key'   => 'email',
+                'icon'  => 'icon-email-wide'
+            ],
+            [
+                'name'  => MyLang('qq_title'),
+                'key'   => 'qq',
+                'icon'  => 'icon-qq-o'
+            ],
+            [
+                'name'  => MyLang('online_title').MyLang('consult_title'),
+                'key'   => 'url',
+                'icon'  => 'icon-chat'
+            ],
+        ];
+        foreach($chat_text_arr as $v)
+        {
+            $value = MyC('common_customer_store_chat_'.$v['key'], null, true);
+            if(!empty($value))
+            {
+                $data['chat']['data']['text'][$v['key']] = [
+                    'name'   => $v['name'],
+                    'key'    => $v['key'],
+                    'icon'   => $v['icon'],
+                    'value'  => $value,
+                ];
+            }
+        }
+        // 客服（line、微信）
+        $chat_qrcode_arr = [
+            [
+                'name'  => 'line咨询',
+                'key'   => 'line',
+                'icon'  => 'icon-line-line'
+            ],
+            [
+                'name'  => '微信咨询',
+                'key'   => 'weixin',
+                'icon'  => 'icon-wechart'
+            ],
+        ];
+        foreach($chat_qrcode_arr as $v)
+        {
+            $value = ResourcesService::AttachmentPathViewHandle(MyC('common_customer_store_chat_'.$v['key']));
+            if(!empty($value))
+            {
+                $data['chat']['data']['images'][$v['key']] = [
+                    'name'   => $v['name'],
+                    'key'    => $v['key'],
+                    'icon'   => $v['icon'],
+                    'value'  => $value,
+                ];
+            }
+        }
+
+        // 平台客户端
+        $platform_client = ResourcesService::AttachmentPathViewHandle(MyC('common_customer_store_platform_client'));
+        if(!empty($platform_client) && is_array($platform_client))
+        {
+            $platform_type = MyConst('common_platform_type');
+            if(!empty($platform_type) && is_array($platform_type))
+            {
+                foreach($platform_client as $k=>$v)
+                {
+                    if(array_key_exists($k, $platform_type))
+                    {
+                        $data['client']['data']['images'][$k] = [
+                            'name'   => $platform_type[$k]['name'],
+                            'key'    => $k,
+                            'icon'   => '',
+                            'value'  => $v,
+                        ];
+                    }
+                }
+            }
+        }
+
+        // 钩子
+        $hook_name = 'plugins_service_siteinfo_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => $params,
+            'data'          => &$data,
+        ]);
+
+        // 没有数据则置为空
+        if(!empty($data) && is_array($data))
+        {
+            foreach($data as $k=>$v)
+            {
+                if(!empty($v['data']) && is_array($v['data']))
+                {
+                    foreach($v['data'] as $ks=>$vs)
+                    {
+                        if(empty($vs))
+                        {
+                            $data[$k]['data'][$ks] = '';
+                        }
+                    }
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    /**
      * 货币信息-符号
      * @author  Devil
      * @blog    http://gong.gg/
@@ -572,6 +779,61 @@ class ResourcesService
     }
 
     /**
+     * 数据库表名称处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-11-27
+     * @desc    description
+     * @param   [string]          $table [表名称、可以是大写字母会自动转为小写前面加下划线分隔]
+     */
+    public static function TableNameHandle($table)
+    {
+        $prefix = MyConfig('database.connections.mysql.prefix');
+        $table_name = strtolower(preg_replace('/\B([A-Z])/', '_$1', $table));
+        if(substr($table_name, 0, strlen($prefix)) != $prefix)
+        {
+            $table_name = $prefix.$table_name;
+        }
+        return $table_name;
+    }
+
+    /**
+     * 获取表主数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-11-27
+     * @desc    description
+     * @param   [string]          $table [表名称、可以是大写字母会自动转为小写前面加下划线分隔]
+     */
+    public static function TableMainData($table)
+    {
+        $table_name = self::TableNameHandle($table);
+        $sql = "SELECT T.TABLE_COMMENT AS 'desc', T.TABLE_NAME AS 'table', 
+                    (SELECT COLUMN_NAME  FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE K WHERE K.TABLE_SCHEMA = T.TABLE_SCHEMA AND K.TABLE_NAME = T.TABLE_NAME AND K.CONSTRAINT_NAME = 'PRIMARY' LIMIT 1) AS 'key'
+                FROM INFORMATION_SCHEMA.TABLES T WHERE T.TABLE_SCHEMA = DATABASE() AND T.TABLE_NAME = '".$table_name."' AND `table_schema` = '".MyConfig('database.connections.mysql.database')."'";
+        // 从缓存获取
+        $key = SystemService::CacheKey('shopxo.cache_table_main_data_key').'_'.md5($sql);
+        $data = MyCache($key);
+        if($data === null || MyEnv('app_debug'))
+        {
+            $res = Db::query($sql);
+            $data = [];
+            if(!empty($res) && !empty($res[0]))
+            {
+                $data = $res[0];
+                $arr = explode(' - ', $data['desc']);
+                $data['desc'] = $arr[0];
+            }
+
+            // 存储缓存
+            MyCache($key, $data, 180);
+        }
+        return $data;
+    }
+
+    /**
      * 获取表结构
      * @author  Devil
      * @blog    http://gong.gg/
@@ -582,10 +844,8 @@ class ResourcesService
      */
     public static function TableStructureData($table)
     {
-        // 表名处理及sql
-        $table_name = MyConfig('database.connections.mysql.prefix').strtolower(preg_replace('/\B([A-Z])/', '_$1', $table));
-        $sql = "SELECT COLUMN_NAME AS field,COLUMN_COMMENT AS name FROM INFORMATION_SCHEMA.Columns WHERE `table_name`='".$table_name."'";
-
+        $table_name = self::TableNameHandle($table);
+        $sql = "SELECT COLUMN_NAME AS field,COLUMN_COMMENT AS name FROM INFORMATION_SCHEMA.Columns WHERE `table_name`='".$table_name."' AND `table_schema` = '".MyConfig('database.connections.mysql.database')."'";
         // 从缓存获取
         $key = SystemService::CacheKey('shopxo.cache_table_structure_key').'_'.md5($sql);
         $data = MyCache($key);
@@ -599,6 +859,65 @@ class ResourcesService
             MyCache($key, $data, 180);
         }
         return $data;
+    }
+
+    /**
+     * 商品导航菜单
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-12-24
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function GoodsAdminNavList($params = [])
+    {
+        // 商品管理导航数据
+        $data = MyConst('common_goods_admin_nav_list');
+
+        // 插件配置区域
+        $data['extends']['tips'] = MyLang('plugins_view_region_config_tips');
+
+        // 商品管理导航自定义数据
+        $custom = MyC('common_goods_admin_nav_custom_data');
+        if(!empty($custom) && is_array($custom))
+        {
+            foreach($custom as $k=>$v)
+            {
+                if(!empty($v) && is_array($v) && array_key_exists($k, $data))
+                {
+                    if(!empty($v['name']))
+                    {
+                        $data[$k]['name'] = $v['name'];
+                    }
+                    if(!empty($v['tips']))
+                    {
+                        $data[$k]['tips'] = explode("\n", str_replace(["\r", "\t"], '', $v['tips']));
+                    }
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * 订单详情商品使用指南配置
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-01-12
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function OrderDetailGoodsUseGuideConfig($params = [])
+    {
+        return [
+            'title'  => MyC('common_order_detail_goods_use_guide_title', MyLang('use_guide_title'), true),
+            'desc'   => MyC('common_order_detail_goods_use_guide_describe'),
+            'tap'    => MyLang('view_tap_title').' >>',
+            'data'   => [],
+        ];
     }
 
     /**

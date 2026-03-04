@@ -451,6 +451,11 @@ class GoodsService
             // 评分
             $goods_score = $is_score ? self::GoodsScoreData($goods_ids, $params) : [];
 
+            // 基础字段
+            $base_fields = MyConst('common_goods_base_data_fields');
+            // 商品详情基础自动展示配置
+            $base_fields_show = MyC('common_goods_detail_base_fields_show', [], true);
+
             // 开始处理数据
             foreach($data as $k=>&$v)
             {
@@ -588,6 +593,12 @@ class GoodsService
                     }
                 }
 
+                // 使用指南数据
+                if(isset($v['use_guide']))
+                {
+                    $v['use_guide'] = ResourcesService::ContentStaticReplace($v['use_guide'], 'get');
+                }
+
                 // 产地
                 if(isset($v['produce_region']))
                 {
@@ -602,11 +613,19 @@ class GoodsService
                 }
 
                 // 时间
-                if(!empty($v['add_time']))
+                if(isset($v['approval_number_expire']))
+                {
+                    $v['approval_number_expire'] = empty($v['approval_number_expire']) ? '' : date('Y-m-d', $v['approval_number_expire']);
+                }
+                if(isset($v['batch_number_expire']))
+                {
+                    $v['batch_number_expire'] = empty($v['batch_number_expire']) ? '' : date('Y-m-d', $v['batch_number_expire']);
+                }
+                if(isset($v['add_time']))
                 {
                     $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
                 }
-                if(!empty($v['upd_time']))
+                if(isset($v['upd_time']))
                 {
                     $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
                 }
@@ -665,6 +684,24 @@ class GoodsService
                 if($is_score)
                 {
                     $v['goods_score'] = (!empty($goods_score) && array_key_exists($data_id, $goods_score)) ? $goods_score[$data_id] : ['avg'=>0, 'score'=>0, 'count'=>0];
+                }
+
+                // 基础数据
+                if(!empty($base_fields) && is_array($base_fields) && !empty($base_fields_show) && is_array($base_fields_show))
+                {
+                    $base_data = [];
+                    foreach($base_fields as $bfk=>$bfv)
+                    {
+                        if(in_array($bfk, $base_fields_show) && array_key_exists($bfk, $v) && $v[$bfk] != 0 && $v[$bfk] != '')
+                        {
+                            $base_data[] = [
+                                'field'  => $bfk,
+                                'name'   => $bfv,
+                                'value'  => $v[$bfk],
+                            ];
+                        }
+                    }
+                    $v['base_data'] = empty($base_data) ? '' : $base_data;
                 }
 
                 // 商品处理后钩子
@@ -933,25 +970,35 @@ class GoodsService
      */
     public static function GoodsAppData($goods_ids, $params = [])
     {
-        $group = [];
-        $data = Db::name('GoodsContentApp')->where(['goods_id'=>$goods_ids])->field('id,goods_id,images,content')->order('sort asc')->select()->toArray();
-        if(!empty($data))
+        $data = [];
+        $list = Db::name('GoodsContentApp')->where(['goods_id'=>$goods_ids])->field('id,goods_id,images,content')->order('sort asc')->select()->toArray();
+        if(!empty($list))
         {
-            foreach($data as &$v)
+            foreach($list as $v)
             {
                 // 数据处理
                 $v['images'] = ResourcesService::AttachmentPathViewHandle($v['images']);
                 $v['content_old'] = $v['content'];
                 $v['content'] = empty($v['content']) ? null : explode("\n", $v['content']);
                 // 数据组合
-                if(!array_key_exists($v['goods_id'], $group))
+                if(!array_key_exists($v['goods_id'], $data))
                 {
-                    $group[$v['goods_id']] = [];
+                    $data[$v['goods_id']] = [];
                 }
-                $group[$v['goods_id']][] = $v;
+                $data[$v['goods_id']][] = $v;
             }
         }
-        return $group;
+
+        // 商品手机详情钩子
+        $hook_name = 'plugins_service_goods_content_app_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data'          => &$data,
+            'goods_ids'     => $goods_ids,
+        ]);
+
+        return $data;
     }
 
     /**
@@ -1042,18 +1089,28 @@ class GoodsService
             }
         }
         // 返回当前指定的商品id对应的规格数据
-        $group = [];
+        $data = [];
         if(!empty($goods_spec_group_static_data))
         {
             foreach($goods_ids as $gid)
             {
                 if(!empty($goods_spec_group_static_data[$gid]))
                 {
-                    $group[$gid] = $goods_spec_group_static_data[$gid];
+                    $data[$gid] = $goods_spec_group_static_data[$gid];
                 }
             }
         }
-        return $group;
+
+        // 商品规格钩子
+        $hook_name = 'plugins_service_goods_spec_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data'          => &$data,
+            'goods_ids'     => $goods_ids,
+        ]);
+
+        return $data;
     }
 
     /**
@@ -1260,6 +1317,22 @@ class GoodsService
      */
     public static function GoodsSave($params = [])
     {
+        // 商品分类id
+        $category_ids = empty($params['category_id']) ? [] : (is_array($params['category_id']) ? $params['category_id'] : explode(',', $params['category_id']));
+        // 商品基础字段必填配置数据
+        $required_fields = empty($category_ids) ? [] : self::GoodsBaseFieldsRequiredConfigData($category_ids);
+        $is_simple_desc = !empty($required_fields) && isset($required_fields['simple_desc']) && $required_fields['simple_desc'] == 1;
+        $is_spec_desc = !empty($required_fields) && isset($required_fields['spec_desc']) && $required_fields['spec_desc'] == 1;
+        $is_approval_number = !empty($required_fields) && isset($required_fields['approval_number']) && $required_fields['approval_number'] == 1;
+        $is_approval_number_expire = !empty($required_fields) && isset($required_fields['approval_number_expire']) && $required_fields['approval_number_expire'] == 1;
+        $is_batch_number = !empty($required_fields) && isset($required_fields['batch_number']) && $required_fields['batch_number'] == 1;
+        $is_batch_number_expire = !empty($required_fields) && isset($required_fields['batch_number_expire']) && $required_fields['batch_number_expire'] == 1;
+        $is_coding = !empty($required_fields) && isset($required_fields['coding']) && $required_fields['coding'] == 1;
+        $is_model = !empty($required_fields) && isset($required_fields['model']) && $required_fields['model'] == 1;
+        $is_brand_id = !empty($required_fields) && isset($required_fields['brand_id']) && $required_fields['brand_id'] == 1;
+        $is_produce_company = !empty($required_fields) && isset($required_fields['produce_company']) && $required_fields['produce_company'] == 1;
+        $is_produce_region = !empty($required_fields) && isset($required_fields['produce_region']) && $required_fields['produce_region'] == 1;
+
         // 请求参数
         $p = [
             [
@@ -1271,44 +1344,75 @@ class GoodsService
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'simple_desc',
-                'checked_data'      => '230',
-                'is_checked'        => 1,
+                'checked_data'      => $is_simple_desc ? '1,230' : '230',
+                'is_checked'        => $is_simple_desc ? null : 1,
                 'error_msg'         => MyLang('common_service.goods.form_item_simple_desc_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'spec_desc',
-                'checked_data'      => '230',
-                'is_checked'        => 1,
+                'checked_data'      => $is_spec_desc ? '1,230' : '230',
+                'is_checked'        => $is_spec_desc ? null : 1,
                 'error_msg'         => MyLang('common_service.goods.form_item_spec_desc_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'approval_number',
-                'checked_data'      => '180',
-                'is_checked'        => 1,
+                'checked_data'      => $is_approval_number ? '1,180' : '180',
+                'is_checked'        => $is_approval_number ? null : 1,
                 'error_msg'         => MyLang('common_service.goods.form_item_approval_number_message'),
             ],
             [
+                'checked_type'      => 'empty',
+                'key_name'          => 'approval_number_expire',
+                'is_checked'        => $is_approval_number_expire ? null : 1,
+                'error_msg'         => MyLang('common_service.goods.form_item_approval_number_expire_message'),
+            ],
+            [
                 'checked_type'      => 'length',
-                'key_name'          => 'produce_company',
-                'checked_data'      => '180',
-                'is_checked'        => 1,
-                'error_msg'         => MyLang('common_service.goods.form_item_produce_company_message'),
+                'key_name'          => 'batch_number',
+                'checked_data'      => $is_batch_number ? '1,180' : '180',
+                'is_checked'        => $is_batch_number ? null : 1,
+                'error_msg'         => MyLang('common_service.goods.form_item_batch_number_message'),
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'batch_number_expire',
+                'is_checked'        => $is_batch_number_expire ? null : 1,
+                'error_msg'         => MyLang('common_service.goods.form_item_batch_number_expire_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'coding',
-                'checked_data'      => '180',
-                'is_checked'        => 1,
+                'checked_data'      => $is_coding ? '1,180' : '180',
+                'is_checked'        => $is_coding ? null : 1,
                 'error_msg'         => MyLang('common_service.goods.form_item_coding_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'model',
-                'checked_data'      => '180',
-                'is_checked'        => 1,
+                'checked_data'      => $is_model ? '1,180' : '180',
+                'is_checked'        => $is_model ? null : 1,
                 'error_msg'         => MyLang('common_service.goods.form_item_model_message'),
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'brand_id',
+                'is_checked'        => $is_brand_id ? null : 1,
+                'error_msg'         => MyLang('common_service.goods.form_item_brand_id_message'),
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'produce_company',
+                'checked_data'      => $is_produce_company ? '1,180' : '180',
+                'is_checked'        => $is_produce_company ? null : 1,
+                'error_msg'         => MyLang('common_service.goods.form_item_produce_company_message'),
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'produce_region',
+                'is_checked'        => $is_produce_region ? null : 1,
+                'error_msg'         => MyLang('common_service.goods.form_item_produce_region_message'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -1397,6 +1501,7 @@ class GoodsService
         // 编辑器内容
         $content_web = empty($params['content_web']) ? '' : str_replace("\n", '', ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['content_web']), 'add'));
         $fictitious_goods_value = empty($params['fictitious_goods_value']) ? '' : str_replace("\n", '', ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['fictitious_goods_value']), 'add'));
+        $use_guide = empty($params['use_guide']) ? '' : str_replace("\n", '', ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['use_guide']), 'add'));
 
         // 封面图片、默认相册第一张
         $images = empty($attachment['data']['images']) ? (isset($photo['data'][0]) ? $photo['data'][0] : '') : $attachment['data']['images'];
@@ -1408,10 +1513,13 @@ class GoodsService
             'simple_desc'             => empty($params['simple_desc']) ? '' : $params['simple_desc'],
             'spec_desc'               => empty($params['spec_desc']) ? '' : $params['spec_desc'],
             'approval_number'         => empty($params['approval_number']) ? '' : $params['approval_number'],
-            'produce_company'         => empty($params['produce_company']) ? '' : $params['produce_company'],
+            'approval_number_expire'  => empty($params['approval_number_expire']) ? 0 : strtotime($params['approval_number_expire']),
+            'batch_number'            => empty($params['batch_number']) ? '' : $params['batch_number'],
+            'batch_number_expire'     => empty($params['batch_number_expire']) ? 0 : strtotime($params['batch_number_expire']),
             'coding'                  => empty($params['coding']) ? '' : $params['coding'],
             'model'                   => empty($params['model']) ? '' : $params['model'],
-            'produce_region'            => isset($params['produce_region']) ? intval($params['produce_region']) : 0,
+            'produce_company'         => empty($params['produce_company']) ? '' : $params['produce_company'],
+            'produce_region'          => isset($params['produce_region']) ? intval($params['produce_region']) : 0,
             'inventory_unit'          => $params['inventory_unit'],
             'is_deduction_inventory'  => isset($params['is_deduction_inventory']) ? intval($params['is_deduction_inventory']) : 0,
             'is_shelves'              => isset($params['is_shelves']) ? intval($params['is_shelves']) : 0,
@@ -1426,6 +1534,7 @@ class GoodsService
             'is_exist_many_spec'      => empty($specifications['data']['title']) ? 0 : 1,
             'spec_base'               => empty($specifications_base['data']) ? '' : json_encode($specifications_base['data'], JSON_UNESCAPED_UNICODE),
             'fictitious_goods_value'  => $fictitious_goods_value,
+            'use_guide'               => $use_guide,
             'site_type'               => (isset($params['site_type']) && $params['site_type'] != '') ? $params['site_type'] : -1,
             'sort_level'              => empty($params['sort_level']) ? 0 : intval($params['sort_level']),
             'share_images'            => $attachment['data']['share_images'],
@@ -1494,7 +1603,7 @@ class GoodsService
             }
 
             // 分类
-            $ret = self::GoodsCategoryInsert(explode(',', $params['category_id']), $goods_id);
+            $ret = self::GoodsCategoryInsert($category_ids, $goods_id);
             if($ret['code'] != 0)
             {
                 throw new \Exception($ret['msg']);
@@ -2106,6 +2215,7 @@ class GoodsService
                             $temp_value[] = [
                                 'goods_id'  => $goods_id,
                                 'value'     => $v[$i],
+                                'md5_key'   => empty($v[$i]) ? '' : md5($v[$i]),
                                 'add_time'  => time()
                             ];
                         } else {
@@ -2314,6 +2424,29 @@ class GoodsService
                     }
                 }
             }
+            // 商品使用指南内容
+            $goods_use_guide = Db::name('Goods')->where([['id', 'in', $goods_ids], ['use_guide', '<>', '']])->column('use_guide');
+            if(!empty($goods_use_guide))
+            {
+                foreach($goods_use_guide as $v)
+                {
+                    $temp = ResourcesService::RichTextMatchContentAttachment($v, 'goods', 'images');
+                    if(!empty($temp))
+                    {
+                        $del_attachment_data = array_unique(array_merge($del_attachment_data, $temp));
+                    }
+                    $temp = ResourcesService::RichTextMatchContentAttachment($v, 'goods', 'video');
+                    if(!empty($temp))
+                    {
+                        $del_attachment_data = array_unique(array_merge($del_attachment_data, $temp));
+                    }
+                    $temp = ResourcesService::RichTextMatchContentAttachment($v, 'goods', 'file');
+                    if(!empty($temp))
+                    {
+                        $del_attachment_data = array_unique(array_merge($del_attachment_data, $temp));
+                    }
+                }
+            }
             // 商品app
             $goods_app = Db::name('GoodsContentApp')->where([['goods_id', 'in', $goods_ids], ['images', '<>', '']])->column('images');
             if(!empty($goods_app))
@@ -2482,7 +2615,6 @@ class GoodsService
                 $temp_type['value'] = $temp_type_value;
             }
 
-
             // 获取规格值
             $temp_value = Db::name('GoodsSpecValue')->where($where)->field('goods_spec_base_id,value')->order('id asc')->select()->toArray();
             if(!empty($temp_value))
@@ -2543,8 +2675,8 @@ class GoodsService
         }
 
         return [
-            'type'      => $type,
-            'value'     => array_values($value),
+            'type'   => $type,
+            'value'  => array_values($value),
         ];
     }
 
@@ -3124,7 +3256,7 @@ class GoodsService
                         'color' => 'main',
                         'type'  => 'show',
                         'name'  => empty($name) ? MyLang('goods_show_title') : $name,
-                        'value' => MyC('common_customer_store_tel'),
+                        'value' => MyC('common_customer_store_chat_tel'),
                         'icon'  => 'am-icon-phone', 
                     ];
                     $error = MyLang('goods_only_show_title');
@@ -3346,34 +3478,229 @@ class GoodsService
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2020-08-13
+     * @date    2024-09-05
      * @desc    description
-     * @param   [int]          $goods_id [商品id]
-     * @param   [int]          $add_time [商品创建时间]
+     * @param   [array]           $goods [商品数据]
+     * @param   [array]           $user  [用户数据]
      */
-    public static function GoodsQrcode($goods_id, $add_time)
+    public static function GoodsQrcode($goods = [], $user = [])
     {
-        // 时间格式、是否已是时间格式
-        if(strstr($add_time, '-') != false)
+        // 数据
+        if(empty($goods))
         {
-            $add_time = strtotime($add_time);
+            return DataReturn(MyLang('no_data'), -1);
         }
 
-        // 自定义路径
-        $path = 'download'.DS.'goods_qrcode'.DS.APPLICATION_CLIENT_TYPE.DS.date('Y', $add_time).DS.date('m', $add_time).DS.date('d', $add_time).DS;
+        // pc地址
+        $url_params = ['id'=>$goods['id']];
+        if(!empty($user))
+        {
+            $url_params['referrer'] = $user['id'];
+        }
+        $web_url = MyUrl('index/goods/index', $url_params);
 
-        // 名称增加站点模式（站点模式不一样商品url地址也会不一样）
-        $filename = $goods_id.SystemBaseService::SiteTypeValue().'.png';
+        // h5地址
+        $h5_url = MyC('common_app_h5_url');
 
-        // 二维码处理参数
-        $params = [
-            'path'      => DS.$path,
-            'filename'  => $filename,
-            'content'   => MyUrl('index/goods/index', ['id'=>$goods_id]),
-        ];
+        // 生成各平台二维码
+        $qrcode = [];
+        $platform = MyConst('common_platform_type');
+        if(!empty($platform) && is_array($platform))
+        {
+            // 自定义路径和名称
+            $time_dir = date('Y/m/d', is_numeric($goods['add_time']) ? $goods['add_time'] : strtotime($goods['add_time'])).(empty($user) ? '' : '/'.$user['id']);
+            $filename = $goods['id'].'.png';
 
-        // 创建二维码
-        return (new \base\Qrcode())->Create($params);
+            // 地址信息
+            $page = 'pages/goods-detail/goods-detail';
+            $query = 'id='.$goods['id'];
+            if(!empty($user))
+            {
+                $query .= '&referrer='.$user['id'];
+            }
+            // h5地址拼接
+            if(!empty($h5_url))
+            {
+                $h5_url .= $page.'?'.$query;
+            }
+            foreach($platform as $v)
+            {
+                // 存储信息
+                $path = 'download'.DS.'goods_qrcode'.DS.APPLICATION_CLIENT_TYPE.DS.$v['value'].DS.$time_dir.DS;
+                // 二维码处理参数
+                $dir_params = [
+                    'path'      => DS.$path,
+                    'filename'  => $filename,
+                    'dir'       => ROOT.'public'.DS.$path.$filename,
+                ];
+                $status = false;
+                if(!file_exists($dir_params['dir']))
+                {
+                    // 根据平台处理
+                    switch($v['value'])
+                    {
+                        // pc
+                        case 'pc' :
+                            $ret = (new \base\Qrcode())->Create(array_merge($dir_params, ['content'=>$web_url]));
+                            if($ret['code'] == 0)
+                            {
+                                $status = true;
+                            }
+                            break;
+
+                        // h5
+                        case 'h5' :
+                            if(!empty($h5_url))
+                            {
+                                $ret = (new \base\Qrcode())->Create(array_merge($dir_params, ['content'=>$h5_url]));
+                                if($ret['code'] == 0)
+                                {
+                                    $status = true;
+                                }
+                            }
+                            break;
+
+                        // 微信
+                        case 'weixin' :
+                            $appid = AppMiniUserService::AppMiniConfig('common_app_mini_weixin_appid');
+                            $appsecret = AppMiniUserService::AppMiniConfig('common_app_mini_weixin_appsecret');
+                            if(!empty($appid) && !empty($appsecret))
+                            {
+                                $request_params = [
+                                    'page'  => $page,
+                                    'scene' => $query,
+                                    'width' => 300,
+                                ];
+                                $ret = (new \base\Wechat($appid, $appsecret))->MiniQrCodeCreate($request_params);
+                                if($ret['code'] == 0)
+                                {
+                                    if(\base\FileUtil::CreateDir(ROOT.'public'.DS.$path))
+                                    {
+                                        if(@file_put_contents($dir_params['dir'], $ret['data']) !== false)
+                                        {
+                                            $status = true;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+
+                        // 支付宝小程序
+                        case 'alipay' :
+                            $appid = AppMiniUserService::AppMiniConfig('common_app_mini_alipay_appid');
+                            if(!empty($appid))
+                            {
+                                $request_params = [
+                                    'appid' => $appid,
+                                    'page'  => $page,
+                                    'scene' => $query,
+                                    'width' => 300,
+                                ];
+                                $ret = (new \base\Alipay())->MiniQrCodeCreate($request_params);
+                                if($ret['code'] == 0)
+                                {
+                                    if(\base\FileUtil::CreateDir(ROOT.'public'.DS.$path))
+                                    {
+                                        if(@file_put_contents($dir_params['dir'], RequestGet($ret['data'])) !== false)
+                                        {
+                                            $status = true;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+
+                        // 头条小程序
+                        case 'toutiao' :
+                            $config = [
+                                'appid'   => AppMiniUserService::AppMiniConfig('common_app_mini_toutiao_appid'),
+                                'secret'  => AppMiniUserService::AppMiniConfig('common_app_mini_toutiao_appsecret'),
+                            ];
+                            if(!empty($config['appid']) && !empty($config['secret']))
+                            {
+                                $request_params = [
+                                    'page'  => $page,
+                                    'scene' => $query,
+                                    'width' => 300,
+                                ];
+                                $ret = (new \base\Toutiao($config))->MiniQrCodeCreate($request_params);
+                                if($ret['code'] == 0)
+                                {
+                                    if(\base\FileUtil::CreateDir(ROOT.'public'.DS.$path))
+                                    {
+                                        if(@file_put_contents($dir_params['dir'], $ret['data']) !== false)
+                                        {
+                                            $status = true;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+
+                        // 百度小程序
+                        case 'baidu' :
+                            $config = [
+                                'appid'   => AppMiniUserService::AppMiniConfig('common_app_mini_baidu_appid'),
+                                'key'     => AppMiniUserService::AppMiniConfig('common_app_mini_baidu_appkey'),
+                                'secret'  => AppMiniUserService::AppMiniConfig('common_app_mini_baidu_appsecret'),
+                            ];
+                            if(!empty($config['appid']) && !empty($config['key']) && !empty($config['secret']))
+                            {
+                                $request_params = [
+                                    'page'  => $page,
+                                    'scene' => $query,
+                                    'width' => 300,
+                                ];
+                                $ret = (new \base\Baidu($config))->MiniQrCodeCreate($request_params);
+                                if($ret['code'] == 0)
+                                {
+                                    if(\base\FileUtil::CreateDir(ROOT.'public'.DS.$path))
+                                    {
+                                        if(@file_put_contents($dir_params['dir'], $ret['data']) !== false)
+                                        {
+                                            $status = true;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+
+                        // 快手小程序
+                        case 'kuaishou' :
+                            $appid = AppMiniUserService::AppMiniConfig('common_app_mini_kuaishou_appid');
+                            if(!empty($appid))
+                            {
+                                $url = 'kwai://miniapp?appId='.$appid.'&KSMP_source=011012&KSMP_internal_source=011012&path='.urlencode($page.'?'.$query);
+                                $ret = (new \base\Qrcode())->Create(array_merge($dir_params, ['content'=>$url]));
+                                if($ret['code'] == 0)
+                                {
+                                    $status = true;
+                                }
+                            }
+                            break;
+                    }
+                } else {
+                    $status = true;
+                }
+                if($status)
+                {
+                    if(($v['value'] == 'h5' && !empty($h5_url)) || $v['value'] != 'h5')
+                    {
+                        $qrcode[] = [
+                            'name'    => $v['name'],
+                            'type'    => $v['value'],
+                            'url'     => ($v['value'] == 'h5') ? $h5_url : (($v['value'] == 'pc') ? $web_url : ''),
+                            'qrcode'  => ResourcesService::AttachmentPathViewHandle($dir_params['path'].$dir_params['filename']),
+                        ];
+                    }
+                }
+            }
+        }
+        return DataReturn('success', 0, [
+            'qrcode'   => $qrcode,
+            'h5_url'   => $h5_url,
+            'web_url'  => $web_url,
+        ]);
     }
 
     /**
@@ -3483,6 +3810,10 @@ class GoodsService
         {
             return DataReturn($ret, -1);
         }
+        if(!is_array($params['category_ids']))
+        {
+            $params['category_ids'] = explode(',', $params['category_ids']);
+        }
 
         // 规格模板
         $spec = GoodsSpecService::GoodsCategorySpecTemplateList($params);
@@ -3490,10 +3821,43 @@ class GoodsService
         // 参数模板
         $parameter = GoodsParamsService::GoodsCategoryParamsTemplateList($params);
 
+        // 商品基础字段必填配置数据
+        $required_fields = self::GoodsBaseFieldsRequiredConfigData($params['category_ids']);
+
         return DataReturn(MyLang('operate_success'), 0, [
-            'spec'      => $spec['data'],
-            'params'    => $parameter['data'],
+            'spec'             => $spec['data'],
+            'params'           => $parameter['data'],
+            'required_fields'  => empty($required_fields) ? null : $required_fields,
         ]);
+    }
+
+    /**
+     * 商品基础字段必填配置数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-11-06
+     * @desc    description
+     * @param   [array]          $category_ids [商品分类id]
+     */
+    public static function GoodsBaseFieldsRequiredConfigData($category_ids)
+    {
+        if(!is_array($category_ids))
+        {
+            $category_ids = explode(',', $category_ids);
+        }
+        $required_fields = [];
+        $goods_base_fields_required = MyC('common_goods_base_fields_required_data');
+        if(!empty($goods_base_fields_required) && is_array($goods_base_fields_required))
+        {
+            foreach($goods_base_fields_required as $k=>$v)
+            {
+                $ids = GoodsCategoryService::GoodsCategoryItemsIds($v);
+                $temp = array_diff($ids, $category_ids);
+                $required_fields[$k] = (count($temp) < count($ids)) ? 1 : 0;
+            }
+        }
+        return $required_fields;
     }
 
     /**
@@ -3701,23 +4065,26 @@ class GoodsService
         // 禁止的数据字段
         $data = [
             // 比如把标题和简述加入禁止修改
-            // 'title',
-            // 'simple_desc',
-            // 'spec_desc',
-            // 'approval_number',
-            // 'coding',
-            // 'brand_id',
-            // 'produce_company',
-            // 'site_type',
-            // 'images',
-            // 'inventory_unit',
-            // 'produce_region',
-            // 'model',
-            // 'category_ids',
-            // 'sort_level',
-            // 'give_integral',
-            // 'photo',
-            // 'video',
+            // title
+            // simple_desc
+            // spec_desc
+            // approval_number
+            // approval_number_expire
+            // batch_number
+            // batch_number_expire
+            // coding
+            // brand_id
+            // produce_company
+            // site_type
+            // images
+            // inventory_unit
+            // produce_region
+            // model
+            // category_ids
+            // sort_level
+            // give_integral
+            // photo
+            // video
         ];
 
         // 商品参数操作数据钩子
@@ -3874,14 +4241,14 @@ class GoodsService
             // 手机详情
             $temp_content_app = empty($data['content_app']) ? [] : array_map(function($item)
                 {
-                    return implode(';', $item);
+                    return implode(';', array_filter($item));
                 }, array_values($data['content_app']));
             $content_app = Db::name('GoodsContentApp')->where(['goods_id'=>$goods_id])->order('sort asc, id asc')->field('images,content as text')->select()->toArray();
             if(!empty($content_app))
             {
                 $content_app = array_map(function($item)
                 {
-                    return implode(';', $item);
+                    return implode(';', array_filter($item));
                 }, array_values($content_app));
             }
             $diff1 = array_diff($temp_content_app, $content_app);
@@ -3893,7 +4260,7 @@ class GoodsService
             {
                 return implode(';', $item);
             }, array_values($data['parameter']));
-            $parameter = Db::name('GoodsParams')->where(['goods_id'=>$goods_id])->order('id asc')->field('scope,name,data_type,value')->select()->toArray();
+            $parameter = Db::name('GoodsParams')->where(['goods_id'=>$goods_id])->order('id asc')->field('scope,data_type,name,value')->select()->toArray();
             if(!empty($parameter))
             {
                 $parameter = array_map(function($item)

@@ -42,7 +42,7 @@ class UserAddress
             'base' => [
                 'key_field'             => 'id',
                 'is_search'             => 1,
-                'is_delete'             => 1,
+                'is_delete'             => AdminIsPower('useraddress', 'delete') ? 1 : 0,
                 'is_middle'             => 0,
                 'is_data_export_excel'  => 1,
             ],

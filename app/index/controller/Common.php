@@ -239,11 +239,14 @@ class Common extends BaseController
         $assign['common_order_is_booking'] = MyC('common_order_is_booking', 0, true);
 
         // 商店信息
-        $assign['common_customer_store_tel'] = MyC('common_customer_store_tel');
-        $assign['common_customer_store_email'] = MyC('common_customer_store_email');
+        $assign['site_info_data'] = ResourcesService::SiteInfoData();
+        //print_r($assign['site_info_data']);
+
+        $assign['common_customer_store_chat_tel'] = MyC('common_customer_store_chat_tel');
+        $assign['common_customer_store_chat_email'] = MyC('common_customer_store_chat_email');
         $assign['common_customer_store_address'] = MyC('common_customer_store_address');
         $assign['common_customer_store_describe'] = MyC('common_customer_store_describe');
-        $assign['common_customer_store_qrcode'] = AttachmentPathViewHandle(MyC('common_customer_store_qrcode'));
+        $assign['common_customer_store_public_weixin'] = AttachmentPathViewHandle(MyC('common_customer_store_public_weixin'));
 
         // 主题
         $this->default_theme = DefaultTheme();
@@ -436,8 +439,14 @@ class Common extends BaseController
         // 默认不加载放大镜
         $assign['is_load_imagezoom'] = 0;
 
-        // 是否加载视频播放器组件
+        // 是否加载ckplayer视频播放器组件
         $assign['is_load_ckplayer'] = 0;
+
+        // 是否加载xgplayer视频播放器组件
+        $assign['is_load_xgplayer'] = 0;
+
+        // 是否加载hlsjs
+        $assign['is_load_hlsjs'] = 0;
 
         // 是否加载条形码组件
         $assign['is_load_barcode'] = 0;
@@ -790,6 +799,8 @@ class Common extends BaseController
         // 公共详情页面钩子名称动态处理
         // 内容外部顶部
         $assign['hook_name_detail_top'] = $current.'_detail_top';
+        // 内容详情操作栏
+        $assign['hook_name_detail_operate'] = $current.'_detail_operate';
         // 内容外部底部
         $assign['hook_name_detail_bottom'] = $current.'_detail_bottom';
         // 内容内部顶部

@@ -2157,7 +2157,7 @@ table code {
 .am-table > thead > tr > th {
   vertical-align: bottom;
   border-bottom: 0.1rem solid rgba(0,0,0,.02);
-  font-weight: 400;
+  font-weight: bold;
 }
 /*.am-table > caption + thead > tr:first-child > th,
 .am-table > colgroup + thead > tr:first-child > th,
@@ -9836,6 +9836,10 @@ label.am-radio {
 .am-ucheck-radio:disabled:checked + .am-ucheck-icons .am-icon-unchecked {
   opacity: 0;
 }
+.am-ucheck-checkbox:disabled + .am-ucheck-icons .am-icon-unchecked,
+.am-ucheck-radio:disabled + .am-ucheck-icons .am-icon-unchecked {
+  color: #eee;
+}
 .am-ucheck-checkbox:disabled:checked + .am-ucheck-icons .am-icon-checked,
 .am-ucheck-radio:disabled:checked + .am-ucheck-icons .am-icon-checked {
   opacity: 1;
@@ -9965,7 +9969,7 @@ label.am-radio {
 }
 .am-selected-status {
   text-align: left;
-  width: 100%;
+  width: calc(100% - 0.6em);
   display: block;
   word-wrap: normal;
   /* for IE */
@@ -9978,6 +9982,9 @@ label.am-radio {
 }
 .am-selected-search {
   padding: 0 1rem 1rem;
+}
+.am-selected-search .am-form-group {
+  margin-bottom: 0;
 }
 .am-selected-search .am-form-field {
   padding: .5em;
@@ -10693,11 +10700,13 @@ tbody.am-collapse.am-in {
 .am-accordion-basic {
   margin: 1rem;
 }
+.am-accordion-basic .am-accordion-item:not(:first-child) {
+  padding-top: 0.5rem;
+}
 .am-accordion-basic .am-accordion-title {
   color: #333333;
   -webkit-transition: background-color 0.2s ease-out;
   transition: background-color 0.2s ease-out;
-  padding: .8rem 0 0;
 }
 .am-accordion-basic .am-accordion-title:before {
   display: inline-block;

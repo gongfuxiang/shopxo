@@ -1375,7 +1375,7 @@ ul.am-dropdown-content>li>a:focus {
 }
 
 .am-footer-default p.am-text-truncate {
-    line-height: 2.4rem;
+    line-height: 2.6rem;
 }
 
 .am-footer-default b {
@@ -1385,8 +1385,7 @@ ul.am-dropdown-content>li>a:focus {
 }
 
 .am-footer-default a {
-    font-size: 1.2rem;
-    color: #666666;
+    font-size: 1.4rem;
     text-decoration: none;
 }
 
@@ -1404,31 +1403,13 @@ ul.am-dropdown-content>li>a:focus {
 
 .footer-nav-list .am-gallery-item .footer-nav-title {
     font-weight: 500;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     color: #333333;
 }
 
 .footer-about li {
-    text-align: left;
-    line-height: 2.4rem;
-}
-
-.footer-about li span,
-.footer-about li a {
+    line-height: 2.6rem;
     font-size: 1.4rem;
-    color: #666666;
-}
-
-.footer-about li.tel a {
-    color: var(--color-main);
-}
-
-.footer-about li.qrcode {
-    margin-top: 0.5rem;
-}
-
-.footer-about li.qrcode img {
-    max-width: 13rem;
 }
 
 .footer-about li i {
@@ -1549,13 +1530,6 @@ ul.am-dropdown-content>li>a:focus {
         padding-left: 1.2rem;
         padding-right: 1.2rem;
     }
-}
-
-.am-nav>li.am-active>a,
-.am-nav>li.am-active>a:hover,
-.am-nav>li.am-active>a:focus {
-    color: var(--color-main) !important;
-    background-color: transparent;
 }
 
 .am-article-title.blog-title {
@@ -2755,6 +2729,7 @@ table.am-table .am-dropdown.am-active .am-selected-btn.am-btn-default.am-dropdow
         color: #bebebe !important;
         -webkit-box-shadow: none;
         box-shadow: none;
+        border: 0;
     }
 }
 
@@ -3158,46 +3133,6 @@ header.am-topbar a {
 /**
 * tabs 选项卡
 */
-/*导航*/
-.am-nav-tabs>li>a {
-    margin-right: 0px;
-}
-
-.am-nav-tabs>li {
-    border-bottom: 0.2rem solid #eee;
-}
-
-.am-nav-tabs,
-.am-tabs-bd {
-    border-color: transparent;
-}
-
-.am-nav-tabs>li.am-active>a,
-.am-nav-tabs>li.am-active>a:hover,
-.am-nav-tabs>li.am-active>a:focus,
-.am-nav-tabs>li>a:hover,
-.am-nav-tabs>li>a:focus {
-    color: #666666;
-    background: none;
-}
-
-.am-nav-tabs>li {
-    border-bottom: 0.2rem solid transparent;
-    text-align: center;
-}
-
-.am-nav-tabs {
-    border-bottom: 0.1rem solid rgba(0,0,0,.04);
-}
-
-.am-nav-tabs>li.am-active {
-    border-bottom: 0.2rem solid var(--color-main);
-}
-
-.am-tabs-nav li {
-    font-size: 1.4rem;
-}
-
 .am-tabs-nav li a,
 .am-tabs-nav li.am-active a,
 .am-tabs-nav li {
@@ -3245,6 +3180,7 @@ header.am-topbar a {
 }
 .am-tabs-short-border>li,
 .am-tabs-short-border>li.am-active {
+    text-align: center;
     border-bottom: 0.2rem solid transparent;
 }
 .am-tabs-short-border>li.am-active::before {
@@ -3579,10 +3515,15 @@ form.am-form-popup-sticky {
 }
 .user-content-body .user-center-admin-nav > li > a {
     font-size: 1.6rem;
-    color: #5F6264;
+    color: #5F6264 !important;
+    background-color: transparent;
 }
 .user-content-body .user-center-admin-nav .am-active {
-    border-bottom: 0.2rem solid var(--color-main);   
+    border-bottom: 0.2rem solid var(--color-main);
+    color: var(--color-main);
+}
+.user-content-body .user-center-admin-nav .am-active > a {
+    color: var(--color-main) !important;
 }
 .user-content-body .user-center-admin-nav-pills > li:first-of-type {
     margin-left: 0;

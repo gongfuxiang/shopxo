@@ -47,16 +47,10 @@ class Search extends Common
     public function Index()
     {
         // 是否需要登录
-        if(MyC('home_search_is_login_required', 0) == 1)
-        {
-            IsUserLogin();
-        }
-
-        // 是否禁止搜索
-        $ret = SearchService::SearchProhibitUserAgentCheck();
+        $ret = SearchService::SearchIsLoginCheck();
         if($ret['code'] != 0)
         {
-            return MyView('public/tips_error', ['msg' => $ret['msg']]);
+            IsUserLogin();
         }
 
         // post搜索
@@ -65,6 +59,30 @@ class Search extends Common
             return MyRedirect(MyUrl('index/search/index', ['wd'=>StrToAscii($this->data_post['wd'])]));
         }
         $params = $this->data_request;
+
+        // 用户id
+        $params['user_id'] = empty($this->user) ? 0 : $this->user['id'];
+
+        // 是否禁止搜索
+        $check_params = $params;
+        // 关键字处理
+        if(!empty($check_params['wd']))
+        {
+            $check_params['wd'] = AsciiToStr($check_params['wd']);
+        }
+        $ret = SearchService::SearchProhibitCheck($check_params);
+        if($ret['code'] != 0)
+        {
+            // 增加搜索记录
+            $check_params['search_result_data'] = $ret['msg'];
+            SearchService::SearchAdd($check_params);
+            // 返回错误
+            MyViewAssign([
+                'msg'     => $ret['msg'],
+                'params'  => $check_params
+            ]);
+            return MyView('public/tips_error');
+        }
 
         // 搜素条件
         $map = SearchService::SearchWhereHandle($this->data_request);

@@ -50,47 +50,61 @@
                 {{:ModuleInclude('public/nav_switch_btn', [
                     'nav_data' => [
                         [
-                            'name' => $goods_nav_list.base.name,
+                            'name' => $goods_admin_nav_list.base.name,
                             'key'  => 'base',
                         ],
                         [
-                            'name' => $goods_nav_list.spec.name,
+                            'name' => $goods_admin_nav_list.spec.name,
                             'key'  => 'spec',
                         ],
                         [
-                            'name' => $goods_nav_list.parameters.name,
+                            'name' => $goods_admin_nav_list.parameters.name,
                             'key'  => 'parameters',
                         ],
                         [
-                            'name' => $goods_nav_list.photo.name . '/' . $goods_nav_list.video.name,
+                            'name' => $goods_admin_nav_list.photo.name . '/' . $goods_admin_nav_list.video.name,
                             'key'  => 'photo-video',
                         ],
                         [
-                            'name' => $goods_nav_list.app.name,
+                            'name' => $goods_admin_nav_list.app.name,
                             'key'  => 'app',
                         ],
                         [
-                            'name' => $goods_nav_list.web.name,
+                            'name' => $goods_admin_nav_list.web.name,
                             'key'  => 'web',
                         ],
                         [
-                            'name' => $goods_nav_list.fictitious.name,
+                            'name' => $goods_admin_nav_list.fictitious.name,
                             'key'  => 'fictitious',
                         ],
                         [
-                            'name' => $goods_nav_list.extends.name,
+                            'name' => $goods_admin_nav_list.extends.name,
                             'key'  => 'extends',
                         ],
                         [
-                            'name' => $goods_nav_list.seo.name,
+                            'name' => $goods_admin_nav_list.use_guide.name,
+                            'key'  => 'use_guide',
+                        ],
+                        [
+                            'name' => $goods_admin_nav_list.seo.name,
                             'key'  => 'seo',
-                        ]
+                        ],
                     ]
                 ])}}
 
                 <div class="nav-content">
                     <!-- 基础信息 -->
                     <div id="goods-nav-base" class="item am-active" data-key="base">
+                        {{if !empty($goods_admin_nav_list['base']['tips'])}}
+                            <div class="am-operate-stretch-tips">
+                                <div class="title">
+                                    <i class="iconfont icon-tips"></i>
+                                    <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                                    <i class="iconfont icon-retract-diagonal contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                                </div>
+                                <p>{{if is_array($goods_admin_nav_list['base']['tips'])}}{{:implode('</p><p>', $goods_admin_nav_list.base.tips)}}{{else /}}{{$goods_admin_nav_list.base.tips}}{{/if}}</p>
+                            </div>
+                        {{/if}}
                         <div class="am-form-group">
                             <label>{{:MyLang('common_service.goods.form_item_title')}}<span class="am-form-group-label-tips-must">*</span></label>
                             <div class="am-input-group am-input-group-sm am-flex am-gap-1-half am-flex-items-center">
@@ -125,30 +139,42 @@
                             </div>
                         {{/if}}
                         <div class="am-form-group">
-                            <label>{{:MyLang('common_service.goods.form_item_simple_desc')}}</label>
-                            <input type="text" name="simple_desc" placeholder="{{:MyLang('common_service.goods.form_item_simple_desc_message')}}" maxlength="230" data-validation-message="{{:MyLang('common_service.goods.form_item_simple_desc_message')}}" class="am-radius" {{if !empty($data['simple_desc'])}} value="{{$data.simple_desc}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('simple_desc', $goods_base_forbid_operate_data)}} readonly {{/if}} />
+                            <label>{{:MyLang('common_service.goods.form_item_simple_desc')}}{{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['simple_desc']) and $goods_base_template['required_fields']['simple_desc'] eq 1}}<span class="am-form-group-label-tips-must">*</span>{{/if}}</label>
+                            <input type="text" name="simple_desc" placeholder="{{:MyLang('common_service.goods.form_item_simple_desc_message')}}" maxlength="230" data-validation-message="{{:MyLang('common_service.goods.form_item_simple_desc_message')}}" class="am-radius" {{if !empty($data['simple_desc'])}} value="{{$data.simple_desc}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('simple_desc', $goods_base_forbid_operate_data)}} readonly {{/if}} {{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['simple_desc']) and $goods_base_template['required_fields']['simple_desc'] eq 1}} required {{/if}} />
                         </div>
                         <div class="am-form-group">
-                            <label>{{:MyLang('common_service.goods.form_item_spec_desc')}}</label>
-                            <input type="text" name="spec_desc" placeholder="{{:MyLang('common_service.goods.form_item_spec_desc_message')}}" maxlength="230" data-validation-message="{{:MyLang('common_service.goods.form_item_spec_desc_message')}}" class="am-radius" {{if !empty($data['spec_desc'])}} value="{{$data.spec_desc}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('spec_desc', $goods_base_forbid_operate_data)}} readonly {{/if}} />
+                            <label>{{:MyLang('common_service.goods.form_item_spec_desc')}}{{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['spec_desc']) and $goods_base_template['required_fields']['spec_desc'] eq 1}}<span class="am-form-group-label-tips-must">*</span>{{/if}}</label>
+                            <input type="text" name="spec_desc" placeholder="{{:MyLang('common_service.goods.form_item_spec_desc_message')}}" maxlength="230" data-validation-message="{{:MyLang('common_service.goods.form_item_spec_desc_message')}}" class="am-radius" {{if !empty($data['spec_desc'])}} value="{{$data.spec_desc}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('spec_desc', $goods_base_forbid_operate_data)}} readonly {{/if}} {{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['spec_desc']) and $goods_base_template['required_fields']['spec_desc'] eq 1}} required {{/if}} />
                         </div>
                         <div class="am-form-group">
-                            <label>{{:MyLang('common_service.goods.form_item_approval_number')}}</label>
-                            <input type="text" name="approval_number" placeholder="{{:MyLang('common_service.goods.form_item_approval_number_message')}}" maxlength="180" data-validation-message="{{:MyLang('common_service.goods.form_item_approval_number_message')}}" class="am-radius" {{if !empty($data['approval_number'])}} value="{{$data.approval_number}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('approval_number', $goods_base_forbid_operate_data)}} readonly {{/if}} />
+                            <label>{{:MyLang('common_service.goods.form_item_approval_number')}}{{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['approval_number']) and $goods_base_template['required_fields']['approval_number'] eq 1}}<span class="am-form-group-label-tips-must">*</span>{{/if}}</label>
+                            <input type="text" name="approval_number" placeholder="{{:MyLang('common_service.goods.form_item_approval_number_message')}}" maxlength="180" data-validation-message="{{:MyLang('common_service.goods.form_item_approval_number_message')}}" class="am-radius" {{if !empty($data['approval_number'])}} value="{{$data.approval_number}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('approval_number', $goods_base_forbid_operate_data)}} readonly {{/if}} {{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['approval_number']) and $goods_base_template['required_fields']['approval_number'] eq 1}} required {{/if}} />
                         </div>
                         <div class="am-form-group">
-                            <label>{{:MyLang('common_service.goods.form_item_coding')}}</label>
-                            <input type="text" name="coding" placeholder="{{:MyLang('common_service.goods.form_item_coding_message')}}" maxlength="180" data-validation-message="{{:MyLang('common_service.goods.form_item_coding_message')}}" class="am-radius" {{if !empty($data['coding'])}} value="{{$data.coding}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('coding', $goods_base_forbid_operate_data)}} readonly {{/if}} />
+                            <label>{{:MyLang('common_service.goods.form_item_approval_number_expire')}}{{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['approval_number_expire']) and $goods_base_template['required_fields']['approval_number_expire'] eq 1}}<span class="am-form-group-label-tips-must">*</span>{{/if}}</label>
+                            <input type="text" autocomplete="off" name="approval_number_expire" class="Wdate am-radius" placeholder="{{:MyLang('common_service.goods.form_item_approval_number_expire')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_approval_number_expire_message')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" {{if !empty($data['approval_number_expire']) and !empty($data['approval_number_expire'])}}value="{{$data.approval_number_expire}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('approval_number_expire', $goods_base_forbid_operate_data)}} readonly {{/if}} {{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['approval_number_expire']) and $goods_base_template['required_fields']['approval_number_expire'] eq 1}} required {{/if}} />
                         </div>
                         <div class="am-form-group">
-                            <label>{{:MyLang('common_service.goods.form_item_model')}}</label>
-                            <input type="text" name="model" placeholder="{{:MyLang('common_service.goods.form_item_model_message')}}" maxlength="180" data-validation-message="{{:MyLang('common_service.goods.form_item_model_message')}}" class="am-radius" {{if !empty($data['model'])}} value="{{$data.model}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('model', $goods_base_forbid_operate_data)}} readonly {{/if}} />
+                            <label>{{:MyLang('common_service.goods.form_item_batch_number')}}{{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['batch_number']) and $goods_base_template['required_fields']['batch_number'] eq 1}}<span class="am-form-group-label-tips-must">*</span>{{/if}}</label>
+                            <input type="text" name="batch_number" placeholder="{{:MyLang('common_service.goods.form_item_batch_number_message')}}" maxlength="180" data-validation-message="{{:MyLang('common_service.goods.form_item_batch_number_message')}}" class="am-radius" {{if !empty($data['batch_number'])}} value="{{$data.batch_number}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('batch_number', $goods_base_forbid_operate_data)}} readonly {{/if}} {{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['batch_number']) and $goods_base_template['required_fields']['batch_number'] eq 1}} required {{/if}} />
                         </div>
                         <div class="am-form-group">
-                            <label class="am-block">{{:MyLang('common_service.goods.form_item_brand')}}</label>
-                            <select name="brand_id" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_brand_message')}}" {{if !empty($goods_base_forbid_operate_data) and in_array('brand_id', $goods_base_forbid_operate_data)}} disabled {{/if}}>
+                            <label>{{:MyLang('common_service.goods.form_item_batch_number_expire')}}{{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['batch_number_expire']) and $goods_base_template['required_fields']['batch_number_expire'] eq 1}}<span class="am-form-group-label-tips-must">*</span>{{/if}}</label>
+                            <input type="text" autocomplete="off" name="batch_number_expire" class="Wdate am-radius" placeholder="{{:MyLang('common_service.goods.form_item_batch_number_expire')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_batch_number_expire_message')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" {{if !empty($data['batch_number_expire']) and !empty($data['batch_number_expire'])}}value="{{$data.batch_number_expire}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('batch_number_expire', $goods_base_forbid_operate_data)}} readonly {{/if}} {{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['batch_number_expire']) and $goods_base_template['required_fields']['batch_number_expire'] eq 1}} required {{/if}} />
+                        </div>
+                        <div class="am-form-group">
+                            <label>{{:MyLang('common_service.goods.form_item_coding')}}{{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['coding']) and $goods_base_template['required_fields']['coding'] eq 1}}<span class="am-form-group-label-tips-must">*</span>{{/if}}</label>
+                            <input type="text" name="coding" placeholder="{{:MyLang('common_service.goods.form_item_coding_message')}}" maxlength="180" data-validation-message="{{:MyLang('common_service.goods.form_item_coding_message')}}" class="am-radius" {{if !empty($data['coding'])}} value="{{$data.coding}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('coding', $goods_base_forbid_operate_data)}} readonly {{/if}} {{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['coding']) and $goods_base_template['required_fields']['coding'] eq 1}} required {{/if}} />
+                        </div>
+                        <div class="am-form-group">
+                            <label>{{:MyLang('common_service.goods.form_item_model')}}{{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['model']) and $goods_base_template['required_fields']['model'] eq 1}}<span class="am-form-group-label-tips-must">*</span>{{/if}}</label>
+                            <input type="text" name="model" placeholder="{{:MyLang('common_service.goods.form_item_model_message')}}" maxlength="180" data-validation-message="{{:MyLang('common_service.goods.form_item_model_message')}}" class="am-radius" {{if !empty($data['model'])}} value="{{$data.model}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('model', $goods_base_forbid_operate_data)}} readonly {{/if}} {{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['model']) and $goods_base_template['required_fields']['model'] eq 1}} required {{/if}} />
+                        </div>
+                        <div class="am-form-group">
+                            <label class="am-block">{{:MyLang('common_service.goods.form_item_brand_id')}}{{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['brand_id']) and $goods_base_template['required_fields']['brand_id'] eq 1}}<span class="am-form-group-label-tips-must">*</span>{{/if}}</label>
+                            <select name="brand_id" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_brand_id_message')}}" {{if !empty($goods_base_forbid_operate_data) and in_array('brand_id', $goods_base_forbid_operate_data)}} disabled {{/if}} {{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['brand_id']) and $goods_base_template['required_fields']['brand_id'] eq 1}} required {{/if}}>
                                 {{if !empty($brand_list)}}
-                                    <option value="0">{{:MyLang('please_select_tips')}}</option>
+                                    <option value="">{{:MyLang('please_select_tips')}}</option>
                                     {{foreach $brand_list as $v}}
                                         <option value="{{$v.id}}" {{if isset($data['brand_id']) and $data['brand_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                                     {{/foreach}}
@@ -156,13 +182,13 @@
                             </select>
                         </div>
                         <div class="am-form-group">
-                            <label>{{:MyLang('common_service.goods.form_item_produce_company')}}</label>
-                            <input type="text" name="produce_company" placeholder="{{:MyLang('common_service.goods.form_item_produce_company_message')}}" maxlength="180" data-validation-message="{{:MyLang('common_service.goods.form_item_produce_company_message')}}" class="am-radius" {{if !empty($data['produce_company'])}} value="{{$data.produce_company}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('produce_company', $goods_base_forbid_operate_data)}} readonly {{/if}} />
+                            <label>{{:MyLang('common_service.goods.form_item_produce_company')}}{{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['produce_company']) and $goods_base_template['required_fields']['produce_company'] eq 1}}<span class="am-form-group-label-tips-must">*</span>{{/if}}</label>
+                            <input type="text" name="produce_company" placeholder="{{:MyLang('common_service.goods.form_item_produce_company_message')}}" maxlength="180" data-validation-message="{{:MyLang('common_service.goods.form_item_produce_company_message')}}" class="am-radius" {{if !empty($data['produce_company'])}} value="{{$data.produce_company}}"{{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('produce_company', $goods_base_forbid_operate_data)}} readonly {{/if}} {{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['produce_company']) and $goods_base_template['required_fields']['produce_company'] eq 1}} required {{/if}} />
                         </div>
                         <div class="am-form-group">
-                            <label class="am-block">{{:MyLang('common_service.goods.form_item_produce_region')}}</label>
-                            <select name="produce_region" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_produce_region_message')}}" {{if !empty($goods_base_forbid_operate_data) and in_array('produce_region', $goods_base_forbid_operate_data)}} disabled {{/if}}>
-                                <option value="0">{{:MyLang('please_select_tips')}}</option>
+                            <label class="am-block">{{:MyLang('common_service.goods.form_item_produce_region')}}{{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['produce_region']) and $goods_base_template['required_fields']['produce_region'] eq 1}}<span class="am-form-group-label-tips-must">*</span>{{/if}}</label>
+                            <select name="produce_region" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.goods.form_item_produce_region_message')}}" {{if !empty($goods_base_forbid_operate_data) and in_array('produce_region', $goods_base_forbid_operate_data)}} disabled {{/if}} {{if !empty($goods_base_template) and !empty($goods_base_template['required_fields']) and isset($goods_base_template['required_fields']['produce_region']) and $goods_base_template['required_fields']['produce_region'] eq 1}} required {{/if}}>
+                                <option value="">{{:MyLang('please_select_tips')}}</option>
                                 {{if !empty($region_province_list)}}
                                     {{foreach $region_province_list as $v}}
                                         <option value="{{$v.id}}" {{if !empty($data['produce_region']) and $v['id'] eq $data['produce_region']}}selected{{/if}}>{{$v.name}}</option>
@@ -239,18 +265,18 @@
 
                     <!-- 商品规格 -->
                     <div id="goods-nav-spec" class="item" data-key="spec">
-                        {{if is_array(MyLang('common_service.goods.form_spec_top_list_tips'))}}
+                        {{if !empty($goods_admin_nav_list['spec']['tips'])}}
                             <div class="am-operate-stretch-tips">
                                 <div class="title">
                                     <i class="iconfont icon-tips"></i>
                                     <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
                                     <i class="iconfont icon-retract-diagonal contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
                                 </div>
-                                <p>{{:implode('</p><p>', MyLang('common_service.goods.form_spec_top_list_tips'))}}</p>
+                                <p>{{if is_array($goods_admin_nav_list['spec']['tips'])}}{{:implode('</p><p>', $goods_admin_nav_list.spec.tips)}}{{else /}}{{$goods_admin_nav_list.spec.tips}}{{/if}}</p>
                             </div>
                         {{/if}}
                         <div class="am-form-group">
-                            <label>{{$goods_nav_list.spec.name}}<span class="am-form-group-label-tips-must">*</span></label>
+                            <label>{{$goods_admin_nav_list.spec.name}}<span class="am-form-group-label-tips-must">*</span></label>
                             <div>
                                 {{:ModuleInclude('goods/spec')}}
                             </div>
@@ -259,16 +285,27 @@
 
                     <!-- 商品参数 -->
                     <div id="goods-nav-parameters" class="item" data-key="parameters">
-                        <div class="am-form-group">
+                        {{if !empty($goods_admin_nav_list['parameters']['tips'])}}
+                            <div class="am-operate-stretch-tips">
+                                <div class="title">
+                                    <i class="iconfont icon-tips"></i>
+                                    <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                                    <i class="iconfont icon-retract-diagonal contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                                </div>
+                                <p>{{if is_array($goods_admin_nav_list['parameters']['tips'])}}{{:implode('</p><p>', $goods_admin_nav_list.parameters.tips)}}{{else /}}{{$goods_admin_nav_list.parameters.tips}}{{/if}}</p>
+                            </div>
+                        {{/if}}
+                        <div class="am-form-group am-flex-col am-gap-1">
                             <label>{{:MyLang('common_service.goods.form_params_choice_text')}}</label>
                             <!-- 参数操作 -->
-                            {{if $is_goods_single_category_mode neq 1}}
-                                {{:ModuleInclude('goods/params_operate')}}
+                            {{:ModuleInclude('goods/params_operate')}}
+                            <!-- 参数自定义模式 -->
+                            {{if $is_goods_parameters_custom_mode eq 1}}
+                                {{:ModuleInclude('public/goodsparamstemplate/table_custom')}}
+                            {{else /}}
+                                <!-- 参数使用表格 -->
+                                {{:ModuleInclude('public/goodsparamstemplate/table_use')}}
                             {{/if}}
-
-                            <!-- 参数使用表格 -->
-                            {{:ModuleInclude('public/goodsparamstemplate/table_use')}}
-
                             <!-- 参数提示 -->
                             <div class="am-margin-top-sm">
                                 {{:ModuleInclude('public/goodsparamstemplate/tips')}}
@@ -277,9 +314,24 @@
                     </div>
 
                     <!-- 相册/视频 -->
-                    <div class="item" data-key="photo-video">
+                    <div id="goods-nav-photo-video" class="item" data-key="photo-video">
+                        {{if !empty($goods_admin_nav_list['photo']['tips']) or !empty($goods_admin_nav_list['video']['tips'])}}
+                            <div class="am-operate-stretch-tips">
+                                <div class="title">
+                                    <i class="iconfont icon-tips"></i>
+                                    <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                                    <i class="iconfont icon-retract-diagonal contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                                </div>
+                                {{if !empty($goods_admin_nav_list['photo']['tips'])}}
+                                    <p>{{if is_array($goods_admin_nav_list['photo']['tips'])}}{{:implode('</p><p>', $goods_admin_nav_list.photo.tips)}}{{else /}}{{$goods_admin_nav_list.photo.tips}}{{/if}}</p>
+                                {{/if}}
+                                {{if !empty($goods_admin_nav_list['video']['tips'])}}
+                                    <p>{{if is_array($goods_admin_nav_list['video']['tips'])}}{{:implode('</p><p>', $goods_admin_nav_list.video.tips)}}{{else /}}{{$goods_admin_nav_list.video.tips}}{{/if}}</p>
+                                {{/if}}
+                            </div>
+                        {{/if}}
                         <div id="goods-nav-photo" class="am-form-group am-form-file">
-                            <label>{{$goods_nav_list.photo.name}}<span class="am-form-group-label-tips-must">*</span><a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.goods.form_photo_top_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                            <label>{{$goods_admin_nav_list.photo.name}}<span class="am-form-group-label-tips-must">*</span><a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.goods.form_photo_top_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                             <div class="am-form-file-upload-container">
                                 <ul class="plug-file-upload-view goods-photo-view" data-form-name="photo[]" data-max-number="30" data-dialog-type="images" data-is-eye="1">
                                     {{if !empty($data['photo'])}}
@@ -304,7 +356,7 @@
                         </div>
                         <!-- 视频 -->
                         <div id="goods-nav-video" class="am-form-group am-form-file">
-                            <label>{{$goods_nav_list.video.name}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.goods.form_video_top_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                            <label>{{$goods_admin_nav_list.video.name}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.goods.form_video_top_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                             <div class="am-form-file-upload-container">
                                 <ul class="plug-file-upload-view plug-file-upload-view-video goods-video-view" data-form-name="video" data-max-number="1" data-dialog-type="video" data-is-eye="1">
                                     <li class="plug-file-upload-submit" data-view-tag="ul.goods-video-view">
@@ -325,14 +377,16 @@
                     </div>
                     <!-- 手机详情 -->
                     <div id="goods-nav-app" class="item" data-key="app">
-                        <div class="am-operate-stretch-tips">
-                            <div class="title">
-                                <i class="iconfont icon-tips"></i>
-                                <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
-                                <i class="iconfont icon-retract-diagonal contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                        {{if !empty($goods_admin_nav_list['app']['tips'])}}
+                            <div class="am-operate-stretch-tips">
+                                <div class="title">
+                                    <i class="iconfont icon-tips"></i>
+                                    <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                                    <i class="iconfont icon-retract-diagonal contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                                </div>
+                                <p>{{if is_array($goods_admin_nav_list['app']['tips'])}}{{:implode('</p><p>', $goods_admin_nav_list.app.tips)}}{{else /}}{{$goods_admin_nav_list.app.tips}}{{/if}}</p>
                             </div>
-                            <p>{{:MyLang('common_service.goods.form_app_top_tips')}}</p>
-                        </div>
+                        {{/if}}
                         <div class="am-form-group">
                             <ul class="content-app-items" 
                                 data-max-count="10" 
@@ -393,25 +447,55 @@
 
                     <!-- 电脑详情 -->
                     <div id="goods-nav-web" class="item" data-key="web">
+                        {{if !empty($goods_admin_nav_list['web']['tips'])}}
+                            <div class="am-operate-stretch-tips">
+                                <div class="title">
+                                    <i class="iconfont icon-tips"></i>
+                                    <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                                    <i class="iconfont icon-retract-diagonal contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                                </div>
+                                <p>{{if is_array($goods_admin_nav_list['web']['tips'])}}{{:implode('</p><p>', $goods_admin_nav_list.web.tips)}}{{else /}}{{$goods_admin_nav_list.web.tips}}{{/if}}</p>
+                            </div>
+                        {{/if}}
                         <div class="am-form-group">
-                            <label>{{$goods_nav_list.web.name}}</label>
+                            <label>{{$goods_admin_nav_list.web.name}}</label>
                             <textarea class="am-radius" name="content_web" id="editor-tag" data-validation-message="{{:MyLang('common_service.goods.form_web_content_message')}}">{{if !empty($data['content_web'])}}{{$data.content_web}}{{/if}}</textarea>
                         </div>
                     </div>
 
                     <!-- 虚拟信息 -->
                     <div id="goods-nav-fictitious" class="item" data-key="fictitious">
+                        {{if !empty($goods_admin_nav_list['fictitious']['tips'])}}
+                            <div class="am-operate-stretch-tips">
+                                <div class="title">
+                                    <i class="iconfont icon-tips"></i>
+                                    <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                                    <i class="iconfont icon-retract-diagonal contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                                </div>
+                                <p>{{if is_array($goods_admin_nav_list['fictitious']['tips'])}}{{:implode('</p><p>', $goods_admin_nav_list.fictitious.tips)}}{{else /}}{{$goods_admin_nav_list.fictitious.tips}}{{/if}}</p>
+                            </div>
+                        {{/if}}
                         <div class="am-form-group">
-                            <label>{{$goods_nav_list.fictitious.name}}</label>
+                            <label>{{$goods_admin_nav_list.fictitious.name}}</label>
                             <textarea id="goods-fictitious-container" name="fictitious_goods_value">{{if !empty($data['fictitious_goods_value'])}}{{$data.fictitious_goods_value|raw}}{{/if}}</textarea>
                         </div>
                     </div>
 
                     <!-- 扩展数据 -->
                     <div id="goods-nav-extends" class="item" data-key="extends">
+                        {{if !empty($goods_admin_nav_list['extends']['tips'])}}
+                            <div class="am-operate-stretch-tips">
+                                <div class="title">
+                                    <i class="iconfont icon-tips"></i>
+                                    <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                                    <i class="iconfont icon-retract-diagonal contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                                </div>
+                                <p>{{if is_array($goods_admin_nav_list['extends']['tips'])}}{{:implode('</p><p>', $goods_admin_nav_list.extends.tips)}}{{else /}}{{$goods_admin_nav_list.extends.tips}}{{/if}}</p>
+                            </div>
+                        {{/if}}
                         <div class="am-form-group">
-                            <label>{{$goods_nav_list.extends.name}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('plugins_view_region_config_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
-                            <div class="am-flex am-flex-col am-gap-32">
+                            <label>{{$goods_admin_nav_list.extends.name}}</label>
+                            <div class="am-flex am-flex-col am-gap-32 am-margin-top-sm">
                                 <!-- 插件扩展数据 start -->
                                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                     <div class="plugins-tag">
@@ -432,8 +516,36 @@
                         </div>
                     </div>
 
+                    <!-- 使用指南 -->
+                    <div id="goods-nav-use-guide" class="item" data-key="use_guide">
+                        {{if !empty($goods_admin_nav_list['use_guide']['tips'])}}
+                            <div class="am-operate-stretch-tips">
+                                <div class="title">
+                                    <i class="iconfont icon-tips"></i>
+                                    <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                                    <i class="iconfont icon-retract-diagonal contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                                </div>
+                                <p>{{if is_array($goods_admin_nav_list['use_guide']['tips'])}}{{:implode('</p><p>', $goods_admin_nav_list.use_guide.tips)}}{{else /}}{{$goods_admin_nav_list.use_guide.tips}}{{/if}}</p>
+                            </div>
+                        {{/if}}
+                        <div class="am-form-group">
+                            <label>{{$goods_admin_nav_list.use_guide.name}}</label>
+                            <textarea id="goods-use-guide-container" name="use_guide">{{if !empty($data['use_guide'])}}{{$data.use_guide|raw}}{{/if}}</textarea>
+                        </div>
+                    </div>
+
                     <!-- SEO信息 -->
                     <div id="goods-nav-seo" class="item" data-key="seo">
+                        {{if !empty($goods_admin_nav_list['seo']['tips'])}}
+                            <div class="am-operate-stretch-tips">
+                                <div class="title">
+                                    <i class="iconfont icon-tips"></i>
+                                    <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                                    <i class="iconfont icon-retract-diagonal contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
+                                </div>
+                                <p>{{if is_array($goods_admin_nav_list['seo']['tips'])}}{{:implode('</p><p>', $goods_admin_nav_list.seo.tips)}}{{else /}}{{$goods_admin_nav_list.seo.tips}}{{/if}}</p>
+                            </div>
+                        {{/if}}
                         {{:ModuleInclude('lib/seo', empty($data) ? [] : $data, ['is_share_images'=>1])}}
                     </div>
                 </div>

@@ -258,19 +258,16 @@ class Article extends Common
         $hook_arr = [
             // 文章内容顶部钩子
             'plugins_view_article_detail_top',
-
             // 文章底部钩子
             'plugins_view_article_detail_bottom',
-
+            // 文章内容内顶部钩子
+            'plugins_view_article_detail_inside_top',
             // 文章内容顶部钩子
             'plugins_view_article_detail_content_top',
-
             // 文章内容底部钩子
             'plugins_view_article_detail_content_botton',
-
             // 文章左侧内部顶部钩子
             'plugins_view_article_detail_left_inside_top',
-
             // 文章左侧内部底部钩子
             'plugins_view_article_detail_left_inside_botton',
         ];

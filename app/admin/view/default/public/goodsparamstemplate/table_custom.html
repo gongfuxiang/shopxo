@@ -1,0 +1,71 @@
+<!--商品参数自定义列表数据 -->
+<div class="parameters-container am-margin-top-sm">
+    <table class="am-table am-table-bordered am-table-centered am-table-striped am-table-hover am-margin-bottom-sm parameters-table-custom table-thead-beautify am-margin-bottom-0" 
+        data-copy-success-tips="{{:MyLang('copy_success')}}" 
+        data-copy-no-tips="{{:MyLang('common.form_goods_params_copy_no_tips')}}" 
+        data-copy-error-tips="{{:MyLang('common.form_goods_params_copy_error_tips')}}" 
+        data-copy-empty-tips="{{:MyLang('config_empty_tips')}}" 
+        data-created-success-tips="{{:MyLang('created_success')}}" 
+        data-scope-all-name="{{:MyLang('all_title')}}" 
+        data-scope-base-name="{{:MyLang('base_title')}}" 
+        data-scope-detail-name="{{:MyLang('detail_title')}}" 
+        data-scope-message="{{:MyLang('common.form_goods_params_scope_message')}}" 
+        data-params-name="{{:MyLang('common.form_goods_params_params_name')}}" 
+        data-params-message="{{:MyLang('common.form_goods_params_params_message')}}" 
+        data-value-name="{{:MyLang('common.form_goods_params_value_name')}}" 
+        data-value-message="{{:MyLang('common.form_goods_params_value_message')}}" 
+        data-move-top-name="{{:MyLang('moveup_title')}}" 
+        data-move-bottom-name="{{:MyLang('movedown_title')}}" 
+        data-remove-name="{{:MyLang('remove_title')}}" 
+        data-move-type-tips="{{:MyLang('common.form_goods_params_move_type_tips')}}" 
+        data-move-top-tips="{{:MyLang('common.form_goods_params_move_top_tips')}}" 
+        data-move-bottom-tips="{{:MyLang('common.form_goods_params_move_bottom_tips')}}" 
+    >
+        <thead>
+            <tr>
+                <th width="150">{{:MyLang('common.form_goods_params_thead_scope_title')}}</th>
+                <th width="150">{{:MyLang('common.form_goods_params_thead_name_title')}}</th>
+                <th>{{:MyLang('common.form_goods_params_thead_value_title')}}</th>
+                <th>{{:MyLang('operate_title')}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{if !empty($parameters) and is_array($parameters)}}
+                {{foreach $parameters as $pk=>$pv}}
+                    <tr>
+                        <td class="am-text-middle">
+                            <select name="parameters_scope[{{$pk}}]" class="am-radius chosen-select" data-validation-message="{{:MyLang('common.form_goods_params_scope_message')}}" data-is-clearout="0" {{if !empty($goods_params_operate_data) and isset($goods_params_operate_data['is_edit']) and $goods_params_operate_data['is_edit'] eq 0}} disabled{{/if}}>
+                                {{if !empty($common_goods_parameters_scope_list)}}
+                                    {{foreach $common_goods_parameters_scope_list as $v}}
+                                        <option value="{{$v.value}}" {{if $pv['scope'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                                    {{/foreach}}
+                                {{/if}}
+                            </select>
+                        </td>
+                        <td class="am-text-middle">
+                            <input type="text" name="parameters_name[{{$pk}}]" placeholder="{{:MyLang('common.form_goods_params_params_name')}}" value="{{$pv.name}}" data-validation-message="{{:MyLang('common.form_goods_params_params_message')}}" maxlength="160" class="am-radius" data-is-clearout="0" required {{if !empty($goods_params_operate_data) and isset($goods_params_operate_data['is_edit']) and $goods_params_operate_data['is_edit'] eq 0}} disabled{{/if}} />
+                        </td>
+                        <td class="am-text-middle">
+                            <input type="hidden" name="parameters_data_type[{{$pk}}]" value="0" />
+                            <input type="text" name="parameters_value[{{$pk}}]" placeholder="{{:MyLang('common.form_goods_params_value_name')}}" value="{{if is_array($pv['value'])}}{{:implode(',', $pv['value'])}}{{else /}}{{$pv.value}}{{/if}}" maxlength="160" data-validation-message="{{:MyLang('common.form_goods_params_value_message')}}" class="am-radius" data-is-clearout="0" {{if !empty($goods_params_operate_data) and isset($goods_params_operate_data['is_edit']) and $goods_params_operate_data['is_edit'] eq 0}} disabled{{/if}} />
+                        </td>
+                        <td class="am-text-middle am-text-left">
+                            <a href="javascript:;" class="am-text-xs am-color-blue am-margin-right-sm line-move" data-type="top">{{:MyLang('moveup_title')}}</a>
+                            <a href="javascript:;" class="am-text-xs am-color-blue am-margin-right-sm line-move" data-type="bottom">{{:MyLang('movedown_title')}}</a>
+                            {{if isset($goods_params_operate_data['is_remove']) and $goods_params_operate_data['is_remove'] eq 1}}
+                                <a href="javascript:;" class="am-text-xs am-color-red line-remove">{{:MyLang('remove_title')}}</a>
+                            {{/if}}
+                        </td>
+                    </tr>
+                {{/foreach}}
+            {{/if}}
+        </tbody>
+    </table>
+</div>
+{{if (isset($goods_params_operate_data['is_created']) and $goods_params_operate_data['is_created'] eq 1)}}
+    <div class="am-margin-top-sm">
+        <span class="business-operations-submit parameters-line-add am-border-0 am-text-sm">
+            <i class="iconfont icon-add"></i> {{:MyLang('common.form_goods_params_row_add_title')}}
+        </span>
+    </div>
+{{/if}}

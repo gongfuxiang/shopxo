@@ -40,6 +40,7 @@ class Order
     public function Run($params = [])
     {
         $lang = MyLang('order.form_table');
+        $lang_detail = MyLang('order.detail_form_list');
         $lang_stats = MyLang('order.form_table_stats');
         return [
             // 基础配置
@@ -60,6 +61,34 @@ class Order
                     'search_config'      => [
                         'form_type'         => 'input',
                     ],
+                ],
+                [
+                    'label'         => $lang['id'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'id',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['order_no'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'order_no',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['items_count'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'items_count',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['describe'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'describe',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
                 ],
                 [
                     'label'         => $lang['goods'],
@@ -90,11 +119,17 @@ class Order
                     ],
                 ],
                 [
-                    'label'         => $lang['status'],
-                    'view_type'     => 'module',
-                    'view_key'      => 'order/module/status',
-                    'is_sort'       => 1,
-                    'search_config' => [
+                    'label'                         => $lang['status'],
+                    'view_type'                     => 'field',
+                    'view_key'                      => 'status_name',
+                    'is_bottom_text_tips'           => 1,
+                    'bottom_text_tips_where_key'    => 'user_is_delete_time',
+                    'bottom_text_tips_where_type'   => 'notin',
+                    'bottom_text_tips_where_value'  => [0],
+                    'bottom_text_tips_data'         => MyLang('user_delete_operate_tips'),
+                    'bottom_text_tips_style'        => 'warning',
+                    'is_sort'                       => 1,
+                    'search_config'                 => [
                         'form_type'         => 'select',
                         'form_name'         => 'status',
                         'where_type'        => 'in',
@@ -105,11 +140,17 @@ class Order
                     ],
                 ],
                 [
-                    'label'         => $lang['pay_status'],
-                    'view_type'     => 'module',
-                    'view_key'      => 'order/module/pay_status',
-                    'is_sort'       => 1,
-                    'search_config' => [
+                    'label'                   => $lang['pay_status'],
+                    'view_type'               => 'field',
+                    'view_key'                => 'pay_status_name',
+                    'is_color'                => 1,
+                    'color_key'               => 'pay_status',
+                    'color_style'             => [1=>'success', 2=>'danger', 3=>'danger'],
+                    'is_bottom_text_tips'     => 1,
+                    'bottom_text_tips_key'    => 'is_under_line_text',
+                    'bottom_text_tips_style'  => 'warning',
+                    'is_sort'                 => 1,
+                    'search_config'           => [
                         'form_type'         => 'select',
                         'form_name'         => 'pay_status',
                         'where_type'        => 'in',
@@ -167,12 +208,11 @@ class Order
                 [
                     'label'         => $lang['order_model'],
                     'view_type'     => 'field',
-                    'view_key'      => 'order_model',
-                    'view_data_key' => 'name',
-                    'view_data'     => MyConst('common_order_type_list'),
+                    'view_key'      => 'order_model_name',
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
+                        'form_name'         => 'order_model',
                         'where_type'        => 'in',
                         'data'              => MyConst('common_order_type_list'),
                         'data_key'          => 'value',
@@ -183,12 +223,11 @@ class Order
                 [
                     'label'         => $lang['client_type'],
                     'view_type'     => 'field',
-                    'view_key'      => 'client_type',
-                    'view_data_key' => 'name',
-                    'view_data'     => MyConst('common_platform_type'),
+                    'view_key'      => 'client_type_name',
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
+                        'form_name'         => 'client_type',
                         'where_type'        => 'in',
                         'data'              => MyConst('common_platform_type'),
                         'data_key'          => 'value',
@@ -208,6 +247,41 @@ class Order
                         'where_type_custom'     => 'in',
                         'where_value_custom'    => 'WhereValueAddressInfo',
                     ],
+                ],
+                [
+                    'label'         => $lang['address_contact_name'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'address_contact_name',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['address_contact_tel'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'address_contact_tel',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['address_extraction_contact_name'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'address_extraction_contact_name',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['address_extraction_contact_tel'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'address_extraction_contact_tel',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['address_info'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'address_info',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
                 ],
                 [
                     'label'         => $lang['express'],
@@ -321,6 +395,34 @@ class Order
                         'form_type'         => 'input',
                         'where_type'        => 'like',
                     ],
+                ],
+                [
+                    'label'         => $lang['currency_name'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'currency_name',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['currency_code'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'currency_code',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['currency_symbol'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'currency_symbol',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['currency_rate'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'currency_rate',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
                 ],
                 [
                     'label'         => $lang['extension'],
@@ -441,7 +543,7 @@ class Order
             'data'  => [
                 'table_name'        => 'Order',
                 'data_handle'       => 'OrderService::OrderListHandle',
-                'detail_action'     => ['detail', 'saveinfo', 'deliveryinfo', 'serviceinfo'],
+                'detail_action'     => ['detail', 'saveinfo', 'deliveryinfo', 'serviceinfo', 'tracesourceinfo'],
                 'is_page_stats'     => 1,
                 'page_stats_data'   => [
                     ['name'=>$lang_stats['total_price'], 'field'=>'total_price'],
@@ -454,6 +556,120 @@ class Order
                     'is_public' => 0,
                     'is_operate'=> 1,
                     'user_type' => 'admin',
+                ],
+                'is_field_level_merge'          => 1,
+                'handle_field_level_merge_data' => [
+                    'currency_name'                    => 'currency_data.currency_name',
+                    'currency_code'                    => 'currency_data.currency_code',
+                    'currency_symbol'                  => 'currency_data.currency_symbol',
+                    'currency_rate'                    => 'currency_data.currency_rate',
+                    'address_contact_name'             => 'address_data.name',
+                    'address_contact_tel'              => 'address_data.tel',
+                    'address_extraction_contact_name'  => 'address_data.extraction_contact_name',
+                    'address_extraction_contact_tel'   => 'address_data.extraction_contact_tel',
+                    'address_info'                     => ['address_data.province_name', 'address_data.city_name', 'address_data.county_name', 'address_data.address'],
+                ],
+            ],
+            // 详情列表字段数据定义
+            'detail_form_list'  => [
+                [
+                    'label'     => $lang_detail['items']['name'],
+                    'field'     => 'items',
+                    'data'      => [
+                        'id'                      => $lang_detail['items']['data']['id'],
+                        'user_id'                 => $lang_detail['items']['data']['user_id'],
+                        'order_id'                => $lang_detail['items']['data']['order_id'],
+                        'goods_id'                => $lang_detail['items']['data']['goods_id'],
+                        'title'                   => $lang_detail['items']['data']['title'],
+                        'brand_name'              => $lang_detail['items']['data']['brand_name'],
+                        'simple_desc'             => $lang_detail['items']['data']['simple_desc'],
+                        'spec_desc'               => $lang_detail['items']['data']['spec_desc'],
+                        'images'                  => $lang_detail['items']['data']['images'],
+                        'original_price'          => $lang_detail['items']['data']['original_price'],
+                        'price'                   => $lang_detail['items']['data']['price'],
+                        'total_price'             => $lang_detail['items']['data']['total_price'],
+                        'spec_text'               => $lang_detail['items']['data']['spec_text'],
+                        'buy_number'              => $lang_detail['items']['data']['buy_number'],
+                        'inventory_unit'          => $lang_detail['items']['data']['inventory_unit'],
+                        'approval_number'         => $lang_detail['items']['data']['approval_number'],
+                        'approval_number_expire'  => $lang_detail['items']['data']['approval_number_expire'],
+                        'batch_number'            => $lang_detail['items']['data']['batch_number'],
+                        'batch_number_expire'     => $lang_detail['items']['data']['batch_number_expire'],
+                        'coding'                  => $lang_detail['items']['data']['coding'],
+                        'model'                   => $lang_detail['items']['data']['model'],
+                        'produce_company'         => $lang_detail['items']['data']['produce_company'],
+                        'produce_region_name'     => $lang_detail['items']['data']['produce_region_name'],
+                        'spec_weight'             => $lang_detail['items']['data']['spec_weight'],
+                        'spec_volume'             => $lang_detail['items']['data']['spec_volume'],
+                        'spec_coding'             => $lang_detail['items']['data']['spec_coding'],
+                        'spec_barcode'            => $lang_detail['items']['data']['spec_barcode'],
+                        'refund_price'            => $lang_detail['items']['data']['refund_price'],
+                        'returned_quantity'       => $lang_detail['items']['data']['returned_quantity'],
+                    ],
+                ],
+                [
+                    'label'     => $lang_detail['address_data']['name'],
+                    'field'     => 'address_data',
+                    'data'      => [
+                        'id'                       => $lang_detail['address_data']['data']['id'],
+                        'order_id'                 => $lang_detail['address_data']['data']['order_id'],
+                        'user_id'                  => $lang_detail['address_data']['data']['user_id'],
+                        'address_id'               => $lang_detail['address_data']['data']['address_id'],
+                        'alias'                    => $lang_detail['address_data']['data']['alias'],
+                        'name'                     => $lang_detail['address_data']['data']['name'],
+                        'tel'                      => $lang_detail['address_data']['data']['tel'],
+                        'province_name'            => $lang_detail['address_data']['data']['province_name'],
+                        'city_name'                => $lang_detail['address_data']['data']['city_name'],
+                        'county_name'              => $lang_detail['address_data']['data']['county_name'],
+                        'address'                  => $lang_detail['address_data']['data']['address'],
+                        'lng'                      => $lang_detail['address_data']['data']['lng'],
+                        'lat'                      => $lang_detail['address_data']['data']['lat'],
+                        'appoint_time'             => $lang_detail['address_data']['data']['appoint_time'],
+                        'extraction_contact_name'  => $lang_detail['address_data']['data']['extraction_contact_name'],
+                        'extraction_contact_tel'   => $lang_detail['address_data']['data']['extraction_contact_tel'],
+                        'idcard_name'              => $lang_detail['address_data']['data']['idcard_name'],
+                        'idcard_number'            => $lang_detail['address_data']['data']['idcard_number'],
+                        'idcard_front'             => $lang_detail['address_data']['data']['idcard_front'],
+                        'idcard_back'              => $lang_detail['address_data']['data']['idcard_back'],
+                    ],
+                ],
+                [
+                    'label'     => $lang_detail['express_data']['name'],
+                    'field'     => 'express_data',
+                    'data'      => [
+                        'id'                   => $lang_detail['express_data']['data']['id'],
+                        'order_id'             => $lang_detail['express_data']['data']['order_id'],
+                        'user_id'              => $lang_detail['express_data']['data']['user_id'],
+                        'express_id'           => $lang_detail['express_data']['data']['express_id'],
+                        'express_name'         => $lang_detail['express_data']['data']['express_name'],
+                        'express_number'       => $lang_detail['express_data']['data']['express_number'],
+                        'express_icon'         => $lang_detail['express_data']['data']['express_icon'],
+                        'express_website_url'  => $lang_detail['express_data']['data']['express_website_url'],
+                    ],
+                ],
+                [
+                    'label'     => $lang_detail['service_data']['name'],
+                    'field'     => 'service_data',
+                    'data'      => [
+                        'id'                            => $lang_detail['service_data']['data']['id'],
+                        'order_id'                      => $lang_detail['service_data']['data']['order_id'],
+                        'user_id'                       => $lang_detail['service_data']['data']['user_id'],
+                        'service_name'                  => $lang_detail['service_data']['data']['service_name'],
+                        'service_mobile'                => $lang_detail['service_data']['data']['service_mobile'],
+                        'service_start_time'            => $lang_detail['service_data']['data']['service_start_time'],
+                        'service_end_time'              => $lang_detail['service_data']['data']['service_end_time'],
+                        'service_duration_minute_text'  => $lang_detail['service_data']['data']['service_duration_minute_text'],
+                        'note'                          => $lang_detail['service_data']['data']['note'],
+                    ],
+                ],
+                [
+                    'label'     => $lang_detail['extension_data']['name'],
+                    'field'     => 'extension_data',
+                    'data'      => [
+                        'name'      => $lang_detail['extension_data']['data']['name'],
+                        'tips'      => $lang_detail['extension_data']['data']['tips'],
+                        'business'  => $lang_detail['extension_data']['data']['business'],
+                    ],
                 ],
             ],
         ];
@@ -609,7 +825,7 @@ class Order
             // 获取订单详情搜索的订单 id
             if(empty($ids))
             {
-                $ids = Db::name('OrderDetail')->where('title|model', 'like', '%'.$value.'%')->column('order_id');
+                $ids = Db::name('OrderDetail')->where('title|spec|simple_desc|spec_desc|approval_number|batch_number|coding|model|produce_company|produce_region|goods_params|goods_content_app|goods_content_web|spec_coding|spec_barcode', 'like', '%'.$value.'%')->column('order_id');
             }
 
             // 避免空条件造成无效的错觉

@@ -75,6 +75,7 @@ $(function () {
                     $this.removeClass('am-success');
                     $this.attr('data-status', state);
                     $this.find('>span').text($this.attr('data-'+(state == 1 ? 'close' : 'open')+'-text'));
+                    $this.parents('.operation').attr('data-status', state);
                     if(state == 1) {
                         $this.addClass('am-success');
                     }
@@ -105,7 +106,7 @@ $(function () {
 
     // 插件设置事件
     $(document).on('click', '.plugins-set-event', function () {
-        if (parseInt($(this).parents('.operation').find('.plugins-status-event').attr('data-status') || 0) == 0) {
+        if (parseInt($(this).parents('.operation').attr('data-status') || 0) == 0) {
             Prompt(window['lang_not_enable_tips'] || '请先点击勾勾启用');
         } else {
             window.parent.AdminTopNavIframeAddHandle($(this).data('set-url'), $(this).data('name'), $(this).data('key'), 'nnav', true);

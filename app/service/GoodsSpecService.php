@@ -57,7 +57,21 @@ class GoodsSpecService
                 ['category_id', 'in', $ids],
                 ['is_enable', '=', 1],
             ];
-            $data = self::GoodsSpecTemplateListHandle(Db::name('GoodsSpecTemplate')->where($where)->field('id,name,content')->order('id desc')->select()->toArray(), $params);
+            $data = Db::name('GoodsSpecTemplate')->where($where)->field('id,name,content')->order('id desc')->select()->toArray();
+            if(empty($data))
+            {
+                // 子分类没有模板，则向上的分类获取模板
+                $ids = GoodsCategoryService::GoodsCategoryParentIds($params['category_ids']);
+                if(!empty($ids))
+                {
+                    $where = [
+                        ['category_id', 'in', $ids],
+                        ['is_enable', '=', 1],
+                    ];
+                    $data = Db::name('GoodsSpecTemplate')->where($where)->field('id,name,content')->order('id desc')->select()->toArray();
+                }
+            }
+            $data = self::GoodsSpecTemplateListHandle($data, $params);
         }
         return DataReturn(MyLang('operate_success'), 0, $data);
     }

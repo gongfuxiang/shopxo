@@ -52,7 +52,7 @@ class Navigation
                 'status_field'  => 'is_show',
                 'is_search'     => 1,
                 'search_url'    => MyUrl('admin/navigation/index', $search_params),
-                'is_delete'     => 1,
+                'is_delete'     => AdminIsPower('navigation', 'delete') ? 1 : 0,
             ],
             // 表单配置
             'form' => [

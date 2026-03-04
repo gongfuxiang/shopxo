@@ -183,6 +183,16 @@
     <script type='text/javascript' src="{{$public_host}}static/common/lib/ckplayer/js/ckplayer.min.js?v={{$static_cache_version}}"></script>
 {{/if}}
 
+<!-- xgplayer播放器 -->
+{{if isset($is_load_xgplayer) and $is_load_xgplayer eq 1}}
+    <script type='text/javascript' src="{{$public_host}}static/common/lib/xgplayer/xgplayer-2.31.2.js?v={{$static_cache_version}}"></script>
+{{/if}}
+
+<!-- hlsjs -->
+{{if isset($is_load_hlsjs) and $is_load_hlsjs eq 1}}
+    <script type='text/javascript' src="{{$public_host}}static/common/lib/hlsjs/hls-1.6.15.min.js?v={{$static_cache_version}}"></script>
+{{/if}}
+
 <!-- 条形码 -->
 {{if isset($is_load_barcode) and $is_load_barcode eq 1}}
     <script type='text/javascript' src="{{$public_host}}static/common/lib/JsBarcode/JsBarcode.all.min.js?v={{$static_cache_version}}"></script>

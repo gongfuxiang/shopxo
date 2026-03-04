@@ -3,10 +3,13 @@
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
-    <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs submit-add" data-am-modal="{target: '#data-save-win'}">
-        <i class="iconfont icon-add am-show-sm-only"></i>
-        <span>{{:MyLang('add_title')}}</span>
-    </button>
+    {{if AdminIsPower('link', 'save')}}
+        <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs submit-add" data-am-modal="{target: '#data-save-win'}">
+            <i class="iconfont icon-add am-show-sm-only"></i>
+            <span>{{:MyLang('add_title')}}</span>
+        </button>
+    {{/if}}
+
     <!-- 父级内容 -->
     {__block__}
 {{/block}}
@@ -22,7 +25,7 @@
 			</div>
 			<div class="am-popup-bd">
                 <!-- form start -->
-                <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/link/Save')}}" method="POST" request-type="ajax-reload" request-value="">
+                <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/link/save')}}" method="POST" request-type="ajax-reload" request-value="">
                     <div class="am-form-group row">
                         <label>{{:MyLang('common_service.link.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
                         <input type="text" placeholder="{{:MyLang('common_service.link.form_item_name_message')}}" name="name" minlength="1" maxlength="60" data-validation-message="{{:MyLang('common_service.link.form_item_name_message')}}" class="am-radius" required />

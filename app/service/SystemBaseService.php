@@ -17,6 +17,7 @@ use app\service\QuickNavService;
 use app\service\PluginsService;
 use app\service\AppMiniUserService;
 use app\service\AppTabbarService;
+use app\service\DiyService;
 
 /**
  * 系统基础公共信息服务层
@@ -134,7 +135,7 @@ class SystemBaseService
             'home_index_banner_right_status'                     => (int) MyC('home_index_banner_right_status', 1),
             
             // 搜索相关
-            'home_search_is_login_required'                      => (int) MyC('home_search_is_login_required', 0),
+            'home_search_is_login_required'                      => MyC('home_search_is_login_required', []),
             'home_search_limit_number'                           => (int) MyC('home_search_limit_number', 20, true),
             'home_search_is_brand'                               => (int) MyC('home_search_is_brand', 1),
             'home_search_is_category'                            => (int) MyC('home_search_is_category', 1),
@@ -189,11 +190,8 @@ class SystemBaseService
             'common_tianditu_map_ak'                             => MyC('common_tianditu_map_ak', null, true),
             
             // 商店信息
-            'common_customer_store_tel'                          => MyC('common_customer_store_tel', null, true),
-            'common_customer_store_email'                        => MyC('common_customer_store_email', null, true),
             'common_customer_store_address'                      => MyC('common_customer_store_address', null, true),
             'common_customer_store_describe'                     => MyC('common_customer_store_describe', null, true),
-            'common_customer_store_qrcode'                       => ResourcesService::AttachmentPathViewHandle(MyC('common_customer_store_qrcode')),
             
             // SEO信息
             'home_seo_site_title'                                => MyC('home_seo_site_title', null, true),
@@ -224,6 +222,13 @@ class SystemBaseService
             'common_app_mini_kuaishou_describe'                  => AppMiniUserService::AppMiniConfig('common_app_mini_kuaishou_describe'),
         ];
 
+        // 首页数据模式、存在diy则等于3
+        $diy_id = DiyService::AppClientHomeDiyId();
+        if(!empty($diy_id))
+        {
+            $config['home_index_floor_data_type'] = 3;
+        }
+
         // 支付宝小程序在线客服
         if(APPLICATION_CLIENT_TYPE == 'alipay')
         {
@@ -237,6 +242,8 @@ class SystemBaseService
             'status'            => 1,
             // 配置信息
             'config'            => $config,
+            // 站点信息数据
+            'site_info_data'    => ResourcesService::SiteInfoData(),
             // 底部菜单
             'app_tabbar'        => AppTabbarService::AppTabbarConfigData('home'),
             // 货币符号

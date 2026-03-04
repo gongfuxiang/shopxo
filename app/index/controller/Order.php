@@ -54,11 +54,11 @@ class Order extends Center
         // 模板数据
         $assign = [
             // 支付参数
-            'pay_params'            => OrderService::PayParamsHandle($this->data_request),
+            'pay_params'           => OrderService::PayParamsHandle($this->data_request),
             // 支付方式
-            'buy_payment_list'      => PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]),
+            'buy_payment_list'     => PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]),
             // 浏览器名称
-            'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('order.base_nav_title'), 1),
+            'home_seo_site_title'  => SeoService::BrowserSeoTitle(MyLang('order.base_nav_title'), 1),
         ];
         MyViewAssign($assign);
         return MyView();
@@ -81,19 +81,18 @@ class Order extends Center
         }
 
         // 模板数据
-        $site_fictitious = ConfigService::SiteFictitiousConfig();
         $assign = [
-            'data'                  => $this->data_detail,
+            'data'                 => $this->data_detail,
             // 进度
-            'step_data'             => OrderService::OrderStepData($this->data_detail),
+            'step_data'            => OrderService::OrderStepData($this->data_detail),
             // 支付参数
-            'pay_params'            => OrderService::PayParamsHandle($this->data_request),
+            'pay_params'           => OrderService::PayParamsHandle($this->data_request),
             // 支付方式
-            'buy_payment_list'      => PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]),
+            'buy_payment_list'     => PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]),
             // 虚拟销售配置
-            'site_fictitious'       => $site_fictitious['data'],
+            'site_fictitious'      => ConfigService::SiteFictitiousConfig(),
             // 浏览器名称
-            'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('order.detail_base_nav_title'), 1),
+            'home_seo_site_title'  => SeoService::BrowserSeoTitle(MyLang('order.detail_base_nav_title'), 1),
         ];
         MyViewAssign($assign);
         return MyView();

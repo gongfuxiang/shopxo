@@ -70,7 +70,7 @@ class BuyService
                 ['is_delete_time', '=', 0],
                 ['is_shelves', '=', 1],
             ],
-            'field' => 'id,id AS goods_id,title,images,brand_id,simple_desc,spec_desc,approval_number,coding,model,produce_company,produce_region,inventory_unit,is_shelves,buy_min_number,buy_max_number,site_type',
+            'field'           => 'id,id AS goods_id,title,images,brand_id,simple_desc,spec_desc,approval_number,approval_number_expire,batch_number,batch_number_expire,coding,model,produce_company,produce_region,inventory_unit,is_shelves,buy_min_number,buy_max_number,site_type,content_web,use_guide',
             'm'     => 0,
             'n'     => 0,
         ]);
@@ -786,22 +786,34 @@ class BuyService
             foreach($v['goods_items'] as $vs)
             {
                 $order['detail_data'][] = [
-                    'user_id'           => $order['user_id'],
-                    'goods_id'          => $vs['goods_id'],
-                    'title'             => $vs['title'],
-                    'images'            => $vs['images'],
-                    'original_price'    => $vs['original_price'],
-                    'price'             => $vs['price'],
-                    'total_price'       => PriceNumberFormat($vs['stock']*$vs['price']),
-                    'spec'              => empty($vs['spec']) ? '' : json_encode($vs['spec'], JSON_UNESCAPED_UNICODE),
-                    'spec_weight'       => empty($vs['spec_weight']) ? 0.00 : (float) $vs['spec_weight'],
-                    'spec_volume'       => empty($vs['spec_volume']) ? 0.00 : (float) $vs['spec_volume'],
-                    'spec_coding'       => empty($vs['spec_coding']) ? '' : $vs['spec_coding'],
-                    'spec_barcode'      => empty($vs['spec_barcode']) ? '' : $vs['spec_barcode'],
-                    'buy_number'        => intval($vs['stock']),
-                    'inventory_unit'    => $vs['inventory_unit'],
-                    'model'             => $vs['model'],
-                    'extends'           => empty($vs['extends']) ? [] : json_decode($vs['extends'], true),
+                    'user_id'                 => $order['user_id'],
+                    'goods_id'                => $vs['goods_id'],
+                    'title'                   => $vs['title'],
+                    'images'                  => $vs['images'],
+                    'original_price'          => $vs['original_price'],
+                    'price'                   => $vs['price'],
+                    'total_price'             => PriceNumberFormat($vs['stock']*$vs['price']),
+                    'spec'                    => empty($vs['spec']) ? '' : json_encode($vs['spec'], JSON_UNESCAPED_UNICODE),
+                    'buy_number'              => intval($vs['stock']),
+                    'inventory_unit'          => $vs['inventory_unit'],
+                    'brand_id'                => $vs['brand_id'],
+                    'simple_desc'             => $vs['simple_desc'],
+                    'spec_desc'               => $vs['spec_desc'],
+                    'approval_number'         => $vs['approval_number'],
+                    'approval_number_expire'  => $vs['approval_number_expire'],
+                    'batch_number'            => $vs['batch_number'],
+                    'batch_number_expire'     => $vs['batch_number_expire'],
+                    'coding'                  => $vs['coding'],
+                    'model'                   => $vs['model'],
+                    'produce_company'         => $vs['produce_company'],
+                    'produce_region'          => $vs['produce_region'],
+                    'goods_content_web'       => empty($vs['content_web']) ? '' : ResourcesService::ContentStaticReplace(htmlspecialchars_decode($vs['content_web']), 'add'),
+                    'goods_use_guide'         => empty($vs['use_guide']) ? '' : ResourcesService::ContentStaticReplace(htmlspecialchars_decode($vs['use_guide']), 'add'),
+                    'spec_weight'             => empty($vs['spec_weight']) ? 0.00 : (float) $vs['spec_weight'],
+                    'spec_volume'             => empty($vs['spec_volume']) ? 0.00 : (float) $vs['spec_volume'],
+                    'spec_coding'             => empty($vs['spec_coding']) ? '' : $vs['spec_coding'],
+                    'spec_barcode'            => empty($vs['spec_barcode']) ? '' : $vs['spec_barcode'],
+                    'extends'                 => empty($vs['extends']) ? '' : json_decode($vs['extends'], true),
                 ];
             }
             $order_data[] = $order;
@@ -933,9 +945,62 @@ class BuyService
                 }
                 $order['id'] = $order_id;
 
+                // 订单详情商品需要记录的数据
+                // 当前所有商品id
+                $goods_ids = array_column($v['detail_data'], 'goods_id');
+                // 商品参数数据
+                $goods_params_group = [];
+                $goods_params_data = GoodsService::GoodsParametersData($goods_ids);
+                if(!empty($goods_params_data) && is_array($goods_params_data))
+                {
+                    foreach($goods_params_data as $gpgk=>$gpgv)
+                    {
+                        foreach($gpgv as $gpgvgv)
+                        {
+                            if(!empty($gpgvgv) && is_array($gpgvgv))
+                            {
+                                if(!array_key_exists($gpgk, $goods_params_group))
+                                {
+                                    $goods_params_group[$gpgk] = [];
+                                }
+                                foreach($gpgvgv as $gpgvk=>$gpgvv)
+                                {
+                                    if(!array_key_exists($gpgvv['id'], $goods_params_group[$gpgk]))
+                                    {
+                                        $temp_id = $gpgvv['id'];
+                                        unset($gpgvv['id'], $gpgvv['goods_id'], $gpgvv['add_time']);
+                                        $goods_params_group[$gpgk][$temp_id] = $gpgvv;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                // 商品手机端详情数据
+                $goods_content_app_group = GoodsService::GoodsAppData($goods_ids);
+                if(!empty($goods_content_app_group) && is_array($goods_content_app_group))
+                {
+                    foreach($goods_content_app_group as $gapk=>$gapv)
+                    {
+                        if(!empty($gapv) && is_array($gapv))
+                        {
+                            foreach($gapv as $gapvk=>$gapvv)
+                            {
+                                $goods_content_app_group[$gapk][$gapvk]['images'] = ResourcesService::AttachmentPathHandle($gapvv['images']);
+                                unset($goods_content_app_group[$gapk][$gapvk]['id'], $goods_content_app_group[$gapk][$gapvk]['goods_id'], $goods_content_app_group[$gapk][$gapvk]['content_old']);
+                            }
+                        }
+                    }
+                }
+
                 // 订单详情添加
                 foreach($v['detail_data'] as &$vs)
                 {
+                    // 合并需要记录的数据
+                    $vs = array_merge($vs, [
+                        'goods_params'       => (!empty($goods_params_group) && !empty($goods_params_group[$vs['goods_id']])) ? json_encode(array_values($goods_params_group[$vs['goods_id']]), JSON_UNESCAPED_UNICODE) : '',
+                        'goods_content_app'  => (!empty($goods_content_app_group) && !empty($goods_content_app_group[$vs['goods_id']])) ? json_encode($goods_content_app_group[$vs['goods_id']], JSON_UNESCAPED_UNICODE) : '',
+                    ]);
                     // 添加订单详情数据,data返回自增id
                     $order_detail_id = 0;
                     $ret = self::OrderDetailInsert($order_id, $order['user_id'], $vs, $params);
@@ -1086,23 +1151,37 @@ class BuyService
     private static function OrderDetailInsert($order_id, $user_id, $detail, $params = [])
     {
         $data = [
-            'order_id'          => $order_id,
-            'user_id'           => $user_id,
-            'goods_id'          => $detail['goods_id'],
-            'title'             => $detail['title'],
-            'images'            => ResourcesService::AttachmentPathHandle($detail['images']),
-            'original_price'    => $detail['original_price'],
-            'price'             => $detail['price'],
-            'total_price'       => PriceNumberFormat(isset($detail['total_price']) ? $detail['total_price'] : $detail['total_price']*$detail['buy_number']),
-            'spec'              => empty($detail['spec']) ? '' : (is_array($detail['spec']) ? json_encode($detail['spec'], JSON_UNESCAPED_UNICODE) : $detail['spec']),
-            'spec_weight'       => empty($detail['spec_weight']) ? 0.00 : (float) $detail['spec_weight'],
-            'spec_volume'       => empty($detail['spec_volume']) ? 0.00 : (float) $detail['spec_volume'],
-            'spec_coding'       => empty($detail['spec_coding']) ? '' : $detail['spec_coding'],
-            'spec_barcode'      => empty($detail['spec_barcode']) ? '' : $detail['spec_barcode'],
-            'buy_number'        => intval($detail['buy_number']),
-            'inventory_unit'    => $detail['inventory_unit'],
-            'model'             => $detail['model'],
-            'add_time'          => time(),
+            'order_id'                => $order_id,
+            'user_id'                 => $user_id,
+            'goods_id'                => $detail['goods_id'],
+            'title'                   => $detail['title'],
+            'images'                  => ResourcesService::AttachmentPathHandle($detail['images']),
+            'original_price'          => $detail['original_price'],
+            'price'                   => $detail['price'],
+            'total_price'             => PriceNumberFormat(isset($detail['total_price']) ? $detail['total_price'] : $detail['total_price']*$detail['buy_number']),
+            'spec'                    => empty($detail['spec']) ? '' : (is_array($detail['spec']) ? json_encode($detail['spec'], JSON_UNESCAPED_UNICODE) : $detail['spec']),
+            'buy_number'              => intval($detail['buy_number']),
+            'inventory_unit'          => $detail['inventory_unit'],
+            'brand_id'                => $detail['brand_id'],
+            'simple_desc'             => $detail['simple_desc'],
+            'spec_desc'               => $detail['spec_desc'],
+            'approval_number'         => $detail['approval_number'],
+            'approval_number_expire'  => empty($detail['approval_number_expire']) ? 0 : (is_numeric($detail['approval_number_expire']) ? $detail['approval_number_expire'] : strtotime($detail['approval_number_expire'])),
+            'batch_number'            => $detail['batch_number'],
+            'batch_number_expire'     => empty($detail['batch_number_expire']) ? 0 : (is_numeric($detail['batch_number_expire']) ? $detail['batch_number_expire'] : strtotime($detail['batch_number_expire'])),
+            'coding'                  => $detail['coding'],
+            'model'                   => $detail['model'],
+            'produce_company'         => $detail['produce_company'],
+            'produce_region'          => $detail['produce_region'],
+            'goods_params'            => $detail['goods_params'],
+            'goods_content_app'       => $detail['goods_content_app'],
+            'goods_content_web'       => $detail['goods_content_web'],
+            'goods_use_guide'         => $detail['goods_use_guide'],
+            'spec_weight'             => empty($detail['spec_weight']) ? 0.00 : (float) $detail['spec_weight'],
+            'spec_volume'             => empty($detail['spec_volume']) ? 0.00 : (float) $detail['spec_volume'],
+            'spec_coding'             => empty($detail['spec_coding']) ? '' : $detail['spec_coding'],
+            'spec_barcode'            => empty($detail['spec_barcode']) ? '' : $detail['spec_barcode'],
+            'add_time'                => time(),
         ];
 
         // 订单详情添加前钩子
@@ -1696,6 +1775,9 @@ class BuyService
                 $temp = Db::name('OrderGoodsInventoryLog')->where(['order_id'=>$params['order_id'], 'goods_id'=>$v['goods_id']])->find();
                 if(!empty($temp))
                 {
+                    // 规格
+                    $spec = empty($v['spec']) ? '' : json_decode($v['spec'], true);
+
                     // 数量
                     $buy_number = ($appoint_buy_number == 0) ? $v['buy_number'] : $appoint_buy_number;
 
@@ -1710,7 +1792,6 @@ class BuyService
                         }
 
                         // 回滚规格库存
-                        $spec = empty($v['spec']) ? '' : json_decode($v['spec'], true);
                         $spec_params = array_merge($params, [
                             'id'    => $v['goods_id'],
                             'spec'  => $spec,
@@ -1739,7 +1820,7 @@ class BuyService
                         'is_rollback'   => 1,
                         'rollback_time' => time(),
                     ];
-                    if(!Db::name('OrderGoodsInventoryLog')->where(['id'=>$temp['id']])->update($log_data))
+                    if(Db::name('OrderGoodsInventoryLog')->where(['id'=>$temp['id']])->update($log_data) === false)
                     {
                         return DataReturn(MyLang('common_service.buy.inventory_revert_log_fail_tips').'['.$temp['id'].'-'.$params['order_id'].']', -100);
                     }

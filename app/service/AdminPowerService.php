@@ -14,6 +14,7 @@ use think\facade\Db;
 use app\service\SystemService;
 use app\service\AdminService;
 use app\service\AdminRoleService;
+use app\service\PluginsService;
 
 /**
  * 权限菜单服务层
@@ -293,6 +294,7 @@ class AdminPowerService
                 MyCache(SystemService::CacheKey('shopxo.cache_admin_left_menu_key').$id, null);
                 MyCache(SystemService::CacheKey('shopxo.cache_admin_power_key').$id, null);
                 MyCache(SystemService::CacheKey('shopxo.cache_admin_power_plugins_key').$id, null);
+                MyCache(SystemService::CacheKey('shopxo.cache_admin_power_all_plugins_key').$id, null);
             }
         }
     }
@@ -323,6 +325,7 @@ class AdminPowerService
         $admin_left_menu = MyCache(SystemService::CacheKey('shopxo.cache_admin_left_menu_key').$admin_id);
         $admin_power = MyCache(SystemService::CacheKey('shopxo.cache_admin_power_key').$admin_id);
         $admin_plugins = MyCache(SystemService::CacheKey('shopxo.cache_admin_power_plugins_key').$admin_id);
+        $admin_all_plugins = MyCache(SystemService::CacheKey('shopxo.cache_admin_power_all_plugins_key').$admin_id);
 
         // 缓存没数据则从数据库重新读取
         if((($role_id > 0 || $admin_id == 1) && (empty($admin_left_menu) || empty($admin_power))) || $is_refresh || MyEnv('app_debug') || MyInput('lang') || MyC('common_data_is_use_cache') != 1)
@@ -336,6 +339,45 @@ class AdminPowerService
 
                 // 获取下级插件
                 $plugins_data = AdminRoleService::PluginsList();
+                // 后台全部插件权限
+                $admin_all_plugins = [];
+                if(!empty($plugins_data))
+                {
+                    foreach($plugins_data as $pv)
+                    {
+                        $power_data = [];
+                        $plugins_power = PluginsService::PluginsAdminPowerMenu($pv['plugins']);
+                        if(!empty($plugins_power))
+                        {
+                            foreach($plugins_power as $ppv)
+                            {
+                                if(!empty($ppv['control']))
+                                {
+                                    if(!empty($ppv['action']))
+                                    {
+                                        $power_data[] = $ppv['control'].'-'.$ppv['action'];
+                                    }
+                                    if(!empty($ppv['item']) && is_array($ppv['item']))
+                                    {
+                                        foreach($ppv['item'] as $ppvs)
+                                        {
+                                            if(!empty($ppvs['action']))
+                                            {
+                                                $control = empty($ppvs['control']) ? $ppv['control'] : $ppvs['control'];
+                                                $power_data[] = $control.'-'.$ppvs['action'];
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        $admin_all_plugins[$pv['plugins']] = [
+                            'name'     => $pv['name'],
+                            'plugins'  => $pv['plugins'],
+                            'power'    => $power_data,
+                        ];
+                    }
+                }
 
                 // 语言数据
                 $lang = MyLang('admin_power_menu_list');
@@ -404,6 +446,7 @@ class AdminPowerService
                             }
 
                             // 是否存在控制器和方法
+                            $key = '';
                             if(!empty($vs['control']) && !empty($vs['action']))
                             {
                                 // 权限
@@ -425,7 +468,7 @@ class AdminPowerService
                             }
 
                             // 自定义三级页面菜单
-                            if(!empty($three_data) && is_array($three_data) && !empty($three_data[$key]))
+                            if(!empty($key) && !empty($three_data) && is_array($three_data) && !empty($three_data[$key]))
                             {
                                 $three = $three_data[$key];
                                 foreach($three as &$vss)
@@ -523,14 +566,23 @@ class AdminPowerService
                 // 插件权限
                 if($admin_id == 1 || $role_id == 1)
                 {
-                    $admin_plugins = empty($plugins_data) ? [] : array_column($plugins_data, 'name', 'plugins');
+                    $admin_plugins = $admin_all_plugins;
                 } else {
-                    $admin_plugins = Db::name('RolePlugins')->where(['role_id'=>$role_id])->column('name', 'plugins');
+                    $admin_plugins = Db::name('RolePlugins')->where(['role_id'=>$role_id])->column('name,plugins,power', 'plugins');
+                    if(!empty($admin_plugins) && is_array($admin_plugins))
+                    {
+                        $admin_plugins = array_map(function($item)
+                        {
+                            $item['power'] = empty($item['power']) ? [] : json_decode($item['power'], true);
+                            return $item;
+                        }, $admin_plugins);
+                    }
                 }
             }
             MyCache(SystemService::CacheKey('shopxo.cache_admin_left_menu_key').$admin_id, $admin_left_menu);
             MyCache(SystemService::CacheKey('shopxo.cache_admin_power_key').$admin_id, $admin_power);
             MyCache(SystemService::CacheKey('shopxo.cache_admin_power_plugins_key').$admin_id, $admin_plugins);
+            MyCache(SystemService::CacheKey('shopxo.cache_admin_power_all_plugins_key').$admin_id, $admin_all_plugins);
         }
 
         // 后台左侧菜单钩子
@@ -542,6 +594,7 @@ class AdminPowerService
             'admin_left_menu'   => &$admin_left_menu,
             'admin_power'       => &$admin_power,
             'admin_plugins'     => &$admin_plugins,
+            'admin_all_plugins' => &$admin_all_plugins,
         ]);
 
         // 返回菜单和权限数据
@@ -549,6 +602,7 @@ class AdminPowerService
             'admin_left_menu'   => $admin_left_menu,
             'admin_power'       => $admin_power,
             'admin_plugins'     => $admin_plugins,
+            'admin_all_plugins' => $admin_all_plugins,
         ];
     }
 

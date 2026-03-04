@@ -61,6 +61,8 @@ return [
         'system_download_loading_tips'      => '系统包正在下载中...',
         'upgrade_download_loading_tips'     => '升级包正在下载中...',
         // 公共common.js
+        'yes_title'                         => '是',
+        'no_title'                          => '否',
         'operate_name'                      => '操作',
         'operate_add_name'                  => '新增',
         'operate_edit_name'                 => '编辑',
@@ -140,6 +142,8 @@ return [
     'push_success'                                          => '推送成功',
     'grant_fail'                                            => '发放失败',
     'grant_success'                                         => '发放成功',
+    'query_fail'                                            => '查询失败',
+    'query_success'                                         => '查询成功',
     'join_fail'                                             => '加入失败',
     'join_success'                                          => '加入成功',
     'created_fail'                                          => '生成失败',
@@ -216,6 +220,8 @@ return [
     'collect_fail'                                          => '收货失败',
     'collect_success'                                       => '收货成功',
     'quit_success'                                          => '退出成功',
+    'no_order'                                              => '没有相关订单',
+    'no_orderaftersale'                                     => '没有相关售后订单',
     'no_data'                                               => '没有相关数据',
     'no_goods'                                              => '没有相关商品',
     'no_spec'                                               => '没有相关规格',
@@ -328,7 +334,7 @@ return [
     'store_bind_form_password'                              => '密码',
     'store_bind_form_password_placeholder'                  => '登录密码',
     'store_bind_form_password_message'                      => '登录密码格式6~30个字符',
-    'store_bind_form_regster_name'                          => '未有账号，去注册',
+    'store_bind_form_register_name'                          => '未有账号，去注册',
     'store_bind_form_tips'                                  => '一个账号支持绑定多台ShopXO商城',
     // 常用
     'fullscreen_open_title'                                 => '开启全屏',
@@ -345,6 +351,8 @@ return [
     'register_time_title'                                   => '注册时间',
     'add_time_title'                                        => '添加时间',
     'upd_time_title'                                        => '更新时间',
+    'choice_goods_title'                                    => '选择商品',
+    'add_goods_title'                                       => '添加商品',
     'price_min_title'                                       => '最低价格',
     'price_max_title'                                       => '最高价格',
     'shop_order'                                            => '商城订单',
@@ -389,10 +397,12 @@ return [
     'submit_title'                                          => '提交',
     'booking_title'                                         => '预约',
     'detail_title'                                          => '详情',
+    'view_tap_title'                                        => '点击查看',
     'view_detail_title'                                     => '查看详情',
     'view_all_title'                                        => '查看全部',
     'base_title'                                            => '基础',
     'data_title'                                            => '数据',
+    'data_operate_title'                                    => '数据操作',
     'view_title'                                            => '查看',
     'preview_title'                                         => '预览',
     'choice_title'                                          => '选择',
@@ -410,6 +420,7 @@ return [
     'close_other_title'                                     => '关闭其他',
     'close_all_title'                                       => '关闭全部',
     'notice_title'                                          => '公告',
+    'explain_title'                                         => '讲解',
     'refresh_title'                                         => '刷新',
     'close_title'                                           => '关闭',
     'open_title'                                            => '开启',
@@ -426,6 +437,7 @@ return [
     'hot_title'                                             => '热度',
     'favor_title'                                           => '收藏',
     'already_favor_title'                                   => '已收藏',
+    'miniapp_title'                                         => '小程序',
     'comment_title'                                         => '评价',
     'go_comment_title'                                      => '去评价',
     'default_title'                                         => '默认',
@@ -499,17 +511,22 @@ return [
     'express_title'                                         => '快递',
     'logistics_title'                                       => '物流',
     'time_title'                                            => '时间',
+    'qq_title'                                              => 'QQ',
+    'online_title'                                          => '在线',
+    'consult_title'                                         => '咨询',
     'tel_title'                                             => '电话',
     'mobile_title'                                          => '手机',
     'email_title'                                           => '邮箱',
     'verification_title'                                    => '核验',
     'check_title'                                           => '检查',
     'service_title'                                         => '服务',
+    'trace_source_title'                                    => '追溯',
     'print_title'                                           => '打印',
     'confirm_print_title'                                   => '确认打印',
     'transfer_order_title'                                  => '转单',
     'transfer_audit_title'                                  => '转审',
     'divider_title'                                         => '分配',
+    'tips_title'                                            => '提示',
     'name_title'                                            => '名称',
     'size_title'                                            => '大小',
     'status_title'                                          => '状态',
@@ -533,6 +550,7 @@ return [
     'gender_title'                                          => '性别',
     'birthday_title'                                        => '生日',
     'address_title'                                         => '地址',
+    'intro_title'                                           => '简介',
     'bind_title'                                            => '绑定',
     'unbind_title'                                          => '解绑',
     'brand_title'                                           => '品牌',
@@ -549,6 +567,7 @@ return [
     'extend_title'                                          => '扩展',
     'import_title'                                          => '导入',
     'export_title'                                          => '导出',
+    'content_title'                                         => '内容',
     'images_title'                                          => '图片',
     'icon_title'                                            => '图标',
     'cover_title'                                           => '封面',
@@ -588,7 +607,9 @@ return [
     'first_title'                                           => '第一',
     'last_title'                                            => '最后',
     'list_title'                                            => '列表',
+    'interact_title'                                        => '沟通',
     'chat_title'                                            => '客服',
+    'online_customer_title'                                 => '在线客服',
     'gift_title'                                            => '礼物',
     'continue_scan_title'                                   => '继续扫码',
     'continue_next_step_title'                              => '继续下一步',
@@ -600,16 +621,33 @@ return [
     'custom_title'                                          => '自定义',
     'customer_title'                                        => '客户',
     'customer_info_title'                                   => '客户信息',
+    'public_account_title'                                  => '公众号',
+    'life_account_title'                                    => '生活号',
     'region_title'                                          => '地区',
     'compare_title'                                         => '对比',
     'long_term_title'                                       => '长期',
     'form_title'                                            => '表单',
+    'top_title'                                             => '置顶',
+    'bottom_title'                                          => '置底',
+    'type_title'                                            => '类型',
+    'config_title'                                          => '配置',
+    'dispute_title'                                         => '争议',
+    'feed_title'                                            => '反馈',
+    'handle_title'                                          => '处理',
+    'finish_title'                                          => '完成',
+    'license_title'                                         => '证照',
+    'platform_client_title'                                 => '平台客户端',
+    'start_time_title'                                      => '起始时间',
+    'expire_time_title'                                     => '过期时间',
+    'use_guide_title'                                       => '使用指南',
     // 商品基础相关
     'goods_name'                                            => '商品名称',
     'goods_add_name'                                        => '商品添加',
     'goods_choice_name'                                     => '商品选择',
     'goods_params'                                          => '商品参数',
     'goods_spec'                                            => '商品规格',
+    'goods_base'                                            => '商品基础',
+    'goods_detail'                                          => '商品详情',
     'goods_stop_sale_title'                                 => '暂停销售',
     'goods_buy_title'                                       => '立即购买',
     'goods_booking_title'                                   => '立即预约',
@@ -736,9 +774,13 @@ return [
     'form_is_footer_message'                                => '是否含尾部范围值有误',
     'form_is_full_screen_title'                             => '是否满屏',
     'form_is_full_screen_message'                           => '是否满屏范围值有误',
+    'form_is_required_title'                                => '是否必填',
     'form_status_range_message'                             => '状态范围值有误',
     'form_status_title'                                     => '状态',
     'form_status_message'                                   => '请选择状态',
+    'form_type_range_message'                               => '类型范围值有误',
+    'form_type_title'                                       => '类型',
+    'form_type_message'                                     => '请选择类型',
     'form_sort_title'                                       => '顺序',
     'form_sort_tips'                                        => '从小到大',
     'form_sort_message'                                     => '顺序0~255之间的数值',
@@ -765,6 +807,8 @@ return [
     'form_article_category_message'                         => '请选择文章分类',
     'form_refuse_reason'                                    => '拒绝原因',
     'form_refuse_reason_message'                            => '拒绝原因格式1~230个字符',
+    'form_close_reason'                                     => '关闭原因',
+    'form_close_reason_message'                             => '关闭原因格式1~230个字符',
     'form_operate_reason'                                   => '操作原因',
     'form_operate_reason_message'                           => '操作原因格式、最多230个字符',
     'form_search_keywords_placeholder'                      => '搜索关键字',
@@ -1082,6 +1126,24 @@ return [
         3 => '跳转原生地图查看指定位置',
         4 => '拨打电话',
     ],
+    // 商品基础字段
+    'common_goods_base_data_fields' => [
+        'brand_name'              => '品牌',
+        'simple_desc'             => '简述',
+        'spec_desc'               => '规格描述',
+        'approval_number'         => '批准文号',
+        'approval_number_expire'  => '批准文号有效期',
+        'batch_number'            => '批号',
+        'batch_number_expire'     => '批号有效期',
+        'coding'                  => '商品编码',
+        'model'                   => '商品型号',
+        'produce_company'         => '生产企业',
+        'produce_region_name'     => '生产地',
+        'spec_weight'             => '规格重量',
+        'spec_volume'             => '规格体积',
+        'spec_coding'             => '规格编码',
+        'spec_barcode'            => '规格条码',
+    ],
     // 下单指定时间
     'common_buy_datetime_config_list' => [
         0 => '可选择',
@@ -1262,6 +1324,20 @@ return [
         'fra'  => '法语',
         'swe'  => '瑞典语',
         'mn'   => '蒙古语',
+    ],
+    // 商品基础字段
+    'common_goods_base_fields_list' => [
+        'simple_desc'             => '商品简述',
+        'spec_desc'               => '规格描述',
+        'approval_number'         => '批准文号',
+        'approval_number_expire'  => '批准文号有效期',
+        'batch_number'            => '批号',
+        'batch_number_expire'     => '批号有效期',
+        'coding'                  => '商品编码',
+        'model'                   => '商品型号',
+        'brand_id'                => '品牌',
+        'produce_company'         => '生产企业',
+        'produce_region'          => '生产地',
     ],
     // token生成规则
     'common_token_created_rules_list' => [
@@ -1523,6 +1599,7 @@ return [
         // 管理员
         'admin'             => [
             // 表单
+            'form_item_avatar'                      => '用户头像',
             'form_item_username'                    => '用户名',
             'form_item_username_placeholder'        => '请输入用户名',
             'form_item_username_message'            => '用户名请使用字母、数字、下划线2~18个字符',
@@ -1944,30 +2021,36 @@ return [
         // 商品
         'goods'                 => [
             // 表单
-            'form_item_title'                       => '商品名称',
-            'form_item_title_message'               => '商品名称格式1~600个字符',
-            'form_item_category_id'                 => '商品分类',
-            'form_item_category_id_message'         => '请至少选择一个商品分类',
-            'form_item_simple_desc'                 => '商品简述',
-            'form_item_simple_desc_message'         => '商品简述格式最多230个字符',
-            'form_item_spec_desc'                   => '规格描述',
-            'form_item_spec_desc_message'           => '规格描述格式最多230个字符',
-            'form_item_approval_number'             => '批准文号',
-            'form_item_approval_number_message'     => '批准文号格式最多180个字符',
-            'form_item_produce_company'             => '生产企业',
-            'form_item_produce_company_message'     => '生产企业格式最多180个字符',
-            'form_item_coding'                      => '商品编码',
-            'form_item_coding_message'              => '商品编码格式最多180个字符',
-            'form_item_model'                       => '商品型号',
-            'form_item_model_message'               => '商品型号格式最多180个字符',
-            'form_item_brand'                       => '品牌',
-            'form_item_brand_message'               => '请选择品牌',
-            'form_item_produce_region'                => '生产地',
-            'form_item_produce_region_message'        => '请选择生产地',
-            'form_item_inventory_unit'              => '计量单位',
-            'form_item_inventory_unit_message'      => '计量单位格式1~6个字符',
-            'form_item_give_integral'               => '购买赠送积分比例',
-            'form_item_give_integral_tips'          => [
+            'form_item_title'                           => '商品名称',
+            'form_item_title_message'                   => '商品名称格式1~600个字符',
+            'form_item_category_id'                     => '商品分类',
+            'form_item_category_id_message'             => '请至少选择一个商品分类',
+            'form_item_simple_desc'                     => '商品简述',
+            'form_item_simple_desc_message'             => '请填写商品简述、最多230个字符',
+            'form_item_spec_desc'                       => '规格描述',
+            'form_item_spec_desc_message'               => '请填写规格描述、最多230个字符',
+            'form_item_approval_number'                 => '批准文号',
+            'form_item_approval_number_message'         => '请填写批准文号、最多180个字符',
+            'form_item_approval_number_expire'          => '批准文号有效期',
+            'form_item_approval_number_expire_message'  => '请选择批准文号有效期',
+            'form_item_batch_number'                    => '批号',
+            'form_item_batch_number_message'            => '请填写批号、最多180个字符',
+            'form_item_batch_number_expire'             => '批号有效期',
+            'form_item_batch_number_expire_message'     => '请选择批号有效期',
+            'form_item_coding'                          => '商品编码',
+            'form_item_coding_message'                  => '请填写商品编码、最多180个字符',
+            'form_item_model'                           => '商品型号',
+            'form_item_model_message'                   => '请填写商品型号、最多180个字符',
+            'form_item_brand_id'                        => '品牌',
+            'form_item_brand_id_message'                => '请选择品牌',
+            'form_item_produce_company'                 => '生产企业',
+            'form_item_produce_company_message'         => '请填写生产企业、最多180个字符',
+            'form_item_produce_region'                  => '生产地',
+            'form_item_produce_region_message'          => '请选择生产地',
+            'form_item_inventory_unit'                  => '计量单位',
+            'form_item_inventory_unit_message'          => '计量单位格式1~6个字符',
+            'form_item_give_integral'                   => '购买赠送积分比例',
+            'form_item_give_integral_tips'              => [
                 '1. 按照商品金额比例乘以数量的比例进行发放',
                 '2. 订单完成自动将发放到用户锁定积分',
                 '3. 站点设置->扩展中脚本处理发放积分',
@@ -1994,11 +2077,6 @@ return [
             'form_item_is_shelves_tips'             => '下架后用户不可见',
             'form_item_extends_popup_title'         => '规格扩展数据',
             // 规格
-            'form_spec_top_list_tips'               => [
-                '1. 批量添加规格可以快速创建商品SKU，大量节省SKU编辑时间，快捷操作数据不影响SKU数据，仅生成的时候重新覆盖SKU。',
-                '2. 可以后台 商品管理->商品规格 中配置规格模板、选择商品规格模块快速生成对应规格数据、有效的提供效率',
-                '3. 商品添加成功后，仓库管理->仓库商品中添加并配置库存',
-            ],
             'form_spec_template_tips'               => '规格模板数据有误',
             'form_spec_template_name_exist_tips'    => '相同规格名称已经存在',
             'form_spec_template_placeholder'        => '商品规格模板...',
@@ -2068,7 +2146,6 @@ return [
             'form_video_top_tips'                   => '视频比图文更有具带入感，仅支持 mp4 格式',
             'form_video_button_add_name'            => '上传视频',
             // 手机详情
-            'form_app_top_tips'                     => '设置手机详情后、在手机模式下将展示手机详情、比如[小程序、APP]',
             'form_app_value_title'                  => '文本内容',
             'form_app_value_message'                => '文本内容最多1005000个字符',
             'form_app_button_add_name'              => '添加手机详情',
@@ -2108,6 +2185,56 @@ return [
             'base_spec_empty_tips'                  => '没有相关规格',
             'base_spec_type_empty_tips'             => '没有相关规格类型',
             'base_buy_stock_error_tips'             => '购买数量有误',
+            // 商品管理导航
+            'goods_admin_nav_list'                  => [
+                'base' => [
+                    'name' => '基础信息',
+                ],
+                'spec' => [
+                    'name' => '商品规格',
+                    'tips' => [
+                        '1. 批量添加规格可以快速创建商品SKU，大量节省SKU编辑时间，快捷操作数据不影响SKU数据，仅生成的时候重新覆盖SKU。',
+                        '2. 可以后台 商品管理->商品规格 中配置规格模板、选择商品规格模块快速生成对应规格数据、有效的提供效率',
+                        '3. 商品添加成功后，仓库管理->仓库商品中添加并配置库存',
+                    ],
+                ],
+                'spec_images' => [
+                    'name' => '规格图片',
+                ],
+                'parameters' => [
+                    'name' => '商品参数',
+                ],
+                'photo' => [
+                    'name' => '商品相册',
+                    'tips' => '可拖拽图片进行排序，建议图片尺寸一致800*800px、最多30张',
+                ],
+                'video' => [
+                    'name' => '商品视频',
+                    'tips' => '视频比图文更有具带入感，仅支持 mp4 格式',
+                ],
+                'app' => [
+                    'name' => '手机详情',
+                    'tips' => '设置手机详情后、在手机模式下将展示手机详情、比如[小程序、APP]',
+                ],
+                'web' => [
+                    'name' => '电脑详情',
+                    'tips' => '请准确描述产品特性和功能，上传完整清晰的图片',
+                ],
+                'fictitious' => [
+                    'name' => '虚拟信息',
+                    'tips' => '如卡密，网盘地址的虚拟信息，虚拟订单类型，用户购买在订单详情里面呈现',
+                ],
+                'extends' => [
+                    'name' => '扩展数据',
+                ],
+                'use_guide' => [
+                    'name' => '使用指南',
+                    'tips' => '请准确的填写产品的使用说明及注意事项',
+                ],
+                'seo' => [
+                    'name' => 'SEO信息',
+                ],
+            ],
         ],
         // 商品分类
         'goodscategory'         => [
@@ -2333,26 +2460,26 @@ return [
             'orderaftersale_step_tips_msg'          => [
                 0 => [
                     'title' => '待卖家审核',
-                    'desc'  => '已提交申请，等待卖家确认中！'
+                    'desc'  => '已提交申请，等待卖家确认中！',
                 ],
                 1 => [
-                    'title' => '卖家已确认，请尽快完成退货！'
+                    'title' => '卖家已确认，请尽快完成退货！',
                 ],
                 2 => [
-                    'title' => '待卖家确认收货',
-                    'desc'  => '已退货，等待卖家审核中！'
+                    'title' => '待卖家确认审核',
+                    'desc'  => '已退货或退款，等待卖家审核中！',
                 ],
                 3 => [
                     'title' => '退款成功',
-                    'desc'  => '已处理结束！'
+                    'desc'  => '已处理结束！',
                 ],
                 4 => [
-                    'title' => '卖家已拒绝，退款关闭',
-                    'desc'  => '申请已被拒绝！'
+                    'title' => '卖家已拒绝，如有异议您可以再次申请',
+                    'desc'  => '申请已被拒绝！',
                 ],
                 5 => [
                     'title' => '售后已取消',
-                    'desc'  => '售后已取消、可重新申请！'
+                    'desc'  => '售后已取消、可重新申请！',
                 ],
             ], 
         ],
@@ -2387,11 +2514,20 @@ return [
             'order_goods_sales_count_inc_fail_tips' => '订单商品销量增加失败',
             'order_detail_goods_empty_tips'         => '订单有误，没有找到相关商品',
             'pay_have_in_hand_tips'                 => '支付中',
+            'order_under_line_tips'                 => '当前为线下支付方式[ {:payment} ]、需管理员确认后方可生效，如需其它支付可以切换支付重新发起支付。',
+            'order_delivery_tips'                   => '货物正在仓库打包、出库中...',
             // 取消
             'order_cancel_message_data'             => [
                 'title'  => '订单取消',
                 'desc'   => '订单取消成功',
             ],
+            // 追溯
+            'form_item_trace_source_code'                         => '追溯码',
+            'form_item_trace_source_code_message'                 => '追溯码格式1～80个字符',
+            'form_item_trace_source_batch_number'                 => '批号',
+            'form_item_trace_source_batch_number_message'         => '请填写批号',
+            'form_item_trace_source_batch_number_expire'          => '批号有效期',
+            'form_item_trace_source_batch_number_expire_message'  => '请选择批号有效期',
             // 发货、取货、服务
             'delivery_express_id_message'           => '快递方式有误',
             'delivery_express_number_message'       => '快递单号有误',
@@ -2870,6 +3006,7 @@ return [
         // 用户
         'user'                      => [
             // 表单
+            'form_item_avatar'                      => '用户头像',
             'form_item_username'                    => '用户名',
             'form_item_username_message'            => '用户名1~80个字符',
             'form_item_nickname'                    => '昵称',
@@ -3645,10 +3782,6 @@ return [
             'desc' => 'Access Key Secret',
             'tips' => '请填写Access Key Secret',
         ],
-        'common_customer_store_tel'  => [
-            'name' => '商店电话',
-            'desc' => '空则不显示',
-        ],
         'common_email_currency_template'  => [
             'name' => '通用-邮件模板',
             'desc' => '验证码变量标识符 [ #code# ]',
@@ -3693,6 +3826,10 @@ return [
             'name' => '搜索禁止UserAgent',
             'desc' => '禁止的标识（输入回车）',
             'tips' => '请填写搜索禁止UserAgent',
+        ],
+        'home_search_prohibit_keywords'  => [
+            'name' => '搜索禁止关键字',
+            'desc' => '一行一个关键字',
         ],
         'home_search_keywords_type'  => [
             'name' => '搜索关键字类型',
@@ -3823,6 +3960,29 @@ return [
             'desc' => '默认 多分类',
             'tips' => '请选择商品单分类模式',
         ],
+        'common_is_goods_parameters_custom_mode'  => [
+            'name' => '商品参数自定义模式',
+            'desc' => '默认 模板模式',
+            'tips' => '请选择商品参数自定义模式',
+        ],
+        'common_goods_base_fields_required_data'  => [
+            'name' => '商品基础字段对应分类下必填',
+            'desc' => '包含子级',
+        ],
+        'common_goods_admin_nav_custom_data'  => [
+            'name' => '商品管理导航自定义名称和提示',
+        ],
+        'common_order_detail_goods_use_guide_title'  => [
+            'name' => '订单详情商品使用指南名称',
+            'desc' => '默认 使用指南',
+        ],
+        'common_order_detail_goods_use_guide_describe'  => [
+            'name' => '订单详情商品使用指南描述',
+        ],
+        'common_order_trace_source_config'  => [
+            'name' => '指定品类订单填写追溯',
+            'desc' => '默认 全部订单、配置后需要先填写追溯后才可操作订单【发货、取货、服务】',
+        ],
         'common_route_separator'  => [
             'name' => '路由分隔符',
             'desc' => '建议填写 [ - ]  默认 [ - ] ，仅PATHINFO模式+短地址模式下有效',
@@ -3869,13 +4029,41 @@ return [
             'name' => '商城公告',
             'desc' => '空则不显示公告',
         ],
-        'common_customer_store_email'  => [
-            'name' => '商店邮箱',
+        'common_customer_store_chat_tel'  => [
+            'name' => '客服电话',
+            'desc' => '空则不显示',
+        ],
+        'common_customer_store_chat_email'  => [
+            'name' => '客服邮箱',
             'desc' => '空则不显示',
             'tips' => '客服邮箱格式有误',
         ],
-        'common_customer_store_qrcode'  => [
-            'name' => '商店二维码',
+        'common_customer_store_chat_qq'  => [
+            'name' => '客服QQ',
+            'desc' => '空则不显示',
+        ],
+        'common_customer_store_chat_url'  => [
+            'name' => '客服url',
+            'desc' => '空则不显示',
+        ],
+        'common_customer_store_chat_line'  => [
+            'name' => '客服line',
+            'desc' => '空则不展示',
+        ],
+        'common_customer_store_chat_weixin'  => [
+            'name' => '客服微信',
+            'desc' => '空则不展示',
+        ],
+        'common_customer_store_public_alipay'  => [
+            'name' => '公众号',
+            'desc' => '空则不展示',
+        ],
+        'common_customer_store_public_weixin'  => [
+            'name' => '生活号',
+            'desc' => '空则不展示',
+        ],
+        'common_customer_store_platform_client'  => [
+            'name' => '平台客户端',
             'desc' => '空则不展示',
         ],
         'common_self_extraction_address'  => [
@@ -4179,12 +4367,12 @@ return [
             'desc' => '默认 立即咨询，展示模式下商品页面的【立即购买】按钮占位名称',
             'tips' => '请填写展示型操作名称',
         ],
-        'common_site_fictitious_return_title'  => [
+        'common_site_fictitious_title'  => [
             'name' => '虚拟信息标题',
             'desc' => '默认 密钥信息，用户购买虚拟商品后、在订单详情里面展示虚拟信息的标题',
             'tips' => '请填写虚拟信息标题',
         ],
-        'common_site_fictitious_return_tips'  => [
+        'common_site_fictitious_use_tips'  => [
             'name' => '提示信息',
             'desc' => '用户购买虚拟商品后、在订单详情里面展示给用户的提示信息',
             'tips' => '请填写提示信息',
@@ -4540,6 +4728,14 @@ return [
             'name' => '商品封面高度拉伸（手机端）',
             'desc' => '默认 正方形',
             'tips' => '请选择商品封面高度拉伸（手机端）',
+        ],
+        'common_goods_close_buy_button'  => [
+            'name' => '关闭商品下单按钮',
+            'tips' => '请选择关闭商品下单按钮',
+        ],
+        'common_goods_detail_base_fields_show'  => [
+            'name' => '商品详情基础字段展示',
+            'tips' => '请选择商品详情基础字段展示',
         ],
         'common_app_h5_url'  => [
             'name' => '手机端h5地址',

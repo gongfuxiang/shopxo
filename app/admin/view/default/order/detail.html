@@ -32,7 +32,17 @@
                 'name'     => MyLang('order.detail_fictitious_title'),
                 'key'      => 'order-detail-fictitious',
                 'is_show'  => $data['order_model'] == 3 ? 1 : 0,
-            ]
+            ],
+            [
+                'name'     => MyLang('order.detail_trace_source_title'),
+                'key'      => 'trace-source',
+                'is_show'  => empty($data['items']) || empty($data['trace_source_data']) ? 0 : 1,
+            ],
+            [
+                'name'     => empty($data['use_guide_data']) ? MyLang('use_guide_title') : $data['use_guide_data']['title'],
+                'key'      => 'use-guide',
+                'is_show'  => empty($data['use_guide_data']) ? 0 : 1,
+            ],
         ]
     ])}}
     <div class="detail-content-switch-data-item">
@@ -59,7 +69,7 @@
                     <div class="am-scrollable-horizontal">
                         <table class="am-table am-text-left am-margin-bottom-0 am-text-nowrap">
                             <thead>
-                                <tr class="am-color-grey">
+                                <tr>
                                     <th>{{:MyLang('order.form_table_express.name')}}</th>
                                     <th>{{:MyLang('order.form_table_express.number')}}</th>
                                     <th>{{:MyLang('order.form_table_express.note')}}</th>
@@ -233,7 +243,7 @@
                     <div class="am-scrollable-horizontal">
                         <table class="am-table am-text-left am-margin-bottom-0 am-text-nowrap">
                             <thead>
-                                <tr class="am-color-grey">
+                                <tr>
                                     <th>{{:MyLang('order.form_item_service_name')}}</th>
                                     <th>{{:MyLang('order.form_item_service_mobile')}}</th>
                                     <th>{{:MyLang('order.form_item_service_time')}}</th>
@@ -304,5 +314,91 @@
                 {{/if}}
             </div>
         </div>
+
+        <!-- 追溯 -->
+        {{if !empty($data['items']) and !empty($data['trace_source_data'])}}
+            <div class="item" data-key="trace-source">
+                <div class="am-padding-sm">
+                    {{foreach $data.items as $k=>$v}}
+                        <div class="am-flex am-gap-1">
+                            <a href="{{$v.goods_url}}" target="_blank">
+                                <img src="{{$v.images}}" class="am-radius am-border-grey" width="60" height="60" />
+                            </a>
+                            <div>
+                                <a href="{{$v.goods_url}}" target="_blank" class="am-text-truncates">{{$v.title}}</a>
+                                <p>{{$data.currency_data.currency_symbol}}{{$v.price}} x{{$v.buy_number}}</p>
+                            </div>
+                        </div>
+                        <div class="am-margin-top-sm">
+                            <table class="am-table am-table-bordered am-table-compact am-table-radius am-text-left am-margin-bottom-xl">
+                                <thead>
+                                    <tr>
+                                        <th>{{:MyLang('number_title')}}</th>
+                                        <th>{{:MyLang('common_service.order.form_item_trace_source_code')}}</th>
+                                        <th>{{:MyLang('common_service.order.form_item_trace_source_batch_number')}}</th>
+                                        <th>{{:MyLang('common_service.order.form_item_trace_source_batch_number_expire')}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{for start="1" end="$v.buy_number" comparison="elt"}}
+                                        <tr>
+                                            <td>
+                                                {{:MyLang('number_title')}}{{$i}}
+                                            </td>
+                                            <td>
+                                                {{if !empty($data['trace_source_data']) and !empty($data['trace_source_data'][$v['id']]) and !empty($data['trace_source_data'][$v['id']][$i]) and !empty($data['trace_source_data'][$v['id']][$i]['code'])}}
+                                                    <span class="text-copy-submit">{{$data['trace_source_data'][$v['id']][$i]['code']}}</span>
+                                                {{/if}}
+                                            </td>
+                                            <td>
+                                                {{if !empty($data['trace_source_data']) and !empty($data['trace_source_data'][$v['id']]) and !empty($data['trace_source_data'][$v['id']][$i]) and !empty($data['trace_source_data'][$v['id']][$i]['batch_number'])}}
+                                                    <span class="text-copy-submit">{{$data['trace_source_data'][$v['id']][$i]['batch_number']}}</span>
+                                                {{/if}}
+                                            </td>
+                                            <td>
+                                                {{if !empty($data['trace_source_data']) and !empty($data['trace_source_data'][$v['id']]) and !empty($data['trace_source_data'][$v['id']][$i]) and !empty($data['trace_source_data'][$v['id']][$i]['batch_number_expire'])}}
+                                                    <span class="text-copy-submit">{{$data['trace_source_data'][$v['id']][$i]['batch_number_expire']}}</span>
+                                                {{/if}}
+                                            </td>
+                                        </tr>
+                                    {{/for}}
+                                </tbody>
+                            </table>
+                        </div>
+                    {{/foreach}}
+                </div>
+            </div>
+        {{/if}}
+
+        <!-- 使用指南 -->
+        {{if !empty($data['use_guide_data'])}}
+            <div class="item" data-key="use-guide">
+                <div class="am-padding-sm">
+                    {{if !empty($data['use_guide_data']['data'])}}
+                        <section data-am-widget="accordion" class="am-accordion am-accordion-default am-margin-0" data-am-accordion='{ "multiple": true }'>
+                            {{foreach $data.use_guide_data.data as $k=>$v}}
+                                <dl class="am-accordion-item {{if $k eq 0}}am-active{{/if}}">
+                                    <dt class="am-accordion-title">
+                                        <img src="{{$v.images}}" class="am-radius am-border-grey am-vertical-align-middle" width="25" height="25" />
+                                        <span class="am-vertical-align-middle">{{$v.title}}</span>
+                                    </dt>
+                                    <dd class="am-accordion-bd am-collapse {{if $k eq 0}}am-in{{/if}}">
+                                        <div class="am-accordion-content">
+                                            {{if empty($v['goods_use_guide'])}}
+                                                <p class="am-color-grey">{{:MyLang('no_data')}}</p>
+                                            {{else /}}
+                                                <div class="richtext">{{$v.goods_use_guide|raw}}</div>
+                                            {{/if}}
+                                        </div>
+                                    </dd>
+                                </dl>
+                            {{/foreach}}
+                        </section>
+                    {{else /}}
+                        {{:ModuleInclude('public/not_data')}}
+                    {{/if}}
+                </div>
+            </div>
+        {{/if}}
     </div>
 {{/block}}

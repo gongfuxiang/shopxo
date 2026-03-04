@@ -140,7 +140,6 @@ ul.progress-4 li {
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	border: 0;
-	margin: 0;
 }
 .user-content .am-panel-default > .am-panel-hd {
 	background-color: var(--body-bg-color);
@@ -150,7 +149,7 @@ ul.progress-4 li {
 	font-weight: 500;
 }
 .user-content .am-panel-bd {
-	padding: 2.4rem;
+	padding: 2rem;
 }
 
 .order-state .operation {
@@ -244,34 +243,34 @@ ul.progress-4 li {
 /**
  * 订单列表
  */
-.order-goods table thead {
+.order-goods > table > thead {
 	background: var(--body-bg-color);
 	font-size: 1.4rem;
 }
-.order-goods table thead tr th {
+.order-goods > table:not(.am-table-compact) > thead > tr > th {
 	border-radius: var(--border-radius);
 	color: #999999;
-	padding: 0.6rem;
+	padding: 0.6rem !important;
 	border: 0;
 }
-.order-goods table thead tr th:first-of-type {
+.order-goods > table > thead > tr > th:first-of-type {
 	text-align: left;
 	font-weight: 500;
 	font-size: 1.6rem;
 	padding-left: 1.6rem;
 	color: #333333;
 }
-.order-goods table tbody tr td {
+.order-goods > table > tbody > tr > td {
 	padding: 2rem 1rem;
 	border-top: 0;
 	border-bottom: 0.1rem solid #EEEEEE;
 	width: 16%;
 }
-.order-goods table tbody tr td:first-of-type {
+.order-goods > table > tbody > tr > td:first-of-type {
 	padding-left: 2.4rem;
 	width: 52%;
 }
-.order-goods table tbody tr td:last-of-type {
+.order-goods > table > tbody > tr > td:last-of-type {
 	padding-right: 2.4rem;
 }
 .order-goods .goods-shop-info {
@@ -289,27 +288,11 @@ ul.progress-4 li {
 }
 .order-goods .goods-shop-info-right {
 	width: 100%;
-	margin-top: 1.1rem;
 	margin-left: 1.6rem;
 	position: relative;
 }
-.order-goods .goods-shop-info-right > a {
-	display: block;
-	height: 4.2rem;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	padding-right: 10rem;
-}
-.order-goods .goods-shop-info-right .goods-shop-info-opration {
-	position: absolute;
-	top: 0;
-	right: 0;
-}
-.order-goods .goods-shop-info-right .goods-shop-info-desc {
-	margin-top: 0.5rem;
-}
-.order-goods .goods-shop-info-right .am-text-primary {
-	color: #0c7cd5;
+.order-goods .goods-shop-info-right .goods-right-title {
+	margin-right: 10rem;
 }
 .order-goods .price > p:first-of-type,
 .order-goods .number > span:first-of-type,

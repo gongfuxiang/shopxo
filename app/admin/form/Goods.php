@@ -48,7 +48,7 @@ class Goods
                 'key_field'     => 'id',
                 'status_field'  => 'is_shelves',
                 'is_search'     => 1,
-                'is_delete'     => 1,
+                'is_delete'     => AdminIsPower('goods', 'delete') ? 1 : 0,
                 'is_middle'     => 0,
             ],
             // 表单配置
@@ -224,6 +224,34 @@ class Goods
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
+                    ],
+                ],
+                [
+                    'label'         => $lang['approval_number_expire'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'approval_number_expire',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'date',
+                    ],
+                ],
+                [
+                    'label'         => $lang['batch_number'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'batch_number',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
+                    'label'         => $lang['batch_number_expire'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'batch_number_expire',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'date',
                     ],
                 ],
                 [

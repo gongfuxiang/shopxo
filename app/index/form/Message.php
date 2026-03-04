@@ -59,6 +59,7 @@ class Message
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
+                'is_middle'     => 0,
             ],
             // 表单配置
             'form' => [
@@ -145,6 +146,7 @@ class Message
                     'view_key'      => 'message/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
+                    'width'         => 80,
                 ],
             ],
             // 数据配置

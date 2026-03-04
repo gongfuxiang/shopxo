@@ -523,7 +523,7 @@
 			{{/if}}
 
 			<!-- 订单地域分布 -->
-			<ul class="block-combination-container-2 am-flex am-flex-row am-flex-justify-between am-gap-1 am-margin-bottom-sm">
+			<ul class="block-combination-container-2 am-flex am-flex-row am-flex-justify-between am-gap-1 {{if $is_system_show_base eq 1}}am-margin-bottom-sm{{/if}}">
 				<li class="am-flex-1">
                     <div class="block-title echarts-title area-flex am-flex am-flex-row am-flex-justify-between am-flex-items-center am-flex-warp am-padding-bottom-sm">
                         <div class="am-pr area-select">
@@ -663,7 +663,7 @@
 
 		<!-- 系统信息 -->
 		{{if $is_system_show_base eq 1}}
-			<ul class="block-combination-container-2 am-padding-bottom-sm am-flex am-flex-row am-flex-justify-between am-gap-1">
+			<ul class="block-combination-container-2 am-flex am-flex-row am-flex-justify-between am-gap-1">
 				<li class="am-flex-1">
 					<div class="block-title">
 						<span class="title icon">{{:MyLang('index.system_info_title')}}</span>

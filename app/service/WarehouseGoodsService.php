@@ -43,6 +43,7 @@ class WarehouseGoodsService
             $keys = ArrayKeys($data);
 
             // 获取商品信息
+            $goods = [];
             if(in_array('goods_id', $keys))
             {
                 $goods_params = [
@@ -55,13 +56,9 @@ class WarehouseGoodsService
                     'n'      => 0,
                 ];
                 $ret = GoodsService::GoodsList($goods_params);
-                $goods = [];
                 if(!empty($ret['data']))
                 {
-                    foreach($ret['data'] as $g)
-                    {
-                        $goods[$g['id']] = $g;
-                    }
+                    $goods = array_column($ret['data'], null, 'id');
                 }
             }
 

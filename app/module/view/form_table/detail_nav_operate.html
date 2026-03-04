@@ -4,6 +4,45 @@
             data-original-form-table-detail-data="{{:urlencode(base64_encode(json_encode($form_table_data_detail, JSON_UNESCAPED_UNICODE)))}}"
         {{/if}}
     >
+        {{if !empty($form_table['base']) and !empty($form_table['base']['detail_nav_operate_module'])}}
+            <div class="am-dropdown am-dropdown-up am-margin-right-sm form-table-detail-nav-operate-base" data-am-dropdown>
+                <button class="am-btn am-btn-primary am-radius am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle>
+                    <span>{{:MyLang('data_operate_title')}}</span>
+                    <i class="am-icon-angle-up"></i>
+                </button>
+                <div class="am-dropdown-content am-radius am-padding">
+                    {{:ModuleInclude($form_table['base']['detail_nav_operate_module'], $form_table_data_detail, [
+                        'params' => isset($form_params) ? $form_params : [],
+                    ])}}
+
+                    <!-- 详情操作钩子 -->
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                        <div class="plugins-tag">
+                            <span>{{$hook_name_detail_operate}}</span>
+                        </div>
+                    {{/if}}
+                    {{php}}
+                        $hook_data = MyEventTrigger($hook_name_detail_operate, [
+                            'hook_name'     => $hook_name_detail_operate,
+                            'is_backend'    => true,
+                            'id'            => isset($form_table_data_detail[$form_table['base']['key_field']]) ? $form_table_data_detail[$form_table['base']['key_field']] : 0,
+                            'data'          => $form_table_data_detail,
+                        ]);
+                        if(!empty($hook_data) && is_array($hook_data))
+                        {
+                            foreach($hook_data as $hook)
+                            {
+                                if(is_string($hook) || is_int($hook))
+                                {
+                                    echo htmlspecialchars_decode($hook);
+                                }
+                            }
+                        }
+                    {{/php}}
+                </div>
+            </div>
+        {{/if}}
+
         <!-- 是否开启数据打印操作 -->
         {{if isset($form_table['base']['is_data_print']) and $form_table['base']['is_data_print'] eq 1}}
             <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs am-icon-print form-table-operate-top-data-print-submit" data-am-popover="{content: '{{:MyLang('form_table_nav_operate_data_print_tips')}}', trigger: 'hover focus', theme: 'warning sm'}"> {{:MyLang('form_table_nav_operate_data_print_name')}}</button>
@@ -20,7 +59,7 @@
         {{/if}}
     </div>
     <!-- 是否开启数据打印操作 -->
-    {{if isset($form_table['base']['is_data_print']) and $form_table['base']['is_data_print'] eq 1}}
+    {{if (isset($form_table['base']['is_data_print']) and $form_table['base']['is_data_print'] eq 1) or (isset($form_table['base']['is_data_export_pdf']) and $form_table['base']['is_data_export_pdf'] eq 1) or (isset($form_table['base']['is_data_export_excel']) and $form_table['base']['is_data_export_excel'] eq 1)}}
         <script type="text/javascript">
             // 定义打印配置
             var print_is_list_choice = 0;

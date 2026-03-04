@@ -63,72 +63,15 @@ class Orderaftersale extends Center
      */
     public function Detail()
     {
-        // 参数
-        $order_id = isset($this->data_request['oid']) ? intval($this->data_request['oid']) : 0;
-        $order_detail_id = isset($this->data_request['did']) ? intval($this->data_request['did']) : 0;
-        $ret = OrderAftersaleService::OrdferGoodsRow($order_id, $order_detail_id, $this->user['id']);
-        if($ret['code'] == 0)
+        $params = $this->data_request;
+        $params['user'] = $this->user;
+        $ret = OrderAftersaleService::OrderAftersaleDetailData($params);
+        if($ret['code'] != 0)
         {
-            // 模板数据
-            $assign = [
-                'order'                         => $ret['data'],
-                'goods'                         => $ret['data']['items'],
-                // 订单售后搜索form key
-                'form_search_keywords_form_key' => 'f0p',
-                // 浏览器名称
-                'home_seo_site_title'           => SeoService::BrowserSeoTitle(MyLang('orderaftersale.detail_base_nav_title'), 1),
-            ];
-
-            // 仅退款原因
-            $return_only_money_reason = MyC('home_order_aftersale_return_only_money_reason');
-            $assign['return_only_money_reason_list'] = empty($return_only_money_reason) ? [] : explode("\n", $return_only_money_reason);
-
-            // 退款退货原因
-            $return_money_goods_reason = MyC('home_order_aftersale_return_money_goods_reason');
-            $assign['return_money_goods_reason_list'] = empty($return_money_goods_reason) ? [] : explode("\n", $return_money_goods_reason);
-
-            // 获取当前订单商品售后最新的一条纪录
-            $data_params = [
-                'm'     => 0,
-                'n'     => 1,
-                'where' => [
-                    ['order_detail_id', '=', $order_detail_id],
-                    ['user_id', '=', $this->user['id']],
-                ],
-            ];
-            $new_aftersale = OrderAftersaleService::OrderAftersaleList($data_params);
-            if(!empty($new_aftersale['data'][0]))
-            {
-                $new_aftersale_data = $new_aftersale['data'][0];
-                $new_aftersale_data['tips_msg'] = OrderAftersaleService::OrderAftersaleTipsMsg($new_aftersale_data);
-            } else {
-                $new_aftersale_data = [];
-            }
-            $assign['new_aftersale_data'] = $new_aftersale_data;
-
-            // 进度
-            $assign['step_data'] = OrderAftersaleService::OrderAftersaleStepData($new_aftersale_data);
-
-            // 可退款退货
-            $returned = OrderAftersaleService::OrderAftersaleCalculation($order_id, $order_detail_id);
-            $assign['returned_data'] = $returned['data'];
-
-            // 退货地址
-            $return_goods_address = OrderAftersaleService::OrderAftersaleReturnGoodsAddress($order_id);
-            $assign['return_goods_address'] = $return_goods_address;
-
-            // 静态数据
-            $assign['common_order_aftersale_type_list'] = OrderAftersaleService::OrderAftersaleChoiceTypeList($order_id);
-
-            // 编辑器文件存放地址
-            $assign['editor_path_type'] = ResourcesService::EditorPathTypeValue(OrderAftersaleService::EditorAttachmentPathType($this->user['id'], $order_id, $order_detail_id));
-
-            // 数据赋值
-            MyViewAssign($assign);
-            return MyView();
+            return MyView('public/tips_error', ['msg'=>$ret['msg']]);
         }
-        MyViewAssign('msg', $ret['msg']);
-        return MyView('public/tips_error');
+        MyViewAssign($ret['data']);
+        return MyView();
     }
 
     /**

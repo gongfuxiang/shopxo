@@ -48,10 +48,108 @@ class OrderAftersale
             // 表单配置
             'form' => [
                 [
+                    'label'         => $lang['order_id'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'order_id',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['order_no'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'order_no',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['goods_id'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'goods_id',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['goods_title'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'goods_title',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['goods_images'],
+                    'view_type'     => 'images',
+                    'view_key'      => 'goods_images',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['goods_price'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'goods_price',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['goods_buy_number'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'goods_buy_number',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['goods_spec_text'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'goods_spec_text',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['goods_url'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'goods_url',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['user_id'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'user_id',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['user_username'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'user_username',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['user_nickname'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'user_nickname',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['user_mobile'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'user_mobile',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['user_email'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'user_email',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
                     'label'         => $lang['goods'],
                     'view_type'     => 'module',
                     'view_key'      => 'orderaftersale/module/goods',
-                    'grid_size'     => 'lg',
+                    'grid_size'     => 'xl',
                     'is_sort'       => 1,
                     'sort_field'    => 'goods_id',
                     'search_config' => [
@@ -79,13 +177,12 @@ class OrderAftersale
                 [
                     'label'         => $lang['status'],
                     'view_type'     => 'field',
-                    'view_key'      => 'status',
-                    'view_data_key' => 'name',
-                    'view_data'     => MyConst('common_order_aftersale_status_list'),
-                    'width'         => 120,
+                    'view_key'      => 'status_name',
+                    'width'         => 130,
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
+                        'form_name'         => 'status',
                         'where_type'        => 'in',
                         'data'              => MyConst('common_order_aftersale_status_list'),
                         'data_key'          => 'value',
@@ -96,13 +193,12 @@ class OrderAftersale
                 [
                     'label'         => $lang['type'],
                     'view_type'     => 'field',
-                    'view_key'      => 'type',
-                    'view_data_key' => 'name',
-                    'view_data'     => MyConst('common_order_aftersale_type_list'),
-                    'width'         => 120,
+                    'view_key'      => 'type_name',
+                    'width'         => 140,
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
+                        'form_name'         => 'type',
                         'where_type'        => 'in',
                         'data'              => MyConst('common_order_aftersale_type_list'),
                         'data_key'          => 'value',
@@ -153,13 +249,12 @@ class OrderAftersale
                 [
                     'label'         => $lang['refundment'],
                     'view_type'     => 'field',
-                    'view_key'      => 'refundment',
-                    'view_data_key' => 'name',
-                    'view_data'     => MyConst('common_order_aftersale_refundment_list'),
-                    'width'         => 120,
+                    'view_key'      => 'refundment_name',
+                    'width'         => 130,
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
+                        'form_name'         => 'refundment',
                         'where_type'        => 'in',
                         'data'              => MyConst('common_order_aftersale_refundment_list'),
                         'data_key'          => 'value',
@@ -210,7 +305,6 @@ class OrderAftersale
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
-                        'form_name'         => 'apply_time',
                     ],
                 ],
                 [
@@ -220,7 +314,6 @@ class OrderAftersale
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
-                        'form_name'         => 'confirm_time',
                     ],
                 ],
                 [
@@ -230,7 +323,6 @@ class OrderAftersale
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
-                        'form_name'         => 'delivery_time',
                     ],
                 ],
                 [
@@ -240,7 +332,6 @@ class OrderAftersale
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
-                        'form_name'         => 'audit_time',
                     ],
                 ],
                 [
@@ -250,7 +341,6 @@ class OrderAftersale
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
-                        'form_name'         => 'add_time',
                     ],
                 ],
                 [
@@ -260,7 +350,6 @@ class OrderAftersale
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
-                        'form_name'         => 'upd_time',
                     ],
                 ],
                 [
@@ -273,9 +362,25 @@ class OrderAftersale
             ],
             // 数据配置
             'data'  => [
-                'table_name'        => 'OrderAftersale',
-                'data_handle'       => 'OrderAftersaleService::OrderAftersaleListHandle',
-                'is_page'           => 1,
+                'table_name'            => 'OrderAftersale',
+                'data_handle'           => 'OrderAftersaleService::OrderAftersaleListHandle',
+                'is_json_data_handle'   => 1,
+                'json_config_data'      => [
+                    'images' => [],
+                ],
+                'is_handle_annex_field' => 1,
+                'is_fixed_name_field'   => 1,
+                'fixed_name_data'       => [
+                    'type' => [
+                        'data' => MyConst('common_order_aftersale_type_list'),
+                    ],
+                    'status' => [
+                        'data' => MyConst('common_order_aftersale_status_list'),
+                    ],
+                    'refundment' => [
+                        'data' => MyConst('common_order_aftersale_refundment_list'),
+                    ],
+                ],
                 'data_params'       => [
                     'is_public' => 0,
                     'user_type' => 'admin',
@@ -284,6 +389,23 @@ class OrderAftersale
                 'page_stats_data'   => [
                     ['name'=>$lang_stats['price'], 'field'=>'price'],
                     ['name'=>$lang_stats['number'], 'field'=>'number'],
+                ],
+                'is_field_level_merge'          => 1,
+                'handle_field_level_merge_data' => [
+                    'goods_title'       => 'order_data.items.title',
+                    'goods_images'      => 'order_data.items.images',
+                    'goods_price'       => 'order_data.items.price',
+                    'goods_buy_number'  => 'order_data.items.buy_number',
+                    'goods_spec_text'   => 'order_data.items.spec_text',
+                    'goods_url'         => 'order_data.items.goods_url',
+                    'user_username'     => 'user.username',
+                    'user_nickname'     => 'user.nickname',
+                    'user_mobile'       => 'user.mobile',
+                    'user_email'        => 'user.email',
+                    'currency_name'     => 'order_data.currency_data.currency_name',
+                    'currency_code'     => 'order_data.currency_data.currency_code',
+                    'currency_symbol'   => 'order_data.currency_data.currency_symbol',
+                    'currency_rate'     => 'order_data.currency_data.currency_rate',
                 ],
             ],
         ];

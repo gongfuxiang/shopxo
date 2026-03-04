@@ -68,7 +68,7 @@ class WarehouseService
             {
                 // 地区数据
                 $ids = array_unique(array_merge(array_column($data, 'province'), array_column($data, 'city'), array_column($data, 'county')));
-                $region = Db::name('Region')->where(['id'=>$ids])->column('name', 'id');
+                $region = RegionService::RegionName($ids);
             }
 
             // 附件地址

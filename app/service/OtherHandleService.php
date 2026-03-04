@@ -90,7 +90,7 @@ class OtherHandleService
                             'express_name'    => ExpressService::ExpressName($express_id),
                             'express_number'  => $express_number,
                             'receiver_tel'    => $receiver_tel,
-                            'consignor_tel'   => MyC('common_customer_store_tel'),
+                            'consignor_tel'   => MyC('common_customer_store_chat_tel'),
                         ]);
                     }
                 }

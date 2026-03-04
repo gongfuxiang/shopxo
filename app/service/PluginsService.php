@@ -74,6 +74,29 @@ class PluginsService
     }
 
     /**
+     * 插件管理权限菜单
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-11-21
+     * @desc    description
+     * @param   [string]          $plugins [插件标识]
+     */
+    public static function PluginsAdminPowerMenu($plugins)
+    {
+        $result = [];
+        $plugins_class = 'app\plugins\\'.$plugins.'\service\BaseService';
+        if(class_exists($plugins_class))
+        {
+            if(method_exists($plugins_class, 'AdminPowerMenu'))
+            {
+                $result = $plugins_class::AdminPowerMenu();
+            }
+        }
+        return $result;
+    }
+
+    /**
      * 获取插件字段
      * @author  Devil
      * @blog    http://gong.gg/
@@ -222,7 +245,7 @@ class PluginsService
     }
 
     /**
-     * 应用缓存c存储
+     * 应用缓存存储
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0

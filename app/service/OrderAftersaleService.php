@@ -222,8 +222,8 @@ class OrderAftersaleService
             'user_id'           => $params['user']['id'],
             'number'            => ($params['type'] == 0) ? 0 : $number,
             'price'             => $price,
-            'reason'            => empty($params['reason']) ? '' : $params['reason'],
-            'msg'               => empty($params['msg']) ? '' : $params['msg'],
+            'reason'            => empty($params['reason']) ? '' : str_replace(["\t", "\r", "\n"], '', $params['reason']),
+            'msg'               => empty($params['msg']) ? '' : str_replace(["\t", "\r", "\n"], '', $params['msg']),
             'images'            => json_encode($images),
             'status'            => ($params['type'] == 0) ? 2 : 0,
             'add_time'          => time(),
@@ -498,13 +498,7 @@ class OrderAftersaleService
                 $v['order_data'] = $order['data'];
 
                 // 用户信息
-                $user = UserService::GetUserViewInfo($v['user_id']);
-                if(isset($params['is_public']) && $params['is_public'] == 0)
-                {
-                    $v['user'] = $user;
-                } else {
-                    $v['user'] = null;
-                }
+                $v['user'] = (isset($params['is_public']) && $params['is_public'] == 0) ? UserService::GetUserViewInfo($v['user_id']) : '';
 
                 // 类型
                 $v['type_text'] = array_key_exists($v['type'], $type_list) ? $type_list[$v['type']]['name'] : '';
@@ -515,10 +509,17 @@ class OrderAftersaleService
                 // 退款方式
                 $v['refundment_text'] = ($v['status'] == 3 && array_key_exists($v['refundment'], $refundment_list)) ? $refundment_list[$v['refundment']]['name'] : '';
 
+                // 描述去除换行符号
+                $v['msg'] = empty($v['msg']) ? '' : str_replace(["\t", "\r", "\n"], '', $v['msg']);
+                // 原因去除换行符号
+                $v['reason'] = empty($v['reason']) ? '' : str_replace(["\t", "\r", "\n"], '', $v['reason']);
+                // 拒绝原因去除换行符号
+                $v['refuse_reason'] = empty($v['refuse_reason']) ? '' : str_replace(["\t", "\r", "\n"], '', $v['refuse_reason']);
+
                 // 图片
                 if(!empty($v['images']))
                 {
-                    $images = json_decode($v['images'], true);
+                    $images = is_array($v['images']) ? $v['images'] : json_decode($v['images'], true);
                     foreach($images as $ik=>$iv)
                     {
                         $images[$ik] = ResourcesService::AttachmentPathViewHandle($iv);
@@ -1561,7 +1562,7 @@ class OrderAftersaleService
         // 数据
         $data = [
             'status'            => 4,
-            'refuse_reason'     => $params['refuse_reason'],
+            'refuse_reason'     => str_replace(["\t", "\r", "\n"], '', $params['refuse_reason']),
             'audit_time'        => time(),
             'upd_time'          => time(),
         ];
@@ -2031,6 +2032,108 @@ class OrderAftersaleService
             'tel'      => $tel,
             'address'  => $address,
         ];
+    }
+
+    /**
+     * 订单详情数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2025-12-22
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function OrderAftersaleDetailData($params = [])
+    {
+        if(empty($params['user']))
+        {
+            return DataReturn(MyLang('user_info_incorrect_tips'), -1);
+        }
+
+        $order_data = null;
+        $aftersale_data = null;
+        $is_create_aftersale = 0;
+        if(empty($params['id']))
+        {
+            $order_id = isset($params['oid']) ? intval($params['oid']) : 0;
+            $order_detail_id = isset($params['did']) ? intval($params['did']) : 0;
+            $ret = self::OrdferGoodsRow($order_id, $order_detail_id, $params['user']['id']);
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
+            $order_data = $ret['data'];
+
+            // 获取当前订单商品售后最新的一条纪录
+            $data_params = [
+                'm'     => 0,
+                'n'     => 1,
+                'where' => [
+                    ['order_detail_id', '=', $order_detail_id],
+                    ['user_id', '=', $params['user']['id']],
+                ],
+            ];
+            $new_aftersale = self::OrderAftersaleList($data_params);
+            if(!empty($new_aftersale['data'][0]))
+            {
+                $aftersale_data = $new_aftersale['data'][0];
+            }
+            $is_create_aftersale = (empty($aftersale_data) || $aftersale_data['status'] == 5) ? 1 : 0;
+        } else {
+            $data_params = [
+                'm'      => 0,
+                'n'      => 1,
+                'where'  => [
+                    ['id', '=', intval($params['id'])],
+                    ['user_id', '=', $params['user']['id']],
+                ],
+            ];
+            $ret = OrderAftersaleService::OrderAftersaleList($data_params);
+            if(empty($ret['data']) || empty($ret['data'][0]))
+            {
+                return DataReturn(MyLang('no_orderaftersale'), -1);
+            }
+            $aftersale_data = $ret['data'][0];
+            $order_data = $aftersale_data['order_data'];
+            $order_id = $aftersale_data['order_id'];
+            $order_detail_id = $aftersale_data['order_detail_id'];
+        }
+
+        // 售后提示
+        if(!empty($aftersale_data))
+        {
+            $aftersale_data['tips_msg'] = self::OrderAftersaleTipsMsg($aftersale_data);
+        }
+
+        // 进度
+        $step_data = self::OrderAftersaleStepData($aftersale_data);
+
+        // 可退款退货
+        $returned = self::OrderAftersaleCalculation($order_id, $order_detail_id);
+
+        // 仅退款原因
+        $return_only_money_reason = MyC('home_order_aftersale_return_only_money_reason');
+
+        // 退款退货原因
+        $return_money_goods_reason = MyC('home_order_aftersale_return_money_goods_reason');
+
+        // 退货地址
+        $return_goods_address = self::OrderAftersaleReturnGoodsAddress($order_id); 
+
+        // 返回数据
+        $result = [
+            'is_create_aftersale'        => $is_create_aftersale,
+            'order_data'                 => $order_data,
+            'aftersale_data'             => $aftersale_data,
+            'step_data'                  => $step_data,
+            'returned_data'              => $returned['data'],
+            'return_only_money_reason'   => empty($return_only_money_reason) ? [] : explode("\n", $return_only_money_reason),
+            'return_money_goods_reason'  => empty($return_money_goods_reason) ? [] : explode("\n", $return_money_goods_reason),
+            'aftersale_type_list'        => self::OrderAftersaleChoiceTypeList($order_id),
+            'return_goods_address'       => $return_goods_address,
+            'editor_path_type'           => ResourcesService::EditorPathTypeValue(self::EditorAttachmentPathType($params['user']['id'], $order_id, $order_detail_id)),
+        ];
+        return DataReturn('success', 0, $result);
     }
 }
 ?>

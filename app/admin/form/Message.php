@@ -44,7 +44,7 @@ class Message
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
-                'is_delete'     => 1,
+                'is_delete'     => AdminIsPower('message', 'delete') ? 1 : 0,
                 'is_middle'     => 0,
             ],
             // 表单配置

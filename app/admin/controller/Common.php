@@ -360,8 +360,14 @@ class Common extends BaseController
         $assign['is_load_layout'] = 0;
         $assign['is_load_layout_admin'] = 0;
 
-        // 是否加载视频播放器组件
+        // 是否加载ckplayer视频播放器组件
         $assign['is_load_ckplayer'] = 0;
+
+        // 是否加载xgplayer视频播放器组件
+        $assign['is_load_xgplayer'] = 0;
+
+        // 是否加载hlsjs
+        $assign['is_load_hlsjs'] = 0;
 
         // 是否加载条形码组件
         $assign['is_load_barcode'] = 0;
@@ -536,7 +542,7 @@ class Common extends BaseController
         {
             $unwanted_power = ['getnodeson', 'node'];
         }
-        if(!AdminIsPower($controller, $action, $unwanted_power))
+        if(!AdminIsPower($controller, $action, '', $unwanted_power))
         {
             $msg = MyLang('no_power_tips');
             if(IS_AJAX)
@@ -661,6 +667,8 @@ class Common extends BaseController
         // 公共详情页面钩子名称动态处理
         // 内容外部顶部
         $assign['hook_name_detail_top'] = $current.'_detail_top';
+        // 内容详情操作栏
+        $assign['hook_name_detail_operate'] = $current.'_detail_operate';
         // 内容外部底部
         $assign['hook_name_detail_bottom'] = $current.'_detail_bottom';
         // 内容内部顶部

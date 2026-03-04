@@ -575,12 +575,12 @@ class Order
         if(!empty($value))
         {
             // 订单号
-            $ids = Db::name('Order')->where(['order_no'=>$value])->column('id');
+            $ids = Db::name('Order')->where(array_merge($this->condition_base, [['id|order_no', '=', $value]]))->column('id');
 
             // 获取订单详情搜索的订单 id
             if(empty($ids))
             {
-                $ids = Db::name('OrderDetail')->where('title|model', 'like', '%'.$value.'%')->column('order_id');
+                $ids = Db::name('OrderDetail')->where('title|spec|simple_desc|spec_desc|approval_number|batch_number|coding|model|produce_company|produce_region|goods_params|goods_content_app|goods_content_web|spec_coding|spec_barcode', 'like', '%'.$value.'%')->column('order_id');
             }
 
             // 避免空条件造成无效的错觉

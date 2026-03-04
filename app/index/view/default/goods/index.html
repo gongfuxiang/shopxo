@@ -27,6 +27,7 @@
     data-title="{{$goods.title}}"
     data-spec-detail-ajax-url="{{:MyUrl('index/goods/specdetail')}}"
     data-spec-type-ajax-url="{{:MyUrl('index/goods/spectype')}}"
+    data-qrcode-data-ajax-url="{{:MyUrl('index/goods/qrcodedata')}}"
 >
     <!-- h5相册模块 -->
     {{:ModuleInclude('goods/module/photo_h5/index', ['goods'=>$goods])}}

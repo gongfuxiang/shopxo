@@ -41,7 +41,7 @@ class Orderaftersale extends Common
     }
 
     /**
-     * 订单列表
+     * 列表
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -65,10 +65,9 @@ class Orderaftersale extends Common
 
         // 获取列表
         $data_params = [
-            'm'                 => $start,
-            'n'                 => $this->page_size,
-            'where'             => $where,
-            'is_orderaftersale' => 1,
+            'm'      => $start,
+            'n'      => $this->page_size,
+            'where'  => $where,
         ];
         $data = OrderAftersaleService::OrderAftersaleList($data_params);
 
@@ -82,68 +81,21 @@ class Orderaftersale extends Common
     }
 
     /**
-     * 售后页面
+     * 详情
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2019-05-21
      * @desc    description
      */
-    public function Aftersale()
+    public function Detail()
     {
-        $order_id = isset($this->data_request['oid']) ? intval($this->data_request['oid']) : 0;
-        $order_detail_id = isset($this->data_request['did']) ? intval($this->data_request['did']) : 0;
-        $ret = OrderAftersaleService::OrdferGoodsRow($order_id, $order_detail_id, $this->user['id']);
+        $params = $this->data_request;
+        $params['user'] = $this->user;
+        $ret = OrderAftersaleService::OrderAftersaleDetailData($params);
         if($ret['code'] == 0)
         {
-            // 获取当前订单商品售后最新的一条纪录
-            $data_params = [
-                'm'     => 0,
-                'n'     => 1,
-                'where' => [
-                    ['order_detail_id', '=', $order_detail_id],
-                    ['user_id', '=', $this->user['id']],
-                ],
-            ];
-            $new_aftersale = OrderAftersaleService::OrderAftersaleList($data_params);
-            if(!empty($new_aftersale['data'][0]))
-            {
-                $new_aftersale_data = $new_aftersale['data'][0];
-                $new_aftersale_data['tips_msg'] = OrderAftersaleService::OrderAftersaleTipsMsg($new_aftersale_data);
-            } else {
-                $new_aftersale_data = [];
-            }
-
-            // 进度
-            $step_data = OrderAftersaleService::OrderAftersaleStepData($new_aftersale_data);
-
-            // 可退款退货
-            $returned = OrderAftersaleService::OrderAftersaleCalculation($order_id, $order_detail_id);
-
-            // 仅退款原因
-            $return_only_money_reason = MyC('home_order_aftersale_return_only_money_reason');
-
-            // 退款退货原因
-            $return_money_goods_reason = MyC('home_order_aftersale_return_money_goods_reason');
-
-            // 退货地址
-            $return_goods_address = OrderAftersaleService::OrderAftersaleReturnGoodsAddress($order_id);
-
-            // 返回数据
-            $result = [
-                'order_data'                => $ret['data'],
-                'new_aftersale_data'        => $new_aftersale_data,
-                'step_data'                 => $step_data,
-                'returned_data'             => $returned['data'],
-                'return_only_money_reason'  => empty($return_only_money_reason) ? [] : explode("\n", $return_only_money_reason),
-                'return_money_goods_reason' => empty($return_money_goods_reason) ? [] : explode("\n", $return_money_goods_reason),
-                'aftersale_type_list'       => OrderAftersaleService::OrderAftersaleChoiceTypeList($order_id),
-                'return_goods_address'      => $return_goods_address,
-                'editor_path_type'          => ResourcesService::EditorPathTypeValue(OrderAftersaleService::EditorAttachmentPathType($this->user['id'], $order_id, $order_detail_id)),
-            ];
-            $ret = SystemBaseService::DataReturn($result);
-        } else {
-            $ret = DataReturn($ret['msg'], -1);
+            $ret = SystemBaseService::DataReturn($ret['data'], $ret['msg'], $ret['code']);
         }
         return ApiService::ApiDataReturn($ret);
     }

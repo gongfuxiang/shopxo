@@ -5,39 +5,146 @@
     <div class="content">
         <!-- form start -->
         <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/config/save', ['view_type'=>$view_type])}}" method="POST" request-type="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}ajax-view{{else /}}ajax-reload{{/if}}" request-value="{{if isset($is_theme_data_admin) and $is_theme_data_admin eq 1}}parent{{/if}}">
+            {{:ModuleInclude('public/nav_switch_btn', [
+                'nav_data' => [
+                    [
+                        'name' => MyLang('base_title'),
+                        'key'  => 'base',
+                    ],
+                    [
+                        'name' => MyLang('chat_title'),
+                        'key'  => 'chat',
+                    ],
+                    [
+                        'name' => MyLang('platform_client_title'),
+                        'key'  => 'platform-client',
+                    ],
+                ]
+            ])}}
             <div class="nav-content">
-                <div class="am-form-group">
-                    <label>{{$data.common_customer_store_tel.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_tel.describe}}</span></label>
-                    <input type="text" name="{{$data.common_customer_store_tel.only_tag}}" placeholder="{{$data.common_customer_store_tel.name}}" data-validation-message="{{$data.common_customer_store_tel.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_tel.value}}"{{/if}} />
-                </div>
-                <div class="am-form-group">
-                    <label>{{$data.common_customer_store_email.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_email.describe}}</span></label>
-                    <input type="email" name="{{$data.common_customer_store_email.only_tag}}" placeholder="{{$data.common_customer_store_email.name}}" data-validation-message="{{$data.common_customer_store_email.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_email.value}}"{{/if}} />
-                </div>
-                <div class="am-form-group">
-                    <label>{{$data.common_customer_store_address.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_address.describe}}</span></label>
-                    <input type="text" name="{{$data.common_customer_store_address.only_tag}}" placeholder="{{$data.common_customer_store_address.name}}" data-validation-message="{{$data.common_customer_store_address.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_address.value}}"{{/if}} />
-                </div>
-                <div class="am-form-group">
-                    <label>{{$data.common_customer_store_describe.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_describe.describe}}</span></label>
-                    <input type="text" name="{{$data.common_customer_store_describe.only_tag}}" placeholder="{{$data.common_customer_store_describe.name}}" data-validation-message="{{$data.common_customer_store_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_describe.value}}"{{/if}} />
-                </div>
-                <div class="am-form-group">
-                    <label class="am-block">{{$data.common_customer_store_qrcode.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_qrcode.describe}}</span></label>
-                    <div class="am-form-file-upload-container">
-                        <ul class="plug-file-upload-view common_customer_store_qrcode-images-view" data-form-name="common_customer_store_qrcode" data-max-number="1" data-dialog-type="images" data-is-eye="1">
-                            <li class="plug-file-upload-submit" data-view-tag="ul.common_customer_store_qrcode-images-view">
-                                {{if empty($data['common_customer_store_qrcode']['value'])}}
-                                    <i class="iconfont icon-add"></i>
-                                {{else /}}
-                                    <input type="text" name="common_customer_store_qrcode" value="{{$data.common_customer_store_qrcode.value}}" />
-                                    <img src="{{:AttachmentPathViewHandle($data.common_customer_store_qrcode.value)}}" />
-                                    <i class="iconfont icon-close"></i>
-                                    <i class="iconfont icon-eye"></i>
-                                {{/if}}
-                            </li>
-                        </ul>
+                <!-- 基础 -->
+                <div class="item am-active" data-key="base">
+                    <div class="am-form-group">
+                        <label>{{$data.common_customer_store_address.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_address.describe}}</span></label>
+                        <input type="text" name="{{$data.common_customer_store_address.only_tag}}" placeholder="{{$data.common_customer_store_address.name}}" data-validation-message="{{$data.common_customer_store_address.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_address.value}}"{{/if}} />
                     </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_customer_store_describe.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_describe.describe}}</span></label>
+                        <input type="text" name="{{$data.common_customer_store_describe.only_tag}}" placeholder="{{$data.common_customer_store_describe.name}}" data-validation-message="{{$data.common_customer_store_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_describe.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_customer_store_public_weixin.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_public_weixin.describe}}</span></label>
+                        <div class="am-form-file-upload-container">
+                            <ul class="plug-file-upload-view common_customer_store_public_weixin-images-view" data-form-name="common_customer_store_public_weixin" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                                <li class="plug-file-upload-submit" data-view-tag="ul.common_customer_store_public_weixin-images-view">
+                                    {{if empty($data['common_customer_store_public_weixin']['value'])}}
+                                        <i class="iconfont icon-add"></i>
+                                    {{else /}}
+                                        <input type="text" name="common_customer_store_public_weixin" value="{{$data.common_customer_store_public_weixin.value}}" />
+                                        <img src="{{:AttachmentPathViewHandle($data.common_customer_store_public_weixin.value)}}" />
+                                        <i class="iconfont icon-close"></i>
+                                        <i class="iconfont icon-eye"></i>
+                                    {{/if}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_customer_store_public_alipay.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_public_alipay.describe}}</span></label>
+                        <div class="am-form-file-upload-container">
+                            <ul class="plug-file-upload-view common_customer_store_public_alipay-images-view" data-form-name="common_customer_store_public_alipay" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                                <li class="plug-file-upload-submit" data-view-tag="ul.common_customer_store_public_alipay-images-view">
+                                    {{if empty($data['common_customer_store_public_alipay']['value'])}}
+                                        <i class="iconfont icon-add"></i>
+                                    {{else /}}
+                                        <input type="text" name="common_customer_store_public_alipay" value="{{$data.common_customer_store_public_alipay.value}}" />
+                                        <img src="{{:AttachmentPathViewHandle($data.common_customer_store_public_alipay.value)}}" />
+                                        <i class="iconfont icon-close"></i>
+                                        <i class="iconfont icon-eye"></i>
+                                    {{/if}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- 客服 -->
+                <div class="item" data-key="chat">
+                    <div class="am-form-group">
+                        <label>{{$data.common_customer_store_chat_tel.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_chat_tel.describe}}</span></label>
+                        <input type="text" name="{{$data.common_customer_store_chat_tel.only_tag}}" placeholder="{{$data.common_customer_store_chat_tel.name}}" data-validation-message="{{$data.common_customer_store_chat_tel.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_chat_tel.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_customer_store_chat_email.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_chat_email.describe}}</span></label>
+                        <input type="email" name="{{$data.common_customer_store_chat_email.only_tag}}" placeholder="{{$data.common_customer_store_chat_email.name}}" data-validation-message="{{$data.common_customer_store_chat_email.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_chat_email.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_customer_store_chat_qq.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_chat_qq.describe}}</span></label>
+                        <input type="text" name="{{$data.common_customer_store_chat_qq.only_tag}}" placeholder="{{$data.common_customer_store_chat_qq.name}}" data-validation-message="{{$data.common_customer_store_chat_qq.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_chat_qq.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_customer_store_chat_url.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_chat_url.describe}}</span></label>
+                        <input type="text" name="{{$data.common_customer_store_chat_url.only_tag}}" placeholder="{{$data.common_customer_store_chat_url.name}}" data-validation-message="{{$data.common_customer_store_chat_url.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_chat_url.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_customer_store_chat_weixin.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_chat_weixin.describe}}</span></label>
+                        <div class="am-form-file-upload-container">
+                            <ul class="plug-file-upload-view common_customer_store_chat_weixin-images-view" data-form-name="common_customer_store_chat_weixin" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                                <li class="plug-file-upload-submit" data-view-tag="ul.common_customer_store_chat_weixin-images-view">
+                                    {{if empty($data['common_customer_store_chat_weixin']['value'])}}
+                                        <i class="iconfont icon-add"></i>
+                                    {{else /}}
+                                        <input type="text" name="common_customer_store_chat_weixin" value="{{$data.common_customer_store_chat_weixin.value}}" />
+                                        <img src="{{:AttachmentPathViewHandle($data.common_customer_store_chat_weixin.value)}}" />
+                                        <i class="iconfont icon-close"></i>
+                                        <i class="iconfont icon-eye"></i>
+                                    {{/if}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_customer_store_chat_line.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_chat_line.describe}}</span></label>
+                        <div class="am-form-file-upload-container">
+                            <ul class="plug-file-upload-view common_customer_store_chat_line-images-view" data-form-name="common_customer_store_chat_line" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                                <li class="plug-file-upload-submit" data-view-tag="ul.common_customer_store_chat_line-images-view">
+                                    {{if empty($data['common_customer_store_chat_line']['value'])}}
+                                        <i class="iconfont icon-add"></i>
+                                    {{else /}}
+                                        <input type="text" name="common_customer_store_chat_line" value="{{$data.common_customer_store_chat_line.value}}" />
+                                        <img src="{{:AttachmentPathViewHandle($data.common_customer_store_chat_line.value)}}" />
+                                        <i class="iconfont icon-close"></i>
+                                        <i class="iconfont icon-eye"></i>
+                                    {{/if}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- 平台客户端 -->
+                <div class="item" data-key="platform-client">
+                    {{if !empty($common_platform_type) and is_array($common_platform_type)}}
+                        {{foreach $common_platform_type as $v}}
+                            {{if $v['value'] neq 'pc'}}
+                                <div class="am-form-group">
+                                    <label class="am-block">{{$v.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_platform_client.describe}}</span></label>
+                                    <div class="am-form-file-upload-container">
+                                        <ul class="plug-file-upload-view common_customer_store_platform_client-{{$v.value}}-images-view" data-form-name="common_customer_store_platform_client[{{$v.value}}]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                                            <li class="plug-file-upload-submit" data-view-tag="ul.common_customer_store_platform_client-{{$v.value}}-images-view">
+                                                {{if empty($data['common_customer_store_platform_client']['value']) or empty($data['common_customer_store_platform_client']['value'][$v['value']])}}
+                                                    <i class="iconfont icon-add"></i>
+                                                {{else /}}
+                                                    <input type="text" name="common_customer_store_platform_client[{{$v.value}}]" value="{{$data['common_customer_store_platform_client']['value'][$v['value']]}}" />
+                                                    <img src="{{$data['common_customer_store_platform_client']['value'][$v['value']]}}" />
+                                                    <i class="iconfont icon-close"></i>
+                                                    <i class="iconfont icon-eye"></i>
+                                                {{/if}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            {{/if}}
+                        {{/foreach}}
+                    {{/if}}
                 </div>
             </div>
             <div class="am-form-popup-submit">

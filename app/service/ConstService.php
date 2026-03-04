@@ -94,6 +94,9 @@ class ConstService
      */
     public static function ConstData()
     {
+        // 商品管理导航列表
+        $goods_nav = MyLang('common_service.goods.goods_admin_nav_list');
+
         return [
             // -------------------- 公共 --------------------
             // 系统版本列表
@@ -145,6 +148,7 @@ class ConstService
                 '6.6.0' => ['value' => '6.6.0', 'name' => 'v6.6.0'],
                 '6.7.0' => ['value' => '6.7.0', 'name' => 'v6.7.0'],
                 '6.7.1' => ['value' => '6.7.1', 'name' => 'v6.7.1'],
+                '6.8.0' => ['value' => '6.8.0', 'name' => 'v6.8.0'],
             ],
 
             // 搜索排序方式
@@ -361,6 +365,25 @@ class ConstService
             'common_goods_comments_business_type_list' => [
                 'order' => ['value' => 'order', 'name' => MyLang('common_goods_comments_business_type_list.order')],
             ],
+            // 商品基础字段
+            'common_goods_base_data_fields' => [
+                'brand_name'              => MyLang('common_goods_base_data_fields.brand_name'),
+                'simple_desc'             => MyLang('common_goods_base_data_fields.simple_desc'),
+                'spec_desc'               => MyLang('common_goods_base_data_fields.spec_desc'),
+                'approval_number'         => MyLang('common_goods_base_data_fields.approval_number'),
+                'approval_number_expire'  => MyLang('common_goods_base_data_fields.approval_number_expire'),
+                'batch_number'            => MyLang('common_goods_base_data_fields.batch_number'),
+                'batch_number_expire'     => MyLang('common_goods_base_data_fields.batch_number_expire'),
+                'coding'                  => MyLang('common_goods_base_data_fields.coding'),
+                'model'                   => MyLang('common_goods_base_data_fields.model'),
+                'produce_company'         => MyLang('common_goods_base_data_fields.produce_company'),
+                'produce_region_name'     => MyLang('common_goods_base_data_fields.produce_region_name'),
+                'spec_weight'             => MyLang('common_goods_base_data_fields.spec_weight'),
+                'spec_volume'             => MyLang('common_goods_base_data_fields.spec_volume'),
+                'spec_coding'             => MyLang('common_goods_base_data_fields.spec_coding'),
+                'spec_barcode'            => MyLang('common_goods_base_data_fields.spec_barcode'),
+
+            ],
             // 站点类型
             'common_site_type_list' => [
                 0 => ['value' => 0, 'name' => MyLang('common_site_type_list.0'), 'checked'=>true],
@@ -498,6 +521,72 @@ class ConstService
                 'fra'  => MyLang('common_multilingual_list.fra'),
                 'swe'  => MyLang('common_multilingual_list.swe'),
                 'mn'   => MyLang('common_multilingual_list.mn'),
+            ],
+            // 商品基础字段
+            'common_goods_base_fields_list' => [
+                'simple_desc'             => MyLang('common_goods_base_fields_list.simple_desc'),
+                'spec_desc'               => MyLang('common_goods_base_fields_list.spec_desc'),
+                'approval_number'         => MyLang('common_goods_base_fields_list.approval_number'),
+                'approval_number_expire'  => MyLang('common_goods_base_fields_list.approval_number_expire'),
+                'batch_number'            => MyLang('common_goods_base_fields_list.batch_number'),
+                'batch_number_expire'     => MyLang('common_goods_base_fields_list.batch_number_expire'),
+                'coding'                  => MyLang('common_goods_base_fields_list.coding'),
+                'model'                   => MyLang('common_goods_base_fields_list.model'),
+                'brand_id'                => MyLang('common_goods_base_fields_list.brand_id'),
+                'produce_company'         => MyLang('common_goods_base_fields_list.produce_company'),
+                'produce_region'          => MyLang('common_goods_base_fields_list.produce_region'),
+            ],
+            // 商品管理导航
+            'common_goods_admin_nav_list' => [
+                
+                'base' => [
+                    'name' => $goods_nav['base']['name'],
+                    'tips' => isset($goods_nav['base']['tips']) ? $goods_nav['base']['tips'] : '',
+                ],
+                'spec' => [
+                    'name' => $goods_nav['spec']['name'],
+                    'tips' => isset($goods_nav['spec']['tips']) ? $goods_nav['spec']['tips'] : '',
+                ],
+                'spec_images' => [
+                    'name' => $goods_nav['spec_images']['name'],
+                    'tips' => isset($goods_nav['spec_images']['tips']) ? $goods_nav['spec_images']['tips'] : '',
+                ],
+                'parameters' => [
+                    'name' => $goods_nav['parameters']['name'],
+                    'tips' => isset($goods_nav['parameters']['tips']) ? $goods_nav['parameters']['tips'] : '',
+                ],
+                'photo' => [
+                    'name' => $goods_nav['photo']['name'],
+                    'tips' => isset($goods_nav['photo']['tips']) ? $goods_nav['photo']['tips'] : '',
+                ],
+                'video' => [
+                    'name' => $goods_nav['video']['name'],
+                    'tips' => isset($goods_nav['video']['tips']) ? $goods_nav['video']['tips'] : '',
+                ],
+                'app' => [
+                    'name' => $goods_nav['app']['name'],
+                    'tips' => isset($goods_nav['app']['tips']) ? $goods_nav['app']['tips'] : '',
+                ],
+                'web' => [
+                    'name' => $goods_nav['web']['name'],
+                    'tips' => isset($goods_nav['web']['tips']) ? $goods_nav['web']['tips'] : '',
+                ],
+                'fictitious' => [
+                    'name' => $goods_nav['fictitious']['name'],
+                    'tips' => isset($goods_nav['fictitious']['tips']) ? $goods_nav['fictitious']['tips'] : '',
+                ],
+                'extends' => [
+                    'name' => $goods_nav['extends']['name'],
+                    'tips' => isset($goods_nav['extends']['tips']) ? $goods_nav['extends']['tips'] : '',
+                ],
+                'use_guide' => [
+                    'name' => $goods_nav['use_guide']['name'],
+                    'tips' => isset($goods_nav['use_guide']['tips']) ? $goods_nav['use_guide']['tips'] : '',
+                ],
+                'seo' => [
+                    'name' => $goods_nav['seo']['name'],
+                    'tips' => isset($goods_nav['seo']['tips']) ? $goods_nav['seo']['tips'] : '',
+                ],
             ],
             // token生成规则
             'common_token_created_rules_list' => [

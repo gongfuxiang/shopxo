@@ -6,45 +6,49 @@
     {{:ModuleInclude('public/detail_nav_switch_tabs', [
         'nav_data' => [
             [
-                'name' => MyLang('form_base_data_title'),
+                'name' => $goods_admin_nav_list.base.name,
                 'key'  => 'base',
             ],
             [
-                'name' => $goods_nav_list.video.name,
+                'name' => $goods_admin_nav_list.video.name,
                 'key'  => 'video',
             ],
             [
-                'name' => $goods_nav_list.photo.name,
+                'name' => $goods_admin_nav_list.photo.name,
                 'key'  => 'photo',
             ],
             [
-                'name' => $goods_nav_list.spec.name,
+                'name' => $goods_admin_nav_list.spec.name,
                 'key'  => 'spec',
             ],
             [
-                'name' => $goods_nav_list.spec_images.name,
+                'name' => $goods_admin_nav_list.spec_images.name,
                 'key'  => 'spec-images',
             ],
             [
-                'name' => $goods_nav_list.parameters.name,
+                'name' => $goods_admin_nav_list.parameters.name,
                 'key'  => 'parameters',
             ],
             [
-                'name' => $goods_nav_list.web.name,
+                'name' => $goods_admin_nav_list.web.name,
                 'key'  => 'web',
             ],
             [
-                'name' => $goods_nav_list.app.name,
+                'name' => $goods_admin_nav_list.app.name,
                 'key'  => 'app',
             ],
             [
-                'name' => $goods_nav_list.fictitious.name,
+                'name' => $goods_admin_nav_list.fictitious.name,
                 'key'  => 'fictitious',
             ],
             [
-                'name' => $goods_nav_list.seo.name,
+                'name' => $goods_admin_nav_list.use_guide.name,
+                'key'  => 'use_guide',
+            ],
+            [
+                'name' => $goods_admin_nav_list.seo.name,
                 'key'  => 'seo-data-title',
-            ]
+            ],
         ]
     ])}}
     <div class="detail-content-switch-data-item">
@@ -215,6 +219,17 @@
             {{if !empty($data['fictitious_goods_value'])}}
                 <div class="am-nowrap-initial richtext">
                     {{$data.fictitious_goods_value|raw}}
+                </div>
+            {{else /}}
+                {{:ModuleInclude('public/not_data')}}
+            {{/if}}
+        </div>
+
+        <!-- 使用指南 -->
+        <div class="item" data-key="use_guide">
+            {{if !empty($data['use_guide'])}}
+                <div class="am-nowrap-initial richtext">
+                    {{$data.use_guide|raw}}
                 </div>
             {{else /}}
                 {{:ModuleInclude('public/not_data')}}

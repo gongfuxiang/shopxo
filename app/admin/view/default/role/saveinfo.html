@@ -38,7 +38,7 @@
                                     <li>
                                         <div class="item-content am-padding-sm">
                                             <label class="am-checkbox-inline">
-                                                <input type="checkbox" name="power_id" value="{{$v.id}}" {{if $v['is_power'] eq 'ok'}}checked{{/if}} data-am-ucheck />
+                                                <input type="checkbox" name="power_id" value="{{$v.id}}" {{if $v['is_power'] eq 1}}checked{{/if}} data-am-ucheck />
                                                 <span class="{{if $v['is_show'] eq 0}}am-color-999{{/if}}">{{$v.name}}</span>
                                             </label>
                                         </div>
@@ -48,7 +48,7 @@
                                                     <li class="am-flex am-flex-row am-flex-justify-between am-flex-items-center am-flex-warp">
                                                         <div class="item-content am-padding-sm">
                                                             <label class="am-checkbox-inline">
-                                                                <input type="checkbox" name="power_id" value="{{$vs.id}}" {{if $vs['is_power'] eq 'ok'}}checked{{/if}} data-am-ucheck />
+                                                                <input type="checkbox" name="power_id" value="{{$vs.id}}" {{if $vs['is_power'] eq 1}}checked{{/if}} data-am-ucheck />
                                                                 <span class="{{if $vs['is_show'] eq 0}}am-color-999{{/if}}">{{$vs.name}}</span>
                                                             </label>
                                                         </div>
@@ -56,7 +56,7 @@
                                                             <div class="list-find-three am-padding-sm am-flex am-flex-justify-right am-flex-grow am-flex-items-center am-flex-warp am-gap-1">
                                                                 {{foreach $vs.item as $vss}}
                                                                     <label class="am-checkbox-inline">
-                                                                        <input type="checkbox" name="power_id" value="{{$vss.id}}" {{if $vss['is_power'] eq 'ok'}}checked{{/if}} data-am-ucheck>
+                                                                        <input type="checkbox" name="power_id" value="{{$vss.id}}" {{if $vss['is_power'] eq 1}}checked{{/if}} data-am-ucheck>
                                                                         <span class="{{if $vss['is_show'] eq 0}}am-color-999{{/if}}">{{$vss.name}}</span>
                                                                     </label>
                                                                 {{/foreach}}
@@ -77,23 +77,47 @@
 
                 <div class="item" data-key="role-form-item-plugins">
                     <div class="am-form-group">
-                        <div class="tree-plugins am-padding-left-sm am-checkbox-group am-flex am-flex-warp-re am-flex-items-center am-gap-12">
+                        <div class="tree-plugins am-padding-bottom-sm am-padding-left-sm am-checkbox-group am-flex am-flex-warp-re am-flex-items-center am-gap-12">
                             <label class="am-checkbox-inline am-text-truncate">
                                 <input type="checkbox" name="plugins" value="" data-am-ucheck />
                                 <span>全选</span>
                             </label>
                             <span class="am-color-red">{{:MyLang('common_service.role.form_item_plugins_tips')}}</span>
                         </div>
-                        <ul class="tree-list tree-plugins-list am-flex am-flex-warp">
+                        <ul class="tree-list am-nbfc am-radius-lg" data-is-two-check-find="0" data-is-three-check-parent="0">
                             {{if !empty($power['plugins'])}}
                                 {{foreach $power.plugins as $v}}
                                     <li>
-                                        <div class="item-content am-checkbox-group">
-                                            <label class="am-checkbox-inline am-text-truncate">
-                                                <input type="checkbox" name="plugins" value="{{$v.plugins}}" class="node-choice" {{if $v['is_power'] eq 'ok'}}checked{{/if}} data-am-ucheck />
+                                        <div class="item-content am-padding-sm">
+                                            <label class="am-checkbox-inline">
+                                                <input type="checkbox" name="plugins[{{$v.plugins}}][plugins]" value="{{$v.plugins}}" {{if isset($v['is_power']) and $v['is_power'] eq 1}}checked{{/if}} data-am-ucheck />
                                                 <span>{{$v.name}}</span>
                                             </label>
                                         </div>
+                                        {{if !empty($v['item'])}}
+                                            <ul class="list-find">
+                                                {{foreach $v.item as $vs}}
+                                                    <li class="am-flex am-flex-row am-flex-justify-between am-flex-items-center am-flex-warp">
+                                                        <div class="item-content am-padding-sm">
+                                                            <label class="am-checkbox-inline">
+                                                                <input type="checkbox" name="plugins[{{$v.plugins}}][power]" value="{{$vs.control}}-{{$vs.action}}" {{if isset($vs['is_power']) and $vs['is_power'] eq 1}}checked{{/if}} data-am-ucheck />
+                                                                <span>{{$vs.name}}</span>
+                                                            </label>
+                                                        </div>
+                                                        {{if !empty($vs['item'])}}
+                                                            <div class="list-find-three am-padding-sm am-flex am-flex-justify-right am-flex-grow am-flex-items-center am-flex-warp am-gap-1">
+                                                                {{foreach $vs.item as $vss}}
+                                                                    <label class="am-checkbox-inline">
+                                                                        <input type="checkbox" name="plugins[{{$v.plugins}}][power]" value="{{$vs.control}}-{{$vss.action}}" {{if isset($vs['is_power']) and $vss['is_power'] eq 1}}checked{{/if}} data-am-ucheck>
+                                                                        <span>{{$vss.name}}</span>
+                                                                    </label>
+                                                                {{/foreach}}
+                                                            </div>
+                                                        {{/if}}
+                                                    </li>
+                                                {{/foreach}}
+                                            </ul>
+                                        {{/if}}
                                     </li>
                                 {{/foreach}}
                             {{else /}}

@@ -4,8 +4,8 @@
     {{/if}}
     <div class="am-flex am-flex-items-center am-gap-2">
         <!-- 通过配置生成商品参数 -->
-        {{if isset($goods_params_operate_data['is_created']) and $goods_params_operate_data['is_created'] eq 1}}
-            <div class="am-dropdown goods-params" id="parameters-quick-container" data-am-dropdown>
+        {{if isset($goods_params_operate_data['is_created']) and $goods_params_operate_data['is_created'] eq 1 and $is_goods_single_category_mode neq 1 and $is_goods_parameters_custom_mode neq 1}}
+            <div class="am-dropdown" id="parameters-quick-container" data-am-dropdown>
                 <span class="business-operations-submit am-dropdown-toggle parameters-quick-add">
                     <span>{{:MyLang('common_service.goods.form_params_select_title')}}</span>
                     <i class="am-icon-angle-down am-margin-left-xs"></i>
@@ -27,7 +27,7 @@
             </div>
         {{/if}}
         <!-- 清空操作 -->
-        {{if isset($goods_params_operate_data['is_remove']) and $goods_params_operate_data['is_remove'] eq 1}}
+        {{if isset($goods_params_operate_data['is_remove']) and $goods_params_operate_data['is_remove'] eq 1 and ($is_goods_single_category_mode neq 1 or $is_goods_parameters_custom_mode eq 1)}}
             <span class="business-operations-submit parameters-quick-remove">
                 <i class="iconfont icon-shear"></i>
                 <span>{{:MyLang('common_service.goods.form_params_config_empty_title')}}</span>

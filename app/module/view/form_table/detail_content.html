@@ -66,6 +66,11 @@
             <img src="{{$form_table_data_detail[$t['view_key']]}}" class="am-img-thumbnail {{if !empty($t['images_shape'])}}am-{{$t.images_shape}}{{/if}} common-annex-view-event" data-is-download="1" data-value="{{$form_table_data_detail[$t['view_key']]}}" style="{{if !empty($t['images_width'])}}width:{{$t.images_width}}px;{{/if}}{{if !empty($t['images_height'])}}height:{{$t.images_height}}px;{{/if}}" />
         {{/if}}
     {{/case}}
+    {{case video}}
+        {{if !empty($form_table_data_detail[$t['view_key']])}}
+            <video src="{{$form_table_data_detail[$t['view_key']]}}" class="am-img-thumbnail {{if !empty($t['video_shape'])}}am-{{$t.video_shape}}{{/if}} common-annex-view-event" data-type="video" data-is-download="1" data-value="{{$form_table_data_detail[$t['view_key']]}}" style="{{if !empty($t['video_width'])}}width:{{$t.video_width}}px;{{/if}}{{if !empty($t['video_height'])}}height:{{$t.video_height}}px;object-fit:fill;{{/if}}">your browser does not support the video tag</video>
+        {{/if}}
+    {{/case}}
     {{case qrcode}}
         {{if !empty($form_table_data_detail[$t['view_key']])}}
             {{if isset($t['qrcode_type']) and $t['qrcode_type'] eq 1}}
@@ -117,18 +122,21 @@
         {{/if}}
     {{/case}}
     {{case field}}
-        <p class="
+        <div class="richtext 
             {{if isset($t['is_badge']) and $t['is_badge'] eq 1}}
                 am-badge {{if !empty($t['badge_key']) and !empty($t['badge_style']) and isset($form_table_data_detail[$t['badge_key']]) and isset($t['badge_style'][$form_table_data_detail[$t['badge_key']]]) and substr($t['badge_style'][$form_table_data_detail[$t['badge_key']]], 0, 1) neq '#'}}am-badge-{{$t['badge_style'][$form_table_data_detail[$t['badge_key']]]}} {{/if}} 
                 {{if !empty($t['badge_shape'])}}am-{{$t.badge_shape}} {{/if}} 
             {{/if}} 
             {{if isset($t['is_color']) and $t['is_color'] eq 1 and !empty($t['color_key']) and !empty($t['color_style']) and isset($form_table_data_detail[$t['color_key']]) and isset($t['color_style'][$form_table_data_detail[$t['color_key']]]) and substr($t['color_style'][$form_table_data_detail[$t['color_key']]], 0, 1) neq '#'}}am-text-{{$t['color_style'][$form_table_data_detail[$t['color_key']]]}}{{/if}} 
-            {{if !empty($t['text_truncate']) and (!isset($t['is_truncate_detail']) or $t['is_truncate_detail'] eq 1)}}am-text-truncate{{if $t['text_truncate'] eq 2}}-2{{/if}}{{/if}} 
+            {{if !empty($t['text_truncate']) and (!isset($t['is_truncate_detail']) or $t['is_truncate_detail'] eq 1)}}am-text-truncate{{if $t['text_truncate'] gt 1}}-{{$t.text_truncate}}{{/if}}{{/if}} 
             {{if isset($t['is_popup']) and $t['is_popup'] eq 1 and (!empty($t['popup_url']) or (!empty($t['popup_url_key']) and !empty($form_table_data_detail[$t['popup_url_key']])))}}submit-popup{{/if}} 
             {{if isset($t['is_modal']) and $t['is_modal'] eq 1 and (!empty($t['modal_url']) or (!empty($t['modal_url_key']) and !empty($form_table_data_detail[$t['modal_url_key']])))}}submit-modal{{/if}}" 
             style="
             {{if isset($t['is_badge']) and $t['is_badge'] eq 1 and !empty($t['badge_key']) and !empty($t['badge_style']) and is_array($t['badge_style']) and isset($form_table_data_detail[$t['badge_key']]) and isset($t['badge_style'][$form_table_data_detail[$t['badge_key']]]) and substr($t['badge_style'][$form_table_data_detail[$t['badge_key']]], 0, 1) eq '#'}}background: {{$t['badge_style'][$form_table_data_detail[$t['badge_key']]]}};{{/if}} 
-            {{if isset($t['is_color']) and $t['is_color'] eq 1 and !empty($t['color_key']) and !empty($t['color_style']) and is_array($t['color_style']) and isset($form_table_data_detail[$t['color_key']]) and isset($t['color_style'][$form_table_data_detail[$t['color_key']]]) and substr($t['color_style'][$form_table_data_detail[$t['color_key']]], 0, 1) eq '#'}}color: {{$t['color_style'][$form_table_data_detail[$t['color_key']]]}};{{/if}}" 
+            {{if isset($t['is_color']) and $t['is_color'] eq 1}}
+                {{if !empty($t['color_key']) and !empty($t['color_style']) and is_array($t['color_style']) and isset($form_table_data_detail[$t['color_key']]) and isset($t['color_style'][$form_table_data_detail[$t['color_key']]]) and substr($t['color_style'][$form_table_data_detail[$t['color_key']]], 0, 1) eq '#'}}color: {{$t['color_style'][$form_table_data_detail[$t['color_key']]]}};{{/if}}
+                {{if !empty($t['color_style']) and !is_array($t['color_style'])}}color: {{$t['color_style']}};{{/if}}
+            {{/if}}" 
             {{if isset($t['is_popover']) and $t['is_popover'] eq 1 and !empty($t['popover_field']) and !empty($form_table_data_detail[$t['popover_field']])}}data-am-popover="{content: '{{:PopoverContentHandle($form_table_data_detail[$t['popover_field']])}}', trigger: 'hover focus', theme: 'sm'}"{{/if}} 
             {{if isset($t['is_popup']) and $t['is_popup'] eq 1 and (!empty($t['popup_url']) or (!empty($t['popup_url_key']) and !empty($form_table_data_detail[$t['popup_url_key']])))}}
                 data-url="{{if !empty($t['popup_url_key']) and !empty($form_table_data_detail[$t['popup_url_key']])}}{{$form_table_data_detail[$t['popup_url_key']]}}{{else /}}{{if !empty($t['popup_url'])}}{{$t.popup_url}}{{/if}}{{/if}}" 
@@ -164,7 +172,7 @@
         >
             <!-- 图标+提示 -->
             {{if isset($t['is_first_tips']) and $t['is_first_tips'] eq 1 and ((!empty($t['first_tips_key']) and !empty($form_table_data_detail[$t['first_tips_key']])) or (!empty($t['first_tips_data'])))}}
-                <a href="javascript:;" class="am-margin-right-xs {{if !empty($t['first_tips_style'])}}am-text-{{$t.first_tips_style}}{{/if}} am-icon-{{if empty($t['first_tips_icon'])}}exclamation-circle{{else /}}{{$t.first_tips_icon}}{{/if}}" data-am-popover="{content: '{{if !empty($t['first_tips_key']) and !empty($form_table_data_detail[$t['first_tips_key']])}}{{:PopoverContentHandle($form_table_data_detail[$t['first_tips_key']])}}{{else /}}{{:PopoverContentHandle($t.first_tips_data)}}{{/if}}', trigger: 'hover focus', theme: '{{if !empty($t['first_tips_style'])}}{{$t.first_tips_style}}{{/if}} sm'}"></a>
+                <span class="am-margin-right-xs {{if !empty($t['first_tips_style'])}}am-text-{{$t.first_tips_style}}{{/if}} am-icon-{{if empty($t['first_tips_icon'])}}exclamation-circle{{else /}}{{$t.first_tips_icon}}{{/if}} {{if isset($t['is_first_tips_copy']) and $t['is_first_tips_copy'] eq 1}} text-copy-submit{{/if}}" data-value="{{if !empty($t['first_tips_key']) and !empty($form_table_data_detail[$t['first_tips_key']])}}{{:PopoverContentHandle($form_table_data_detail[$t['first_tips_key']])}}{{else /}}{{:PopoverContentHandle($t.first_tips_data)}}{{/if}}" data-am-popover="{content: '{{if !empty($t['first_tips_key']) and !empty($form_table_data_detail[$t['first_tips_key']])}}{{:PopoverContentHandle($form_table_data_detail[$t['first_tips_key']])}}{{else /}}{{:PopoverContentHandle($t.first_tips_data)}}{{/if}}', trigger: 'hover focus', theme: '{{if !empty($t['first_tips_style'])}}{{$t.first_tips_style}}{{/if}} sm'}"></span>
             {{/if}}
 
             <!-- 连接+提示 -->
@@ -229,7 +237,7 @@
             {{if isset($t['view_join_last'])}}
                 <span>{{$t.view_join_last}}</span>
             {{/if}}
-        </p>
+        </div>
     {{/case}}
     {{case module}}
         <!-- 从模块加载自定义模块数据 -->

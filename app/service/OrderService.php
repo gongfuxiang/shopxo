@@ -15,6 +15,7 @@ use app\service\PaymentService;
 use app\service\BuyService;
 use app\service\IntegralService;
 use app\service\RegionService;
+use app\service\BrandService;
 use app\service\ExpressService;
 use app\service\ResourcesService;
 use app\service\PayLogService;
@@ -118,7 +119,7 @@ class OrderService
             }
 
             // 订单地址
-            $order['address_data'] = (!empty($address_data) && array_key_exists($order_id, $address_data)) ? $address_data[$order_id] : null;
+            $order['address_data'] = (!empty($address_data) && array_key_exists($order_id, $address_data)) ? $address_data[$order_id] : '';
 
             // 订单数据集合
             $order_data[] = $order;
@@ -1122,7 +1123,7 @@ class OrderService
             // 商品
             if($keywords_status === false)
             {
-                $oids = Db::name('OrderDetail')->where(array_merge($user_base_where, [['title', 'like', '%'.$params['keywords'].'%']]))->column('order_id');
+                $oids = Db::name('OrderDetail')->where(array_merge($user_base_where, [['title|spec|simple_desc|spec_desc|approval_number|batch_number|coding|model|produce_company|produce_region|goods_params|goods_content_app|goods_content_web|goods_use_guide|spec_coding|spec_barcode', 'like', '%'.$params['keywords'].'%']]))->column('order_id');
                 if(!empty($oids))
                 {
                     $where[] = ['id', 'in', $oids];
@@ -1371,8 +1372,14 @@ class OrderService
             // 订单服务
             $service_data = self::OrderServiceData($order_ids);
 
+            // 订单追溯
+            $trace_source_data = self::OrderTraceSourceData($order_ids);
+
             // 订单详情
-            $detail = ($is_items == 1) ? self::OrderItemList($data, $is_orderaftersale) : [];
+            $detail = ($is_items == 1) ? self::OrderItemList($data, $is_orderaftersale, $trace_source_data) : [];
+
+            // 使用指南配置
+            $use_guide_config = ($is_items == 1) ? ResourcesService::OrderDetailGoodsUseGuideConfig() : [];
 
             // 订单日志
             $status_history_data = ($is_status_history == 1) ? self::OrderStatusHistoryList($order_ids) : [];
@@ -1417,20 +1424,23 @@ class OrderService
                 if(in_array($v['order_model'], [0,1,2]))
                 {
                     // 销售模式+自提模式 地址信息
-                    $v['address_data'] = (!empty($address_data) && array_key_exists($v['id'], $address_data)) ? $address_data[$v['id']] : null;
+                    $v['address_data'] = (!empty($address_data) && array_key_exists($v['id'], $address_data)) ? $address_data[$v['id']] : '';
 
                     // 自提模式 添加订单取货码
                     if($v['order_model'] == 2)
                     {
-                        $v['extraction_data'] = (isset($v['status']) && !in_array($v['status'], [0,1,5,6]) && !empty($extraction_data) && array_key_exists($v['id'], $extraction_data)) ? $extraction_data[$v['id']] : null;
+                        $v['extraction_data'] = (isset($v['status']) && !in_array($v['status'], [0,1,5,6]) && !empty($extraction_data) && array_key_exists($v['id'], $extraction_data)) ? $extraction_data[$v['id']] : '';
                     }
                 }
 
                 // 快递信息
-                $v['express_data'] = (!empty($express_data) && array_key_exists($v['id'], $express_data)) ? $express_data[$v['id']] : null;
+                $v['express_data'] = (!empty($express_data) && array_key_exists($v['id'], $express_data)) ? $express_data[$v['id']] : '';
 
                 // 服务信息
-                $v['service_data'] = (!empty($service_data) && array_key_exists($v['id'], $service_data)) ? $service_data[$v['id']] : null;
+                $v['service_data'] = (!empty($service_data) && array_key_exists($v['id'], $service_data)) ? $service_data[$v['id']] : '';
+
+                // 追溯数据
+                $v['trace_source_data'] = (!empty($trace_source_data) && array_key_exists($v['id'], $trace_source_data)) ? $trace_source_data[$v['id']] : '';
 
                 // 用户信息
                 if(isset($v['user_id']))
@@ -1454,10 +1464,10 @@ class OrderService
                 $v['pay_status_name'] = (in_array($v['status'], [2,3,4]) && $v['pay_status'] == 0) ? $order_under_line_pay_status_name : $order_pay_status[$v['pay_status']]['name'];
 
                 // 支付方式
-                $v['payment_name'] = (!empty($payment_list) && is_array($payment_list) && array_key_exists($v['id'], $payment_list)) ? $payment_list[$v['id']] : null;
+                $v['payment_name'] = (!empty($payment_list) && is_array($payment_list) && array_key_exists($v['id'], $payment_list)) ? $payment_list[$v['id']] : '';
 
                 // 线下支付 icon 名称
-                $v['is_under_line_text'] = ($v['is_under_line'] == 1) ? $order_under_line_name : null;
+                $v['is_under_line_text'] = ($v['is_under_line'] == 1) ? $order_under_line_name : '';
 
                 // 是否可发起售后
                 $v['is_can_launch_aftersale'] = OrderAftersaleService::OrderIsCanLaunchAftersale($v['collect_time']);
@@ -1468,37 +1478,37 @@ class OrderService
                 $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
 
                 // 更新时间
-                $v['upd_time'] = empty($v['upd_time']) ? null : date('Y-m-d H:i:s', $v['upd_time']);
+                $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
 
                 // 确认时间
-                $v['confirm_time'] = empty($v['confirm_time']) ? null : date('Y-m-d H:i:s', $v['confirm_time']);
+                $v['confirm_time'] = empty($v['confirm_time']) ? '' : date('Y-m-d H:i:s', $v['confirm_time']);
 
                 // 支付时间
-                $v['pay_time'] = empty($v['pay_time']) ? null : date('Y-m-d H:i:s', $v['pay_time']);
+                $v['pay_time'] = empty($v['pay_time']) ? '' : date('Y-m-d H:i:s', $v['pay_time']);
 
                 // 发货时间
-                $v['delivery_time'] = empty($v['delivery_time']) ? null : date('Y-m-d H:i:s', $v['delivery_time']);
+                $v['delivery_time'] = empty($v['delivery_time']) ? '' : date('Y-m-d H:i:s', $v['delivery_time']);
 
                 // 收货时间
-                $v['collect_time'] = empty($v['collect_time']) ? null : date('Y-m-d H:i:s', $v['collect_time']);
+                $v['collect_time'] = empty($v['collect_time']) ? '' : date('Y-m-d H:i:s', $v['collect_time']);
 
                 // 取消时间
-                $v['cancel_time'] = empty($v['cancel_time']) ? null : date('Y-m-d H:i:s', $v['cancel_time']);
+                $v['cancel_time'] = empty($v['cancel_time']) ? '' : date('Y-m-d H:i:s', $v['cancel_time']);
 
                 // 关闭时间
-                $v['close_time'] = empty($v['close_time']) ? null : date('Y-m-d H:i:s', $v['close_time']);
+                $v['close_time'] = empty($v['close_time']) ? '' : date('Y-m-d H:i:s', $v['close_time']);
 
                 // 评论时间
-                $v['user_is_comments_time'] = ($v['user_is_comments'] == 0) ? null : date('Y-m-d H:i:s', $v['user_is_comments']);
+                $v['user_is_comments_time'] = ($v['user_is_comments'] == 0) ? '' : date('Y-m-d H:i:s', $v['user_is_comments']);
 
                 // 空字段数据处理
                 if(empty($v['user_note']))
                 {
-                    $v['user_note'] = null;
+                    $v['user_note'] = '';
                 }
 
                 // 扩展数据
-                $v['extension_data'] = empty($v['extension_data']) ? null : json_decode($v['extension_data'], true);
+                $v['extension_data'] = empty($v['extension_data']) ? '' : json_decode($v['extension_data'], true);
 
                 // 订单详情
                 if($is_items == 1)
@@ -1506,6 +1516,23 @@ class OrderService
                     $v['items'] = (!empty($detail) && array_key_exists($v['id'], $detail)) ? $detail[$v['id']] : [];
                     $v['items_count'] = count($v['items']);
                     $v['describe'] = MyLang('common_service.order.order_item_summary_desc', ['buy_number_count'=>$v['buy_number_count'], 'currency_symbol'=>$v['currency_data']['currency_symbol'], 'total_price'=>$v['total_price']]);
+                    // 使用指南
+                    if(!empty($v['items']) && !empty($use_guide_config))
+                    {
+                        $use_guide_data = $use_guide_config;
+                        foreach($v['items'] as $ivs)
+                        {
+                            if(!empty($ivs['goods_use_guide']))
+                            {
+                                $use_guide_data['data'][] = [
+                                    'title'            => $ivs['title'],
+                                    'images'           => $ivs['images'],
+                                    'goods_use_guide'  => $ivs['goods_use_guide'],
+                                ];
+                            }
+                        }
+                        $v['use_guide_data'] = empty($use_guide_data['data']) ? '' : $use_guide_data;
+                    }
                 }
 
                 // 订单日志
@@ -1594,25 +1621,28 @@ class OrderService
     {
         $result = [
             // 确认
-            'is_confirm'    => 0,
+            'is_confirm'      => 0,
             // 支付
-            'is_pay'        => 0,
+            'is_pay'          => 0,
             // 发货
-            'is_delivery'   => 0,
+            'is_delivery'     => 0,
             // 同城
-            'is_service'    => 0,
+            'is_service'      => 0,
+            // 追溯
+            'is_tracesource'  => 0,
             // 取货
-            'is_take'       => 0,
+            'is_take'         => 0,
             // 收货 
-            'is_collect'    => 0,
+            'is_collect'      => 0,
             // 取消
-            'is_cancel'     => 0,
+            'is_cancel'       => 0,
             // 删除
-            'is_delete'     => 0,
+            'is_delete'       => 0,
             // 评论
-            'is_comments'   => 0,
+            'is_comments'     => 0,
         ];
-        if(isset($data['status']) && isset($data['pay_status']))
+        $order_id = empty($data['order_id']) ? (empty($data['id']) ? 0 : $data['id']) : $data['order_id'];
+        if(!empty($order_id) && isset($data['status']) && isset($data['pay_status']))
         {
             // 管理员
             if($user_type == 'admin')
@@ -1625,6 +1655,8 @@ class OrderService
                 $result['is_delivery']  = (isset($data['order_model']) && $data['order_model'] == 0 && in_array($data['status'], [2,3])) ? 1 : 0;
                 // 同城
                 $result['is_service']   = (isset($data['order_model']) && $data['order_model'] == 1 && in_array($data['status'], [2,3])) ? 1 : 0;
+                // 追溯
+                $result['is_tracesource'] = in_array($data['status'], [2,3]) ? 1 : 0;
                 // 取货
                 $result['is_take']      = (isset($data['order_model']) && in_array($data['order_model'], [2,3]) && $data['status'] == 2) ? 1 : 0;
                 // 收货
@@ -1633,6 +1665,44 @@ class OrderService
                 $result['is_cancel']    = (in_array($data['status'], [0,1]) || (in_array($data['status'], [2,3,4]) && $data['pay_status'] == 0)) ? 1 : 0;
                 // 删除
                 $result['is_delete']    = (in_array($data['status'], [5,6]) && isset($data['is_delete_time']) && $data['is_delete_time'] == 0) ? 1 : 0;
+
+                // 是否需要先追溯再【发货、取货、服务】
+                if($result['is_delivery']+$result['is_service']+$result['is_take'] > 0 && $result['is_tracesource'] == 1)
+                {
+                    // 获取指导品类id、静态记录避免重复读取分类id数据
+                    static $order_service_config_order_operate_data_trace_source_goods_category_ids = null;
+                    if($order_service_config_order_operate_data_trace_source_goods_category_ids === null)
+                    {
+                        $temp_source_config = MyC('common_order_trace_source_config');
+                        if(!empty($temp_source_config) && is_array($temp_source_config))
+                        {
+                            $cids = call_user_func_array('array_merge', array_filter(array_map(function($item)
+                            {
+                                return empty($item['category_ids']) ? [] : $item['category_ids'];
+                            }, $temp_source_config)));
+                            if(!empty($cids))
+                            {
+                                $order_service_config_order_operate_data_trace_source_goods_category_ids = GoodsCategoryService::GoodsCategoryItemsIds($cids);
+                            }
+                        }
+                    }
+                    if(!empty($order_service_config_order_operate_data_trace_source_goods_category_ids))
+                    {
+                        $count = Db::name('Order')->alias('o')->join('order_detail od', 'o.id=od.order_id')->join('goods_category_join gcj', 'gcj.goods_id=od.goods_id')->where(['o.id'=>$order_id, 'gcj.category_id'=>$order_service_config_order_operate_data_trace_source_goods_category_ids])->count();
+                        if($count > 0)
+                        {
+                            // 不存在追溯数据则不能【发货、取货、服务】
+                            if(Db::name('OrderTraceSource')->where(['order_id'=>$order_id])->count() <= 0)
+                            {
+                                $result['is_delivery']  = 0;
+                                $result['is_service']   = 0;
+                                $result['is_take']      = 0;
+                            }
+                        } else {
+                            $result['is_tracesource'] = 0;
+                        }
+                    }
+                }
 
             // 用户
             } else {
@@ -1725,8 +1795,9 @@ class OrderService
      * @desc    description
      * @param   [array]       $order             [订单信息]
      * @param   [int]         $is_orderaftersale [是否读取订单售后（0否, 1是）]
+     * @param   [array]       $trace_source_data [订单追溯数据]
      */
-    public static function OrderItemList($order, $is_orderaftersale = 0)
+    public static function OrderItemList($order, $is_orderaftersale = 0, $trace_source_data = [])
     {
         $result = [];
         $order = array_column($order, null, 'id');
@@ -1757,11 +1828,16 @@ class OrderService
                 }
             }
 
-            // 商品处理
-            $res = GoodsService::GoodsDataHandle($detail, ['data_key_field'=>'goods_id']);
-            $data = $res['data'];
-            $detail = array_column($detail, null, 'id');
-            foreach($data as $v)
+            // 基础字段
+            $base_fields = MyConst('common_goods_base_data_fields');
+
+            // 产地
+            $produce_region = RegionService::RegionName(array_filter(array_column($detail, 'produce_region')));
+            // 品牌
+            $brand = BrandService::BrandName(array_filter(array_column($detail, 'brand_id')));
+
+            // 数据处理
+            foreach($detail as $v)
             {
                 // 当前商品订单信息
                 if(array_key_exists($v['order_id'], $order))
@@ -1769,14 +1845,18 @@ class OrderService
                     // 当前商品详情主订单信息
                     $ov = $order[$v['order_id']];
 
-                    // 避免订单商品价格被处理，强制使用原始内容
-                    $v['price'] = $detail[$v['id']]['price'];
-                    $v['total_price'] = $detail[$v['id']]['total_price'];
+                    // 商品url地址
+                    $v['goods_url'] = GoodsService::GoodsUrlCreate($v['goods_id']);
+
+                    // 商品封面图片
+                    $v['images'] = empty($v['images']) ? '' : ResourcesService::AttachmentPathViewHandle($v['images']);
 
                     // 规格
-                    $v['spec_text'] = null;
-                    if(!empty($v['spec']))
+                    $v['spec_text'] = '';
+                    if(empty($v['spec']))
                     {
+                        $v['spec'] = '';
+                    } else {
                         $v['spec'] = json_decode($v['spec'], true);
                         if(!empty($v['spec']) && is_array($v['spec']))
                         {
@@ -1785,8 +1865,6 @@ class OrderService
                                 return $spec['type'].':'.$spec['value'];
                             }, $v['spec']));
                         }
-                    } else {
-                        $v['spec'] = null;
                     }
 
                     // 虚拟销售商品 - 虚拟信息处理
@@ -1798,8 +1876,52 @@ class OrderService
                     // 是否获取最新一条售后信息
                     if($is_orderaftersale == 1 && isset($ov['status']))
                     {
-                        $v['orderaftersale'] = (!empty($orderaftersale) && array_key_exists($v['id'], $orderaftersale)) ? $orderaftersale[$v['id']] : null;
+                        $v['orderaftersale'] = (!empty($orderaftersale) && array_key_exists($v['id'], $orderaftersale)) ? $orderaftersale[$v['id']] : '';
                         $v['orderaftersale_btn_text'] = self::OrderAftersaleStatusBtnText($ov['status'], $v['orderaftersale']);
+                    }
+
+                    // 商品web端详情内容
+                    $v['goods_content_web'] = empty($v['goods_content_web']) ? '' : ResourcesService::ContentStaticReplace($v['goods_content_web'], 'get');
+
+                    // 商品使用指南
+                    $v['goods_use_guide'] = empty($v['goods_use_guide']) ? '' : ResourcesService::ContentStaticReplace($v['goods_use_guide'], 'get');
+
+                    // 商品手机端数据
+                    $v['goods_content_app'] = empty($v['goods_content_app']) ? '' : array_map(function($item)
+                    {
+                        $item['images'] = ResourcesService::AttachmentPathViewHandle($item['images']);
+                        return $item;
+                    }, json_decode($v['goods_content_app'], true));
+
+                    // 商品参数
+                    $v['goods_params'] = empty($v['goods_params']) ? '' : json_decode($v['goods_params'], true);
+
+                    // 批准文号和批号有效期
+                    $v['approval_number_expire'] = empty($v['approval_number_expire']) ? '' : date('Y-m-d', $v['approval_number_expire']);
+                    $v['batch_number_expire'] = empty($v['batch_number_expire']) ? '' : date('Y-m-d', $v['batch_number_expire']);
+
+                    // 品牌
+                    $v['brand_name'] = (!empty($v['brand_id']) && !empty($brand) && array_key_exists($v['brand_id'], $brand)) ? $brand[$v['brand_id']] : '';
+
+                    // 产地
+                    $v['produce_region_name'] = (!empty($v['produce_region']) && !empty($produce_region) && array_key_exists($v['produce_region'], $produce_region)) ? $produce_region[$v['produce_region']] : '';
+
+                    // 基础数据
+                    if(!empty($base_fields) && is_array($base_fields))
+                    {
+                        $base_data = [];
+                        foreach($base_fields as $bfk=>$bfv)
+                        {
+                            if(array_key_exists($bfk, $v) && $v[$bfk] != 0 && $v[$bfk] != '')
+                            {
+                                $base_data[] = [
+                                    'field'  => $bfk,
+                                    'name'   => $bfv,
+                                    'value'  => $v[$bfk],
+                                ];
+                            }
+                        }
+                        $v['base_data'] = empty($base_data) ? '' : $base_data;
                     }
 
                     // 加入分组
@@ -1815,10 +1937,12 @@ class OrderService
         // 订单详情信息钩子
         $hook_name = 'plugins_service_order_detail_data';
         MyEventTrigger($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'order_ids'     => $order_ids,
-            'data'          => &$result,
+            'hook_name'          => $hook_name,
+            'is_backend'         => true,
+            'order_ids'          => $order_ids,
+            'data'               => &$result,
+            'is_orderaftersale'  => $is_orderaftersale,
+            'trace_source_data'  => $trace_source_data,
         ]);
 
         return $result;
@@ -1844,7 +1968,7 @@ class OrderService
         {
             foreach($order_ids as $v)
             {
-                $images = null;
+                $images = '';
                 if(array_key_exists($v, $data))
                 {
                     // 生成二维码参数
@@ -1856,10 +1980,10 @@ class OrderService
 
                     // 图片不存在则去生成二维码图片并保存至目录
                     $ret = (new \base\Qrcode())->Create($params);
-                    $images = ($ret['code'] == 0) ? $ret['data']['url'] : null;
+                    $images = ($ret['code'] == 0) ? $ret['data']['url'] : '';
                 }
                 $result[$v] = [
-                    'code'      => isset($data[$v]) ? $data[$v] : null,
+                    'code'      => isset($data[$v]) ? $data[$v] : '',
                     'images'    => $images,
                 ];
             }
@@ -1867,6 +1991,55 @@ class OrderService
 
         // 订单自提信息钩子
         $hook_name = 'plugins_service_order_extraction_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'order_ids'     => $order_ids,
+            'data'          => &$result,
+        ]);
+
+        return $result;
+    }
+
+    /**
+     * 订单追溯
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-11-26
+     * @desc    description
+     * @param   [array]          $order_ids    [订单id]
+     */
+    public static function OrderTraceSourceData($order_ids)
+    {
+        $result = [];
+        $data = Db::name('OrderTraceSource')->where(['order_id'=>$order_ids])->select()->toArray();
+        if(!empty($data) && is_array($data))
+        {
+            foreach($data as $v)
+            {
+                // 批号有效时间
+                $v['batch_number_expire'] = empty($v['batch_number_expire']) ? '' : date('Y-m-d', $v['batch_number_expire']);
+
+                // 时间
+                $v['add_time'] = empty($v['add_time']) ? '' : date('Y-m-d H:i:s', $v['add_time']);
+                $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
+
+                // 加入分组
+                if(!array_key_exists($v['order_id'], $result))
+                {
+                    $result[$v['order_id']] = [];
+                }
+                if(!array_key_exists($v['order_detail_id'], $result[$v['order_id']]))
+                {
+                    $result[$v['order_id']][$v['order_detail_id']] = [];
+                }
+                $result[$v['order_id']][$v['order_detail_id']][$v['buy_number_value']] = $v;
+            }
+        }
+
+        // 订单追溯数据钩子
+        $hook_name = 'plugins_service_order_trace_source_data';
         MyEventTrigger($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
@@ -1916,7 +2089,7 @@ class OrderService
                     {
                         $v['service_duration_minute_text'] .= $minute.$minute_unit;
                     }
-                }                
+                }
 
                 // 开始和结束时间
                 $v['service_start_time'] = empty($v['service_start_time']) ? '' : date('Y-m-d H:i:s', $v['service_start_time']);
@@ -1966,7 +2139,7 @@ class OrderService
             foreach($temp as $v)
             {
                 // 快递信息处理
-                $express = (!empty($express_list) && is_array($express_list) && array_key_exists($v['express_id'], $express_list)) ? $express_list[$v['express_id']] : null;
+                $express = (!empty($express_list) && is_array($express_list) && array_key_exists($v['express_id'], $express_list)) ? $express_list[$v['express_id']] : '';
                 if(empty($express))
                 {
                     $v['express_name'] = '';
@@ -2050,7 +2223,7 @@ class OrderService
      */
     public static function OrderAftersaleStatusBtnText($order_status, $orderaftersale)
     {
-        $text = null;
+        $text = '';
         if(!in_array($order_status, [0,1,5,6]))
         {
             $lang = MyLang('common_service.order.orderaftersale_create_title_data');
@@ -2126,6 +2299,95 @@ class OrderService
             return true;
         }
         return false;
+    }
+
+    /**
+     * 订单追溯
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-30
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function OrderTraceSource($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => MyLang('order_id_error_tips'),
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 用户类型
+        $user_type = empty($params['user_type']) ? 'user' : $params['user_type'];
+
+        // 获取订单信息
+        $where = ['id'=>intval($params['id']), 'is_delete_time'=>0, 'user_is_delete_time'=>0];
+        $order = Db::name('Order')->where($where)->field('id,status,pay_status,user_id,order_model')->find();
+        if(empty($order))
+        {
+            return DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -1);
+        }
+        // 有效订单情况下、如果未支付可以正常进行取消操作
+        $operate = self::OrderOperateData($order, $user_type);
+        if($operate['is_tracesource'] != 1)
+        {
+            $status_text = MyConst('common_order_status')[$order['status']]['name'];
+            return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_text.']', -1);
+        }
+
+        // 获取追溯数据
+        $trace_source = self::OrderTraceSourceData([$order['id']]);
+        $trace_source_data = (empty($trace_source) || empty($trace_source[$order['id']])) ? [] : $trace_source[$order['id']];
+
+        // 数据
+        if(!empty($params['data']))
+        {
+            if(!is_array($params['data']))
+            {
+                $params['data'] = json_decode(htmlspecialchars_decode($params['data']), true);
+            }
+            foreach($params['data'] as $k=>$v)
+            {
+                if(!empty($v) && is_array($v))
+                {
+                    foreach($v as $ks=>$vs)
+                    {
+                        if(!empty($vs) && is_array($vs) && !empty($vs['goods_id']))
+                        {
+                            $data = [
+                                'user_id'              => $order['user_id'],
+                                'order_id'             => $order['id'],
+                                'order_detail_id'      => $k,
+                                'goods_id'             => $vs['goods_id'],
+                                'buy_number_value'     => $ks,
+                                'code'                 => empty($vs['code']) ? '' : $vs['code'],
+                                'batch_number'         => empty($vs['batch_number']) ? '' : $vs['batch_number'],
+                                'batch_number_expire'  => empty($vs['batch_number_expire']) ? 0 : strtotime($vs['batch_number_expire']),
+                            ];
+                            if(!empty($trace_source_data) && array_key_exists($data['order_detail_id'], $trace_source_data) && array_key_exists($data['buy_number_value'], $trace_source_data[$data['order_detail_id']]))
+                            {
+                                $temp_info = $trace_source_data[$data['order_detail_id']][$data['buy_number_value']];
+                                $data['upd_time'] = time();
+                                Db::name('OrderTraceSource')->where(['id'=>$temp_info['id']])->update($data);
+                            } else {
+                                $data['add_time'] = time();
+                                Db::name('OrderTraceSource')->insertGetId($data);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return DataReturn(MyLang('operate_success'), 0);
     }
 
     /**
@@ -3265,6 +3527,53 @@ class OrderService
             }
         }
         return $result;
+    }
+
+    /**
+     * 订单数据追溯过滤
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-01-29
+     * @desc    description
+     * @param   [array]          $order [订单数据]
+     */
+    public static function OrderDataTraceSourceFilter($order)
+    {
+        if(!empty($order) && is_array($order) && !empty($order['items']) && is_array($order['items']))
+        {
+            $source_config = MyC('common_order_trace_source_config');
+            if(!empty($source_config) && is_array($source_config))
+            {
+                foreach($order['items'] as &$dv)
+                {
+                    $is_trace_source = 0;
+                    $trace_source_required = [];
+                    foreach($source_config as $cv)
+                    {
+                        if(!empty($cv['category_ids']))
+                        {
+                            $count = Db::name('OrderDetail')->alias('od')->join('goods_category_join gcj', 'gcj.goods_id=od.goods_id')->where(['od.goods_id'=>$dv['goods_id'], 'gcj.category_id'=>GoodsCategoryService::GoodsCategoryItemsIds($cv['category_ids'])])->count();
+                            if($count > 0)
+                            {
+                                $is_trace_source = 1;
+                                $trace_source_required = empty($cv['required']) ? '' : $cv['required'];
+                                break;
+                            }
+                        }
+                    }
+                    $dv['is_trace_source'] = $is_trace_source;
+                    $dv['trace_source_required'] = $trace_source_required;
+                }
+            } else {
+                foreach($order['items'] as &$dv)
+                {
+                    $dv['is_trace_source'] = 1;
+                    $dv['trace_source_required'] = 0;
+                }
+            }
+        }
+        return $order;
     }
 }
 ?>

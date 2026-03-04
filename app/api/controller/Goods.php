@@ -112,7 +112,7 @@ class Goods extends Common
                 $middle_tabs_nav = GoodsService::GoodsDetailMiddleTabsNavList($goods);
 
                 // 导航更多列表
-                $nav_more_list = AppService::GoodsNavMoreList(['page'=>'goods']);
+                $nav_more_list = AppService::GoodsNavMoreList(['data'=>$goods, 'page'=>'goods']);
 
                 // 商品底部导航左侧小导航
                 $buy_left_nav = GoodsService::GoodsBuyLeftNavList($goods);

@@ -16,19 +16,21 @@
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
-	<div class="am-dropdown am-margin-right-sm" data-am-dropdown>
-		<button type="button" class="am-btn am-btn-primary am-radius am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle>{{:MyLang('add_title')}} <span class="am-icon-caret-down"></span></button>
-		<ul class="am-dropdown-content am-radius-lg">
-            {{foreach $add_type_list as $k=>$v}}
-    			<li>
-                    <a href="javascript:;" class="am-text-primary am-text-left submit-add" data-am-modal="{target: '#nav-{{$k}}-save-win'}" data-tag="nav-{{$k}}-save-win"> 
-                        <i class="iconfont icon-add"></i>
-                        <span>{{$v}}</span>
-                    </a>
-    			</li>
-            {{/foreach}}
-		</ul>
-	</div>
+    {{if AdminIsPower('navigation', 'save')}}
+    	<div class="am-dropdown am-margin-right-sm" data-am-dropdown>
+    		<button type="button" class="am-btn am-btn-primary am-radius am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle>{{:MyLang('add_title')}} <span class="am-icon-caret-down"></span></button>
+    		<ul class="am-dropdown-content am-radius">
+                {{foreach $add_type_list as $k=>$v}}
+        			<li>
+                        <a href="javascript:;" class="am-color-blue am-text-left submit-add" data-am-modal="{target: '#nav-{{$k}}-save-win'}" data-tag="nav-{{$k}}-save-win"> 
+                            <i class="iconfont icon-add"></i>
+                            <span>{{$v}}</span>
+                        </a>
+        			</li>
+                {{/foreach}}
+    		</ul>
+    	</div>
+    {{/if}}
 
     <!-- 父级内容 -->
     {__block__}

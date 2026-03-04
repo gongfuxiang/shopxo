@@ -45,7 +45,7 @@
                         <tr>
                             <td class="am-text-middle">
                                 <div class="am-flex am-flex-items-center am-gap-1">
-                                    <input type="text" value="{{$spec_base.title}}" name="spec_base_title_{{$spec_base_key}}" placeholder="{{:MyLang('common_service.goods.form_spec_type_title')}}" class="am-radius" {{if isset($goods_spec_operate_data['is_created']) and $goods_spec_operate_data['is_created'] eq 0}}readonly{{/if}} />
+                                    <input type="text" value="{{$spec_base.title}}" name="spec_base_title_{{$spec_base_key}}" placeholder="{{:MyLang('common_service.goods.form_spec_type_title')}}" class="am-radius" {{if isset($goods_spec_operate_data['is_created']) and $goods_spec_operate_data['is_created'] eq 0}} readonly{{/if}} />
                                     {{if isset($goods_spec_operate_data['is_created']) and $goods_spec_operate_data['is_created'] eq 1}}
                                         <i class="am-close quick-title-remove iconfont icon-delete am-color-blue"></i>
                                     {{/if}}
@@ -57,7 +57,7 @@
                                         {{foreach $spec_base.value as $value}}
                                             <div class="am-fl value-item">
                                                 <div class="am-flex am-flex-items-center am-gap-1">
-                                                    <input type="text" class="am-fl am-radius" name="spec_base_value_{{$spec_base_key}}[]" value="{{$value}}" placeholder="{{:MyLang('common_service.goods.form_spec_value_title')}}" {{if isset($goods_spec_operate_data['is_created']) and $goods_spec_operate_data['is_created'] eq 0}}readonly{{/if}} />
+                                                    <input type="text" class="am-fl am-radius" name="spec_base_value_{{$spec_base_key}}[]" value="{{$value}}" placeholder="{{:MyLang('common_service.goods.form_spec_value_title')}}" {{if isset($goods_spec_operate_data['is_created']) and $goods_spec_operate_data['is_created'] eq 0}} readonly{{/if}} />
                                                     {{if isset($goods_spec_operate_data['is_created']) and $goods_spec_operate_data['is_created'] eq 1}}
                                                         <i class="am-close quick-value-remove iconfont icon-delete am-color-blue"></i>
                                                     {{/if}}
@@ -127,7 +127,7 @@
                             {{foreach $specifications.type as $type_v}}
                                 <th class="table-title table-title-{{$type_v.id}}">
                                     <div class="am-flex am-flex-items-center am-gap-1">
-                                        <input type="text" name="specifications_name_{{$type_v.id}}" placeholder="{{:MyLang('common_service.goods.form_spec_type_title')}}" value="{{$type_v.name}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_type_message')}}" class="am-radius" data-is-clearout="0" {{if isset($goods_spec_operate_data['is_edit']) and $goods_spec_operate_data['is_edit'] eq 0}}readonly{{/if}} required />
+                                        <input type="text" name="specifications_name_{{$type_v.id}}" placeholder="{{:MyLang('common_service.goods.form_spec_type_title')}}" value="{{$type_v.name}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_type_message')}}" class="am-radius" data-is-clearout="0" {{if isset($goods_spec_operate_data['is_edit']) and $goods_spec_operate_data['is_edit'] eq 0}} readonly{{/if}} required />
                                         {{if isset($goods_spec_operate_data['is_remove']) and $goods_spec_operate_data['is_remove'] eq 1}}
                                             <i class="title-nav-remove iconfont icon-delete am-color-blue" data-index="{{$type_v.id}}"></i>
                                         {{/if}}
@@ -230,7 +230,7 @@
                                     {{switch v.data_type}}
                                         {{case spec}}
                                             <td class="am-text-middle table-value table-value-{{$v.data.key}}">
-                                                <input type="text" name="specifications_value_{{$v.data.key}}[]" placeholder="{{:MyLang('common_service.goods.form_spec_value_title')}}" value="{{$v.data.value}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_value_message')}}" class="am-radius" data-is-clearout="0" {{if isset($goods_spec_operate_data['is_edit']) and $goods_spec_operate_data['is_edit'] eq 0}}readonly{{/if}} required />
+                                                <input type="text" name="specifications_value_{{$v.data.key}}[]" placeholder="{{:MyLang('common_service.goods.form_spec_value_title')}}" value="{{$v.data.value}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_value_message')}}" class="am-radius" data-is-clearout="0" {{if isset($goods_spec_operate_data['is_edit']) and $goods_spec_operate_data['is_edit'] eq 0}} readonly{{/if}} required />
                                             </td>
                                         {{/case}}
 

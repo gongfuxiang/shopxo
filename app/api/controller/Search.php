@@ -48,15 +48,19 @@ class Search extends Common
     public function Index()
     {
         // 是否需要登录
-        if(MyC('home_search_is_login_required', 0) == 1)
+        $ret = SearchService::SearchIsLoginCheck();
+        if($ret['code'] != 0)
         {
             $this->IsLogin();
         }
 
         // 是否禁止搜索
-        $ret = SearchService::SearchProhibitUserAgentCheck();
+        $ret = SearchService::SearchProhibitCheck($this->data_request);
         if($ret['code'] != 0)
         {
+            // 增加搜索记录
+            SearchService::SearchAdd(array_merge($this->data_request, ['search_result_data'=>$ret['msg']]));
+            // 返回错误
             return ApiService::ApiDataReturn($ret);
         }
 
@@ -96,15 +100,19 @@ class Search extends Common
     public function DataList()
     {
         // 是否需要登录
-        if(MyC('home_search_is_login_required', 0) == 1)
+        $ret = SearchService::SearchIsLoginCheck();
+        if($ret['code'] != 0)
         {
             $this->IsLogin();
         }
 
         // 是否禁止搜索
-        $ret = SearchService::SearchProhibitUserAgentCheck();
+        $ret = SearchService::SearchProhibitCheck($this->data_request);
         if($ret['code'] != 0)
         {
+            // 增加搜索记录
+            SearchService::SearchAdd(array_merge($this->data_request, ['search_result_data'=>$ret['msg']]));
+            // 返回错误
             return ApiService::ApiDataReturn($ret);
         }
 

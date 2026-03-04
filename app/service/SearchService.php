@@ -28,6 +28,116 @@ use app\service\RegionService;
 class SearchService
 {
     /**
+     * 数据列表处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-01-19
+     * @desc    description
+     * @param   [array]          $data   [数据列表]
+     * @param   [array]          $params [输入参数]
+     */
+    public static function DataHandle($data, $params = [])
+    {
+        if(!empty($data))
+        {
+            // 品牌
+            $brand = BrandService::BrandName(array_unique(call_user_func_array('array_merge', array_filter(array_map(function($item)
+            {
+                return empty($item['brand_ids']) ? '' : json_decode($item['brand_ids'], true);
+            }, $data)))));
+
+            // 商品分类
+            $category = GoodsCategoryService::GoodsCategoryName(array_unique(call_user_func_array('array_merge', array_filter(array_map(function($item)
+            {
+                return empty($item['category_ids']) ? '' : json_decode($item['category_ids'], true);
+            }, $data)))));
+
+            // 产地
+            $produce_region = RegionService::RegionName(array_unique(call_user_func_array('array_merge', array_filter(array_map(function($item)
+            {
+                return empty($item['produce_region_ids']) ? '' : json_decode($item['produce_region_ids'], true);
+            }, $data)))));
+
+            foreach($data as &$v)
+            {
+                // 品牌
+                if(array_key_exists('brand_ids', $v))
+                {
+                    $brand_arr = [];
+                    if(!empty($brand) && !empty($v['brand_ids']))
+                    {
+                        $brand_ids = json_decode($v['brand_ids'], true);
+                        foreach($brand_ids as $tv)
+                        {
+                            if(array_key_exists($tv, $brand))
+                            {
+                                $brand_arr[] = $brand[$tv];
+                            }
+                        }
+                    }
+                    $v['brand_text'] = empty($brand_arr) ? '' : implode('，', $brand_arr);
+                }
+
+                // 商品分类
+                if(array_key_exists('category_ids', $v))
+                {
+                    $category_arr = [];
+                    if(!empty($category) && !empty($v['category_ids']))
+                    {
+                        $category_ids = json_decode($v['category_ids'], true);
+                        foreach($category_ids as $tv)
+                        {
+                            if(array_key_exists($tv, $category))
+                            {
+                                $category_arr[] = $category[$tv];
+                            }
+                        }
+                    }
+                    $v['category_text'] = empty($category_arr) ? '' : implode('，', $category_arr);
+                }
+
+                // 价格范围
+                if(array_key_exists('screening_price_values', $v))
+                {
+                    $v['screening_price_values'] = empty($v['screening_price_values']) ? '' : implode('，', json_decode($v['screening_price_values'], true));
+                }
+
+                // 产地
+                if(array_key_exists('produce_region_ids', $v))
+                {
+                    $produce_region_arr = [];
+                    if(!empty($produce_region) && !empty($v['produce_region_ids']))
+                    {
+                        $produce_region_ids = json_decode($v['produce_region_ids'], true);
+                        foreach($produce_region_ids as $tv)
+                        {
+                            if(array_key_exists($tv, $produce_region))
+                            {
+                                $produce_region_arr[] = $produce_region[$tv];
+                            }
+                        }
+                    }
+                    $v['produce_region_text'] = empty($produce_region_arr) ? '' : implode('，', $produce_region_arr);
+                }
+
+                // 商品参数
+                if(array_key_exists('goods_params_values', $v))
+                {
+                    $v['goods_params_values'] = empty($v['goods_params_values']) ? '' : implode('，', json_decode($v['goods_params_values'], true));
+                }
+
+                // 商品规格
+                if(array_key_exists('goods_spec_values', $v))
+                {
+                    $v['goods_spec_values'] = empty($v['goods_spec_values']) ? '' : implode('，', json_decode($v['goods_spec_values'], true));
+                }
+            }
+        }
+        return $data;
+    }
+
+    /**
      * 排序列表
      * @author  Devil
      * @blog    http://gong.gg/
@@ -273,7 +383,7 @@ class SearchService
             }
             if($is_keywords_spec)
             {
-                $keywords_fields = 'g.title|g.simple_desc|g.spec_desc|g.approval_number|g.produce_company|g.coding|g.model';
+                $keywords_fields = 'g.title|g.simple_desc|g.spec_desc|g.approval_number|g.batch_number|g.produce_company|g.coding|g.model';
                 if(MyC('home_search_is_keywords_seo_fields') == 1)
                 {
                     $keywords_fields .= '|g.seo_title|g.seo_keywords|g.seo_desc';
@@ -428,7 +538,11 @@ class SearchService
         }
         if(!empty($map_params))
         {
-            $ids = Db::name('GoodsParams')->where(['value'=>$map_params, 'scope'=>self::SearchParamsWhereTypeValue()])->column('goods_id');
+            $map_params = array_map(function($item)
+            {
+                return md5($item);
+            }, $map_params);
+            $ids = Db::name('GoodsParams')->where(['md5_key'=>$map_params, 'scope'=>self::SearchParamsWhereTypeValue()])->column('goods_id');
             if(!empty($ids))
             {
                 $where_base[] = ['g.id', 'in', $ids];
@@ -450,7 +564,11 @@ class SearchService
         }
         if(!empty($map_spec))
         {
-            $ids = Db::name('GoodsSpecValue')->where(['value'=>$map_spec])->column('goods_id');
+            $map_spec = array_map(function($item)
+            {
+                return md5($item);
+            }, $map_spec);
+            $ids = Db::name('GoodsSpecValue')->where(['md5_key'=>$map_spec])->column('goods_id');
             if(!empty($ids))
             {
                 $where_base[] = ['g.id', 'in', $ids];
@@ -547,22 +665,24 @@ class SearchService
 
             // 日志数据
             $data = [
-                'user_id'           => isset($params['user_id']) ? intval($params['user_id']) : 0,
-                'keywords'          => empty($params['wd']) ? '' : $params['wd'],
-                'order_by_field'    => empty($ov_arr) ? '' : $ov_arr[0],
-                'order_by_type'     => empty($ov_arr) ? '' : $ov_arr[1],
-                'search_result'     => empty($params['search_result_data']) ? '' : json_encode($params['search_result_data'], JSON_UNESCAPED_UNICODE),
-                'ymd'               => date('Ymd'),
-                'add_time'          => time(),
+                'user_id'         => isset($params['user_id']) ? intval($params['user_id']) : 0,
+                'keywords'        => empty($params['wd']) ? '' : $params['wd'],
+                'order_by_field'  => empty($ov_arr) ? '' : $ov_arr[0],
+                'order_by_type'   => empty($ov_arr) ? '' : $ov_arr[1],
+                'search_result'   => empty($params['search_result_data']) ? '' : (is_array($params['search_result_data']) ? json_encode($params['search_result_data'], JSON_UNESCAPED_UNICODE) : $params['search_result_data']),
+                'ip'              => GetClientIP(),
+                'ymd'             => date('Ymd'),
+                'add_time'        => time(),
             ];
 
             // 参数处理
             $field_arr = [
-                'brand_ids'             => ['brand_ids', 'brand', 'bid'],
-                'category_ids'          => ['category_ids', 'category_id', 'cid'],
-                'screening_price_values'=> ['screening_price_values', 'peid'],
-                'goods_params_values'   => ['goods_params_values', 'psid'],
-                'goods_spec_values'     => ['goods_spec_values', 'scid'],
+                'brand_ids'               => ['brand_ids', 'brand', 'bid'],
+                'category_ids'            => ['category_ids', 'category_id', 'cid'],
+                'screening_price_values'  => ['screening_price_values', 'peid'],
+                'goods_params_values'     => ['goods_params_values', 'psid'],
+                'goods_spec_values'       => ['goods_spec_values', 'scid'],
+                'produce_region_ids'      => ['produce_region_ids', 'poid'],
             ];
             foreach($field_arr as $k=>$v)
             {
@@ -902,7 +1022,7 @@ class SearchService
     }
 
     /**
-     * 搜索页用户Agent验证是否通过
+     * 搜索禁止
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -910,8 +1030,9 @@ class SearchService
      * @desc    description
      * @param   [array]           $params [输入参数]
      */
-    public static function SearchProhibitUserAgentCheck($params = [])
+    public static function SearchProhibitCheck($params = [])
     {
+        // 用户UserAgent禁止验证
         if(!empty($_SERVER) && !empty($_SERVER['HTTP_USER_AGENT']))
         {
             $prohibit = MyC('home_search_prohibit_user_agent', '', true);
@@ -923,12 +1044,42 @@ class SearchService
                 {
                     if(stripos($user_agent, $v) !== false)
                     {
-                        return DataReturn(MyLang('illegal_access_tips'), -1);
+                        return DataReturn(MyLang('illegal_access_tips').'('.$v.')', -1);
                     }
                 }
             }
         }
+
+        // 禁止关键字
+        if(!empty($params['wd']))
+        {
+            $prohibit = MyC('home_search_prohibit_keywords', [], true);
+            if(!empty($prohibit) && is_array($prohibit) && in_array($params['wd'], $prohibit))
+            {
+                return DataReturn(MyLang('illegal_access_tips').'('.$params['wd'].')', -1);
+            }
+        }
+
         return DataReturn('success', 0);
+    }
+
+    /**
+     * 搜索是否需要登录
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-06-19
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function SearchIsLoginCheck($params = [])
+    {
+        $data = MyC('home_search_is_login_required', [], true);
+        if(empty($data) || !is_array($data) || !in_array(APPLICATION_CLIENT_TYPE, $data))
+        {
+            return DataReturn('success', 0);
+        }
+        return DataReturn('error', -1);
     }
 
     /**
@@ -1039,6 +1190,57 @@ class SearchService
             // 排行
             'ranking_list'     => self::SearchRankingList($params),
         ]);
+    }
+
+    /**
+     * 删除
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-11-18
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function SearchHistoryDelete($params = [])
+    {
+        // 参数是否有误
+        if(empty($params['ids']))
+        {
+            return DataReturn(MyLang('data_id_error_tips'), -1);
+        }
+        // 是否数组
+        if(!is_array($params['ids']))
+        {
+            $params['ids'] = explode(',', $params['ids']);
+        }
+
+        // 删除操作
+        if(Db::name('SearchHistory')->where(['id'=>$params['ids']])->delete())
+        {
+            return DataReturn(MyLang('delete_success'), 0);
+        }
+        return DataReturn(MyLang('delete_fail'), -100);
+    }
+
+    /**
+     * 清空全部
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-11-18
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function SearchHistoryAllDelete($params = [])
+    {
+        $where = [
+            ['id', '>', 0]
+        ];
+        if(Db::name('SearchHistory')->where($where)->delete() === false)
+        {
+            return DataReturn(MyLang('operate_fail'), -100);
+        }
+        return DataReturn(MyLang('operate_success'));
     }
 }
 ?>

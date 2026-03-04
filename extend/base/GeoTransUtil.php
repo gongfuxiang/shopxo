@@ -173,8 +173,6 @@ class GeoTransUtil
         }
 
         $to = self::WgsToGcj($lng, $lat);
-        $lat = $from->x;
-        $lon = $from->y;
         $g_lat = $to->x;
         $g_lon = $to->y;
         $d_lat = $g_lat - $lat;
@@ -185,6 +183,12 @@ class GeoTransUtil
         return $result;
     }
 
+    /**
+     * 判断坐标是否在中国境外（境外不做偏移）
+     * @param float $lat 纬度
+     * @param float $lon 经度
+     * @return bool
+     */
     private static function outOfChina($lat,$lon)
     {
         if ($lon < 72.004 || $lon > 137.8347)
@@ -195,6 +199,12 @@ class GeoTransUtil
         return false;
     }
 
+    /**
+     * 纬度偏移计算
+     * @param float $x 经度偏移量（相对于105°E）
+     * @param float $y 纬度偏移量（相对于35°N）
+     * @return float 纬度偏移值
+     */
     private static function transformLat($x,$y)
     {
         $ret = -100.0 + 2.0 * $x + 3.0 * $y + 0.2 * $y * $y + 0.1 * $x * $y + 0.2 * sqrt(abs($x));
@@ -204,6 +214,12 @@ class GeoTransUtil
         return $ret;
     }
 
+    /**
+     * 经度偏移计算
+     * @param float $x 经度偏移量（相对于105°E）
+     * @param float $y 纬度偏移量（相对于35°N）
+     * @return float 经度偏移值
+     */
     private static function transformLon($x, $y)
     {
         $ret = 300.0 + $x + 2.0 * $y + 0.1 * $x * $x + 0.1 * $x * $y + 0.1 * sqrt(abs($x));

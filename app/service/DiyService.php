@@ -42,6 +42,32 @@ class DiyService
     public static function AppClientHomeDiyData($params = [])
     {
         // 是否指定了首页diy数据
+        $diy_id = self::AppClientHomeDiyId($params);
+
+        // 手机端首页diy数据钩子
+        $hook_name = 'plugins_service_diy_app_client_home_diy_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'   => $hook_name,
+            'is_backend'  => true,
+            'params'      => $params,
+            'diy_id'      => &$diy_id,
+        ]);
+
+        return empty($diy_id) ? '' : self::DiyData(['id'=>$diy_id]);
+    }
+
+    /**
+     * 手机端首页diyid
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2024-10-28
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function AppClientHomeDiyId($params = [])
+    {
+        // 是否指定了首页diy数据
         $diy_id = 0;
         $diy_mode = MyC('common_app_home_data_diy_mode');
         if(!empty($diy_mode) && is_array($diy_mode) && !empty($diy_mode[APPLICATION_CLIENT_TYPE]))
@@ -71,17 +97,15 @@ class DiyService
                 }
             }
         }
-
-        // 手机端首页diy数据钩子
-        $hook_name = 'plugins_service_diy_app_client_home_diy_data';
-        MyEventTrigger($hook_name, [
-            'hook_name'   => $hook_name,
-            'is_backend'  => true,
-            'params'      => $params,
-            'diy_id'      => &$diy_id,
-        ]);
-
-        return empty($diy_id) ? '' : self::DiyData(['id'=>$diy_id]);
+        if(!empty($diy_id))
+        {
+            $where = [
+                ['is_enable', '=', 1],
+                ['id', '=', $diy_id],
+            ];
+            $diy_id = Db::name('Diy')->where($where)->value('id');
+        }
+        return $diy_id;
     }
 
     /**
@@ -513,7 +537,7 @@ class DiyService
 
         // 返回数据
         return DataReturn('success', 0, [
-            'file'     => $dir.'.zip',
+            'file'     => $dir_zip,
             'config'   => $config,
             'data'     => $data,
             'md5_key'  => $data['md5_key'],

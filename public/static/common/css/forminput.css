@@ -727,9 +727,11 @@
     border: 0.1rem solid #ccc !important;
     background: #eee !important;
 }
-.forminput-data-content #forminput-user-verify-win .am-position-verify {
+
+#forminput-user-verify-win .am-position-verify {
     position: absolute;
     right: 0 !important;
+    z-index: 1 !important;
 }
 .forminput-data-content .upload-text {
     color: #606266;

@@ -24,7 +24,7 @@
                         <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-block" data-am-loading="{loadingText:'{{:MyLang('bind_tips')}}'}">{{:MyLang('bind_title')}}</button>
                     </div>
                     <div class="am-margin-top-xr am-text-right am-padding-right-xs">
-                        <a href="{{:MyConfig('shopxo.store_regster_url')}}" target="_blank">{{:MyLang('store_bind_form_regster_name')}}</a>
+                        <a href="{{:MyConfig('shopxo.store_register_url')}}" target="_blank">{{:MyLang('store_bind_form_register_name')}}</a>
                     </div>
                     <p class="am-text-warning am-text-center am-margin-top-xl">{{:MyLang('store_bind_form_tips')}}</p>
                 </form>
@@ -155,6 +155,16 @@
 <!-- ckplayer播放器 -->
 {{if isset($is_load_ckplayer) and $is_load_ckplayer eq 1}}
     <script type='text/javascript' src="{{$public_host}}static/common/lib/ckplayer/js/ckplayer.min.js?v={{$static_cache_version}}"></script>
+{{/if}}
+
+<!-- xgplayer播放器 -->
+{{if isset($is_load_xgplayer) and $is_load_xgplayer eq 1}}
+    <script type='text/javascript' src="{{$public_host}}static/common/lib/xgplayer/xgplayer-2.31.2.js?v={{$static_cache_version}}"></script>
+{{/if}}
+
+<!-- hlsjs -->
+{{if isset($is_load_hlsjs) and $is_load_hlsjs eq 1}}
+    <script type='text/javascript' src="{{$public_host}}static/common/lib/hlsjs/hls-1.6.15.min.js?v={{$static_cache_version}}"></script>
 {{/if}}
 
 <!-- 条形码 -->

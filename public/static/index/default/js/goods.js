@@ -45,7 +45,7 @@ function GoodsCommentsHtml(page)
         $.ajax({
             url: RequestUrlHandle($('.goods-comment').attr('data-url')),
             type: 'POST',
-            data: {"goods_id": $('.goods-comment').attr('data-goods-id'), "page": page || 1},
+            data: {goods_id: $('.goods-comment').attr('data-goods-id'), page: page || 1},
             dataType: 'json',
             success: function(res)
             {
@@ -354,9 +354,9 @@ function GoodsSpecDetail()
         dataType: "json",
         timeout: 10000,
         data: {
-            "id": $('.system-goods-detail').attr('data-id'),
-            "stock": stock,
-            "spec": spec
+            id: $('.system-goods-detail').attr('data-id'),
+            stock: stock,
+            spec: spec
         },
         success: function(res)
         {
@@ -410,7 +410,7 @@ function GoodsSpecType()
         type: 'post',
         dataType: "json",
         timeout: 10000,
-        data: {"id": $('.system-goods-detail').attr('data-id'), "spec": spec},
+        data: {id: $('.system-goods-detail').attr('data-id'), spec: spec},
         success: function(res)
         {
             $.AMUI.progress.done();
@@ -552,9 +552,9 @@ function GoodsNumberChange()
         dataType: "json",
         timeout: 10000,
         data: {
-            "id": $('.system-goods-detail').attr('data-id'),
-            "stock": stock,
-            "spec": spec
+            id: $('.system-goods-detail').attr('data-id'),
+            stock: stock,
+            spec: spec
         },
         success: function(res)
         {
@@ -590,9 +590,63 @@ function SpecPopupShow(e)
     $('.theme-popover .confirm').attr('data-type', e.attr('data-type') || 'buy');    
 }
 
+/**
+ * 商品二维码获取
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2026-02-28
+ * @desc    description
+ */
+function GoodsQrcodeData()
+{
+    $.ajax({
+        url: RequestUrlHandle($('.system-goods-detail').attr('data-qrcode-data-ajax-url')),
+        type: 'post',
+        dataType: "json",
+        timeout: 10000,
+        data: {
+            id: $('.system-goods-detail').attr('data-id')
+        },
+        success: function(res)
+        {
+            if(res.code == 0 && (res.data || null) != null && (res.data.qrcode || null) != null)
+            {
+                let copy_text = $('.goods-qrcode').data('copy-text') || '复制';
+                let html = '';
+                let qrcode = res.data.qrcode;
+                for(var i in qrcode)
+                {
+                    html += `<div>
+                                <img src="`+qrcode[i]['qrcode']+`" width="150" height="150" class="common-annex-view-event" data-title="`+qrcode[i]['name']+`" />
+                                <p>
+                                    <span class="name am-text-truncate am-vertical-align-middle">`+qrcode[i]['name']+`</span>
+                                    `+((qrcode[i]['type'] == 'pc' || qrcode[i]['type'] == 'h5') ? `<span class="am-badge am-badge-success am-radius am-vertical-align-middle text-copy-submit" data-value="`+qrcode[i]['url']+`">`+copy_text+`</span>` : '')+`
+                                </p>
+                            </div>`;
+                }
+                $('.goods-qrcode .am-dropdown-content').html(`<div class="am-flex am-flex-warp am-flex-justify-center am-gap-2">`+html+'</div>');
+                // 复制初始化
+                TextCopyinit();
+            } else {
+                $('.sales-volume').removeClass('exist-qrcode');
+                $('.goods-qrcode').addClass('am-hide');
+            }
+        },
+        error: function(xhr, type)
+        {
+            $('.sales-volume').removeClass('exist-qrcode');
+            $('.goods-qrcode').addClass('am-hide');
+        }
+    });
+}
+
 $(function() {
     // 购物车表单初始化
     FromInit('form.cart-form');
+
+    // 商品二维码获取
+    GoodsQrcodeData();
 
     // 指定规格初始化选中
     var spec = decodeURIComponent(GetQueryValue('spec') || '');

@@ -267,7 +267,7 @@ function DefaultTheme($theme = null)
 
         // 主题是否存在、则为默认主题default
         $path = APP_PATH.'index'.DS.'view'.DS.$default_theme;
-        if(!file_exists($path) || !is_dir($path))
+        if(!@file_exists($path) || !is_dir($path))
         {
             $default_theme = 'default';
         }
@@ -304,13 +304,13 @@ function StaticAttachmentUrl($value, $type = 'images', $plugins = '')
     {
         // 文件路径、对应模块
         $file = DS.'static'.DS.'plugins'.DS.$plugins_name.DS.$type.DS.$group.$value;
-        if(file_exists(ROOT.'public'.$file))
+        if(@file_exists(ROOT.'public'.$file))
         {
             $result = $file;
         } else {
             // 文件路径
             $file = DS.'static'.DS.'plugins'.DS.$plugins_name.DS.$type.$value;
-            if(file_exists(ROOT.'public'.$file))
+            if(@file_exists(ROOT.'public'.$file))
             {
                 $result = $file;
             }
@@ -320,13 +320,13 @@ function StaticAttachmentUrl($value, $type = 'images', $plugins = '')
         {
             // 文件路径、对应模块
             $file = DS.'static'.DS.'plugins'.DS.$type.DS.$plugins_name.DS.$group.$value;
-            if(file_exists(ROOT.'public'.$file))
+            if(@file_exists(ROOT.'public'.$file))
             {
                 $result = $file;
             } else {
                 // 文件路径
                 $file = DS.'static'.DS.'plugins'.DS.$type.DS.$plugins_name.$value;
-                if(file_exists(ROOT.'public'.$file))
+                if(@file_exists(ROOT.'public'.$file))
                 {
                     $result = $file;
                 }
@@ -338,7 +338,7 @@ function StaticAttachmentUrl($value, $type = 'images', $plugins = '')
         // 文件路径
         $file = DS.'static'.DS.$group.DS.$theme.DS.$type.$value;
         // 验证文件路径
-        if(file_exists(ROOT.'public'.$file))
+        if(@file_exists(ROOT.'public'.$file))
         {
             $result = $file;
         } else {
@@ -346,7 +346,7 @@ function StaticAttachmentUrl($value, $type = 'images', $plugins = '')
             if($theme != 'default')
             {
                 $file = DS.'static'.DS.$group.DS.'default'.DS.$type.$value;
-                if(file_exists(ROOT.'public'.$file))
+                if(@file_exists(ROOT.'public'.$file))
                 {
                     $result = $file;
                 }
@@ -361,7 +361,7 @@ function StaticAttachmentUrl($value, $type = 'images', $plugins = '')
         if(!empty($theme))
         {
             $file = DS.'static'.DS.'app'.DS.$theme.DS.'common'.$value;
-            if(file_exists(ROOT.'public'.$file))
+            if(@file_exists(ROOT.'public'.$file))
             {
                 $result = $file;
             }
@@ -372,7 +372,7 @@ function StaticAttachmentUrl($value, $type = 'images', $plugins = '')
     if(empty($result))
     {
         $file = DS.'static'.DS.'common'.DS.$type.$value;
-        if(file_exists(ROOT.'public'.$file))
+        if(@file_exists(ROOT.'public'.$file))
         {
             $result = $file;
         }
@@ -626,7 +626,7 @@ function MyLang($key, $vars = [], $lang = '', $plugins = '')
             foreach($arr_file as $file)
             {
                 $md5_key = md5($file);
-                if(!array_key_exists($md5_key, $lang_file_data) && file_exists($file))
+                if(!array_key_exists($md5_key, $lang_file_data) && @file_exists($file))
                 {
                     $lang_file_data[$md5_key] = require $file;
                 }
@@ -729,7 +729,7 @@ function MyLang($key, $vars = [], $lang = '', $plugins = '')
 }
 
 /**
- * 插件标识溯源
+ * 插件标识追溯识别
  * @author  Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
@@ -970,10 +970,10 @@ function MyView($view = '', $data = [])
             }
             // 文件不存在并且非默认主题则使用默认主题文件
             $file = APP_PATH.$group.DS.'view'.DS.$theme.DS.$view_new.$suffix;
-            if(!file_exists($file))
+            if(!@file_exists($file))
             {
                 $file = APP_PATH.$group.DS.'view'.DS.'default'.DS.$view_new.$suffix;
-                if(file_exists($file))
+                if(@file_exists($file))
                 {
                     $view = '../default/'.$view_new;
                 }
@@ -985,7 +985,7 @@ function MyView($view = '', $data = [])
     if(substr($view, 0, 16) == '../../../plugins')
     {
         $plugins_view_file = APP_PATH.$group.DS.'view'.DS.$theme.DS.'plugins'.DS.str_replace(DS.'view'.DS, DS, substr($view, 17)).$suffix;
-        if(file_exists($plugins_view_file))
+        if(@file_exists($plugins_view_file))
         {
             $view = $plugins_view_file;
         }
@@ -1326,7 +1326,7 @@ function MyFileConfig($key, $value = '', $default = '', $mandatory = false)
         {
             if(!array_key_exists($key, $object_file_cache_config))
             {
-                if(file_exists($file))
+                if(@file_exists($file))
                 {
                     $temp = file_get_contents($file);
                     if(!empty($temp))
@@ -1358,7 +1358,7 @@ function MyFileConfig($key, $value = '', $default = '', $mandatory = false)
             }
 
             // 存在则校验写权限
-            if(file_exists($file) && !is_writable($file))
+            if(@file_exists($file) && !is_writable($file))
             {
                 return false;
             }
@@ -1727,19 +1727,31 @@ function SpecCartesian($arr1, $arr2 = [])
  * @version 1.0.0
  * @date    2020-07-12
  * @desc    description
- * @param   [string]          $controller     [控制器（默认读取当前）]
+ * @param   [string]          $control        [控制器（默认读取当前）]
  * @param   [string]          $action         [方法（默认读取当前）]
+ * @param   [string]          $plugins        [指定插件（默认空）]
  * @param   [array]           $unwanted_power [不校验权限的方法（默认空）]
  */
-function AdminIsPower($controller = null, $action = null, $unwanted_power = [])
+function AdminIsPower($control = null, $action = null, $plugins = '', $unwanted_power = [])
 {
+    // 插件、空系统自动识别（当插件在非访问页面使用这个方法的时候，需要自己传参指定插件标志，非插件访问页面自动识别不了）
+    // null 则强制不使用插件
+    if(empty($plugins) && $plugins !== null)
+    {
+        $plugins = PluginsNameBacktrace();
+    }
+
     // 控制器/方法
-    $controller = strtolower(empty($controller) ? request()->controller() : $controller);
-    $action = strtolower(empty($action) ? request()->action() : $action);
+    $control = strtolower(empty($control) ? (empty($plugins) ? RequestController() : PluginsRequestController()) : $control);
+    $action = strtolower(empty($action) ? (empty($plugins) ? RequestAction() : PluginsRequestAction()) : $action);
 
     // 管理员
-    $admin = AdminService::LoginInfo();
-    if(!empty($admin))
+    static $power_admin = false;
+    if($power_admin === false)
+    {
+        $power_admin = AdminService::LoginInfo();
+    }
+    if(!empty($power_admin))
     {
         // 不需要校验权限的方法
         if(!empty($unwanted_power) && in_array($action, $unwanted_power))
@@ -1749,10 +1761,47 @@ function AdminIsPower($controller = null, $action = null, $unwanted_power = [])
 
         // 权限
         // 角色组权限列表校验
-        $res = AdminPowerService::PowerMenuInit();
-        if(!empty($res) && !empty($res['admin_power']) && is_array($res['admin_power']) && array_key_exists($controller.'_'.$action, $res['admin_power']))
+        static $power_admin_power_data = false;
+        if($power_admin_power_data === false)
         {
-            return true;
+            $power_admin_power_data = AdminPowerService::PowerMenuInit($power_admin);
+        }
+        if(!empty($power_admin_power_data))
+        {
+            // 是否插件权限
+            if(empty($plugins))
+            {
+                // 系统权限
+                if(!empty($power_admin_power_data['admin_power']) && is_array($power_admin_power_data['admin_power']) && array_key_exists($control.'_'.$action, $power_admin_power_data['admin_power']))
+                {
+                    return true;
+                }
+            } else {
+                $key = $control.'-'.$action;
+                if(!empty($power_admin_power_data['admin_plugins']) && !empty($power_admin_power_data['admin_plugins'][$plugins]))
+                {
+                    // 插件未定义权限菜单则表示有整个插件的权限
+                    if(empty($power_admin_power_data['admin_plugins'][$plugins]['power']))
+                    {
+                        return true;
+                    } else {
+                        if(is_array($power_admin_power_data['admin_plugins'][$plugins]['power']))
+                        {
+                            // 存在权限
+                            if(in_array($key, $power_admin_power_data['admin_plugins'][$plugins]['power']))
+                            {
+                                return true;
+                            } else {
+                                // 当前插件定义的权限中无当前页面权限定义则报错，则表示不需要验证当前页面权限
+                                if(!empty($power_admin_power_data['admin_all_plugins']) && !empty($power_admin_power_data['admin_all_plugins'][$plugins]) && !empty($power_admin_power_data['admin_all_plugins'][$plugins]['power']) && is_array($power_admin_power_data['admin_all_plugins'][$plugins]['power']) && !in_array($key, $power_admin_power_data['admin_all_plugins'][$plugins]['power']))
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
     return false;
@@ -1964,7 +2013,15 @@ function SecurityPreventViolence($key, $type = 1, $expire_time = 30)
  * @blog    http://gong.gg/
  * @version 1.0.0
  * @date    2020-06-05
- * @desc    description
+ * @desc        参数说明 params
+ *              group                       模块组、默认自动读取
+ *              control                     系统控制器、默认自动读取
+ *              action                      系统方法、默认自动读取
+ *              pluginsname                 插件、默认空非插件
+ *              pluginscontrol              插件控制器、默认自动读取
+ *              pluginsaction               插件方法、默认自动读取
+ *              is_module_api_to_index      api模块的情况不存在form是否转index模块找form、默认否
+ *              is_admin_module             没有找到form的情况，是否支持去后台模块找form、默认否
  * @param   [array]           $params [输入参数]
  */
 function FormModulePath($params = [])
@@ -2068,7 +2125,16 @@ function FormModuleData($params = [])
  * @blog    http://gong.gg/
  * @version 1.0.0
  * @date    2025-01-09
- * @desc    description
+ * @desc        参数说明 params
+ *              group                       模块组、默认自动读取
+ *              control                     系统控制器、默认自动读取
+ *              action                      系统方法、默认自动读取
+ *              pluginsname                 插件、默认空非插件
+ *              pluginscontrol              插件控制器、默认自动读取
+ *              pluginsaction               插件方法、默认自动读取
+ *              is_module_api_to_index      api模块的情况不存在form是否转index模块找form、默认否
+ *              is_admin_module             没有找到form的情况，是否支持去后台模块找form、默认否
+ *              data_type                   返回数据结构，默认列表 data_list ， 详情 data_detail
  * @param   [array]          $data   [数据列表]
  * @param   [array]          $params [输入参数]
  */
@@ -2200,7 +2266,7 @@ function FormModuleFieldData($form_data = [], $params = [])
     {
         $result = array_values(array_filter(array_map(function($v)
         {
-            if(isset($v['view_type']) && in_array($v['view_type'], ['field', 'images']) && !empty($v['view_key']))
+            if(isset($v['view_type']) && in_array($v['view_type'], ['field', 'images', 'many_images']) && !empty($v['view_key']))
             {
                 $temp = ['name'=>$v['label'], 'field'=>$v['view_key'], 'type'=>$v['view_type']];
                 if(isset($v['is_copy']) && $v['is_copy'] == 1)
@@ -2223,11 +2289,12 @@ function FormModuleFieldData($form_data = [], $params = [])
  * @desc    description
  * @param   [array]         $params [输入参数]
  *          # 公共
- *          run             调用模块方法（默认 Run）
+ *          run             调用模块方法（默认 Index/Run）
  *          group           项目组（默认 当前模块组）
  *          control         控制器名称
  *          action          方法（默认 当前方法）
- *          plugins         是否插件（则为插件唯一标识）
+ *          plugins         指定插件标识
+ *          is_plugins      是否插件（0，1）
  *          data_type       读取数据类型（
  *                              空或all 全部
  *                              data_list 列表
@@ -2255,7 +2322,7 @@ function FormModuleStruct($params = [])
     $request_controller = RequestController();
 
     // 是否插件
-    $is_plugins = $request_controller == 'plugins';
+    $is_plugins = isset($params['is_plugins']) ? ($params['is_plugins'] == 1) : $request_controller == 'plugins';
 
     // 模块组
     if(empty($params['group']))
@@ -2313,7 +2380,7 @@ function FormModuleStruct($params = [])
     $module = $res['module'];
 
     // 模块运行方法
-    $run = empty($params['run']) ? 'Run' : $params['run'];
+    $run = empty($params['run']) ? 'Index' : $params['run'];
 
     // 加入用户信息
     $params['system_user'] = UserService::LoginUserInfo();
@@ -2359,7 +2426,7 @@ function ModuleInclude($template, $data = [], $params = [])
         return MyLang('common_function.module_view_action_undefined_tips').'['.$module.'->'.$action.'()]';
     }
 
-    return $obj->Run($template, $data, $params);
+    return $obj->$action($template, $data, $params);
 }
 
 /**
@@ -3545,13 +3612,16 @@ function DeviceType($agent = '')
  */
 function IsJson($jsonstr)
 {
-    if(PHP_VERSION > 5.3)
+    if(!empty($jsonstr))
     {
-        json_decode($jsonstr);
-        return (json_last_error() == JSON_ERROR_NONE);
-    } else {
-        return is_null(json_decode($jsonstr)) ? false : true;
+        if(!is_string($jsonstr) || trim($jsonstr) === '')
+        {
+            return false;
+        }
+        $res = json_decode($jsonstr, true);
+        return json_last_error() === JSON_ERROR_NONE && is_array($res);
     }
+    return false;
 }
 
 /**
@@ -3566,25 +3636,33 @@ function IsJson($jsonstr)
  */
 function RequestGet($value, $timeout = 10)
 {
-    // 远程
-    if(substr($value, 0, 4) == 'http')
+    if(!empty($value))
     {
-        // 是否有curl模块
-        if(function_exists('curl_init'))
+        // 远程
+        if(substr($value, 0, 4) == 'http')
         {
-            return CurlGet($value, $timeout);
+            // 非本地图片则继续
+            $value = ResourcesService::AttachmentPathHandle($value);
+            if(substr($value, 0, 4) == 'http')
+            {
+                // 是否有curl模块
+                if(function_exists('curl_init'))
+                {
+                    return CurlGet($value, $timeout);
+                }
+                return file_get_contents($value);
+            }
         }
-        return file_get_contents($value);
-    }
 
-    // 本地文件
-    if(file_exists($value))
-    {
-        return file_get_contents($value);
-    } else {
-        if(file_exists(ROOT.'public'.$value))
+        // 本地文件
+        if(@file_exists($value))
         {
-            return file_get_contents(ROOT.'public'.$value);
+            return file_get_contents($value);
+        } else {
+            if(@file_exists(ROOT.'public'.$value))
+            {
+                return file_get_contents(ROOT.'public'.$value);
+            }
         }
     }
     return '';
@@ -4190,16 +4268,17 @@ function ParamsChecked($data, $params)
     {
         if(empty($v['key_name']) || empty($v['error_msg']))
         {
-            return MyLang('common_function.check_config_error_tips');
+            return MyLang('common_function.check_config_error_tips').(empty($v['key_name']) ? '' : '['.$v['key_name'].']');
         }
 
         // 是否需要验证
         $is_checked = true;
 
         // 数据或字段存在则验证
+        // null 则不走这个验证
         // 1 数据存在则验证
         // 2 字段存在则验证
-        if(isset($v['is_checked']))
+        if(isset($v['is_checked']) && $v['is_checked'] !== null)
         {
             if($v['is_checked'] == 1)
             {

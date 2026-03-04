@@ -78,10 +78,10 @@
                 <div class="reverse-drop-show am-margin-bottom {{if isset($data['home_index_floor_data_type']['value']) and $data['home_index_floor_data_type']['value'] eq 2}} am-hide{{/if}}">
                     <div class="am-form-group">
                         <label class="am-block">{{$data.home_index_floor_left_top_category.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_left_top_category.describe}}</span></label>
-                        {{if !empty($goods_category_list)}}
+                        {{if !empty($one_level_goods_category_list)}}
                             <div class="card-grey am-margin-top-sm">
                                 <ul class="auto-hand-cart">
-                                    {{foreach $goods_category_list as $category}}
+                                    {{foreach $one_level_goods_category_list as $category}}
                                         <li>
                                             <p class="am-text-truncate am-margin-bottom-sm">
                                                 <span>{{$category.name}}</span>
@@ -112,10 +112,10 @@
                     </div>
                     <div class="am-form-group">
                         <label class="am-block">{{$data.home_index_floor_top_right_keywords.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_top_right_keywords.describe}}</span></label>
-                        {{if !empty($goods_category_list)}}
+                        {{if !empty($one_level_goods_category_list)}}
                             <div class="card-grey">
                                 <ul class="auto-hand-cart">
-                                    {{foreach $goods_category_list as $category}}
+                                    {{foreach $one_level_goods_category_list as $category}}
                                         <li>
                                             <p class="am-text-truncate am-margin-bottom-xs">
                                                 <span>{{$category.name}}</span>
@@ -178,10 +178,10 @@
                 <div class="item {{if isset($data['home_index_floor_data_type']['value']) and $data['home_index_floor_data_type']['value'] eq 1}} am-active{{/if}}" data-key="1">
                     <div class="am-form-group">
                         <label class="am-block">{{$data.home_index_floor_manual_mode_goods.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_manual_mode_goods.describe}}</span></label>
-                        {{if !empty($goods_category_list)}}
+                        {{if !empty($one_level_goods_category_list)}}
                             <div class="card-grey">
                                 <ul class="auto-hand-cart">
-                                    {{foreach $goods_category_list as $category}}
+                                    {{foreach $one_level_goods_category_list as $category}}
                                         <li>
                                             <p class="am-text-truncate am-margin-bottom-xs">
                                                 <span>{{$category.name}}</span>
@@ -250,8 +250,8 @@
                 <div class="forth-selection-container" data-search-url="{{:MyUrl('admin/site/goodssearch')}}">
                     <select class="am-radius chosen-select forth-selection-form-category" data-placeholder="{{:MyLang('form_goods_category_placeholder')}}" data-validation-message="{{:MyLang('form_goods_category_message')}}">
                         <option value="">{{:MyLang('form_goods_category_placeholder')}}</option>
-                        {{if !empty($goods_category_list)}}
-                            {{foreach $goods_category_list as $v}}
+                        {{if !empty($one_level_goods_category_list)}}
+                            {{foreach $one_level_goods_category_list as $v}}
                                 <option value="{{$v.id}}">{{$v.name}}</option>
                                 {{if !empty($v['items'])}}
                                     {{foreach $v.items as $vs}}

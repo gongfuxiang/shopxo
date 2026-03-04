@@ -98,16 +98,32 @@ class FormTableHandleModule
 
         // 钩子-开始
         $hv = explode('\\', $module);
-        if(isset($hv[2]) && isset($hv[4]) && in_array($hv[2], MyConfig('shopxo.module_form_hook_group')))
+        if(isset($hv[2]))
         {
-            // 初始-动态钩子名称 plugins_module_form_group_controller_action
-            $this->hook_name = 'plugins_module_form_'.strtolower($hv[2]).'_'.strtolower($hv[4]).'_'.strtolower($action);
-            MyEventTrigger($this->hook_name, [
-                'hook_name'     => $this->hook_name,
-                'is_backend'    => true,
-                'params'        => $this->out_params,
-                'data'          => &$this->form_data,
-            ]);
+            $this->hook_name = '';
+            if($hv[2] == 'plugins')
+            {
+                if(isset($hv[3]) && isset($hv[5]) && isset($hv[6]))
+                {
+                    // 初始-动态钩子名称 plugins_module_form_{group}_plugins_{plugins}_{controller}_{action}
+                    $this->hook_name = 'plugins_module_form_'.strtolower($hv[5]).'_plugins_'.strtolower($hv[3]).'_'.strtolower($hv[6]).'_'.strtolower($action);
+                }
+            } else {
+                if(isset($hv[4]))
+                {
+                    // 初始-动态钩子名称 plugins_module_form_{group}_{controller}_{action}
+                    $this->hook_name = 'plugins_module_form_'.strtolower($hv[2]).'_'.strtolower($hv[4]).'_'.strtolower($action);
+                }
+            }
+            if(!empty($this->hook_name))
+            {
+                MyEventTrigger($this->hook_name, [
+                    'hook_name'     => $this->hook_name,
+                    'is_backend'    => true,
+                    'params'        => $this->out_params,
+                    'data'          => &$this->form_data,
+                ]);
+            }
         }
 
         // 初始化
@@ -539,6 +555,65 @@ class FormTableHandleModule
                 }
             }
 
+            // 是否处理地区数据
+            $is_handle_region_field = isset($form_data['is_handle_region_field']) && $form_data['is_handle_region_field'] == 1;
+            $handle_region_data = [];
+            $handle_region_ids = [];
+            if(empty($form_data['handle_region_data']))
+            {
+                $handle_region_data = [
+                    [
+                        'key'    => 'province',
+                        'field'  => 'province_name',
+                    ],
+                    [
+                        'key'    => 'city',
+                        'field'  => 'city_name',
+                    ],
+                    [
+                        'key'    => 'county',
+                        'field'  => 'county_name',
+                    ],
+                    [
+                        'key'    => 'province_id',
+                        'field'  => 'province_name',
+                    ],
+                    [
+                        'key'    => 'city_id',
+                        'field'  => 'city_name',
+                    ],
+                    [
+                        'key'    => 'county_id',
+                        'field'  => 'county_name',
+                    ],
+                ];
+                foreach($handle_region_data as $rv)
+                {
+                    $handle_region_ids = array_unique(array_merge($handle_region_ids, array_filter(array_column($this->data_list, $rv['key']))));
+                }
+            } else {
+                if(is_array($form_data['handle_region_data']))
+                {
+                    foreach($form_data['handle_region_data'] as $rv)
+                    {
+                        if(!empty($rv['key']))
+                        {
+                            if(empty($rv['field']))
+                            {
+                                $temp_region_field = ((substr($rv['key'], -3) == '_id') ? substr($rv['key'], 0, -3) : $rv['key']).'_name';
+                            } else {
+                                $temp_region_field = $rv['field'];
+                            }
+                            $handle_region_data[] = [
+                                    'key'    => $rv['key'],
+                                    'field'  => $temp_region_field,
+                                ];
+                            $handle_region_ids = array_unique(array_merge($handle_region_ids, array_filter(array_column($this->data_list, $rv['key']))));
+                        }
+                    }
+                }
+            }
+
             // 是否处理商品数据
             $is_handle_goods_field = isset($form_data['is_handle_goods_field']) && $form_data['is_handle_goods_field'] == 1;
             $handle_goods_data = [];
@@ -553,21 +628,21 @@ class FormTableHandleModule
             } else {
                 if(is_array($form_data['handle_goods_data']))
                 {
-                    foreach($form_data['handle_goods_data'] as $uv)
+                    foreach($form_data['handle_goods_data'] as $gv)
                     {
-                        if(!empty($uv['key']))
+                        if(!empty($gv['key']))
                         {
-                            if(empty($uv['field']))
+                            if(empty($gv['field']))
                             {
-                                $temp_goods_field = (substr($uv['key'], -3) == '_id') ? substr($uv['key'], 0, -3) : $uv['key'].'_goods';
+                                $temp_goods_field = (substr($gv['key'], -3) == '_id') ? substr($gv['key'], 0, -3) : $gv['key'].'_goods';
                             } else {
-                                $temp_goods_field = $uv['field'];
+                                $temp_goods_field = $gv['field'];
                             }
                             $handle_goods_data[] = [
-                                    'key'    => $uv['key'],
+                                    'key'    => $gv['key'],
                                     'field'  => $temp_goods_field,
                                 ];
-                            $handle_goods_ids = array_unique(array_merge($handle_goods_ids, array_filter(array_column($this->data_list, $uv['key']))));
+                            $handle_goods_ids = array_unique(array_merge($handle_goods_ids, array_filter(array_column($this->data_list, $gv['key']))));
                         }
                     }
                 }
@@ -624,13 +699,20 @@ class FormTableHandleModule
             }
 
             // 数据处理
-            if(!empty($field_show_data) || !empty($field_status_data) || !empty($data_merge) || $is_handle_user_field || $is_handle_goods_field || $is_handle_time_field || $is_fixed_name_field || $is_handle_annex_field || $is_handle_annex_size_unit || $is_json_data_handle || $is_ln_to_array_handle)
+            if(!empty($field_show_data) || !empty($field_status_data) || !empty($data_merge) || $is_handle_user_field || $is_handle_region_field || $is_handle_goods_field || $is_handle_time_field || $is_fixed_name_field || $is_handle_annex_field || $is_handle_annex_size_unit || $is_json_data_handle || $is_ln_to_array_handle)
             {
                 // 获取用户数据
                 $user_data = [];
                 if($is_handle_user_field && !empty($handle_user_ids))
                 {
                     $user_data = UserService::GetUserViewInfo($handle_user_ids);
+                }
+
+                // 获取地区数据
+                $region_data = [];
+                if($is_handle_region_field && !empty($handle_region_ids))
+                {
+                    $region_data = Db::name('Region')->where(['id'=>$handle_region_ids])->column('name', 'id');
                 }
 
                 // 获取商品数据
@@ -665,9 +747,21 @@ class FormTableHandleModule
                         {
                             foreach($handle_user_data as $uv)
                             {
-                                if(!empty($uv['key']) && !empty($uv['field']))
+                                if(!empty($uv['key']) && !empty($uv['field']) && array_key_exists($uv['key'], $v))
                                 {
                                     $v[$uv['field']] = (empty($user_data) || empty($v[$uv['key']]) || !array_key_exists($v[$uv['key']], $user_data)) ? null : $user_data[$v[$uv['key']]];
+                                }
+                            }
+                        }
+
+                        // 地区处理
+                        if($is_handle_region_field && !empty($handle_region_data))
+                        {
+                            foreach($handle_region_data as $rv)
+                            {
+                                if(!empty($rv['key']) && !empty($rv['field']) && array_key_exists($rv['key'], $v))
+                                {
+                                    $v[$rv['field']] = (empty($region_data) || empty($v[$rv['key']]) || !array_key_exists($v[$rv['key']], $region_data)) ? null : $region_data[$v[$rv['key']]];
                                 }
                             }
                         }
@@ -675,11 +769,11 @@ class FormTableHandleModule
                         // 商品信息处理
                         if($is_handle_goods_field && !empty($handle_goods_data))
                         {
-                            foreach($handle_goods_data as $uv)
+                            foreach($handle_goods_data as $gv)
                             {
-                                if(!empty($uv['key']) && !empty($uv['field']))
+                                if(!empty($gv['key']) && !empty($gv['field']) && array_key_exists($gv['key'], $v))
                                 {
-                                    $v[$uv['field']] = (empty($goods_data) || empty($v[$uv['key']]) || !array_key_exists($v[$uv['key']], $goods_data)) ? null : $goods_data[$v[$uv['key']]];
+                                    $v[$gv['field']] = (empty($goods_data) || empty($v[$gv['key']]) || !array_key_exists($v[$gv['key']], $goods_data)) ? null : $goods_data[$v[$gv['key']]];
                                 }
                             }
                         }
@@ -773,7 +867,7 @@ class FormTableHandleModule
                                     }
                                     $v[$temp_field] = empty($temp_arr) ? '' : implode(', ', $temp_arr);
                                 } else {
-                                    $temp = array_key_exists($vs, $temp_data) ? $temp_data[$vs] : '';
+                                    $temp = (!empty($temp_data) && is_array($temp_data) && array_key_exists($vs, $temp_data)) ? $temp_data[$vs] : '';
                                     $v[$temp_field] = empty($temp) ? '' : (is_array($temp) ? (isset($temp[$temp_key]) ? $temp[$temp_key] : '') : $temp);
                                 }
                             }
@@ -859,6 +953,74 @@ class FormTableHandleModule
                     $this->data_list = $res['data'];
                 } else {
                     $this->data_list = $res;
+                }
+            }
+
+            // 数据字段层级合并处理
+            $is_field_level_merge = isset($form_data['is_field_level_merge']) && $form_data['is_field_level_merge'] == 1;
+            $handle_field_level_merge_data = empty($form_data['handle_field_level_merge_data']) ? [] : $form_data['handle_field_level_merge_data'];
+
+            // 字段数据合并处理
+            if($is_field_level_merge && !empty($handle_field_level_merge_data) && is_array($handle_field_level_merge_data))
+            {
+                foreach($this->data_list as &$v2)
+                {
+                    foreach($handle_field_level_merge_data as $fmdk=>$fmdv)
+                    {
+                        if(!empty($fmdk) && !empty($fmdv))
+                        {
+                            // 数组则处理多级拼接
+                            if(is_array($fmdv))
+                            {
+                                $temp_fmdv_value = '';
+                                foreach($fmdv as $fmdvs)
+                                {
+                                    // 循环找出数据
+                                    $temp_fmdvs_value = null;
+                                    foreach(explode('.', $fmdvs) as $fmdvss)
+                                    {
+                                        if($temp_fmdvs_value === null)
+                                        {
+                                            if(isset($v2[$fmdvss]))
+                                            {
+                                                $temp_fmdvs_value = $v2[$fmdvss];
+                                            }
+                                        } else {
+                                            if(isset($temp_fmdvs_value[$fmdvss]))
+                                            {
+                                                $temp_fmdvs_value = $temp_fmdvs_value[$fmdvss];
+                                            }
+                                        }
+                                    }
+                                    if($temp_fmdvs_value !== null && !is_array($temp_fmdvs_value))
+                                    {
+                                        $temp_fmdv_value .= $temp_fmdvs_value;
+                                    }
+                                }
+                                $v2[$fmdk] = $temp_fmdv_value;
+                            } else {
+                                // 循环找出数据
+                                $temp_fmdv_value = null;
+                                foreach(explode('.', $fmdv) as $fmdvs)
+                                {
+                                    if($temp_fmdv_value === null)
+                                    {
+                                        if(isset($v2[$fmdvs]))
+                                        {
+                                            $temp_fmdv_value = $v2[$fmdvs];
+                                        }
+                                    } else {
+                                        if(isset($temp_fmdv_value[$fmdvs]))
+                                        {
+                                            $temp_fmdv_value = $temp_fmdv_value[$fmdvs];
+
+                                        }
+                                    }
+                                }
+                                $v2[$fmdk] = $temp_fmdv_value;
+                            }
+                        }
+                    }
                 }
             }
 
@@ -1079,7 +1241,7 @@ class FormTableHandleModule
                             }
                         }
                         // 当前详情数据最大数记录
-                        if(isset($v[$dv['field']]))
+                        if(isset($v[$dv['field']]) && is_array($v[$dv['field']]))
                         {
                             $temp_max = (count($v[$dv['field']]) == count($v[$dv['field']], 1)) ? 1 : count($v[$dv['field']]);
                             if($temp_max > $detail_data_row_max)
@@ -1105,7 +1267,7 @@ class FormTableHandleModule
                                     $fk = $dv['field'];
                                     $field = $dv['field'].'_'.$df;
                                     // 非二维数组则转二维数组
-                                    if(count($v[$fk]) == count($v[$fk], 1))
+                                    if(isset($v[$fk]) && is_array($v[$fk]) && count($v[$fk]) == count($v[$fk], 1))
                                     {
                                         $v[$fk] = [$v[$fk]];
                                     }
@@ -1455,6 +1617,14 @@ class FormTableHandleModule
                             $v['images_shape'] = 'radius';
                         }
                         break;
+
+                    // 视频
+                    case 'video' :
+                        if(empty($v['video_shape']))
+                        {
+                            $v['video_shape'] = 'radius';
+                        }
+                        break;
                 }
             }
 
@@ -1540,13 +1710,14 @@ class FormTableHandleModule
                             }
 
                             // 选择数据 key=>name
+                            $temp_data_keys = empty($v['search_config']['data']) ? [] : ArrayKeys($v['search_config']['data']);
                             if(empty($v['search_config']['data_key']))
                             {
-                                $v['search_config']['data_key'] = 'id';
+                                $v['search_config']['data_key'] = in_array('value', $temp_data_keys) ? 'value' : 'id';
                             }
                             if(empty($v['search_config']['data_name']))
                             {
-                                $v['search_config']['data_key'] = 'name';
+                                $v['search_config']['data_name'] = in_array('title', $temp_data_keys) ? 'title' : 'name';
                             }
                             break;
 
@@ -1972,7 +2143,15 @@ class FormTableHandleModule
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2020-12-06
-     * @desc    description
+     * @desc        参数说明 params
+     *              group                       模块组、默认自动读取
+     *              control                     系统控制器、默认自动读取
+     *              action                      系统方法、默认自动读取
+     *              pluginsname                 插件、默认空非插件
+     *              pluginscontrol              插件控制器、默认自动读取
+     *              pluginsaction               插件方法、默认自动读取
+     *              is_module_api_to_index      api模块的情况不存在form是否转index模块找form、默认否
+     *              return_data_struct          all 返回整体的数据结构
      * @param   [array]           $data       [数据列表]
      * @param   [array]           $params     [参数数据]
      */
@@ -1986,7 +2165,7 @@ class FormTableHandleModule
         $this->data_list = $data;
 
         // 获取表格模型处理表格列表数据、支持使用后端模块form配置结构
-        $module = FormModulePath(array_merge(input(), ['is_admin_module'=>1]));
+        $module = FormModulePath(array_merge(input(), $params, ['is_admin_module'=>1]));
         if(!empty($module))
         {
             // 参数校验

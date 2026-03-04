@@ -470,18 +470,51 @@ $(function () {
             onCancel: function () { }
         });
     });
-    $('.check-radio-change').on('click', function () {
-        var key = $(this).val();
+    // 首页楼层数据模式类型切换
+    $(document).on('click', '.check-radio-change', function () {
+        var key = parseInt($(this).val() || 0);
         $("[data-key='" + key + "']").addClass('am-active').siblings('.item').removeClass('am-active');
-        if (key === '0' || key === '1') {
+        if (key == 0 || key == 1) {
             $(".reverse-drop-show").removeClass('am-hide');
         } else {
             $(".reverse-drop-show").addClass('am-hide');
         }
     })
     // 商品分类层级
-    $('.level-type input').on('click', function () {
+    $(document).on('click', '.level-type input', function () {
         var key = $(this).val();
         $(".level-type-content .item[data-key='" + key + "']").addClass('am-active').siblings('.item').removeClass('am-active');
-    })
+    });
+
+
+    // 订单溯源-添加
+    $(document).on('click', '.trace-source-submit-add', function()
+    {
+        var index = parseInt(Math.random() * 1000001);
+        var select_html = $('.trace-source-goods-category-select-html').prop('outerHTML').replace('{index}', index);
+        var required_html = $('.trace-source-required-html').prop('outerHTML').replace(/{index}/g, index);
+        var html = `<tr>
+                        <td>`+select_html+`</td>
+                        <td>`+required_html+`</td>
+                        <td>
+                            <div class="am-margin-top-xs">
+                                <a href="javascript:;" class="delete-submit">
+                                    <i class="iconfont icon-btn-del am-text-xs"></i>
+                                    <span>`+(window['lang_operate_remove_name'] || '移除')+`</span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>`;
+        $('.trace-source-list tbody').append(html);
+        // 移除多余的class
+        $('.trace-source-list select').removeClass('am-hide').removeClass('trace-source-goods-category-select-html').removeClass('chosen-init-success');
+        $('.trace-source-list .am-checkbox-group').removeClass('am-hide').removeClass('trace-source-required-html');
+        // 多选插件事件更新
+        SelectChosenInit();
+    });
+    // 订单溯源-移除
+    $(document).on('click', '.trace-source-list .delete-submit', function()
+    {
+        $(this).parents('tr').remove();
+    });
 });

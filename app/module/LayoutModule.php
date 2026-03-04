@@ -243,7 +243,7 @@ class LayoutModule
                     }
 
                     // 布局类型
-                    $v['value_arr'] = explode(':', $v['value']);
+                    $v['value_arr'] = empty($v['value']) ? [] : explode(':', $v['value']);
 
                     // 布局
                     if(!empty($v['children']) && is_array($v['children']))
@@ -394,7 +394,7 @@ class LayoutModule
                     }
 
                     // 布局类型
-                    $v['value_arr'] = explode(':', $v['value']);
+                    $v['value_arr'] = empty($v['value']) ? [] : explode(':', $v['value']);
 
                     // 布局
                     if(!empty($v['children']) && is_array($v['children']))

@@ -67,11 +67,32 @@ class Plugins extends Base
             }
         }
 
+        // 应用名称/控制器/方法
+        $pluginsname = $params['data_request']['pluginsname'];
+        $pluginscontrol = strtolower($params['data_request']['pluginscontrol']);
+        $pluginsaction = strtolower($params['data_request']['pluginsaction']);
+
         // 插件权限校验
+        $msg = '';
         $power_plugins = MyCache(SystemService::CacheKey('shopxo.cache_admin_power_plugins_key').$this->admin['id']);
-        if(empty($power_plugins) || !array_key_exists($params['data_request']['pluginsname'], $power_plugins))
+        if(empty($power_plugins) || !array_key_exists($pluginsname, $power_plugins))
         {
-            $msg = MyLang('plugins_use_no_power_tips');
+            $msg = MyLang('plugins_use_no_power_tips').'('.$pluginsname.')';
+        } else {
+            // 插件页面无权限
+            $key = $pluginscontrol.'-'.$pluginsaction;
+            if(!empty($power_plugins[$pluginsname]['power']) && !in_array($key, $power_plugins[$pluginsname]['power']))
+            {
+                // 并且 当前插件定义的权限中无当前页面权限定义则报错，则表示不需要验证当前页面权限
+                $power_all_plugins = MyCache(SystemService::CacheKey('shopxo.cache_admin_power_all_plugins_key').$this->admin['id']);
+                if(!empty($power_all_plugins) && array_key_exists($pluginsname, $power_all_plugins) && !empty($power_all_plugins[$pluginsname]['power']) && in_array($key, $power_all_plugins[$pluginsname]['power']))
+                {
+                    $msg = MyLang('plugins_use_no_power_tips').'('.$pluginsname.'-'.$key.')';
+                }
+            }
+        }
+        if(!empty($msg))
+        {
             if(IS_AJAX)
             {
                 return ApiService::ApiDataReturn(DataReturn($msg, -5000));
@@ -80,11 +101,6 @@ class Plugins extends Base
                 return MyView('public/tips_error');
             }
         }
-
-        // 应用名称/控制器/方法
-        $pluginsname = $params['data_request']['pluginsname'];
-        $pluginscontrol = strtolower($params['data_request']['pluginscontrol']);
-        $pluginsaction = strtolower($params['data_request']['pluginsaction']);
 
         // 编辑器文件存放地址定义
         MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('plugins_'.$pluginsname));

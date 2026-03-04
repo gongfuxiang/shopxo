@@ -1163,6 +1163,8 @@ abstract class PDOConnection extends Connection
         // 生成UPDATE SQL语句
         $sql = $this->builder->update($query);
 
+        $this->db->trigger('before_update', $query);
+
         // 执行操作
         $result = '' == $sql ? 0 : $this->pdoExecute($query, $sql);
 
@@ -1189,6 +1191,8 @@ abstract class PDOConnection extends Connection
 
         // 生成删除SQL语句
         $sql = $this->builder->delete($query);
+
+        $this->db->trigger('before_delete', $query);
 
         // 执行操作
         $result = $this->pdoExecute($query, $sql);

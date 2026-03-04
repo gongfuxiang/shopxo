@@ -43,37 +43,89 @@
                 {{/if}}
 
                 <!-- 商店信息 -->
-                <ul class="footer-about am-u-md-4 am-u-lg-3 theme-data-edit-event" data-module="store_config">
-                    {{if !empty($common_customer_store_tel)}}
-                        <li class="tel">
-                            <i class="iconfont icon-footer-tel am-vertical-align-middle"></i>
-                            <a href="tel:{{$common_customer_store_tel}}">{{$common_customer_store_tel}}</a>
-                        </li>
-                    {{/if}}
-                    {{if !empty($common_customer_store_address)}}
-                        <li class="address">
-                            <i class="iconfont icon-footer-address am-vertical-align-middle"></i>
-                            <span>{{$common_customer_store_address}}</span>
-                        </li>
-                    {{/if}}
-                    {{if !empty($common_customer_store_describe)}}
-                        <li class="describe">
-                            <i class="iconfont icon-footer-describe am-vertical-align-middle"></i>
-                            <span>{{$common_customer_store_describe}}</span>
-                        </li>
-                    {{/if}}
-                    {{if !empty($common_customer_store_email)}}
-                        <li class="email">
-                            <i class="iconfont icon-footer-email am-vertical-align-middle"></i>
-                            <span>{{$common_customer_store_email}}</span>
-                        </li>
-                    {{/if}}
-                    {{if !empty($common_customer_store_qrcode)}}
-                        <li class="qrcode">
-                            <img src="{{$common_customer_store_qrcode}}" alt="{{$home_site_name}}" />
-                        </li>
-                    {{/if}}
-                </ul>
+                {{if !empty($site_info_data) and is_array($site_info_data)}}
+                    <ul class="footer-about am-u-md-4 am-u-lg-3 theme-data-edit-event" data-module="store_config">
+                        <!-- 客服信息 -->
+                        {{if !empty($site_info_data['chat']['data']['text']) and is_array($site_info_data['chat']['data']['text'])}}
+                            {{foreach $site_info_data.chat.data.text as $v}}
+                                {{if !empty($v['value']) and !empty($v['key'])}}
+                                    <li class="am-text-left">
+                                        <i class="iconfont {{$v.icon}} am-vertical-align-middle"></i>
+                                        {{switch $v.key}}
+                                            {{case tel}}
+                                                <a href="tel:{{$v.value}}" class="am-vertical-align-middle">{{$v.value}}</a>
+                                            {{/case}}
+                                            {{case email}}
+                                                <a href="mailto:{{$v.value}}" class="am-vertical-align-middle">{{$v.value}}</a>
+                                            {{/case}}
+                                            {{case qq}}
+                                                <a href="https://wpa.qq.com/msgrd?v=3&uin={{$v.value}}&site=qq&menu=yes" target="_blank" class="am-vertical-align-middle">{{$v.value}}</a>
+                                            {{/case}}
+                                            {{case url}}
+                                                <a href="{{$v.value}}" target="_blank" class="am-vertical-align-middle">{{$v.name}}</a>
+                                            {{/case}}
+                                            {{default /}}
+                                                <span class="am-vertical-align-middle">{{$v.value}}</span>
+                                        {{/switch}}
+                                    </li>
+                                {{/if}}
+                            {{/foreach}}
+                        {{/if}}
+
+                        <!-- 基础信息 -->
+                        {{if !empty($site_info_data['base']['data']['text']) and is_array($site_info_data['base']['data']['text'])}}
+                            {{foreach $site_info_data.base.data.text as $v}}
+                                {{if !empty($v['value']) and !empty($v['key'])}}
+                                    <li class="am-text-left">
+                                        <i class="iconfont {{$v.icon}} am-vertical-align-middle"></i>
+                                        <span class="am-vertical-align-middle">{{$v.value}}</span>
+                                    </li>
+                                {{/if}}
+                            {{/foreach}}
+                        {{/if}}
+
+                        <!-- 图片信息 -->
+                        {{if (!empty($site_info_data['chat']['data']['images']) and is_array($site_info_data['chat']['data']['images'])) or (!empty($site_info_data['base']['data']['images']) and is_array($site_info_data['base']['data']['images'])) or (!empty($site_info_data['client']['data']['images']) and is_array($site_info_data['client']['data']['images']))}}
+                            <li class="am-padding-right-0">
+                                <ul class=" am-avg-sm-3 am-avg-md-3 am-text-center am-margin-top-xs am-margin-bottom-0">
+                                    <!-- 客服图片 -->
+                                    {{if !empty($site_info_data['chat']['data']['images']) and is_array($site_info_data['chat']['data']['images'])}}
+                                        {{foreach $site_info_data.chat.data.images as $v}}
+                                            {{if !empty($v['value']) and !empty($v['name'])}}
+                                                <li class="am-padding-bottom-xs am-padding-right-sm">
+                                                    <img src="{{$v.value}}" class="am-radius am-max-wh-auto common-annex-view-event" data-title="{{$v.name}}" alt="{{$v.name}}" />
+                                                    <p class="am-text-xs">{{$v.name}}</p>
+                                                </li>
+                                            {{/if}}
+                                        {{/foreach}}
+                                    {{/if}}
+                                    <!-- 基础图片 -->
+                                    {{if !empty($site_info_data['base']['data']['images']) and is_array($site_info_data['base']['data']['images'])}}
+                                        {{foreach $site_info_data.base.data.images as $v}}
+                                            {{if !empty($v['value']) and !empty($v['name'])}}
+                                                <li class="am-padding-bottom-xs am-padding-right-sm">
+                                                    <img src="{{$v.value}}" class="am-radius am-max-wh-auto common-annex-view-event" data-title="{{$v.name}}" alt="{{$v.name}}" />
+                                                    <p class="am-text-xs">{{$v.name}}</p>
+                                                </li>
+                                            {{/if}}
+                                        {{/foreach}}
+                                    {{/if}}
+                                    <!-- 平台客户端图片 -->
+                                    {{if !empty($site_info_data['client']['data']['images']) and is_array($site_info_data['client']['data']['images'])}}
+                                        {{foreach $site_info_data.client.data.images as $v}}
+                                            {{if !empty($v['value']) and !empty($v['name'])}}
+                                                <li class="am-padding-bottom-xs am-padding-right-sm">
+                                                    <img src="{{$v.value}}" class="am-radius am-max-wh-auto common-annex-view-event" data-title="{{$v.name}}" alt="{{$v.name}}" />
+                                                    <p class="am-text-xs">{{$v.name}}</p>
+                                                </li>
+                                            {{/if}}
+                                        {{/foreach}}
+                                    {{/if}}
+                                </ul>
+                            </li>
+                        {{/if}}
+                    </ul>
+                {{/if}}
             </div>
 
             <!-- 页脚 -->

@@ -43,7 +43,7 @@ class GoodsParamsTemplate
                 'key_field'     => 'id',
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
-                'is_delete'     => 1,
+                'is_delete'     => AdminIsPower('goodsparamstemplate', 'delete') ? 1 : 0,
                 'is_middle'     => 0,
             ],
             // 表单配置

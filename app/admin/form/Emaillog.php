@@ -40,7 +40,8 @@ class EmailLog
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
-                'is_delete'     => 1,
+                'is_delete'     => AdminIsPower('emaillog', 'delete') ? 1 : 0,
+                'is_alldelete'  => AdminIsPower('emaillog', 'alldelete') ? 1 : 0,
                 'is_middle'     => 0,
             ],
             // 表单配置

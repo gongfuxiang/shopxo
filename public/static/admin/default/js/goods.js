@@ -100,7 +100,15 @@ $(function () {
     if ($('#goods-fictitious-container').length > 0) {
         UE.getEditor('goods-fictitious-container', {
             toolbars: [['source', 'undo', 'redo', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', '|', 'forecolor', 'backcolor', 'link', 'fontsize', 'insertorderedlist', 'insertunorderedlist', '|', 'simpleupload', 'insertimage', 'insertvideo', 'attachment']],
-            initialFrameHeight: 200
+            initialFrameHeight: 400
+        });
+    }
+
+    // 使用指南编辑器初始化
+    if ($('#goods-use-guide-container').length > 0) {
+        UE.getEditor('goods-use-guide-container', {
+            toolbars: [['source', 'undo', 'redo', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', '|', 'forecolor', 'backcolor', 'link', 'fontsize', 'insertorderedlist', 'insertunorderedlist', '|', 'simpleupload', 'insertimage', 'insertvideo', 'attachment']],
+            initialFrameHeight: 400
         });
     }
 

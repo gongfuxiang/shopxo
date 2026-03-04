@@ -49,6 +49,7 @@ class ConfigService
         'home_index_floor_left_top_category',
         'admin_email_login_template',
         'home_email_login_template',
+        'common_goods_base_fields_required_data',
         'common_default_payment',
         'common_domain_multilingual_bind_list',
         'common_multilingual_choose_list',
@@ -57,6 +58,7 @@ class ConfigService
         'common_regex_id_card',
         'common_app_customer_service_custom',
         'common_app_home_data_diy_mode',
+        'common_customer_store_chat_url',
     ];
 
     // 附件字段列表
@@ -69,7 +71,12 @@ class ConfigService
         'home_site_logo_app',
         'home_site_logo_square',
         'home_site_title_icon',
-        'common_customer_store_qrcode',
+        'common_customer_store_public_weixin',
+        'common_customer_store_public_alipay',
+        'common_customer_store_public_weixin',
+        'common_customer_store_chat_line',
+        'common_customer_store_chat_weixin',
+        'common_customer_store_platform_client',
         'home_site_user_register_bg_images',
         'home_site_user_login_ad1_images',
         'home_site_user_login_ad2_images',
@@ -87,6 +94,7 @@ class ConfigService
         'admin_login_type',
         'home_site_app_state',
         'home_search_params_type',
+        'home_search_is_login_required',
         'common_user_verify_bind_mobile_list',
         'common_user_onekey_bind_mobile_list',
         'common_user_address_platform_import_list',
@@ -96,16 +104,31 @@ class ConfigService
         'common_buy_datetime_info',
         'common_buy_extraction_contact_info',
         'common_goods_close_buy_button',
+        'common_goods_detail_base_fields_show',
+    ];
+
+    // 多行字符串转数组字段列表, 换行符
+    public static $string_textarea_to_array_field_list = [
+        'home_search_prohibit_keywords',
+    ];
+
+    // 数据-二级数据（字符串转数组字段列表, 默认使用英文逗号处理 [ , ]）
+    public static $array_tow_level_string_to_array_field_list = [
+        'common_goods_base_fields_required_data',
     ];
 
     // json数组字段
     public static $data_json_array_field_list = [
         'common_site_type',
+        'common_goods_base_fields_required_data',
         'common_default_payment',
         'common_domain_multilingual_bind_list',
         'common_multilingual_choose_list',
         'common_app_customer_service_custom',
         'common_app_home_data_diy_mode',
+        'common_customer_store_platform_client',
+        'common_goods_admin_nav_custom_data',
+        'common_order_trace_source_config',
     ];
 
     // 二维数组附件字段
@@ -189,6 +212,15 @@ class ConfigService
                     }
                 }
 
+                // 字符串多行转数组
+                foreach(self::$string_textarea_to_array_field_list as $fv)
+                {
+                    if($k == $fv)
+                    {
+                        $v['value'] = empty($v['value']) ? [] : explode("\n", str_replace(["\r", "\t"], '', $v['value']));
+                    }
+                }
+
                 // json数据数组
                 foreach(self::$data_json_array_field_list as $fv)
                 {
@@ -196,6 +228,24 @@ class ConfigService
                     {
                         $v['value'] = empty($v['value']) ? [] : json_decode($v['value'], true);
                     }
+                }
+
+                // 字符串转数组
+                foreach(self::$array_tow_level_string_to_array_field_list as $fv)
+                {
+                    if($k == $fv && !empty($v['value']) && is_array($v['value']))
+                    {
+                        foreach($v['value'] as $atsvk=>$atsvv)
+                        {
+                            $v['value'][$atsvk] = (!isset($atsvv) || $atsvv == '' || is_array($atsvv)) ? [] : explode(',', $atsvv);
+                        }
+                    }
+                }
+
+                // 单附件字段
+                if(in_array($k, self::$attachment_field_list))
+                {
+                    $v['value'] = ResourcesService::AttachmentPathViewHandle($v['value']);
                 }
 
                 // 数组附件字段
@@ -211,6 +261,12 @@ class ConfigService
                             }
                         }
                     }
+                }
+
+                // 富文本字段处理
+                if(in_array($k, self::$rich_text_list))
+                {
+                    $v['value'] = ResourcesService::ContentStaticReplace($v['value'], 'get');
                 }
 
                 // 多语言定义
@@ -282,7 +338,7 @@ class ConfigService
                 // 富文本处理
                 if(in_array($k, self::$rich_text_list))
                 {
-                    $v = ResourcesService::ContentStaticReplace($v, 'add');
+                    $v = htmlspecialchars_decode(ResourcesService::ContentStaticReplace($v, 'add'));
                 } else {
                     $v = htmlentities($v);
                 }
@@ -361,12 +417,33 @@ class ConfigService
                         }
                     }
 
+                    // 字符串多行转数组
+                    foreach(self::$string_textarea_to_array_field_list as $fv)
+                    {
+                        if(isset($data[$fv]))
+                        {
+                            $data[$fv] = empty($data[$fv]) ? [] : explode("\n", str_replace(["\r", "\t"], '', $data[$fv]));
+                        }
+                    }
+
                     // json数据数组
                     foreach(self::$data_json_array_field_list as $fv)
                     {
                         if(isset($data[$fv]))
                         {
                             $data[$fv] = empty($data[$fv]) ? [] : json_decode($data[$fv], true);
+                        }
+                    }
+
+                    // 字符串转数组
+                    foreach(self::$array_tow_level_string_to_array_field_list as $fv)
+                    {
+                        if(!empty($data[$fv]) && is_array($data[$fv]))
+                        {
+                            foreach($data[$fv] as $atsvk=>$atsvv)
+                            {
+                                $data[$fv][$atsvk] = (!isset($atsvv) || $atsvv == '' || is_array($atsvv)) ? [] : explode(',', $atsvv);
+                            }
                         }
                     }
 
@@ -796,17 +873,16 @@ class ConfigService
     public static function SiteFictitiousConfig($params = [])
     {
         // 标题
-        $title = MyC('common_site_fictitious_return_title', '密钥信息', true);
+        $title = MyC('common_site_fictitious_title', '密钥信息', true);
 
         // 提示信息
-        $tips =  MyC('common_site_fictitious_return_tips', null, true);
+        $tips =  MyC('common_site_fictitious_use_tips', null, true);
 
         // 返回数据
-        $result = [
+        return [
             'title'  => $title,
             'tips'   => empty($tips) ? '' : str_replace("\n", '<br />', $tips),
         ];
-        return DataReturn(MyLang('operate_success'), 0, $result);
     }
 
     /**

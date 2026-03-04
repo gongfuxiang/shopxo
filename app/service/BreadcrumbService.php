@@ -13,6 +13,7 @@ namespace app\service;
 use think\facade\Db;
 use app\service\NavigationService;
 use app\service\RegionService;
+use app\service\GoodsCategoryService;
 
 /**
  * 面包屑导航服务层
@@ -304,26 +305,38 @@ class BreadcrumbService
             $cids = Db::name('GoodsCategoryJoin')->where(['goods_id'=>$params['goods']['id']])->column('category_id');
             if(!empty($cids))
             {
-                $where = [
-                    ['id', 'in', $cids],
-                    ['is_enable', '=', 1],
-                ];
-                $category = Db::name('GoodsCategory')->where($where)->field('id,name')->select()->toArray();
-                if(!empty($category))
+                // 仅一个分类则读取上级分类数据
+                if(count($cids) == 1)
                 {
-                    $category = array_map(function($v)
+                    $where = [
+                        ['id', 'in', GoodsCategoryService::GoodsCategoryParentIds($cids)],
+                        ['is_enable', '=', 1],
+                    ];
+                    $category = Db::name('GoodsCategory')->where($where)->field('id,name')->select()->toArray();
+                    if(!empty($category))
                     {
-                        $v['url'] = MyUrl('index/search/index', ['cid'=>$v['id']]);
-                        return $v;
-                    }, $category);
-                    if(count($category) == 1)
+                        foreach($category as $v)
+                        {
+                            $result[] = [
+                                'type'  => 0,
+                                'name'  => $v['name'],
+                                'url'   => MyUrl('index/search/index', ['cid'=>$v['id']]),
+                            ];
+                        }
+                    }
+                } else {
+                    $where = [
+                        ['id', 'in', $cids],
+                        ['is_enable', '=', 1],
+                    ];
+                    $category = Db::name('GoodsCategory')->where($where)->field('id,name')->select()->toArray();
+                    if(!empty($category))
                     {
-                        $result[] = [
-                            'type'  => 0,
-                            'name'  => $category[0]['name'],
-                            'url'   => $category[0]['url'],
-                        ];
-                    } else {
+                        $category = array_map(function($v)
+                        {
+                            $v['url'] = MyUrl('index/search/index', ['cid'=>$v['id']]);
+                            return $v;
+                        }, $category);
                         $result[] = [
                             'type'  => 1,
                             'name'  => MyLang('goods_category_title'),

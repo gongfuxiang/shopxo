@@ -44,7 +44,7 @@ class Order extends Common
     }
     
     /**
-     * 获取订单列表
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -90,7 +90,7 @@ class Order extends Common
     }
 
     /**
-     * [Detail 获取详情]
+     * 详情
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -115,20 +115,36 @@ class Order extends Common
                 'is_orderaftersale' => 1,
                 'is_operate'        => 1,
             ];
-            $data = OrderService::OrderList($data_params);
-            if(!empty($data['data'][0]))
+            $ret = OrderService::OrderList($data_params);
+            if(!empty($ret['data']) && !empty($ret['data'][0]))
             {
+                // 支付方式
+                $payment_list = PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]);
+
                 // 返回信息
+                $data = $ret['data'][0];
                 $result = [
-                    'data'              => $data['data'][0],
-                    'site_fictitious'   => null,
+                    'data'                => $data,
+                    'site_fictitious'     => null,
+                    'payment_list'        => $payment_list,
+                    'default_payment_id'  => PaymentService::BuyDefaultPayment($params),
+                    'status_tips'         => '',
                 ];
 
-                // 虚拟销售配置
-                if($result['data']['order_model'] == 3 && $result['data']['pay_status'] == 1 && in_array($result['data']['status'], [3,4]))
+                // 状态提示
+                // 待支付、线下支付
+                if(in_array($data['status'], [1]) && $data['is_under_line'] == 1)
                 {
-                    $site_fictitious = ConfigService::SiteFictitiousConfig();
-                    $result['site_fictitious'] = $site_fictitious['data'];
+                    $result['status_tips'] = MyLang('common_service.order.order_under_line_tips', ['payment'=>$data['payment_name']]);
+                } else if($data['status'] == 2)
+                {
+                    $result['status_tips'] = MyLang('common_service.order.order_delivery_tips');
+                }
+
+                // 虚拟销售配置
+                if($data['order_model'] == 3 && $data['pay_status'] == 1 && in_array($data['status'], [3,4]))
+                {
+                    $result['site_fictitious'] = ConfigService::SiteFictitiousConfig();
                 }
                 $ret = SystemBaseService::DataReturn($result);
             } else {

@@ -147,39 +147,40 @@ dialog.loading = function(options) {
 
 dialog.actions = function(options) {
   options = options || {};
-  options.title = options.title || window['lang_operate_params_error'] || '您想整咋样?';
+  options.title = options.title || null;
   options.cancelText = options.cancelText || window['lang_cancel_name'] || '取消';
   options.items = options.items || [];
+  options.config = options.config || {};
   var html = [];
   html.push('<div class="am-modal-actions">');
   html.push('<div class="am-modal-actions-group am-radius am-nbfc">');
   html.push('<ul class="am-list">');
-  html.push('<li class="am-modal-actions-header">' + options.title + '</li>');
+  if(options.title != null) {
+    html.push('<li class="am-modal-actions-header">' + options.title + '</li>');
+  }
   options.items.forEach(function(item, index) {
-    html.push('<li class="am-padding-sm" index="' + index + '">' + item.content + '</li>');
+    html.push('<li class="am-padding-sm am-cursor-pointer" index="' + index + '">' + item.content + '</li>');
   });
   html.push('</ul>');
   html.push('</div>');
   html.push('<div class="am-modal-actions-group">');
-  html.push('<button class="am-btn am-btn-secondary am-btn-block am-radius" data-am-modal-close>'+options.cancelText+'</button>');
+  html.push('<button class="am-btn am-btn-primary am-btn-block am-radius" data-am-modal-close>'+options.cancelText+'</button>');
   html.push('</div>');
   html.push('</div>');
 
-  var $acions = $(html.join('')).appendTo('body').modal();
+  var $acions = $(html.join('')).appendTo('body').modal(options.config).on('closed.modal.amui', function() {
+    setTimeout(function()
+    {
+      $acions.remove();
+    }, 1000);
+  });
   if((options.onSelected || null) != null && typeof(options.onSelected) == 'function') {
     $acions.find('.am-list>li').bind('click', function(e) {
-      options.onSelected($(this).attr('index'), $(this), $acions);
+      if(!$(this).hasClass('am-modal-actions-header')) {
+        options.onSelected($(this).attr('index'), $(this), $acions);
+      }
     });
   }
-
-  return {
-    show: function() {
-      $acions.modal('open');
-    },
-    close: function() {
-      $acions.modal('close');
-    }
-  };
 };
 
 dialog.popup = function(options) {

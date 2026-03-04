@@ -42,9 +42,7 @@ class GoodsFavor
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
-                'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/goodsfavor/delete'),
-                'delete_key'    => 'ids',
+                'is_delete'     => AdminIsPower('goodsfavor', 'delete') ? 1 : 0,
                 'is_middle'     => 0,
             ],
             // 表单配置

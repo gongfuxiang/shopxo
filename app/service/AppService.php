@@ -50,17 +50,17 @@ class AppService
                                 [
                                     'name'  => $lang['goodsfavor'],
                                     'url'   => '/pages/user-favor/user-favor',
-                                    'icon'  => 'heart'
+                                    'icon'  => 'icon-collect'
                                 ],
                                 [
                                     'name'  => $lang['goodsbrowse'],
                                     'url'   => '/pages/user-goods-browse/user-goods-browse',
-                                    'icon'  => 'eye'
+                                    'icon'  => 'icon-eye'
                                 ],
                                 [
                                     'name'  => $lang['home'],
                                     'url'   => '/pages/index/index',
-                                    'icon'  => 'home'
+                                    'icon'  => 'icon-home'
                                 ]
                             ];
                         }
@@ -74,7 +74,7 @@ class AppService
         MyEventTrigger($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
-            'params'        => &$params,
+            'params'        => $params,
             'data'          => &$data,
         ]);
 

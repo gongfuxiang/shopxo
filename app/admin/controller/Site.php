@@ -127,7 +127,10 @@ class Site extends Base
                         $c['config_category_ids'] = (!empty($floor_category) && is_array($floor_category) && array_key_exists($c['id'], $floor_category)) ? explode(',', $floor_category[$c['id']]) : [];
                     }
                 }
-                $assign['goods_category_list'] = $category;
+                $assign['one_level_goods_category_list'] = $category;
+
+                // 全部商品分类
+                $assign['goods_category_list'] = GoodsCategoryService::GoodsCategoryAll();
 
                 // 楼层自定义商品
                 if(!empty($data['home_index_floor_manual_mode_goods']) && !empty($data['home_index_floor_manual_mode_goods']['value']))
@@ -168,53 +171,57 @@ class Site extends Base
         // 模板数据
         $assign = [
             // 主/子导航
-            'nav_type'                                  => $this->nav_type,
-            'view_type'                                 => $this->view_type,
+            'nav_type'                                   => $this->nav_type,
+            'view_type'                                  => $this->view_type,
             // 时区
-            'common_site_timezone_list'                 => MyLang('common_site_timezone_list'),
+            'common_site_timezone_list'                  => MyLang('common_site_timezone_list'),
             // 平台
-            'common_platform_type'                      => MyConst('common_platform_type'),
+            'common_platform_type'                       => MyConst('common_platform_type'),
             // 关闭开启
-            'common_close_open_list'                    => MyConst('common_close_open_list'),
+            'common_close_open_list'                     => MyConst('common_close_open_list'),
             // 登录方式
-            'common_login_type_list'                    => MyConst('common_login_type_list'),
+            'common_login_type_list'                     => MyConst('common_login_type_list'),
             // 用户注册类型列表
-            'common_user_reg_type_list'                 => MyConst('common_user_reg_type_list'),
+            'common_user_reg_type_list'                  => MyConst('common_user_reg_type_list'),
             // 图片验证码类型
-            'common_site_images_verify_rand_type_list'  => MyConst('common_site_images_verify_rand_type_list'),
+            'common_site_images_verify_rand_type_list'   => MyConst('common_site_images_verify_rand_type_list'),
             // 图片验证码规则
-            'common_site_images_verify_rules_list'      => MyConst('common_site_images_verify_rules_list'),
+            'common_site_images_verify_rules_list'       => MyConst('common_site_images_verify_rules_list'),
             // 热门搜索关键字
-            'common_search_keywords_type_list'          => MyConst('common_search_keywords_type_list'),
+            'common_search_keywords_type_list'           => MyConst('common_search_keywords_type_list'),
             // 是否
-            'common_is_text_list'                       => MyConst('common_is_text_list'),
+            'common_is_text_list'                        => MyConst('common_is_text_list'),
             // 下单指定时间
-            'common_buy_datetime_config_list'           => MyConst('common_buy_datetime_config_list'),
+            'common_buy_datetime_config_list'            => MyConst('common_buy_datetime_config_list'),
             // 下单联系信息
-            'common_buy_extraction_contact_config_list' => MyConst('common_buy_extraction_contact_config_list'),
+            'common_buy_extraction_contact_config_list'  => MyConst('common_buy_extraction_contact_config_list'),
             // 站点类型
-            'common_site_type_list'                     => MyConst('common_site_type_list'),
+            'common_site_type_list'                      => MyConst('common_site_type_list'),
             // 扣除库存规则
-            'common_deduction_inventory_rules_list'     => MyConst('common_deduction_inventory_rules_list'),
+            'common_deduction_inventory_rules_list'      => MyConst('common_deduction_inventory_rules_list'),
             // 增加销量规则
-            'common_sales_count_inc_rules_list'         => MyConst('common_sales_count_inc_rules_list'),
+            'common_sales_count_inc_rules_list'          => MyConst('common_sales_count_inc_rules_list'),
             // 首页商品排序规则
-            'common_goods_order_by_type_list'           => MyConst('common_goods_order_by_type_list'),
-            'common_data_order_by_rule_list'            => MyConst('common_data_order_by_rule_list'),
+            'common_goods_order_by_type_list'            => MyConst('common_goods_order_by_type_list'),
+            'common_data_order_by_rule_list'             => MyConst('common_data_order_by_rule_list'),
             // 首页楼层数据类型
-            'common_site_floor_data_type_list'          => MyConst('common_site_floor_data_type_list'),
+            'common_site_floor_data_type_list'           => MyConst('common_site_floor_data_type_list'),
             // 搜索参数类型
             'common_goods_parameters_scope_list'         => MyConst('common_goods_parameters_scope_list'),
             // 关闭开启
-            'common_search_goods_show_type_list'        => MyConst('common_search_goods_show_type_list'),
+            'common_search_goods_show_type_list'         => MyConst('common_search_goods_show_type_list'),
             // 多语言
-            'common_multilingual_list'                  => MyConst('common_multilingual_list'),
+            'common_multilingual_list'                   => MyConst('common_multilingual_list'),
             // 商品分类
-            'common_show_goods_category_level_list'     => MyConst('common_show_goods_category_level_list'),
+            'common_show_goods_category_level_list'      => MyConst('common_show_goods_category_level_list'),
+            // 商品基础字段对
+            'common_goods_base_fields_list'              => MyConst('common_goods_base_fields_list'),
             // 主导航
-            'base_nav_list'                             => MyLang('site.base_nav_list'),
+            'base_nav_list'                              => MyLang('site.base_nav_list'),
             // 网站设置导航
-            'siteset_nav_list'                          => MyLang('site.siteset_nav_list'),
+            'siteset_nav_list'                           => MyLang('site.siteset_nav_list'),
+            // 订单追溯必填数据
+            'siteset_trace_source_required_list'         => MyLang('site.siteset_trace_source_required_list'),
         ];
         return $assign;
     }
@@ -230,7 +237,7 @@ class Site extends Base
     public function Save()
     {
         // 参数
-        $params = $_POST;
+        $params = $this->data_request;
 
         // 字段不存在赋空值
         $field_list = [];
@@ -331,6 +338,7 @@ class Site extends Base
                     // 搜索
                     case 'search' :
                         $field_list[] = 'home_search_params_type';
+                        $field_list[] = 'home_search_is_login_required';
                         break;
 
                     // 订单
@@ -338,11 +346,28 @@ class Site extends Base
                         $field_list[] = 'common_buy_datetime_info';
                         $field_list[] = 'common_buy_extraction_contact_info';
                         $params['common_default_payment'] = empty($params['common_default_payment']) ? '' : json_encode($params['common_default_payment'], JSON_UNESCAPED_UNICODE);
+                        // 订单追溯数据处理
+                        $order_trace_source_config = [];
+                        if(!empty($params['common_order_trace_source_config']) && is_array($params['common_order_trace_source_config']))
+                        {
+                            foreach($params['common_order_trace_source_config'] as $v)
+                            {
+                                if(!empty($v) && is_array($v) && count(array_filter($v)) > 0)
+                                {
+                                    $order_trace_source_config[] = [
+                                        'category_ids'  => empty($v['category_ids']) ? '' : explode(',', $v['category_ids']),
+                                        'required'      => empty($v['required']) ? '' : explode(',', $v['required']),
+                                    ];
+                                }
+                            }
+                        }
+                        $params['common_order_trace_source_config'] = empty($order_trace_source_config) ? '' : $order_trace_source_config;
                         break;
 
                     // 商品
                     case 'goods' :
                         $field_list[] = 'common_goods_close_buy_button';
+                        $field_list[] = 'common_goods_detail_base_fields_show';
                         break;
 
                     // 扩展

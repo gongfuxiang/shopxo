@@ -40,7 +40,7 @@ class Appmini
             // 基础配置
             'base' => [
                 'key_field'     => 'name',
-                'is_delete'     => 1,
+                'is_delete'     => AdminIsPower('appmini', 'delete') ? 1 : 0,
                 'delete_url'    => MyUrl('admin/appmini/delete', ['nav_type'=>$nav_type]),
                 'delete_key'    => 'ids',
             ],

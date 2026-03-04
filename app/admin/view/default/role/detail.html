@@ -27,33 +27,68 @@
         
         <!-- 菜单权限 -->
         <div class="item" data-key="form-item-menu">
-            <ul class="am-flex am-flex-items-center am-flex-warp am-gap-1 am-padding-sm">
+            <div class="am-padding-sm">
                 {{if !empty($data['power'])}}
-                    {{foreach $data.power as $item}}
-                        <li class="am-padding-horizontal-sm am-padding-vertical-xs am-radius bk-cr-f8">
-                            <div class="am-gallery-item">{{$item}}</div>
-                        </li>
+                    {{foreach $data.power as $v}}
+                        <div class="am-padding-bottom-sm">
+                            <p>
+                                <strong>{{$v.name}}</strong>
+                            </p>
+                            {{if !empty($v['item'])}}
+                                {{foreach $v.item as $vs}}
+                                    <div class="am-padding-left-lg">
+                                        <p>{{$vs.name}}</p>
+                                        {{if !empty($vs['power_data'])}}
+                                            <ul class="am-flex am-flex-items-center am-flex-warp am-gap-1 am-margin-top-xs am-padding-bottom-sm">
+                                                {{foreach $vs.power_data as $vss}}
+                                                    <li class="am-padding-horizontal-sm am-padding-vertical-xs am-radius bk-cr-f8">
+                                                        <div class="am-gallery-item">{{$vss}}</div>
+                                                    </li>
+                                                {{/foreach}}
+                                            </ul>
+                                        {{/if}}
+                                    </div>
+                                {{/foreach}}
+                            {{/if}}
+                        </div>
                     {{/foreach}}
                 {{else /}}
                     {{:ModuleInclude('public/not_data')}}
                 {{/if}}
-            </ul>
+            </div>
         </div>
 
         <!-- 插件权限 -->
         <div class="item" data-key="form-item-plugins">
-            <ul class="am-flex am-flex-items-center am-flex-warp am-gap-1 am-padding-sm">
+            <div class="am-padding-sm">
                 {{if !empty($data['power_plugins'])}}
-                    {{foreach $data.power_plugins as $item}}
-                        <li class="am-padding-horizontal-sm am-padding-vertical-xs am-radius bk-cr-f8">
-                            <div class="am-gallery-item">{{$item}}</div>
-                        </li>
+                    {{foreach $data.power_plugins as $v}}
+                        <div class="am-padding-bottom-sm">
+                            <p>
+                                <strong>{{$v.name}}</strong>
+                            </p>
+                            {{if !empty($v['item'])}}
+                                {{foreach $v.item as $vs}}
+                                    <div class="am-padding-left-lg">
+                                        <p>{{$vs.name}}</p>
+                                        {{if !empty($vs['power_data'])}}
+                                            <ul class="am-flex am-flex-items-center am-flex-warp am-gap-1 am-margin-top-xs am-padding-bottom-sm">
+                                                {{foreach $vs.power_data as $vss}}
+                                                    <li class="am-padding-horizontal-sm am-padding-vertical-xs am-radius bk-cr-f8">
+                                                        <div class="am-gallery-item">{{$vss}}</div>
+                                                    </li>
+                                                {{/foreach}}
+                                            </ul>
+                                        {{/if}}
+                                    </div>
+                                {{/foreach}}
+                            {{/if}}
+                        </div>
                     {{/foreach}}
                 {{else /}}
                     {{:ModuleInclude('public/not_data')}}
                 {{/if}}
-            </ul>
+            </div>
         </div>
-            
     </div>
 {{/block}}

@@ -86,7 +86,7 @@ class AppConfig extends Base
 	 */
 	public function Save()
 	{
-        $params = $_POST;
+        $params = $this->data_request;
         if($this->nav_type == 'app')
         {
             // 空字段处理

@@ -55,7 +55,7 @@ class Email extends Base
 	 */
 	public function Save()
 	{
-		return ApiService::ApiDataReturn(ConfigService::ConfigSave($_POST));
+		return ApiService::ApiDataReturn(ConfigService::ConfigSave($this->data_request));
 	}
 
 	/**

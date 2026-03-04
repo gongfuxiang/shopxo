@@ -710,22 +710,30 @@ class UserService
             return DataReturn($ret, -1);
         }
 
+        // 附件
+        $attachment = ResourcesService::AttachmentParams($params, ['avatar']);
+        if($attachment['code'] != 0)
+        {
+            return $attachment;
+        }
+
         // 更新数据
         $data = [
-            'username'              => isset($params['username']) ? $params['username'] :  '',
-            'nickname'              => isset($params['nickname']) ? $params['nickname'] :  '',
-            'mobile'                => isset($params['mobile']) ? $params['mobile'] :  '',
-            'email'                 => isset($params['email']) ? $params['email'] :  '',
-            'province'              => empty($params['province']) ? '' : $params['province'],
-            'city'                  => empty($params['city']) ? '' : $params['city'],
-            'county'                => empty($params['county']) ? '' : $params['county'],
-            'address'               => empty($params['address']) ? '' : $params['address'],
-            'gender'                => intval($params['gender']),
-            'integral'              => intval($params['integral']),
-            'locking_integral'      => intval($params['locking_integral']),
-            'status'                => intval($params['status']),
-            'birthday'              => empty($params['birthday']) ? 0 : strtotime($params['birthday']),
-            'referrer'              => empty($params['referrer']) ? 0 : intval($params['referrer']),
+            'avatar'            => $attachment['data']['avatar'],
+            'username'          => isset($params['username']) ? $params['username'] :  '',
+            'nickname'          => isset($params['nickname']) ? $params['nickname'] :  '',
+            'mobile'            => isset($params['mobile']) ? $params['mobile'] :  '',
+            'email'             => isset($params['email']) ? $params['email'] :  '',
+            'province'          => empty($params['province']) ? '' : $params['province'],
+            'city'              => empty($params['city']) ? '' : $params['city'],
+            'county'            => empty($params['county']) ? '' : $params['county'],
+            'address'           => empty($params['address']) ? '' : $params['address'],
+            'gender'            => intval($params['gender']),
+            'integral'          => intval($params['integral']),
+            'locking_integral'  => intval($params['locking_integral']),
+            'status'            => intval($params['status']),
+            'birthday'          => empty($params['birthday']) ? 0 : strtotime($params['birthday']),
+            'referrer'          => empty($params['referrer']) ? 0 : intval($params['referrer']),
         ];
         // 邀请人处理
         if(!empty($data['referrer']) && !empty($params['id']))
@@ -3582,7 +3590,7 @@ class UserService
         if(!empty($_SERVER['HTTP_REFERER']))
         {
             // 是否是指定页面，则赋值用户中心
-            $all = ['login', 'regster', 'forget', 'logininfo', 'reginfo', 'smsreginfo', 'emailreginfo', 'forgetpwdinfo', 'logout'];
+            $all = ['login', 'register', 'forget', 'logininfo', 'reginfo', 'smsreginfo', 'emailreginfo', 'forgetpwdinfo', 'logout'];
             $status = false;
             foreach($all as $v)
             {

@@ -25,6 +25,48 @@
     <!-- 基础信息 -->
     <p class="am-nbfc am-margin-bottom-xs">
         <strong class="am-icon-bookmark-o text-copy-submit" data-value="{{$module_data.order_no}}"> {{$module_data.order_no}}</strong>
+
+        <!-- 仓库信息 -->
+        {{if !empty($module_data['order_data']) and !empty($module_data['order_data']['warehouse_name'])}}
+            <span class="warehouse-item-container am-fr">
+                {{if !empty($module_data['order_data']['warehouse_icon'])}}
+                    {{if IsUrl($module_data['order_data']['warehouse_icon'])}}
+                        <img src="{{$module_data.order_data.warehouse_icon}}" alt="{{$module_data.order_data.warehouse_name}}" class="warehouse-icon" />
+                    {{else /}}
+                        <i class="{{$module_data.order_data.warehouse_icon}}"></i>
+                    {{/if}}
+                {{/if}}
+                {{if empty($module_data['order_data']['warehouse_url'])}}
+                    <strong class="warehouse-name">{{$module_data.order_data.warehouse_name}}</strong>
+                {{else /}}
+                    <a href="{{$module_data.order_data.warehouse_url}}" target="_blank" class="text-deco-none">
+                        <strong class="warehouse-name">{{$module_data.order_data.warehouse_name}}</strong>
+                    </a>
+                {{/if}}
+            </span>
+        {{/if}}
+
+        <!-- 订单列表基础导航底部-开始 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+            <div class="plugins-tag">
+                <span>plugins_view_user_orderaftersale_list_base_nav_bottom</span>
+            </div>
+        {{/if}}
+        {{php}}
+            $hook_name = 'plugins_view_user_orderaftersale_list_base_nav_bottom';
+            $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$module_data]);
+            if(!empty($hook_data) && is_array($hook_data))
+            {
+                foreach($hook_data as $hook)
+                {
+                    if(is_string($hook) || is_int($hook))
+                    {
+                        echo htmlspecialchars_decode($hook);
+                    }
+                }
+            }
+        {{/php}}
+        <!-- 订单列表基础导航底部-结束 -->
     </p>
 
     <!-- 用户订单售后列表基础商品顶部-开始 -->
@@ -50,24 +92,26 @@
     <!-- 用户订单售后列表基础商品顶部-结束 -->
 
     <!-- 商品信息 -->
-    <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-top-0 am-margin-bottom-xs" />
-    <div class="am-nbfc">
-        <a href="{{$module_data.order_data.items.goods_url}}" target="_blank">
-            <img src="{{$module_data.order_data.items.images}}" class="am-img-thumbnail am-radius am-margin-right-sm am-fl" width="35" height="35" />
-        </a>
+    {{if !empty($module_data['order_data']['items'])}}
+        <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-top-0 am-margin-bottom-xs" />
         <div class="am-nbfc">
-            <a href="{{$module_data.order_data.items.goods_url}}" target="_blank" class="am-nowrap-initial">{{$module_data.order_data.items.title}}</a>
+            <a href="{{$module_data.order_data.items.goods_url}}" target="_blank">
+                <img src="{{$module_data.order_data.items.images}}" class="am-img-thumbnail am-radius am-margin-right-sm am-fl" width="35" height="35" />
+            </a>
+            <div class="am-nbfc">
+                <a href="{{$module_data.order_data.items.goods_url}}" target="_blank" class="am-nowrap-initial">{{$module_data.order_data.items.title}}</a>
+            </div>
         </div>
-    </div>
-    <div class="am-nbfc am-margin-top-xs">
-        {{if !empty($module_data['order_data']['items']['spec_text'])}}
-            <span>{{$module_data.order_data.items.spec_text}}</span>
-        {{/if}}
-        <div class="am-fr">
-            <span>{{$module_data.order_data.currency_data.currency_symbol}}{{$module_data.order_data.items.price}}</span>
-            <span>x{{$module_data.order_data.items.buy_number}}</span>
+        <div class="am-nbfc am-margin-top-xs">
+            {{if !empty($module_data['order_data']['items']['spec_text'])}}
+                <span>{{$module_data.order_data.items.spec_text}}</span>
+            {{/if}}
+            <div class="am-fr">
+                <span>{{$module_data.order_data.currency_data.currency_symbol}}{{$module_data.order_data.items.price}}</span>
+                <span>x{{$module_data.order_data.items.buy_number}}</span>
+            </div>
         </div>
-    </div>
+    {{/if}}
 
     <!-- 用户订单售后列表基础底部-开始 -->
     {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}

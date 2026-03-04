@@ -1,10 +1,10 @@
 <!-- 操作栏 -->
-<a href="{{:MyUrl('admin/orderaftersale/detail', ['oid'=>$module_data['order_id'], 'did'=>$module_data['order_detail_id']])}}" target="_blank" class="am-btn am-btn-default am-btn-xs am-radius am-btn-block">
+<a href="{{:MyUrl('admin/orderaftersale/detail', ['id'=>$module_data['id']])}}" target="_blank" class="am-btn am-btn-default am-btn-xs am-radius am-btn-block">
     <i class="am-icon-eye"></i>
     <span>{{:MyLang('detail_title')}}</span>
 </a>
 {{if $module_data['status'] eq 1 and $module_data['type'] eq 1}}
-    <a href="{{:MyUrl('index/orderaftersale/detail', ['oid'=>$module_data['order_id'], 'did'=>$module_data['order_detail_id'], 'isautodelivery'=>1])}}" target="_blank" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block">
+    <a href="{{:MyUrl('index/orderaftersale/detail', ['id'=>$module_data['id'], 'isautodelivery'=>1])}}" target="_blank" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block">
         <i class="am-icon-send"></i>
         <span>{{:MyLang('retreat_goods_title')}}</span>
     </a>

@@ -66,7 +66,7 @@ class OrderAftersale
                     'label'         => $lang['goods'],
                     'view_type'     => 'module',
                     'view_key'      => 'orderaftersale/module/goods',
-                    'grid_size'     => 'lg',
+                    'grid_size'     => 'xl',
                     'is_sort'       => 1,
                     'sort_field'    => 'goods_id',
                     'search_config' => [

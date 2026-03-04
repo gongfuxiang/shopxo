@@ -6,13 +6,30 @@
         <!-- nav start -->
         {{:ModuleInclude('public/admin_nav', [
             'title'     => MyLang('admin.base_nav_title').(empty($data['id']) ? MyLang('created_title') : MyLang('edit_title')),
-            'back_url'  => $is_setup == 1 ? '' : MyUrl('admin/admin/index', $params),
+            'back_url'  => $is_setup == 1 ? '' : MyUrl('admin/admin/index', $form_back_params),
         ])}}
         <!-- nav end -->
         <!-- form start -->
-        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/admin/save')}}" method="POST" request-type="ajax-{{if $is_setup eq 1}}view{{else /}}url{{/if}}" request-value="{{:MyUrl('admin/admin/index', $params)}}">
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/admin/save')}}" method="POST" request-type="ajax-{{if $is_setup eq 1}}view{{else /}}url{{/if}}" request-value="{{:MyUrl('admin/admin/index', $form_back_params)}}">
+            <div class="am-form-group am-form-file">
+                <label class="am-block">{{:MyLang('common_service.admin.form_item_avatar')}}</label>
+                <div class="am-form-file-upload-container">
+                    <ul class="plug-file-upload-view avatar-images-view" data-form-name="avatar" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                        <li class="plug-file-upload-submit" data-view-tag="ul.avatar-images-view">
+                            {{if empty($data['avatar'])}}
+                                <i class="iconfont icon-add"></i>
+                            {{else /}}
+                                <input type="text" name="avatar" value="{{$data.avatar}}" />
+                                <img src="{{$data.avatar}}" />
+                                <i class="iconfont icon-close"></i>
+                                <i class="iconfont icon-eye"></i>
+                            {{/if}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <div class="am-form-group">
-                <label>{{:MyLang('common_service.admin.form_item_username')}}{{if empty($data)}}<span class="am-form-group-label-tips-must">*</span>{{/if}}{{if is_array(MyLang('goods.form_item_give_integral_tips'))}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{if empty($data)}}{{:MyLang('common_service.admin.form_item_username_created_tips')}}{{else /}}{{:MyLang('common_service.admin.form_item_username_edit_tips')}}{{/if}}', trigger: 'hover focus', theme: 'sm'}"></a>{{/if}}</label>
+                <label>{{:MyLang('common_service.admin.form_item_username')}}{{if empty($data)}}<span class="am-form-group-label-tips-must">*</span>{{/if}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{if empty($data)}}{{:MyLang('common_service.admin.form_item_username_created_tips')}}{{else /}}{{:MyLang('common_service.admin.form_item_username_edit_tips')}}{{/if}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                 <input type="text" name="username" placeholder="{{:MyLang('common_service.admin.form_item_username_message')}}" pattern="{{:MyConst('common_regex_username')}}" data-validation-message="{{:MyLang('common_service.admin.form_item_username_message')}}" class="am-radius" {{if !empty($data['username'])}}value="{{$data.username}}" disabled{{/if}} required />
             </div>
             <div class="am-form-group">

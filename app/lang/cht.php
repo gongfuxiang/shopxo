@@ -61,6 +61,8 @@ return [
         'system_download_loading_tips'      => '系統包正在下載中…',
         'upgrade_download_loading_tips'     => '升級包正在下載中…',
         // 公共common.js
+        'yes_title'                         => '是',
+        'no_title'                          => '否',
         'operate_name'                      => '操作',
         'operate_add_name'                  => '新增',
         'operate_edit_name'                 => '編輯',
@@ -140,6 +142,8 @@ return [
     'push_success'                                          => '推送成功',
     'grant_fail'                                            => '發放失敗',
     'grant_success'                                         => '發放成功',
+    'query_fail'                                            => '査詢失敗',
+    'query_success'                                         => '査詢成功',
     'join_fail'                                             => '加入失敗',
     'join_success'                                          => '加入成功',
     'created_fail'                                          => '生成失敗',
@@ -216,6 +220,8 @@ return [
     'collect_fail'                                          => '收貨失敗',
     'collect_success'                                       => '收貨成功',
     'quit_success'                                          => '退出成功',
+    'no_order'                                              => '沒有相關訂單',
+    'no_orderaftersale'                                     => '沒有相關售後訂單',
     'no_data'                                               => '沒有相關資料',
     'no_goods'                                              => '沒有相關商品',
     'no_spec'                                               => '沒有相關規格',
@@ -328,7 +334,7 @@ return [
     'store_bind_form_password'                              => '密碼',
     'store_bind_form_password_placeholder'                  => '登入密碼',
     'store_bind_form_password_message'                      => '登入密碼格式6~30個字',
-    'store_bind_form_regster_name'                          => '未有帳號，去注册',
+    'store_bind_form_register_name'                          => '未有帳號，去注册',
     'store_bind_form_tips'                                  => '一個帳號支持綁定多臺ShopXO商城',
     // 常用
     'fullscreen_open_title'                                 => '開啟全屏',
@@ -344,6 +350,8 @@ return [
     'register_time_title'                                   => '註冊時間',
     'add_time_title'                                        => '添加時間',
     'upd_time_title'                                        => '更新時間',
+    'choice_goods_title'                                    => '選擇商品',
+    'add_goods_title'                                       => '添加商品',
     'price_min_title'                                       => '最低價格',
     'price_max_title'                                       => '最高價格',
     'shop_order'                                            => '商城訂單',
@@ -388,10 +396,12 @@ return [
     'submit_title'                                          => '提交',
     'booking_title'                                         => '預約',
     'detail_title'                                          => '詳情',
+    'view_tap_title'                                        => '點擊查看',
     'view_detail_title'                                     => '查看詳情',
     'view_all_title'                                        => '查看全部',
     'base_title'                                            => '基礎',
     'data_title'                                            => '數據',
+    'data_operate_title'                                    => '數據操作',
     'view_title'                                            => '查看',
     'preview_title'                                         => '預覽',
     'choice_title'                                          => '選擇',
@@ -409,6 +419,7 @@ return [
     'close_other_title'                                     => '關閉其他',
     'close_all_title'                                       => '關閉全部',
     'notice_title'                                          => '公告',
+    'explain_title'                                         => '講解',
     'refresh_title'                                         => '刷新',
     'close_title'                                           => '關閉',
     'open_title'                                            => '開啟',
@@ -425,6 +436,7 @@ return [
     'hot_title'                                             => '熱度',
     'favor_title'                                           => '收藏',
     'already_favor_title'                                   => '已收藏',
+    'miniapp_title'                                         => '小程式',
     'comment_title'                                         => '評估',
     'go_comment_title'                                      => '去評價',
     'default_title'                                         => '默認',
@@ -498,17 +510,22 @@ return [
     'express_title'                                         => '快遞',
     'logistics_title'                                       => '物流',
     'time_title'                                            => '時間',
+    'qq_title'                                              => 'QQ',
+    'online_title'                                          => '線上',
+    'consult_title'                                         => '諮詢',
     'tel_title'                                             => '電話',
     'mobile_title'                                          => '手機',
     'email_title'                                           => '郵箱',
     'verification_title'                                    => '核驗',
     'check_title'                                           => '檢查',
     'service_title'                                         => '服務',
+    'trace_source_title'                                    => '追溯',
     'print_title'                                           => '列印',
     'confirm_print_title'                                   => '確認列印',
     'transfer_order_title'                                  => '轉單',
     'transfer_audit_title'                                  => '轉審',
     'divider_title'                                         => '分配',
+    'tips_title'                                            => '提示',
     'name_title'                                            => '名稱',
     'size_title'                                            => '大小',
     'status_title'                                          => '狀態',
@@ -532,6 +549,7 @@ return [
     'gender_title'                                          => '性別',
     'birthday_title'                                        => '生日',
     'address_title'                                         => '地址',
+    'intro_title'                                           => '簡介',
     'bind_title'                                            => '綁定',
     'unbind_title'                                          => '解綁',
     'brand_title'                                           => '品牌',
@@ -548,6 +566,7 @@ return [
     'extend_title'                                          => '擴展',
     'import_title'                                          => '導入',
     'export_title'                                          => '匯出',
+    'content_title'                                         => '內容',
     'images_title'                                          => '圖片',
     'icon_title'                                            => '圖標',
     'cover_title'                                           => '封面',
@@ -587,7 +606,9 @@ return [
     'first_title'                                           => '第一',
     'last_title'                                            => '最後',
     'list_title'                                            => '清單',
+    'interact_title'                                        => '溝通',
     'chat_title'                                            => '客服',
+    'online_customer_title'                                 => '線上客服',
     'gift_title'                                            => '禮物',
     'continue_scan_title'                                   => '繼續掃碼',
     'continue_next_step_title'                              => '繼續下一步',
@@ -599,16 +620,33 @@ return [
     'custom_title'                                          => '自定義',
     'customer_title'                                        => '客戶',
     'customer_info_title'                                   => '客戶資訊',
+    'public_account_title'                                  => '公眾號',
+    'life_account_title'                                    => '生活號',
     'region_title'                                          => '地區',
     'compare_title'                                         => '對比',
     'long_term_title'                                       => '長期',
     'form_title'                                            => '表單',
+    'top_title'                                             => '置頂',
+    'bottom_title'                                          => '置底',
+    'type_title'                                            => '類型',
+    'config_title'                                          => '配寘',
+    'dispute_title'                                         => '爭議',
+    'feed_title'                                            => '反饋',
+    'handle_title'                                          => '處理',
+    'finish_title'                                          => '完成',
+    'license_title'                                         => '證照',
+    'platform_client_title'                                 => '平臺用戶端',
+    'start_time_title'                                      => '起始時間',
+    'expire_time_title'                                     => '過期時間',
+    'use_guide_title'                                       => '使用指南',
     // 商品基础相关
     'goods_name'                                            => '商品名稱',
     'goods_add_name'                                        => '商品添加',
     'goods_choice_name'                                     => '商品選擇',
     'goods_params'                                          => '商品參數',
     'goods_spec'                                            => '商品規格',
+    'goods_base'                                            => '商品基礎',
+    'goods_detail'                                          => '商品詳情',
     'goods_stop_sale_title'                                 => '暫停銷售',
     'goods_buy_title'                                       => '立即購買',
     'goods_booking_title'                                   => '立即預約',
@@ -735,9 +773,13 @@ return [
     'form_is_footer_message'                                => '是否含尾部範圍值有誤',
     'form_is_full_screen_title'                             => '是否滿屏',
     'form_is_full_screen_message'                           => '是否滿屏範圍值有誤',
+    'form_is_required_title'                                => '是否必填',
     'form_status_range_message'                             => '狀態範圍值有誤',
     'form_status_title'                                     => '狀態',
     'form_status_message'                                   => '請選擇狀態',
+    'form_type_range_message'                               => '類型範圍值有誤',
+    'form_type_title'                                       => '類型',
+    'form_type_message'                                     => '請選擇類型',
     'form_sort_title'                                       => '順序',
     'form_sort_tips'                                        => '從小到大',
     'form_sort_message'                                     => '順序0~255之間的數值',
@@ -763,7 +805,9 @@ return [
     'form_article_category_placeholder'                     => '文章分類...',
     'form_article_category_message'                         => '請選擇文章分類',
     'form_refuse_reason'                                    => '拒絕原因',
-    'form_refuse_reason_message'                            => '拒絕原因格式1~230個字元',
+    'form_refuse_reason_message'                            => '拒絕原因格式1~230個字元',  
+    'form_close_reason'                                     => '關閉原因',
+    'form_close_reason_message'                             => '關閉原因格式1~230個字元',
     'form_operate_reason'                                   => '操作原因',
     'form_operate_reason_message'                           => '操作原因格式、最多230個字元',
     'form_search_keywords_placeholder'                      => '蒐索關鍵字',
@@ -1081,6 +1125,24 @@ return [
         3 => '跳轉原生地圖查看指定位置',
         4 => '撥打電話',
     ],
+    // 商品基础字段
+    'common_goods_base_data_fields' => [
+        'brand_name'              => '品牌',
+        'simple_desc'             => '簡述',
+        'spec_desc'               => '規格描述',
+        'approval_number'         => '批准文號',
+        'approval_number_expire'  => '批准文號有效期',
+        'batch_number'            => '批次號',
+        'batch_number_expire'     => '批次號有效期',
+        'coding'                  => '商品編碼',
+        'model'                   => '商品型號',
+        'produce_company'         => '生產企業',
+        'produce_region_name'     => '生產地',
+        'spec_weight'             => '規格重量',
+        'spec_volume'             => '規格體積',
+        'spec_coding'             => '規格編碼',
+        'spec_barcode'            => '規格條碼',
+    ],
     // 下单指定时间
     'common_buy_datetime_config_list' => [
         0 => '可選擇',
@@ -1261,6 +1323,20 @@ return [
         'fra'  => '法語',
         'swe'  => '瑞典語',
         'mn'   => '蒙古語',
+    ],
+    // 商品基础字段
+    'common_goods_base_fields_list' => [
+        'simple_desc'             => '商品簡述',
+        'spec_desc'               => '規格描述',
+        'approval_number'         => '批准文號',
+        'approval_number_expire'  => '批准文號有效期',
+        'batch_number'            => '批次號',
+        'batch_number_expire'     => '批次號有效期',
+        'coding'                  => '商品編碼',
+        'model'                   => '商品型號',
+        'brand_id'                => '品牌',
+        'produce_company'         => '生產企業',
+        'produce_region'          => '生產地',
     ],
     // token生成规则
     'common_token_created_rules_list' => [
@@ -1520,6 +1596,7 @@ return [
         // 管理员
         'admin'             => [
             // 表单
+            'form_item_avatar'                      => '用戶頭像',
             'form_item_username'                    => '用戶名',
             'form_item_username_placeholder'        => '請輸入用戶名',
             'form_item_username_message'            => '用戶名請使用字母、數位、底線2~18個字',
@@ -1941,30 +2018,36 @@ return [
         // 商品
         'goods'                 => [
             // 表单
-            'form_item_title'                       => '商品名稱',
-            'form_item_title_message'               => '商品名稱格式1~600個字',
-            'form_item_category_id'                 => '商品分類',
-            'form_item_category_id_message'         => '請至少選擇一個商品分類',
-            'form_item_simple_desc'                 => '商品簡述',
-            'form_item_simple_desc_message'         => '商品簡述格式最多230個字',
-            'form_item_spec_desc'                   => '規格描述',
-            'form_item_spec_desc_message'           => '規格描述格式最多230個字元',
-            'form_item_approval_number'             => '批准文號',
-            'form_item_approval_number_message'     => '批准文號格式最多180個字元',
-            'form_item_produce_company'             => '生產企業',
-            'form_item_produce_company_message'     => '生產企業格式最多180個字元',
-            'form_item_coding'                      => '商品編碼',
-            'form_item_coding_message'              => '商品編碼格式最多180個字元',
-            'form_item_model'                       => '商品型號',
-            'form_item_model_message'               => '商品型號格式最多180個字',
-            'form_item_brand'                       => '品牌',
-            'form_item_brand_message'               => '請選擇品牌',
-            'form_item_produce_region'                => '生產地',
-            'form_item_produce_region_message'        => '請選擇生產地',
-            'form_item_inventory_unit'              => '計量單位',
-            'form_item_inventory_unit_message'      => '計量單位格式1~6個字',
-            'form_item_give_integral'               => '購買贈送積分比例',
-            'form_item_give_integral_tips'          => [
+            'form_item_title'                           => '商品名稱',
+            'form_item_title_message'                   => '商品名稱格式1~600個字元',
+            'form_item_category_id'                     => '商品分類',
+            'form_item_category_id_message'             => '請至少選擇一個商品分類',
+            'form_item_simple_desc'                     => '商品簡述',
+            'form_item_simple_desc_message'             => '請填寫商品簡述、最多230個字元',
+            'form_item_spec_desc'                       => '規格描述',
+            'form_item_spec_desc_message'               => '請填寫規格描述、最多230個字元',
+            'form_item_approval_number'                 => '批准文號',
+            'form_item_approval_number_message'         => '請填寫批准文號、最多180個字元',
+            'form_item_approval_number_expire'          => '批准文號有效期',
+            'form_item_approval_number_expire_message'  => '請選擇批准文號有效期',
+            'form_item_batch_number'                    => '批次號',
+            'form_item_batch_number_message'            => '請填寫批次號、最多180個字元',
+            'form_item_batch_number_expire'             => '批次號有效期',
+            'form_item_batch_number_expire_message'     => '請選擇批次號有效期',
+            'form_item_coding'                          => '商品編碼',
+            'form_item_coding_message'                  => '請填寫商品編碼、最多180個字元',
+            'form_item_model'                           => '商品型號',
+            'form_item_model_message'                   => '請填寫商品型號、最多180個字元',
+            'form_item_brand_id'                        => '品牌',
+            'form_item_brand_id_message'                => '請選擇品牌',
+            'form_item_produce_company'                 => '生產企業',
+            'form_item_produce_company_message'         => '請填寫生產企業、最多180個字元',
+            'form_item_produce_region'                  => '生產地',
+            'form_item_produce_region_message'          => '請選擇生產地',
+            'form_item_inventory_unit'                  => '計量單位',
+            'form_item_inventory_unit_message'          => '計量單位格式1~6個字元',
+            'form_item_give_integral'                   => '購買贈送積分比例',
+            'form_item_give_integral_tips'              => [
                 '1.按照商品金額比例乘以數量的比例進行發放',
                 '2.訂單完成自動將發放到用戶鎖定積分',
                 '3.網站設定->擴展中腳本處理發放積分',
@@ -1991,11 +2074,6 @@ return [
             'form_item_is_shelves_tips'             => '下架後用戶不可見',
             'form_item_extends_popup_title'         => '規格擴展數據',
             // 规格
-            'form_spec_top_list_tips'               => [
-                '1.批量添加規格可以快速創建商品SKU，大量節省SKU編輯時間，快捷操作數據不影響SKU數據，僅生成的時候重新覆蓋SKU。',
-                '2.可以後臺商品管理->商品規格中配置規格範本、選擇商品規格模塊快速生成對應規格數據、有效的提供效率',
-                '3.商品添加成功後，倉庫管理->倉庫商品中添加並配寘庫存',
-            ],
             'form_spec_template_tips'               => '規格範本數據有誤',
             'form_spec_template_name_exist_tips'    => '相同規格名稱已經存在',
             'form_spec_template_placeholder'        => '商品規格範本…',
@@ -2063,7 +2141,6 @@ return [
             'form_video_top_tips'                   => '視頻比圖文更有具帶入感，僅支持mp4格式',
             'form_video_button_add_name'            => '上傳視頻',
             // 手机详情
-            'form_app_top_tips'                     => '設定手機詳情後、在手機模式下將展示手機詳情、比如[小程式、APP]',
             'form_app_value_title'                  => '文字內容',
             'form_app_value_message'                => '文字內容最多1005000個字',
             'form_app_button_add_name'              => '添加手機詳情',
@@ -2103,6 +2180,56 @@ return [
             'base_spec_empty_tips'                  => '沒有相關規格',
             'base_spec_type_empty_tips'             => '沒有相關規格類型',
             'base_buy_stock_error_tips'             => '購買數量有誤',
+            // 商品管理导航
+            'goods_admin_nav_list'                  => [
+                'base' => [
+                    'name' => '基礎資訊',
+                ],
+                'spec' => [
+                    'name' => '商品規格',
+                    'tips' => [
+                        '1. 批次新增規格可快速建立商品SKU，大幅節省SKU編輯時間，快速操作數據不影響SKU數據，僅生成時重新覆蓋SKU。',
+                        '2. 可在後台 商品管理->商品規格 中配置規格模板、選擇商品規格模組快速生成對應規格數據，有效提升效率。',
+                        '3. 商品新增成功後，於倉庫管理->倉庫商品中新增並配置庫存。',
+                    ],
+                ],
+                'spec_images' => [
+                    'name' => '規格圖片',
+                ],
+                'parameters' => [
+                    'name' => '商品參數',
+                ],
+                'photo' => [
+                    'name' => '商品相冊',
+                    'tips' => '可拖曳圖片進行排序，建議圖片尺寸一致800*800px、最多30張',
+                ],
+                'video' => [
+                    'name' => '商品影片',
+                    'tips' => '影片比圖文更具代入感，僅支援 mp4 格式',
+                ],
+                'app' => [
+                    'name' => '手機詳情',
+                    'tips' => '設定手機詳情後，在手機模式下將展示手機詳情，例如[小程式、APP]',
+                ],
+                'web' => [
+                    'name' => '電腦詳情',
+                    'tips' => '請正確描述產品特性和功能，上傳完整清晰的圖片',
+                ],
+                'fictitious' => [
+                    'name' => '虛擬資訊',
+                    'tips' => '如卡密、網盤位址的虛擬資訊，虛擬訂單類型，用戶購買後於訂單詳情中呈現',
+                ],
+                'extends' => [
+                    'name' => '擴充數據',
+                ],
+                'use_guide' => [
+                    'name' => '使用指南',
+                    'tips' => '請正確填寫產品的使用說明及注意事項',
+                ],
+                'seo' => [
+                    'name' => 'SEO資訊',
+                ],
+            ],
         ],
         // 商品分类
         'goodscategory'         => [
@@ -2328,26 +2455,26 @@ return [
             'orderaftersale_step_tips_msg'          => [
                 0 => [
                     'title' => '待賣家稽核',
-                    'desc'  => '已提交申請，等待賣家確認中！'
+                    'desc'  => '已提交申請，等待賣家確認中！',
                 ],
                 1 => [
-                    'title' => '賣家已確認，請儘快完成退貨！'
+                    'title' => '賣家已確認，請儘快完成退貨！',
                 ],
                 2 => [
-                    'title' => '待賣家確認收貨',
-                    'desc'  => '已退貨，等待賣家稽核中！'
+                    'title' => '待賣家確認稽核',
+                    'desc'  => '已退貨或退款，等待賣家稽核中！',
                 ],
                 3 => [
                     'title' => '退款成功',
-                    'desc'  => '已處理結束！'
+                    'desc'  => '已處理結束！',
                 ],
                 4 => [
-                    'title' => '賣家已拒絕，退款關閉',
-                    'desc'  => '申請已被拒絕！'
+                    'title' => '賣家已拒絕，如有異議您可以再次申請',
+                    'desc'  => '申請已被拒絕！',
                 ],
                 5 => [
                     'title' => '售後已取消',
-                    'desc'  => '售後已取消、可重新申請！'
+                    'desc'  => '售後已取消、可重新申請！',
                 ],
             ], 
         ],
@@ -2382,11 +2509,20 @@ return [
             'order_goods_sales_count_inc_fail_tips' => '訂單商品銷量增加失敗',
             'order_detail_goods_empty_tips'         => '訂單有誤，沒有找到相關商品',
             'pay_have_in_hand_tips'                 => '支付中',
+            'order_under_line_tips'                 => '當前為線下支付方式[ {:payment} ]、需管理員確認後方可生效，如需其它支付可以切換支付重新發起支付。',
+            'order_delivery_tips'                   => '貨物正在倉庫打包、出庫中…',
             // 取消
             'order_cancel_message_data'             => [
                 'title'  => '訂單取消',
                 'desc'   => '訂單取消成功',
             ],
+            // 追溯
+            'form_item_trace_source_code'                         => '追溯碼',
+            'form_item_trace_source_code_message'                 => '追溯碼格式為1～80個字元',
+            'form_item_trace_source_batch_number'                 => '批次號',
+            'form_item_trace_source_batch_number_message'         => '請填寫批次號',
+            'form_item_trace_source_batch_number_expire'          => '批号有效期',
+            'form_item_trace_source_batch_number_expire_message'  => '請選擇批号有效期',
             // 发货、取货、服务
             'delivery_express_id_message'           => '快遞管道有誤',
             'delivery_express_number_message'       => '快遞單號有誤',
@@ -2838,6 +2974,7 @@ return [
         // 用户
         'user'                      => [
             // 表单
+            'form_item_avatar'                      => '用戶頭像',
             'form_item_username'                    => '用戶名',
             'form_item_username_message'            => '用戶名1~80個字',
             'form_item_nickname'                    => '昵稱',
@@ -3613,10 +3750,6 @@ return [
             'desc' => 'Access Key Secret',
             'tips' => '請填寫Access Key Secret',
         ],
-        'common_customer_store_tel'  => [
-            'name' => '商店電話',
-            'desc' => '空則不顯示',
-        ],
         'common_email_currency_template'  => [
             'name' => '通用-郵件範本',
             'desc' => '驗證碼變數識別字[ #code# ]',
@@ -3661,6 +3794,10 @@ return [
             'name' => '蒐索禁止UserAgent',
             'desc' => '禁止的標識（輸入回車）',
             'tips' => '請填寫蒐索禁止UserAgent',
+        ],
+        'home_search_prohibit_keywords'  => [
+            'name' => '蒐索禁止關鍵字',
+            'desc' => '一行一個關鍵字',
         ],
         'common_order_is_booking'  => [
             'name' => '訂單預約模式',
@@ -3791,6 +3928,29 @@ return [
             'desc' => '默認多分類',
             'tips' => '請選擇商品單分類模式',
         ],
+        'common_is_goods_parameters_custom_mode'  => [
+            'name' => '商品參數自定義模式',
+            'desc' => '預設：範本模式',
+            'tips' => '請選擇商品參數自定義模式',
+        ],
+        'common_goods_base_fields_required_data'  => [
+            'name' => '商品基礎欄位對應分類下必填',
+            'desc' => '包含子級',
+        ],
+        'common_goods_admin_nav_custom_data'  => [
+            'name' => '商品管理導航自定義名稱和提示',
+        ],
+        'common_order_detail_goods_use_guide_title'  => [
+            'name' => '訂單詳情商品使用指南名稱',
+            'desc' => '預設 使用指南',
+        ],
+        'common_order_detail_goods_use_guide_describe'  => [
+            'name' => '訂單詳情商品使用指南描述',
+        ],
+        'common_order_trace_source_config'  => [
+            'name' => '指定品類訂單填寫追溯',
+            'desc' => '預設 全部訂單、配置後需先填寫追溯資訊，方可操作訂單【發貨、取貨、服務】',
+        ],
         'common_route_separator'  => [
             'name' => '路由分隔符號',
             'desc' => '建議填寫[ - ]默認[ - ]，僅PATHINFO模式+短地址模式下有效',
@@ -3837,14 +3997,42 @@ return [
             'name' => '商城公告',
             'desc' => '空則不顯示公告',
         ],
-        'common_customer_store_email'  => [
-            'name' => '商店郵箱',
+        'common_customer_store_chat_tel'  => [
+            'name' => '客服電話',
+            'desc' => '空則不顯示',
+        ],
+        'common_customer_store_chat_email'  => [
+            'name' => '客服郵箱',
             'desc' => '空則不顯示',
             'tips' => '客服郵箱格式有誤',
         ],
-        'common_customer_store_qrcode'  => [
-            'name' => '商店二維碼',
-            'desc' => '空則不展示',
+        'common_customer_store_chat_qq'  => [
+            'name' => '客服QQ',
+            'desc' => '空白則不顯示',
+        ],
+        'common_customer_store_chat_url'  => [
+            'name' => '客服網址',
+            'desc' => '空白則不顯示',
+        ],
+        'common_customer_store_chat_line'  => [
+            'name' => '客服LINE',
+            'desc' => '空白則不展示',
+        ],
+        'common_customer_store_chat_weixin'  => [
+            'name' => '客服微信',
+            'desc' => '空白則不展示',
+        ],
+        'common_customer_store_public_alipay'  => [
+            'name' => '支付寶公眾號',
+            'desc' => '空白則不展示',
+        ],
+        'common_customer_store_public_weixin'  => [
+            'name' => '微信生活號',
+            'desc' => '空白則不展示',
+        ],
+        'common_customer_store_platform_client'  => [
+            'name' => '平台用戶端',
+            'desc' => '空白則不展示',
         ],
         'common_self_extraction_address'  => [
             'name' => '自提點地址',
@@ -4147,12 +4335,12 @@ return [
             'desc' => '默認立即諮詢，展示模式下商品頁面的【立即購買】按鈕占位名稱',
             'tips' => '請填寫展示型操作名稱',
         ],
-        'common_site_fictitious_return_title'  => [
+        'common_site_fictitious_title'  => [
             'name' => '虛擬資訊標題',
             'desc' => '默認金鑰資訊，用戶購買虛擬商品後、在訂單詳情裡面展示虛擬資訊的標題',
             'tips' => '請填寫虛擬資訊標題',
         ],
-        'common_site_fictitious_return_tips'  => [
+        'common_site_fictitious_use_tips'  => [
             'name' => '提示資訊',
             'desc' => '用戶購買虛擬商品後、在訂單詳情裡面展示給用戶的提示資訊',
             'tips' => '請填寫提示資訊',
@@ -4508,6 +4696,14 @@ return [
             'name' => '商品封面高度拉伸（手機端）',
             'desc' => '默認正方形',
             'tips' => '請選擇商品封面高度拉伸（手機端）',
+        ],
+        'common_goods_close_buy_button'  => [
+            'name' => '關閉商品下單按鈕',
+            'tips' => '請選擇關閉商品下單按鈕',
+        ],
+        'common_goods_detail_base_fields_show'  => [
+            'name' => '商品詳情基礎欄位展示',
+            'tips' => '請選擇商品詳情基礎欄位展示',
         ],
         'common_app_h5_url'  => [
             'name' => '手機端h5地址',

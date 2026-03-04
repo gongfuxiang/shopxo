@@ -77,15 +77,34 @@
 
             <!-- 销量 -->
             {{if isset($module_data['goods']['show_sales_number_status']) and $module_data['goods']['show_sales_number_status'] eq 1}}
-                <div class="tm-indcon sales-volume"><span class="tm-count">{{$module_data.goods.sales_count}}</span><span class="tm-label">{{:MyLang('sales_title')}}</span></div>
+                <div class="tm-indcon sales-volume exist-qrcode"><span class="tm-count">{{$module_data.goods.sales_count}}</span><span class="tm-label">{{:MyLang('sales_title')}}</span></div>
             {{/if}}
 
-            <!-- 二维码 -->
-            <div class="goods-qrcode">
-                <div class="am-dropdown" data-am-dropdown>
+            <!-- 二维码（异步获取二维码数据渲染） -->
+            <div class="goods-qrcode" data-copy-text="{{:MyLang('copy_title')}}">
+                <div class="am-dropdown am-dropdown-flip" data-am-dropdown>
                     <a href="javascript:;" class="am-dropdown-toggle am-color-grey-dark">{{:MyLang('goods.qrcode_mobile_buy_name')}} <i class="am-icon-qrcode"></i></a>
-                    <div class="am-dropdown-content am-padding-sm am-radius">
-                        <img src="{{$qrcode_url}}" width="150" height="150" />
+                    <div class="am-dropdown-content am-padding-horizontal-sm am-padding-vertical am-radius am-text-center">
+                        {{if !empty($goods_qrcode) and is_array($goods_qrcode)}}
+                            <div class="am-flex am-flex-warp am-flex-justify-center am-gap-2">
+                                {{foreach $goods_qrcode as $qv}}
+                                    <div>
+                                        <img src="{{$qv.qrcode}}" width="150" height="150" class="common-annex-view-event" data-title="{{$qv.name}}" />
+                                        <p>
+                                            <span class="name am-text-truncate am-vertical-align-middle">{{$qv.name}}</span>
+                                            {{if in_array($qv['type'], ['pc', 'h5'])}}
+                                                <span class="am-badge am-badge-success am-radius am-vertical-align-middle text-copy-submit" data-value="{{$qv.url}}">{{:MyLang('copy_title')}}</span>
+                                            {{/if}}
+                                        </p>
+                                    </div>
+                                {{/foreach}}
+                            </div>
+                        {{else /}}
+                            <div class="am-padding-vertical-xl am-color-grey">
+                                <i class="am-icon-spinner am-icon-spin am-icon-sm"></i>
+                                <p class="am-margin-top-xs">{{:MyLang('page_common.loading_tips')}}</p>
+                            </div>
+                        {{/if}}
                     </div>
                 </div>
             </div>

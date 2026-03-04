@@ -357,7 +357,7 @@ class CcbPay
         $parameter .="<REFUND_CODE></REFUND_CODE></TX_INFO><SIGN_INFO></SIGN_INFO><SIGNCERT></SIGNCERT></TX>";
 
         // 请求接口处理
-        $result = $this->HttpRequestWlpt($params['wlpt_url'], $parameter);
+        $result = $this->HttpRequestWlpt($this->config['wlpt_url'], $parameter);
         $resultData = simplexml_load_string($result);
         if(!empty($result) && isset($result['RETURN_MSG']) && $result['RETURN_CODE'] == '000000')
         {

@@ -471,7 +471,7 @@ class FormInputService
 
         // 返回数据
         return DataReturn('success', 0, [
-            'file'     => $dir.'.zip',
+            'file'     => $dir_zip,
             'config'   => $config,
             'data'     => $data,
             'md5_key'  => $data['md5_key'],

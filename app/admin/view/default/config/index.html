@@ -172,6 +172,61 @@
                             {{/foreach}}
                         </div>
                     </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_is_goods_parameters_custom_mode.name}}<span class="am-form-group-label-tips">{{$data.common_is_goods_parameters_custom_mode.describe}}</span></label>
+                        <div class="am-radio-group">
+                            {{foreach $common_is_text_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_is_goods_parameters_custom_mode.only_tag}}" data-validation-message="{{$data.common_is_goods_parameters_custom_mode.error_tips}}" required {{if isset($data['common_is_goods_parameters_custom_mode']['value']) and $data['common_is_goods_parameters_custom_mode']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck /> {{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_goods_base_fields_required_data.name}}<span class="am-form-group-label-tips">{{$data.common_goods_base_fields_required_data.describe}}</span></label>
+                        <div class="form-data-base-fields-list">
+                            {{if !empty($common_goods_base_fields_list) and is_array($common_goods_base_fields_list)}}
+                                {{foreach $common_goods_base_fields_list as $k=>$v}}
+                                    <div class="am-flex am-flex-row am-flex-items-center am-gap-1 am-margin-top-sm">
+                                        <span class="am-text-right">{{$v}}</span>
+                                        <select name="{{$data.common_goods_base_fields_required_data.only_tag}}[{{$k}}]" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" multiple>
+                                            {{if !empty($goods_category_list)}}
+                                                {{foreach $goods_category_list as $v}}
+                                                    <option value="{{$v.id}}" {{if !empty($data['common_goods_base_fields_required_data']['value']) and !empty($data['common_goods_base_fields_required_data']['value'][$k]) and in_array($v['id'], $data['common_goods_base_fields_required_data']['value'][$k])}}selected{{/if}}>{{$v.name}}</option>
+                                                    {{if !empty($v['items'])}}
+                                                        {{foreach $v.items as $vs}}
+                                                            <option style="padding-left: 20px;" value="{{$vs.id}}" {{if !empty($data['common_goods_base_fields_required_data']['value']) and !empty($data['common_goods_base_fields_required_data']['value'][$k]) and in_array($vs['id'], $data['common_goods_base_fields_required_data']['value'][$k])}}selected{{/if}}>{{if empty($vs['items'])}}├{{else /}}└{{/if}}² {{$vs.name}}</option>
+                                                            {{if !empty($vs['items'])}}
+                                                                {{foreach $vs.items as $kss=>$vss}}
+                                                                    <option style="padding-left: 40px;" value="{{$vss.id}}" {{if !empty($data['common_goods_base_fields_required_data']['value']) and !empty($data['common_goods_base_fields_required_data']['value'][$k]) and in_array($vss['id'], $data['common_goods_base_fields_required_data']['value'][$k])}}selected{{/if}}>{{if $kss eq count($vs['items'])-1}}└{{else /}}├{{/if}}³ {{$vss.name}}</option>
+                                                                {{/foreach}}
+                                                            {{/if}}
+                                                        {{/foreach}}
+                                                    {{/if}}
+                                                {{/foreach}}
+                                            {{/if}}
+                                        </select>
+                                    </div>
+                                {{/foreach}}
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_goods_admin_nav_custom_data.name}}</label>
+                        <div class="form-data-base-fields-list">
+                            {{if !empty($goods_admin_nav_list) and is_array($goods_admin_nav_list)}}
+                                {{foreach $goods_admin_nav_list as $k=>$v}}
+                                    <div class="am-flex am-flex-row am-gap-1 am-margin-top-sm">
+                                        <span class="am-text-right am-padding-top-xs">{{$v.name}}</span>
+                                        <div class="am-wh-auto">
+                                            <input type="text" name="{{$data.common_goods_admin_nav_custom_data.only_tag}}[{{$k}}][name]" placeholder="{{:MyLang('name_title')}}" class="am-radius" value="{{if !empty($data['common_goods_admin_nav_custom_data']['value']) and !empty($data['common_goods_admin_nav_custom_data']['value'][$k]) and !empty($data['common_goods_admin_nav_custom_data']['value'][$k]['name'])}}{{$data['common_goods_admin_nav_custom_data']['value'][$k]['name']}}{{/if}}" />
+                                            <textarea rows="2" name="{{$data.common_goods_admin_nav_custom_data.only_tag}}[{{$k}}][tips]" class="am-radius am-margin-top-xs" placeholder="{{:MyLang('tips_title')}}">{{if !empty($data['common_goods_admin_nav_custom_data']['value']) and !empty($data['common_goods_admin_nav_custom_data']['value'][$k]) and !empty($data['common_goods_admin_nav_custom_data']['value'][$k]['tips'])}}{{$data['common_goods_admin_nav_custom_data']['value'][$k]['tips']}}{{/if}}</textarea>
+                                        </div>
+                                    </div>
+                                {{/foreach}}
+                            {{/if}}
+                        </div>
+                    </div>
                 </div>
 
                 <!-- 地图 -->
@@ -272,7 +327,7 @@
                         <div class="am-checkbox-group">
                             {{foreach $common_token_created_rules_list as $v}}
                                 <label class="am-checkbox-inline">
-                                    <input type="checkbox" name="{{$data.common_token_created_rules.only_tag}}" value="{{$v.value}}" {{if isset($data['common_token_created_rules']['value']) and in_array($v['value'], $data['common_token_created_rules']['value'])}}checked{{/if}} data-validation-message="{{$data.common_token_created_rules.error_tips}}" data-am-ucheck /> {{$v.name}}
+                                    <input type="checkbox" name="{{$data.common_token_created_rules.only_tag}}" value="{{$v.value}}" {{if isset($data['common_token_created_rules']['value']) and is_array($data['common_token_created_rules']['value']) and in_array($v['value'], $data['common_token_created_rules']['value'])}}checked{{/if}} data-validation-message="{{$data.common_token_created_rules.error_tips}}" data-am-ucheck /> {{$v.name}}
                                 </label>
                             {{/foreach}}
                         </div>

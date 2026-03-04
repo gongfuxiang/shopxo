@@ -59,8 +59,8 @@
             </ul>
 
             <div class="top-nav-left top-nav-left-site-logo am-show-sm-only">
-                <a href="{{$home_url}}">
-                    <img class="am-height" src="{{$home_site_logo_wap}}" alt="{{$home_site_name}}" />
+                <a href="{{if empty($module_data['url'])}}{{$home_url}}{{else /}}{{$module_data.url}}{{/if}}">
+                    <img class="am-height" src="{{if empty($module_data['logo'])}}{{$home_site_logo_wap}}{{else /}}{{$module_data.logo}}{{/if}}" alt="{{if empty($module_data['name'])}}{{$home_site_name}}{{else /}}{{$module_data.name}}{{/if}}" />
                 </a>
             </div>
 
@@ -97,7 +97,7 @@
                         {{if empty($nav['items'])}}
                             <div class="top-nav-items {{if !empty($nav['type'])}}top-nav-items-{{$nav.type}}{{/if}}">
                                 <div class="menu-hd {{if isset($nav['is_login']) and $nav['is_login'] eq 1 and empty($user)}}login-event{{/if}}">
-                                    <a href="{{if empty($user)}}javascript:;{{else /}}{{$nav.url}}{{/if}}">
+                                    <a href="{{if empty($user)}}javascript:;{{else /}}{{if !empty($nav['url'])}}{{$nav.url}}{{/if}}{{/if}}" {{if !empty($nav['class'])}}class="{{$nav.class}}"{{/if}} {{if !empty($nav['attr_data'])}}{{$nav.attr_data|raw}}{{/if}}>
                                         {{if IsUrl($nav['icon'])}}
                                             <img src="{{$nav.icon}}" class="nav-icon am-vertical-align-middle" />
                                         {{else /}}
@@ -168,7 +168,7 @@
                                                 <!-- 默认为标准名称和url格式 -->
                                                 {{if !empty($navs['name'])}}
                                                     <li class="{{if ((isset($nav['is_login']) and $nav['is_login'] eq 1) or (isset($navs['is_login']) and $navs['is_login'] eq 1)) and empty($user)}}login-event{{/if}}">
-                                                        <a class="am-flex am-flex-items-center" href="{{if ((isset($nav['is_login']) and $nav['is_login'] eq 1) or (isset($navs['is_login']) and $navs['is_login'] eq 1)) and empty($user)}}javascript:;{{else /}}{{$navs.url}}{{/if}}">
+                                                        <a class="am-flex am-flex-items-center {{if !empty($navs['class'])}}{{$navs.class}}{{/if}}" href="{{if ((isset($nav['is_login']) and $nav['is_login'] eq 1) or (isset($navs['is_login']) and $navs['is_login'] eq 1)) and empty($user)}}javascript:;{{else /}}{{if !empty($navs['url'])}}{{$navs.url}}{{/if}}{{/if}}" {{if !empty($navs['attr_data'])}}{{$navs.attr_data|raw}}{{/if}}>
                                                             {{if !empty($navs['icon']) or !empty($navs['images_url'])}}
                                                                 <p class="nav-images am-margin-right-xs" >
                                                                 <img src="{{if !empty($navs['icon'])}}{{$navs.icon}}{{else /}}{{$navs.images_url}}{{/if}}" alt="{{$navs.name}}" class="am-width am-block" />

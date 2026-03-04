@@ -14,6 +14,28 @@
     <!-- content start -->
     <div class="user-content">
         <div class="user-content-body">
+            <!-- 用户订单售后详情内顶部-开始 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_user_orderaftersale_detail_inside_top</span>
+                </div>
+            {{/if}}
+            {{php}}
+                $hook_name = 'plugins_view_user_orderaftersale_detail_inside_top';
+                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'order_data'=>$order_data, 'aftersale_data'=>$aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
+                if(!empty($hook_data) && is_array($hook_data))
+                {
+                    foreach($hook_data as $hook)
+                    {
+                        if(is_string($hook) || is_int($hook))
+                        {
+                            echo htmlspecialchars_decode($hook);
+                        }
+                    }
+                }
+            {{/php}}
+            <!-- 用户订单售后详情内顶部-结束 -->
+
             <h1 class="am-text-xl am-font-weight">{{:MyLang('orderaftersale.orderaftersale_apply_name')}}</h1>
             <!-- 用户订单售后详情顶部-开始 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -23,7 +45,7 @@
             {{/if}}
             {{php}}
                 $hook_name = 'plugins_view_user_orderaftersale_detail_top';
-                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods'=>$goods, 'order'=>$order, 'new_aftersale_data'=>$new_aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
+                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'order_data'=>$order_data, 'aftersale_data'=>$aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
                 if(!empty($hook_data) && is_array($hook_data))
                 {
                     foreach($hook_data as $hook)
@@ -38,9 +60,14 @@
             <!-- 用户订单售后详情顶部-结束 -->
 
             <!-- 商品列表 -->
-            {{if !empty($goods)}}
-                {{if empty($new_aftersale_data) or $new_aftersale_data['status'] eq 5}}
+            {{if !empty($order_data) and !empty($order_data['items'])}}
+                {{if $is_create_aftersale eq 1}}
                     <div class="am-panel am-panel-default am-radius">
+                        {{if !empty($aftersale_data)}}
+                            <div class="am-padding-top">
+                                <a href="{{:MyUrl('index/orderaftersale/detail', ['id'=>$aftersale_data['id']])}}" target="_blank" class="am-color-blue">查看最新售后订单详情 >></a>
+                            </div>
+                        {{/if}}
                         <div class="am-panel-bd am-padding-0 am-margin-top-lg">
                             <!-- 用户订单售后详情顶部-开始 -->
                             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -50,7 +77,7 @@
                             {{/if}}
                             {{php}}
                                 $hook_name = 'plugins_view_user_orderaftersale_detail_goods_inside_top';
-                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods'=>$goods, 'order'=>$order, 'new_aftersale_data'=>$new_aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
+                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'order_data'=>$order_data, 'aftersale_data'=>$aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
                                 if(!empty($hook_data) && is_array($hook_data))
                                 {
                                     foreach($hook_data as $hook)
@@ -78,45 +105,45 @@
                                     <tr>
                                         <td>
                                             <div class="goods-shop-info am-text-left">
-                                                <a href="{{$goods.goods_url}}" target="_blank" class="am-nbfc am-radius am-border-grey goods-shop-info-left">
-                                                    <img src="{{$goods.images}}">
+                                                <a href="{{$order_data.items.goods_url}}" target="_blank" class="am-nbfc am-radius am-border-grey goods-shop-info-left">
+                                                    <img src="{{$order_data.items.images}}">
                                                 </a>
                                                 <div class="goods-shop-info-right am-nbfc ">
-                                                    <a href="{{$goods.goods_url}}" target="_blank" class="goods-title">{{$goods.title}}</a>
-                                                    {{if !empty($goods.spec_text)}}
-                                                        <div class="goods-shop-info-desc am-color-grey">{{$goods.spec_text}}</div>
+                                                    <a href="{{$order_data.items.goods_url}}" target="_blank" class="goods-title">{{$order_data.items.title}}</a>
+                                                    {{if !empty($order_data.items.spec_text)}}
+                                                        <div class="goods-shop-info-desc am-color-grey">{{$order_data.items.spec_text}}</div>
                                                     {{/if}}
                                                 </div>
                                             </div>
                                             <div class="wap-base am-show-sm-only am-padding-top-main">
-                                                {{if $goods['original_price'] gt 0}}
-                                                    <span class="original-price am-padding-right-sm">{{$order.currency_data.currency_symbol}}{{$goods.original_price}}</span>
+                                                {{if $order_data['items']['original_price'] gt 0}}
+                                                    <span class="original-price am-padding-right-sm">{{$order_data.currency_data.currency_symbol}}{{$order_data.items.original_price}}</span>
                                                 {{/if}}
                                                 <span class="price am-padding-right-sm">
-                                                    <strong>{{$order.currency_data.currency_symbol}}{{$goods.price}}</strong>
+                                                    <strong>{{$order_data.currency_data.currency_symbol}}{{$order_data.items.price}}</strong>
                                                 </span>
-                                                <span class="wap-number am-padding-right-sm">x{{$goods.buy_number}}</span>
-                                                {{if isset($goods['returned_quantity']) and $goods['returned_quantity'] gt 0}}
-                                                    <span class="am-color-yellow am-text-xs">{{:MyLang('already_retreat_title')}} {{$goods.returned_quantity}}</span>
+                                                <span class="wap-number am-padding-right-sm">x{{$order_data.items.buy_number}}</span>
+                                                {{if isset($order_data['items']['returned_quantity']) and $order_data['items']['returned_quantity'] gt 0}}
+                                                    <span class="am-color-yellow am-text-xs">{{:MyLang('already_retreat_title')}} {{$order_data.items.returned_quantity}}</span>
                                                 {{/if}}
                                             </div>
                                         </td>
                                         <td class="price am-hide-sm-only">
-                                            <p class="line-price">{{$order.currency_data.currency_symbol}}{{$goods.price}} x {{$goods.buy_number}}</p>
-                                            {{if $goods['original_price'] gt 0}}
-                                                <p class="original-price">{{$order.currency_data.currency_symbol}}{{$goods.original_price}}</p>
+                                            <p class="line-price">{{$order_data.currency_data.currency_symbol}}{{$order_data.items.price}} x {{$order_data.items.buy_number}}</p>
+                                            {{if $order_data['items']['original_price'] gt 0}}
+                                                <p class="original-price">{{$order_data.currency_data.currency_symbol}}{{$order_data.items.original_price}}</p>
                                             {{/if}}
                                         </td>
                                         <td class="number am-hide-sm-only">
-                                            <span>x{{$goods.buy_number}}</span>
-                                            {{if isset($goods['returned_quantity']) and $goods['returned_quantity'] gt 0}}
-                                                <span class="am-color-yellow am-text-xs">{{:MyLang('already_retreat_title')}} x{{$goods.returned_quantity}}</span>
+                                            <span>x{{$order_data.items.buy_number}}</span>
+                                            {{if isset($order_data['items']['returned_quantity']) and $order_data['items']['returned_quantity'] gt 0}}
+                                                <span class="am-color-yellow am-text-xs">{{:MyLang('already_retreat_title')}} x{{$order_data.items.returned_quantity}}</span>
                                             {{/if}}
                                         </td>
                                         <td class="price am-hide-sm-only">
-                                            <span class="total-price-content am-color-black">{{$order.currency_data.currency_symbol}}{{$goods.total_price}}</span>
-                                            {{if isset($goods['refund_price']) and $goods['refund_price'] gt 0}}
-                                                <span class="am-color-yellow am-text-xs">{{:MyLang('already_retreat_title')}} x{{$goods.refund_price}}</span>
+                                            <span class="total-price-content am-color-black">{{$order_data.currency_data.currency_symbol}}{{$order_data.items.total_price}}</span>
+                                            {{if isset($order_data['items']['refund_price']) and $order_data['items']['refund_price'] gt 0}}
+                                                <span class="am-color-yellow am-text-xs">{{:MyLang('already_retreat_title')}} x{{$order_data.items.refund_price}}</span>
                                             {{/if}}
                                         </td>
                                     </tr>
@@ -131,7 +158,7 @@
                             {{/if}}
                             {{php}}
                                 $hook_name = 'plugins_view_user_orderaftersale_detail_goods_inside_bottom';
-                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods'=>$goods, 'order'=>$order, 'new_aftersale_data'=>$new_aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
+                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'order_data'=>$order_data, 'aftersale_data'=>$aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
                                 if(!empty($hook_data) && is_array($hook_data))
                                 {
                                     foreach($hook_data as $hook)
@@ -147,39 +174,39 @@
 
                             <!-- 基础信息 -->
                             <div class="order-total am-margin-bottom-lg">
-                            {{if !empty($order.price) and $order.price gt 0}}
+                            {{if !empty($order_data.price) and $order_data.price gt 0}}
                                     <div class="items am-cf">
-                                        <div class="items-detail">{{$order.currency_data.currency_symbol}}{{$order.price}}</div>
+                                        <div class="items-detail">{{$order_data.currency_data.currency_symbol}}{{$order_data.price}}</div>
                                         <div class="items-title">{{:MyLang('orderaftersale.goods_base_price_title')}}</div>
                                     </div>
                                 {{/if}}
-                                {{if !empty($order.increase_price) and $order.increase_price gt 0}}
+                                {{if !empty($order_data.increase_price) and $order_data.increase_price gt 0}}
                                     <div class="items am-cf">
-                                        <div class="items-detail">+{{$order.currency_data.currency_symbol}}{{$order.increase_price}}</div>
+                                        <div class="items-detail">+{{$order_data.currency_data.currency_symbol}}{{$order_data.increase_price}}</div>
                                         <div class="items-title">{{:MyLang('orderaftersale.goods_base_increase_price_title')}}</div>
                                     </div>
                                 {{/if}}
-                                {{if !empty($order.preferential_price and $order.preferential_price gt 0)}}
+                                {{if !empty($order_data.preferential_price and $order_data.preferential_price gt 0)}}
                                     <div class="items am-cf">
-                                        <div class="items-detail am-color-yellow">-{{$order.currency_data.currency_symbol}}{{$order.preferential_price}}</div>
+                                        <div class="items-detail am-color-yellow">-{{$order_data.currency_data.currency_symbol}}{{$order_data.preferential_price}}</div>
                                         <div class="items-title">{{:MyLang('orderaftersale.goods_base_preferential_price_title')}}</div>
                                     </div>
                                 {{/if}}
-                                {{if !empty($order.refund_price) and $order.refund_price gt 0}}
+                                {{if !empty($order_data.refund_price) and $order_data.refund_price gt 0}}
                                     <div class="items am-cf">
-                                        <div class="items-detail am-color-yellow">-{{$order.currency_data.currency_symbol}}{{$order.refund_price}}</div>
+                                        <div class="items-detail am-color-yellow">-{{$order_data.currency_data.currency_symbol}}{{$order_data.refund_price}}</div>
                                         <div class="items-title">{{:MyLang('orderaftersale.goods_base_refund_price_title')}}</div>
                                     </div>
                                 {{/if}}
-                                {{if !empty($order.pay_price)}}
+                                {{if !empty($order_data.pay_price)}}
                                     <div class="items am-cf">
-                                        <div class="items-detail">{{$order.currency_data.currency_symbol}}{{$order.pay_price}}</div>
+                                        <div class="items-detail">{{$order_data.currency_data.currency_symbol}}{{$order_data.pay_price}}</div>
                                         <div class="items-title">{{:MyLang('orderaftersale.goods_base_pay_price_title')}}</div>
                                     </div>
                                 {{/if}}
-                                {{if !empty($order.total_price)}}
+                                {{if !empty($order_data.total_price)}}
                                     <div class="items am-cf">
-                                        <div class="items-detail line-price am-color-main am-text-lg am-font-weight">{{$order.currency_data.currency_symbol}}{{$order.total_price}}</div>
+                                        <div class="items-detail line-price am-color-main am-text-lg am-font-weight">{{$order_data.currency_data.currency_symbol}}{{$order_data.total_price}}</div>
                                         <div class="items-title am-color-main">{{:MyLang('orderaftersale.goods_base_total_price_title')}}</div>
                                     </div>
                                 {{/if}}
@@ -193,7 +220,7 @@
                             {{/if}}
                             {{php}}
                                 $hook_name = 'plugins_view_user_orderaftersale_detail_goods_inside_base_bottom';
-                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods'=>$goods, 'order'=>$order, 'new_aftersale_data'=>$new_aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
+                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'order_data'=>$order_data, 'aftersale_data'=>$aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
                                 if(!empty($hook_data) && is_array($hook_data))
                                 {
                                     foreach($hook_data as $hook)
@@ -208,16 +235,14 @@
                             <!-- 用户订单售后详情商品基础信息底部-结束 -->
                         </div>
                     </div>
-                {{/if}}
-                <!-- 用户订单售后详情商品信息底部-结束 -->
-                <!-- 是否存在进行中的数据 -->
-                {{if empty($new_aftersale_data) or (isset($new_aftersale_data['status']) and $new_aftersale_data['status'] eq 5)}}
+
+                    <!-- 是否存在进行中的数据 -->
                     <!-- 选择售后操作类型 -->
                     <div class="am-panel am-panel-default am-radius">
                         <div class="am-panel-hd">{{:MyLang('orderaftersale.select_service_type_title')}}</div>
                         <div class="am-panel-bd">
                             <div class="am-cf aftersale-type">
-                                {{foreach $common_order_aftersale_type_list as $v}}
+                                {{foreach $aftersale_type_list as $v}}
                                     <div class="am-radius items-align" data-type="{{$v.value}}">
                                         <div class="items-middle">
                                             <div class="am-fl icon">
@@ -254,7 +279,7 @@
                 {{/if}}
                 {{php}}
                     $hook_name = 'plugins_view_user_orderaftersale_detail_base_top';
-                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods'=>$goods, 'order'=>$order, 'new_aftersale_data'=>$new_aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
+                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'order_data'=>$order_data, 'aftersale_data'=>$aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
                     if(!empty($hook_data) && is_array($hook_data))
                     {
                         foreach($hook_data as $hook)
@@ -269,66 +294,178 @@
                 <!-- 用户订单售后详情基础信息顶部-结束 -->
 
                 <!-- 详情 -->
-                {{if !empty($new_aftersale_data) and $new_aftersale_data['status'] neq 5}}
-                    <div class="detail am-cf">
+                {{if !empty($aftersale_data) and $is_create_aftersale eq 0}}
+                    <div class="detail am-cf am-margin-top-sm">
                         <div class="apply-container">
+                            <!-- 用户订单售后详情申请信息状态顶部顶部-开始 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_user_orderaftersale_apply_status_top</span>
+                                </div>
+                            {{/if}}
+                            {{php}}
+                                $hook_name = 'plugins_view_user_orderaftersale_apply_status_top';
+                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'order_data'=>$order_data, 'aftersale_data'=>$aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
+                                if(!empty($hook_data) && is_array($hook_data))
+                                {
+                                    foreach($hook_data as $hook)
+                                    {
+                                        if(is_string($hook) || is_int($hook))
+                                        {
+                                            echo htmlspecialchars_decode($hook);
+                                        }
+                                    }
+                                }
+                            {{/php}}
+
+                            <!-- 用户订单售后详情申请信息状态顶部顶部-结束 -->
                             <div class="am-panel am-panel-default am-radius">
                                 <div class="am-panel-hd">{{:MyLang('orderaftersale.goods_after_status_title')}}</div>
                                 <div class="am-panel-bd">
+                                    <!-- 用户订单售后详情状态内部顶部-开始 -->
+                                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                        <div class="plugins-tag">
+                                            <span>plugins_view_user_orderaftersale_detail_status_inside_top</span>
+                                        </div>
+                                    {{/if}}
+                                    {{php}}
+                                        $hook_name = 'plugins_view_user_orderaftersale_detail_status_inside_top';
+                                        $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'order_data'=>$order_data, 'aftersale_data'=>$aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
+                                        if(!empty($hook_data) && is_array($hook_data))
+                                        {
+                                            foreach($hook_data as $hook)
+                                            {
+                                                if(is_string($hook) || is_int($hook))
+                                                {
+                                                    echo htmlspecialchars_decode($hook);
+                                                }
+                                            }
+                                        }
+                                    {{/php}}
+                                    <!-- 用户订单售后详情状态内部顶部-结束 -->
                                     <!-- 状态环节 -->
-                                    {{switch $new_aftersale_data.status}}
+                                    {{switch $aftersale_data.status}}
                                         {{case 0|1|2}}
-                                            {{if $new_aftersale_data['status'] eq 1 and $new_aftersale_data['type'] eq 1}}
-                                                <h1 class="am-text-xl am-font-weight">{{$new_aftersale_data.tips_msg.title}}</h1>
+                                            {{if $aftersale_data['status'] eq 1 and $aftersale_data['type'] eq 1}}
+                                                <h1 class="am-text-xl am-font-weight">{{$aftersale_data.tips_msg.title}}</h1>
                                                 <button type="button" class="am-btn am-btn-primary am-btn-sm am-radius am-margin-top am-margin-right-sm orderaftersale-delivery-submit" data-am-modal="{target: '#popup-orderaftersale-delivery'}" data-is-auto-delivery="{{if isset($params['isautodelivery'])}}{{$params.isautodelivery}}{{else /}}0{{/if}}">{{:MyLang('orderaftersale.operate_delivery_name')}}</button>
-                                                <button type="button" class="am-btn am-btn-primary-plain am-btn-sm am-radius am-margin-top submit-ajax submit-cancel" data-url="{{:MyUrl('index/orderaftersale/cancel')}}" data-id="{{$new_aftersale_data.id}}" data-view="reload">
+                                                <button type="button" class="am-btn am-btn-primary-plain am-btn-sm am-radius am-margin-top submit-ajax submit-cancel" data-url="{{:MyUrl('index/orderaftersale/cancel')}}" data-id="{{$aftersale_data.id}}" data-view="reload">
                                                     {{:MyLang('orderaftersale.withdraw_title')}}
                                                 </button>
                                                 {{:ModuleInclude('orderaftersale/delivery')}}
                                             {{else /}}
-                                                <h1 class="am-text-xl am-font-weight">{{$new_aftersale_data.tips_msg.title}}</h1>
-                                                <p class="am-padding-top am-padding-bottom-main am-color-grey">{{$new_aftersale_data.tips_msg.desc}}</p>
-                                                <button type="button" class="am-btn am-btn-primary-plain am-btn-sm am-radius am-margin-right-main submit-ajax submit-cancel" data-url="{{:MyUrl('index/orderaftersale/cancel')}}" data-id="{{$new_aftersale_data.id}}" data-view="reload">
+                                                <h1 class="am-text-xl am-font-weight">{{$aftersale_data.tips_msg.title}}</h1>
+                                                <p class="am-padding-top am-padding-bottom-main am-color-grey">{{$aftersale_data.tips_msg.desc}}</p>
+                                                <button type="button" class="am-btn am-btn-primary-plain am-btn-sm am-radius am-margin-right-main submit-ajax submit-cancel" data-url="{{:MyUrl('index/orderaftersale/cancel')}}" data-id="{{$aftersale_data.id}}" data-view="reload">
                                                     {{:MyLang('orderaftersale.withdraw_title')}}
                                                 </button>
                                             {{/if}}
                                         {{/case}}
-                                        {{case 3}}
-                                        <!-- 已完成 -->
-                                            <h1 class="am-text-xl am-font-weight">{{$new_aftersale_data.tips_msg.title}}</h1>
-                                            <p class="am-padding-top am-padding-bottom-main am-color-grey">{{$new_aftersale_data.tips_msg.desc}}</p>
-                                        {{/case}}
-                                        {{case 4}}
-                                        <!-- 已拒绝 -->
-                                            <h1 class="am-text-xl am-font-weight">{{$new_aftersale_data.tips_msg.title}}</h1>
-                                            <p class="am-padding-top am-padding-bottom-main am-color-grey">{{$new_aftersale_data.tips_msg.desc}}</p>
-                                            <button type="button" class="am-btn am-btn-primary-plain am-btn-sm am-radius am-margin-right-main submit-ajax submit-cancel" data-url="{{:MyUrl('index/orderaftersale/cancel')}}" data-id="{{$new_aftersale_data.id}}" data-view="reload">
-                                                {{:MyLang('orderaftersale.re_apply_title')}}
-                                            </button>
+                                        {{case 3|4|5}}
+                                            <!-- 已完成 -->
+                                            <!-- 已拒绝 -->
+                                            <!-- 已取消 -->
+                                            <h1 class="am-text-xl am-font-weight">{{$aftersale_data.tips_msg.title}}</h1>
+                                            <p class="am-padding-top am-padding-bottom-main am-color-grey">{{$aftersale_data.tips_msg.desc}}</p>
                                         {{/case}}
                                     {{/switch}}
+
+                                    <!-- 已拒绝 -->
+                                    {{if $aftersale_data['status'] eq 4}}
+                                        <button type="button" class="am-btn am-btn-primary-plain am-btn-sm am-radius am-margin-right-main submit-ajax submit-cancel" data-url="{{:MyUrl('index/orderaftersale/cancel')}}" data-id="{{$aftersale_data.id}}" data-msg="{{:MyLang('orderaftersale.aftersale_refuse_cancel_msg_tips')}}" data-view="reload">
+                                            {{:MyLang('orderaftersale.re_apply_title')}}
+                                        </button>
+                                    {{/if}}
+
+                                    <!-- 用户订单售后详情状态内部底部-开始 -->
+                                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                        <div class="plugins-tag">
+                                            <span>plugins_view_user_orderaftersale_detail_status_inside_bottom</span>
+                                        </div>
+                                    {{/if}}
+                                    {{php}}
+                                        $hook_name = 'plugins_view_user_orderaftersale_detail_status_inside_bottom';
+                                        $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'order_data'=>$order_data, 'aftersale_data'=>$aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
+                                        if(!empty($hook_data) && is_array($hook_data))
+                                        {
+                                            foreach($hook_data as $hook)
+                                            {
+                                                if(is_string($hook) || is_int($hook))
+                                                {
+                                                    echo htmlspecialchars_decode($hook);
+                                                }
+                                            }
+                                        }
+                                    {{/php}}
+                                    <!-- 用户订单售后详情状态内部底部-结束 -->
                                 </div>
                             </div>
-                            {{if $new_aftersale_data['type'] eq 1 and in_array($new_aftersale_data['status'], [2,3])}}
+
+                            <!-- 用户订单售后详情申请信息快递信息顶部-开始 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_user_orderaftersale_apply_express_top</span>
+                                </div>
+                            {{/if}}
+                            {{php}}
+                                $hook_name = 'plugins_view_user_orderaftersale_apply_express_top';
+                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'order_data'=>$order_data, 'aftersale_data'=>$aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
+                                if(!empty($hook_data) && is_array($hook_data))
+                                {
+                                    foreach($hook_data as $hook)
+                                    {
+                                        if(is_string($hook) || is_int($hook))
+                                        {
+                                            echo htmlspecialchars_decode($hook);
+                                        }
+                                    }
+                                }
+                            {{/php}}
+                            <!-- 用户订单售后详情申请信息快递信息顶部-结束 -->
+
+                            {{if $aftersale_data['type'] eq 1 and in_array($aftersale_data['status'], [2,3])}}
                                 <div class="am-panel am-panel-default am-radius">
                                     <div class="am-panel-hd">{{:MyLang('orderaftersale.base_item_express_title')}}</div>
                                     <div class="am-panel-bd">
                                         <div class="am-cf am-padding-vertical-xs">
                                             <span>{{:MyLang('orderaftersale.base_item_express_name')}}</span>
-                                            <span>{{$new_aftersale_data.express_name}}</span>
+                                            <span>{{$aftersale_data.express_name}}</span>
                                         </div>
                                         <div class="am-cf am-padding-vertical-xs">
                                             <span>{{:MyLang('orderaftersale.base_item_express_number')}}</span>
-                                            <span>{{$new_aftersale_data.express_number}}</span>
+                                            <span>{{$aftersale_data.express_number}}</span>
                                         </div>
                                         <div class="am-cf am-padding-vertical-xs">
                                             <span>{{:MyLang('orderaftersale.base_item_express_time')}}</span>
-                                            <span>{{$new_aftersale_data.delivery_time}}</span>
+                                            <span>{{$aftersale_data.delivery_time}}</span>
                                         </div>
                                     </div>
                                 </div>
                             {{/if}}
-                            {{if $new_aftersale_data['type'] eq 1 and in_array($new_aftersale_data['status'], [1,2,3])}}
+
+                            <!-- 用户订单售后详情申请信息退货地址顶部-开始 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_user_orderaftersale_apply_delivery_address_top</span>
+                                </div>
+                            {{/if}}
+                            {{php}}
+                                $hook_name = 'plugins_view_user_orderaftersale_apply_delivery_address_top';
+                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'order_data'=>$order_data, 'aftersale_data'=>$aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
+                                if(!empty($hook_data) && is_array($hook_data))
+                                {
+                                    foreach($hook_data as $hook)
+                                    {
+                                        if(is_string($hook) || is_int($hook))
+                                        {
+                                            echo htmlspecialchars_decode($hook);
+                                        }
+                                    }
+                                }
+                            {{/php}}
+                            <!-- 用户订单售后详情申请信息退货地址顶部-结束 -->
+
+                            {{if $aftersale_data['type'] eq 1 and in_array($aftersale_data['status'], [1,2,3])}}
                                 <div class="am-panel am-panel-default am-radius shop-aftersale-content">
                                     <div class="am-panel-hd">{{:MyLang('orderaftersale.form_delivery_address_name')}}</div>
                                     <div class="am-panel-bd">
@@ -347,6 +484,29 @@
                                     </div>
                                 </div>
                             {{/if}}
+
+                            <!-- 用户订单售后详情申请信息基础顶部-开始 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_user_orderaftersale_apply_base_top</span>
+                                </div>
+                            {{/if}}
+                            {{php}}
+                                $hook_name = 'plugins_view_user_orderaftersale_apply_base_top';
+                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'order_data'=>$order_data, 'aftersale_data'=>$aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
+                                if(!empty($hook_data) && is_array($hook_data))
+                                {
+                                    foreach($hook_data as $hook)
+                                    {
+                                        if(is_string($hook) || is_int($hook))
+                                        {
+                                            echo htmlspecialchars_decode($hook);
+                                        }
+                                    }
+                                }
+                            {{/php}}
+                            <!-- 用户订单售后详情申请信息基础顶部-结束 -->
+
                             <div class="am-panel am-panel-default am-radius shop-aftersale-content">
                                 <div class="am-panel-hd">{{:MyLang('orderaftersale.base_apply_title')}}</div>
                                 <div class="am-panel-bd">
@@ -354,129 +514,181 @@
                                         <span>{{:MyLang('orderaftersale.goods_list_thead_after_base_title')}}：</span>
                                         <div class="shop-aftersale-info am-background-body am-border-grey am-radius">
                                             <div class="shop-title am-border-bottom-grey">
-                                                <a href="{{$goods.goods_url}}" target="_blank">
-                                                    <img src="{{$goods.images}}" width="80" height="80" class="am-radius am-border-grey">
+                                                <a href="{{$order_data.items.goods_url}}" target="_blank">
+                                                    <img src="{{$order_data.items.images}}" width="80" height="80" class="am-radius am-border-grey">
                                                 </a>
                                                 <div class="am-margin-left am-pr am-text-xs am-width">
-                                                    <a href="{{$goods.goods_url}}" target="_blank" class="am-text-truncate-2 am-text-sm">{{$goods.title}}</a>
+                                                    <a href="{{$order_data.items.goods_url}}" target="_blank" class="am-text-truncate-2 am-text-sm">{{$order_data.items.title}}</a>
                                                     <div class="am-pa am-bottom-0">
-                                                        {{if !empty($goods.spec_text)}}
-                                                            <div class="am-text-truncate am-color-grey">{{$goods.spec_text}}</div>
+                                                        {{if !empty($order_data.items.spec_text)}}
+                                                            <div class="am-text-truncate am-color-grey">{{$order_data.items.spec_text}}</div>
                                                         {{/if}}
                                                         <div>
-                                                            {{if $goods['original_price'] gt 0}}
-                                                            <span class="original-price">{{$order.currency_data.currency_symbol}}{{$goods.original_price}}</span>
+                                                            {{if $order_data['items']['original_price'] gt 0}}
+                                                            <span class="original-price">{{$order_data.currency_data.currency_symbol}}{{$order_data.items.original_price}}</span>
                                                             {{/if}}
-                                                            <span class="am-margin-right-sm">{{$order.currency_data.currency_symbol}}{{$goods.price}}</span>
-                                                            <span>x{{$goods.buy_number}}</span>
+                                                            <span class="am-margin-right-sm">{{$order_data.currency_data.currency_symbol}}{{$order_data.items.price}}</span>
+                                                            <span>x{{$order_data.items.buy_number}}</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="shop-footer am-color-grey">
                                                 {{:MyLang('orderaftersale.goods_pay_price_title')}}
-                                                <strong class="am-color-black">{{$order.currency_data.currency_symbol}}{{$order.pay_price}}</strong>
+                                                <strong class="am-color-black">{{$order_data.currency_data.currency_symbol}}{{$order_data.pay_price}}</strong>
                                             </div>
                                         </div>
                                     </div>
-                                    {{if !empty($new_aftersale_data.type_text)}}
+                                    {{if !empty($aftersale_data.order_no)}}
+                                        <div class="am-cf am-padding-vertical-xs">
+                                            <span>{{:MyLang('orderaftersale.base_apply_order_no_title')}}</span>
+                                            <span class="text-copy-submit" data-value="{{$aftersale_data.order_no}}">
+                                                <span>{{$aftersale_data.order_no}}</span>
+                                                <span class="am-badge am-badge-success am-radius">{{:MyLang('copy_title')}}</span>
+                                            </span>
+                                        </div>
+                                    {{/if}}
+                                    {{if !empty($aftersale_data.order_data) and !empty($aftersale_data.order_data.warehouse_name)}}
+                                        <div class="am-cf am-padding-vertical-xs">
+                                            <span>{{:MyLang('orderaftersale.base_apply_warehouse_title')}}</span>
+                                            <span class="warehouse-item-container">
+                                                {{if !empty($aftersale_data['order_data']['warehouse_icon'])}}
+                                                    {{if IsUrl($aftersale_data['order_data']['warehouse_icon'])}}
+                                                        <img src="{{$aftersale_data.order_data.warehouse_icon}}" alt="{{$aftersale_data.order_data.warehouse_name}}" class="warehouse-icon" />
+                                                    {{else /}}
+                                                        <i class="{{$aftersale_data.order_data.warehouse_icon}}"></i>
+                                                    {{/if}}
+                                                {{/if}}
+                                                {{if empty($aftersale_data['order_data']['warehouse_url'])}}
+                                                    <span class="warehouse-name">{{$aftersale_data.order_data.warehouse_name}}</span>
+                                                {{else /}}
+                                                    <a href="{{$aftersale_data.order_data.warehouse_url}}" target="_blank" class="text-deco-none">
+                                                        <span class="warehouse-name">{{$aftersale_data.order_data.warehouse_name}}</span>
+                                                    </a>
+                                                {{/if}}
+                                            </span>
+                                        </div>
+                                    {{/if}}
+                                    {{if !empty($aftersale_data.type_text)}}
                                         <div class="am-cf am-padding-vertical-xs">
                                             <span>{{:MyLang('orderaftersale.base_apply_type_title')}}</span>
-                                            <div>{{$new_aftersale_data.type_text}}</div>
+                                            <div>{{$aftersale_data.type_text}}</div>
                                         </div>
                                     {{/if}}
-                                    {{if !empty($new_aftersale_data.status_text)}}
+                                    {{if !empty($aftersale_data.status_text)}}
                                         <div class="am-cf am-padding-vertical-xs">
                                             <span>{{:MyLang('orderaftersale.base_apply_status_title')}}</span>
-                                            <div>{{$new_aftersale_data.status_text}}</div>
+                                            <div>{{$aftersale_data.status_text}}</div>
                                         </div>
                                     {{/if}}
-                                    {{if !empty($new_aftersale_data.reason)}}
+                                    {{if !empty($aftersale_data.reason)}}
                                         <div class="am-cf am-padding-vertical-xs">
                                             <span>{{:MyLang('orderaftersale.base_apply_reason_title')}}</span>
-                                            <div>{{$new_aftersale_data.reason}}</div>
+                                            <div>{{$aftersale_data.reason}}</div>
                                         </div>
                                     {{/if}}
-                                    {{if !empty($new_aftersale_data.number)}}
+                                    {{if !empty($aftersale_data.number)}}
                                         <div class="am-cf am-padding-vertical-xs">
                                             <span>{{:MyLang('orderaftersale.base_apply_number_title')}}</span>
-                                            <div {{if $new_aftersale_data['number'] gt 0}}class="am-text-danger am-font-weight"{{/if}}>{{$new_aftersale_data.number}}</div>
+                                            <div {{if $aftersale_data['number'] gt 0}}class="am-text-danger am-font-weight"{{/if}}>{{$aftersale_data.number}}</div>
                                         </div>
                                     {{/if}}
-                                    {{if !empty($new_aftersale_data.price)}}
+                                    {{if !empty($aftersale_data.price)}}
                                         <div class="am-cf am-padding-vertical-xs">
                                             <span>{{:MyLang('orderaftersale.base_apply_price_title')}}</span>
-                                            <div class="am-text-danger am-font-weight">{{$order.currency_data.currency_symbol}}{{$new_aftersale_data.price}}</div>
+                                            <div class="am-text-danger am-font-weight">{{$order_data.currency_data.currency_symbol}}{{$aftersale_data.price}}</div>
                                         </div>
                                     {{/if}}
-                                    {{if !empty($new_aftersale_data.msg)}}
+                                    {{if !empty($aftersale_data.msg)}}
                                         <div class="am-cf am-padding-vertical-xs">
                                             <span>{{:MyLang('orderaftersale.base_apply_msg_title')}}</span>
-                                            <div>{{$new_aftersale_data.msg}}</div>
+                                            <div>{{$aftersale_data.msg}}</div>
                                         </div>
                                     {{/if}}
-                                    {{if !empty($new_aftersale_data.refundment_text)}}
+                                    {{if !empty($aftersale_data.refundment_text)}}
                                         <div class="am-cf am-padding-vertical-xs">
                                             <span>{{:MyLang('orderaftersale.base_apply_refundment_title')}}</span>
-                                            <div>{{$new_aftersale_data.refundment_text}}</div>
+                                            <div>{{$aftersale_data.refundment_text}}</div>
                                         </div>
                                     {{/if}}
-                                    {{if !empty($new_aftersale_data.refuse_reason)}}
+                                    {{if !empty($aftersale_data.refuse_reason)}}
                                         <div class="am-cf am-padding-vertical-xs">
                                             <span>{{:MyLang('orderaftersale.base_apply_refuse_reason_title')}}</span>
-                                            <div class="am-text-danger">{{$new_aftersale_data.refuse_reason}}</div>
+                                            <div class="am-text-danger">{{$aftersale_data.refuse_reason}}</div>
                                         </div>
                                     {{/if}}
-                                    {{if !empty($new_aftersale_data.apply_time)}}
+                                    {{if !empty($aftersale_data.apply_time)}}
                                         <div class="am-cf am-padding-vertical-xs">
                                             <span>{{:MyLang('orderaftersale.base_apply_apply_time_title')}}</span>
-                                            <div>{{$new_aftersale_data.apply_time}}</div>
+                                            <div>{{$aftersale_data.apply_time}}</div>
                                         </div>
                                     {{/if}}
-                                    {{if !empty($new_aftersale_data.confirm_time)}}
+                                    {{if !empty($aftersale_data.confirm_time)}}
                                         <div class="am-cf am-padding-vertical-xs">
                                             <span>{{:MyLang('orderaftersale.base_apply_confirm_time_title')}}</span>
-                                            <div>{{$new_aftersale_data.confirm_time}}</div>
+                                            <div>{{$aftersale_data.confirm_time}}</div>
                                         </div>
                                     {{/if}}
-                                    {{if !empty($new_aftersale_data.delivery_time)}}
+                                    {{if !empty($aftersale_data.delivery_time)}}
                                         <div class="am-cf am-padding-vertical-xs">
                                             <span>{{:MyLang('orderaftersale.base_apply_delivery_time_title')}}</span>
-                                            <div>{{$new_aftersale_data.delivery_time}}</div>
+                                            <div>{{$aftersale_data.delivery_time}}</div>
                                         </div>
                                     {{/if}}
-                                    {{if !empty($new_aftersale_data.audit_time)}}
+                                    {{if !empty($aftersale_data.audit_time)}}
                                         <div class="am-cf am-padding-vertical-xs">
                                             <span>{{:MyLang('orderaftersale.base_apply_audit_time_title')}}</span>
-                                            <div>{{$new_aftersale_data.audit_time}}</div>
+                                            <div>{{$aftersale_data.audit_time}}</div>
                                         </div>
                                     {{/if}}
-                                    {{if !empty($new_aftersale_data.cancel_time)}}
+                                    {{if !empty($aftersale_data.cancel_time)}}
                                     <div class="am-cf am-padding-vertical-xs">
                                         <span>{{:MyLang('orderaftersale.base_apply_cancel_time_title')}}</span>
-                                        <div>{{$new_aftersale_data.cancel_time}}</div>
+                                        <div>{{$aftersale_data.cancel_time}}</div>
                                     </div>
                                     {{/if}}
-                                    {{if !empty($new_aftersale_data.add_time)}}
+                                    {{if !empty($aftersale_data.add_time)}}
                                         <div class="am-cf am-padding-vertical-xs">
                                             <span>{{:MyLang('orderaftersale.base_apply_add_time_title')}}</span>
-                                            <div>{{$new_aftersale_data.add_time}}</div>
+                                            <div>{{$aftersale_data.add_time}}</div>
                                         </div>
                                     {{/if}}
-                                    {{if !empty($new_aftersale_data.upd_time)}}
+                                    {{if !empty($aftersale_data.upd_time)}}
                                         <div class="am-cf am-padding-vertical-xs">
                                             <span>{{:MyLang('orderaftersale.base_apply_upd_time_title')}}</span>
-                                            <div>{{$new_aftersale_data.upd_time}}</div>
+                                            <div>{{$aftersale_data.upd_time}}</div>
                                         </div>
                                     {{/if}}
                                 </div>
                             </div>
 
+                            <!-- 用户订单售后详情申请信息凭证顶部-开始 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_user_orderaftersale_apply_voucher_top</span>
+                                </div>
+                            {{/if}}
+                            {{php}}
+                                $hook_name = 'plugins_view_user_orderaftersale_apply_voucher_top';
+                                $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'order_data'=>$order_data, 'aftersale_data'=>$aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
+                                if(!empty($hook_data) && is_array($hook_data))
+                                {
+                                    foreach($hook_data as $hook)
+                                    {
+                                        if(is_string($hook) || is_int($hook))
+                                        {
+                                            echo htmlspecialchars_decode($hook);
+                                        }
+                                    }
+                                }
+                            {{/php}}
+                            <!-- 用户订单售后详情申请信息凭证顶部-结束 -->
+
                             <div class="am-panel am-panel-default am-radius">
                                 <div class="am-panel-hd">{{:MyLang('orderaftersale.base_item_voucher_title')}}</div>
                                 <div class="am-panel-bd am-cf">
-                                    {{if !empty($new_aftersale_data['images'])}}
-                                        {{foreach $new_aftersale_data.images as $img}}
+                                    {{if !empty($aftersale_data['images'])}}
+                                        {{foreach $aftersale_data.images as $img}}
                                             <a data-am-widget="figure" class="am-fl comment-images am-figure voucher" data-am-figure="{pureview: 'true'}">
                                                 <img src="{{$img}}" class="am-img-thumbnail am-block am-border-grey am-radius" />
                                             </a>
@@ -487,15 +699,16 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- 用户订单售后详情商品信息底部-开始 -->
+
+                        <!-- 用户订单售后详情申请信息外部底部-开始 -->
                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                             <div class="plugins-tag">
-                                <span>plugins_view_user_orderaftersale_detail_goods_bottom</span>
+                                <span>plugins_view_user_orderaftersale_apply_outside_bottom</span>
                             </div>
                         {{/if}}
                         {{php}}
-                            $hook_name = 'plugins_view_user_orderaftersale_detail_goods_bottom';
-                            $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods'=>$goods, 'order'=>$order, 'new_aftersale_data'=>$new_aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
+                            $hook_name = 'plugins_view_user_orderaftersale_apply_outside_bottom';
+                            $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'order_data'=>$order_data, 'aftersale_data'=>$aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
                             if(!empty($hook_data) && is_array($hook_data))
                             {
                                 foreach($hook_data as $hook)
@@ -507,6 +720,7 @@
                                 }
                             }
                         {{/php}}
+                        <!-- 用户订单售后详情申请信息外部底部-结束 -->
                     </div>
                 {{/if}}
 
@@ -518,7 +732,7 @@
                 {{/if}}
                 {{php}}
                     $hook_name = 'plugins_view_user_orderaftersale_detail_bottom';
-                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods'=>$goods, 'order'=>$order, 'new_aftersale_data'=>$new_aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
+                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'order_data'=>$order_data, 'aftersale_data'=>$aftersale_data, 'step_data'=>$step_data, 'returned_data'=>$returned_data, 'params'=>$params]);
                     if(!empty($hook_data) && is_array($hook_data))
                     {
                         foreach($hook_data as $hook)

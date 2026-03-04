@@ -47,7 +47,7 @@ class Warehouse
                 'key_field'     => 'id',
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
-                'is_delete'     => 1,
+                'is_delete'     => AdminIsPower('warehouse', 'delete') ? 1 : 0,
                 'is_middle'     => 0,
             ],
             // 表单配置
@@ -81,6 +81,25 @@ class Warehouse
                     'width'         => 160,
                     'search_config' => [
                         'form_type'         => 'section',
+                    ],
+                ],
+                [
+                    'label'         => $lang['is_default'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'is_default_name',
+                    'is_color'      => 1,
+                    'color_key'     => 'is_default',
+                    'color_style'   => [0=>'#ccc'],
+                    'is_sort'       => 1,
+                    'width'         => 130,
+                    'search_config' => [
+                        'form_type'         => 'select',
+                        'form_name'         => 'is_default',
+                        'where_type'        => 'in',
+                        'data'              => MyConst('common_is_text_list'),
+                        'data_key'          => 'id',
+                        'data_name'         => 'name',
+                        'is_multiple'       => 1,
                     ],
                 ],
                 [
@@ -214,6 +233,12 @@ class Warehouse
                 'table_name'    => 'Warehouse',
                 'data_handle'   => 'WarehouseService::WarehouseListHandle',
                 'order_by'      => 'level desc, id desc',
+                'is_fixed_name_field'   => 1,
+                'fixed_name_data'       => [
+                    'is_default'    => [
+                        'data'  => array_column(MyConst('common_is_text_list'), 'name', 'id'),
+                    ]
+                ],
             ],
         ];
     }

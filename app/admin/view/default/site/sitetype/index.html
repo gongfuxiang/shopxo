@@ -100,7 +100,7 @@
                                 <input type="hidden" name="{{$data.common_self_extraction_address.only_tag}}" value="{{if !empty($extraction_address_list) and is_array($extraction_address_list)}}{{:urlencode(base64_encode(json_encode($extraction_address_list, JSON_UNESCAPED_UNICODE)))}}{{/if}}" class="self-extraction-address-value" />
                                 <button type="button" class="am-btn am-btn-primary-light-plain am-radius am-btn-xs address-submit-add"> 
                                     <i class="iconfont icon-add am-text-xs"></i>
-                                    {{:MyLang('site.add_self_extraction_address_title')}}
+                                    <span>{{:MyLang('site.add_self_extraction_address_title')}}</span>
                                 </button>
                             </div>
                         </div>
@@ -110,17 +110,17 @@
                 <!-- 虚拟销售 -->
                 <div class="item" data-key="site-item-fictitious">
                     <div class="am-form-group">
-                        <label class="am-block">{{$data.common_site_fictitious_return_title.name}}</label>
-                        <input type="text" name="{{$data.common_site_fictitious_return_title.only_tag}}" placeholder="{{$data.common_site_fictitious_return_title.name}}" data-validation-message="{{$data.common_site_fictitious_return_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_site_fictitious_return_title.value}}"{{/if}} />
+                        <label class="am-block">{{$data.common_site_fictitious_title.name}}</label>
+                        <input type="text" name="{{$data.common_site_fictitious_title.only_tag}}" placeholder="{{$data.common_site_fictitious_title.name}}" data-validation-message="{{$data.common_site_fictitious_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_site_fictitious_title.value}}"{{/if}} />
                         <div class="am-tips-card">
-                            <p>{{$data.common_site_fictitious_return_title.describe}}</p>
+                            <p>{{$data.common_site_fictitious_title.describe}}</p>
                         </div>
                     </div>
                     <div class="am-form-group">
-                        <label class="am-block">{{$data.common_site_fictitious_return_tips.name}}</label>
-                        <textarea rows="4" name="{{$data.common_site_fictitious_return_tips.only_tag}}" class="am-radius" placeholder="{{$data.common_site_fictitious_return_tips.name}}" data-validation-message="{{$data.common_site_fictitious_return_tips.error_tips}}">{{if !empty($data)}}{{$data.common_site_fictitious_return_tips.value}}{{/if}}</textarea>
+                        <label class="am-block">{{$data.common_site_fictitious_use_tips.name}}</label>
+                        <textarea rows="4" name="{{$data.common_site_fictitious_use_tips.only_tag}}" class="am-radius" placeholder="{{$data.common_site_fictitious_use_tips.name}}" data-validation-message="{{$data.common_site_fictitious_use_tips.error_tips}}">{{if !empty($data)}}{{$data.common_site_fictitious_use_tips.value}}{{/if}}</textarea>
                         <div class="am-tips-card">
-                            <p>{{$data.common_site_fictitious_return_tips.describe}}</p>
+                            <p>{{$data.common_site_fictitious_use_tips.describe}}</p>
                         </div>
                     </div>
                 </div>

@@ -113,6 +113,12 @@ class Goods extends Common
             // 左侧商品 看了又看
             $assign['left_goods'] = GoodsService::GoodsDetailSeeingYouData($goods['id'], ['is_spec'=>0, 'is_cart'=>0]);
 
+            // 商品访问统计
+            GoodsService::GoodsAccessCountInc(['goods_id'=>$goods_id]);
+
+            // 用户商品浏览
+            GoodsBrowseService::GoodsBrowseSave(['goods_id'=>$goods_id, 'user'=>$this->user]);
+
             // seo
             $seo_title = empty($goods['seo_title']) ? $goods['title'] : $goods['seo_title'];
             $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle($seo_title, 2);
@@ -124,16 +130,6 @@ class Goods extends Common
             {
                 $assign['home_seo_site_description'] = empty($goods['seo_desc']) ? $goods['simple_desc'] : $goods['seo_desc'];
             }
-
-            // 二维码
-            $qrcode = GoodsService::GoodsQrcode($goods_id, $goods['add_time']);
-            $assign['qrcode_url'] = ($qrcode['code'] == 0 && isset($qrcode['data']['url'])) ? $qrcode['data']['url'] : '';
-
-            // 商品访问统计
-            GoodsService::GoodsAccessCountInc(['goods_id'=>$goods_id]);
-
-            // 用户商品浏览
-            GoodsBrowseService::GoodsBrowseSave(['goods_id'=>$goods_id, 'user'=>$this->user]);
 
             // 数据赋值
             MyViewAssign($assign);
@@ -297,6 +293,37 @@ class Goods extends Common
             'data'              => MyView('', ['data'=>$data]),
         ];
         return ApiService::ApiDataReturn(DataReturn('success', 0, $result));
+    }
+
+    /**
+     * 二维码数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-02-28
+     * @desc    description
+     */
+    public function QrcodeData()
+    {
+        if(!empty($this->data_request['id']))
+        {
+            $params = [
+                'where' => [
+                    ['id', '=', $this->data_request['id']],
+                    ['is_delete_time', '=', 0],
+                ],
+                'is_photo'  => 1,
+                'is_spec'   => 1,
+                'is_params' => 1,
+                'is_favor'  => 1,
+            ];
+            $ret = GoodsService::GoodsList($params);
+            if(!empty($ret['data']) && !empty($ret['data'][0]))
+            {
+                return ApiService::ApiDataReturn(GoodsService::GoodsQrcode($ret['data'][0], $this->user));
+            }
+        }
+        return ApiService::ApiDataReturn(DataReturn(MyLang('no_goods'), -1));
     }
 
     /**
