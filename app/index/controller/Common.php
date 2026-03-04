@@ -240,8 +240,6 @@ class Common extends BaseController
 
         // 商店信息
         $assign['site_info_data'] = ResourcesService::SiteInfoData();
-        //print_r($assign['site_info_data']);
-
         $assign['common_customer_store_chat_tel'] = MyC('common_customer_store_chat_tel');
         $assign['common_customer_store_chat_email'] = MyC('common_customer_store_chat_email');
         $assign['common_customer_store_address'] = MyC('common_customer_store_address');

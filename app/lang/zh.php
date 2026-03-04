@@ -4055,11 +4055,11 @@ return [
             'desc' => '空则不展示',
         ],
         'common_customer_store_public_alipay'  => [
-            'name' => '公众号',
+            'name' => '生活号',
             'desc' => '空则不展示',
         ],
         'common_customer_store_public_weixin'  => [
-            'name' => '生活号',
+            'name' => '公众号',
             'desc' => '空则不展示',
         ],
         'common_customer_store_platform_client'  => [

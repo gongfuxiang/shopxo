@@ -542,17 +542,17 @@ class ResourcesService
                 ];
             }
         }
-        // 基础（公众号、生活号）
+        // 基础（生活号、公众号）
         $base_qrcode_arr = [
-            [
-                'name'  => MyLang('public_account_title'),
-                'key'   => 'public_weixin',
-                'icon'  => 'icon-wechart'
-            ],
             [
                 'name'  => MyLang('life_account_title'),
                 'key'   => 'public_alipay',
                 'icon'  => 'icon-life'
+            ],
+            [
+                'name'  => MyLang('public_account_title'),
+                'key'   => 'public_weixin',
+                'icon'  => 'icon-wechart'
             ],
         ];
         foreach($base_qrcode_arr as $v)

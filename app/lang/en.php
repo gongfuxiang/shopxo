@@ -4034,12 +4034,12 @@ return [
             'desc' => 'Not displayed if empty',
         ],
         'common_customer_store_public_alipay'  => [
-            'name' => 'Alipay Official Account',
-            'desc' => 'Not displayed if empty',
+            'name' => 'Alipay Life Account',
+            'desc' => 'Do not display if empty',
         ],
         'common_customer_store_public_weixin'  => [
-            'name' => 'WeChat Life Account',
-            'desc' => 'Not displayed if empty',
+            'name' => 'WeChat Official Account',
+            'desc' => 'Do not display if empty',
         ],
         'common_customer_store_platform_client'  => [
             'name' => 'Platform Client',

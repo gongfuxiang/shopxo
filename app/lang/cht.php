@@ -4023,12 +4023,12 @@ return [
             'desc' => '空白則不展示',
         ],
         'common_customer_store_public_alipay'  => [
-            'name' => '支付寶公眾號',
-            'desc' => '空白則不展示',
+            'name' => '生活號',
+            'desc' => '空白則不顯示',
         ],
         'common_customer_store_public_weixin'  => [
-            'name' => '微信生活號',
-            'desc' => '空白則不展示',
+            'name' => '公眾號',
+            'desc' => '空白則不顯示',
         ],
         'common_customer_store_platform_client'  => [
             'name' => '平台用戶端',

@@ -4024,12 +4024,12 @@ return [
             'desc' => 'No se muestra si está vacío',
         ],
         'common_customer_store_public_alipay'  => [
-            'name' => 'Cuenta Oficial de Alipay',
-            'desc' => 'No se muestra si está vacío',
+            'name' => 'Canal de Vida',
+            'desc' => 'No mostrar si está vacío',
         ],
         'common_customer_store_public_weixin'  => [
-            'name' => 'Cuenta de Vida de WeChat',
-            'desc' => 'No se muestra si está vacío',
+            'name' => 'Cuenta Oficial',
+            'desc' => 'No mostrar si está vacío',
         ],
         'common_customer_store_platform_client'  => [
             'name' => 'Cliente de la Plataforma',
