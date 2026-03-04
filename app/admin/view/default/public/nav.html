@@ -102,7 +102,9 @@
                 <!-- 管理员设置 -->
                 <li class="am-dropdown" data-am-dropdown="{trigger: 'hover'}" data-am-dropdown-toggle>
                     <a class="am-dropdown-toggle" href="javascript:;">
-                        <img src="{{$admin.avatar}}" class="am-img-thumbnail am-circle am-vertical-align-middle" width="30" height="30" />
+                        {{if !empty($admin['avatar'])}}
+                            <img src="{{$admin.avatar}}" class="am-img-thumbnail am-circle am-vertical-align-middle" width="30" height="30" />
+                        {{/if}}
                         <span class="am-vertical-align-middle">{{$admin.username}}</span>
                     </a>
                     <ul class="am-dropdown-content am-radius-lg">

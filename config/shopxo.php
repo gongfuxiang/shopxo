@@ -173,7 +173,7 @@ return [
     // 主题上传到远程商店店铺
     'store_themeadmin_upload_url'           => $store_http.'store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=themeadminupload',
 
-    // 远程拍数据列表
+    // 远程包数据列表
     'store_package_data_list_url'           => $store_http.'store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=packagedatalist',
 
 
