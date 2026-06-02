@@ -90,8 +90,8 @@ class Page
 			{
 				if(!in_array($k, $this->not_fields) && !is_array($v))
 				{
-					// 分页不参与url拼接
-					if($k == 'page')
+					// 分页、每页条数不参与where拼接（下方统一拼接，避免重复）
+					if($k == 'page' || $k == 'page_size')
 					{
 						continue;
 					}
@@ -114,6 +114,13 @@ class Page
 			$this->page_join = ($tmp == false) ? '&' : (($state === false) ? '?' : '&');
 		} else {
 			$this->page_join = ($state === false) ? '?' : '&';
+		}
+
+		// 每页条数统一拼接一次
+		if($this->page_size > 0)
+		{
+			$this->url .= $this->page_join.'page_size='.$this->page_size;
+			$this->page_join = '&';
 		}
 	}
 
@@ -159,7 +166,10 @@ class Page
 
 		$this->html .= '<span class="current-page-input">';
 		$this->html .= '<span class="am-margin-left-sm">'.MyLang('common_extend.base.page.each_page_name').'</span>';
-		$this->html .= '<input type="text" name="page_size" min="1" data-is-clearout="0" class="am-form-field am-inline-block am-text-center am-margin-horizontal-xs am-radius pagination-input" value="'.$this->page_size.'" data-type="size" data-default-value="'.$this->page_size.'" data-url="'.str_replace(['&page_size='.$this->page_size, 'page_size='.$this->page_size.'&'], '', $this->url).$this->page_join.'page_size=" onclick="this.select()" />';
+		$page_size_base_url = preg_replace('/([&?])page_size=[^&]*/', '$1', $this->url);
+		$page_size_base_url = preg_replace('/[&?]$/', '', $page_size_base_url);
+		$page_size_join = (stripos($page_size_base_url, '?') === false) ? '?' : '&';
+		$this->html .= '<input type="text" name="page_size" min="1" data-is-clearout="0" class="am-form-field am-inline-block am-text-center am-margin-horizontal-xs am-radius pagination-input" value="'.$this->page_size.'" data-type="size" data-default-value="'.$this->page_size.'" data-url="'.$page_size_base_url.$page_size_join.'page_size=" onclick="this.select()" />';
 		$this->html .= '<span>'.MyLang('common_extend.base.page.page_strip').'</span>';
 		$this->html .= '</span>';
 

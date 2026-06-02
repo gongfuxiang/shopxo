@@ -17,8 +17,9 @@ use app\service\PayLogService;
 use app\service\PayRequestLogService;
 use app\plugins\wallet\service\WalletService;
 use app\plugins\scanpay\service\ScanpayLogService;
-use app\plugins\membershiplevelvip\service\PayService as LevelPayService;
+use app\plugins\vip\service\PayService as LevelPayService;
 use app\plugins\givegift\service\PayService as GiftPayService;
+use app\plugins\presale\service\PayService as PresalePayService;
 
 /**
  * 钱包支付
@@ -172,13 +173,18 @@ class WalletPay
                     break;
 
                 // 会员等级
-                case 'plugins-membershiplevelvip' :
-                    $order_list = Db::name('PluginsMembershiplevelvipPaymentUserOrder')->where(['id'=>$pay_log_value, 'status'=>0])->select()->toArray();
+                case 'plugins-vip' :
+                    $order_list = Db::name('PluginsVipPaymentUserOrder')->where(['id'=>$pay_log_value, 'status'=>0])->select()->toArray();
                     break;
 
                 // 送礼
                 case 'plugins-givegift' :
                     $order_list = Db::name('PluginsGivegiftOrder')->where(['id'=>$pay_log_value, 'status'=>0])->select()->toArray();
+                    break;
+
+                // 预售
+                case 'plugins-presale' :
+                    $order_list = Db::name('PluginsPresaleOrder')->where(['id'=>$pay_log_value, 'status'=>0])->select()->toArray();
                     break;
             }
             if(empty($order_list))
@@ -242,12 +248,12 @@ class WalletPay
                         break;
 
                     // 会员购买
-                    case 'plugins-membershiplevelvip' :
+                    case 'plugins-vip' :
                         $parameter['order'] = $parameter['order'][0];
                         $ret = LevelPayService::LevelPayHandle($parameter);
                         if($ret['code'] == 0)
                         {
-                            $ret = DataReturn('支付成功', 0, PluginsHomeUrl('membershiplevelvip', 'buy', 'respond', ['appoint_status'=>0]));
+                            $ret = DataReturn('支付成功', 0, PluginsHomeUrl('vip', 'buy', 'respond', ['appoint_status'=>0]));
                         }
                         break;
 
@@ -258,6 +264,15 @@ class WalletPay
                         if($ret['code'] == 0)
                         {
                             $ret = DataReturn('支付成功', 0, PluginsHomeUrl('givegift', 'gift', 'respond', ['appoint_status'=>0]));
+                        }
+                        break;
+
+                    // 预售
+                    case 'plugins-presale' :
+                        $ret = PresalePayService::PresalePayHandle($parameter);
+                        if($ret['code'] == 0)
+                        {
+                            $ret = DataReturn('支付成功', 0, PluginsHomeUrl('presale', 'buy', 'respond', ['appoint_status'=>0]));
                         }
                         break;
 

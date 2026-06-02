@@ -167,11 +167,12 @@ class ChinaumsAllocationWeixinH5SelfMini
             {
                 // web端进去收银台页面
                 $pay_params = [
-                    'url'       => $url,
-                    'order_no'  => $params['order_no'],
-                    'name'      => '微信小程序支付',
-                    'msg'       => '正在支付中...',
-                    'check_url' => $params['check_url'],
+                    'url'        => $url,
+                    'order_no'   => $params['order_no'],
+                    'name'       => '微信小程序支付',
+                    'msg'        => '正在支付中...',
+                    'check_url'  => $params['check_url'],
+                    'payment'    => 'weixin',
                 ];
                 MySession('payment_qrcode_data', $pay_params);
                 return DataReturn('success', 0, PluginsHomeUrl('allocation', 'cashier', 'weixintominipay'));

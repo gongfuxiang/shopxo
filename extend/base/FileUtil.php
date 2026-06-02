@@ -399,11 +399,16 @@ class FileUtil
             }
 
             // 包含php代码
-            // 包含script脚本
+            // 包含 script 脚本（含普通标签与 XML 命名空间形式如 <x:script>，防 ueditor catchfile 存 XSS）
             // 包含src引入文件
             // 包含href跳转地址
             // 包含iframe引入外部地址
-            if(preg_match('#<\?php#i', $value) || preg_match('#<script#i', $value) || preg_match('#src=#i', $value) || preg_match('#href=#i', $value) || preg_match('#<iframe#i', $value))
+            if(preg_match('#<\?php#i', $value)
+                || preg_match('#<script\b#i', $value)
+                || preg_match('#<[a-z0-9_-]+:script\b#i', $value)
+                || preg_match('#src=#i', $value)
+                || preg_match('#href=#i', $value)
+                || preg_match('#<iframe\b#i', $value))
             {
                 return DataReturn(MyLang('common_extend.base.fileupload.file_illegal_tips'), -1);
             }

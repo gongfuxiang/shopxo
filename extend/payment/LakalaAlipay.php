@@ -212,11 +212,12 @@ class LakalaAlipay
                     if(ApplicationClientType() == 'pc')
                     {
                         $pay_params = [
-                            'url'       => $result['data']['resp_data']['acc_resp_fields']['code'],
-                            'order_no'  => $params['order_no'],
-                            'name'      => '支付宝支付',
-                            'msg'       => '打开支付宝APP扫一扫进行支付',
-                            'check_url' => $params['check_url'],
+                            'type'       => 'alipay',
+                            'url'        => $result['data']['resp_data']['acc_resp_fields']['code'],
+                            'order_no'   => $params['order_no'],
+                            'name'       => '支付宝支付',
+                            'msg'        => '打开支付宝APP扫一扫进行支付',
+                            'check_url'  => $params['check_url'],
                         ];
                         MySession('payment_qrcode_data', $pay_params);
                         $data = MyUrl('index/pay/qrcode');

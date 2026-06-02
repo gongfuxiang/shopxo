@@ -67,8 +67,8 @@ class QQ
                 'type'          => 'text',
                 'default'       => '',
                 'name'          => 'app_appid',
-                'placeholder'   => '开放平台AppID',
-                'title'         => '开放平台AppID',
+                'placeholder'   => '移动应用AppID',
+                'title'         => '移动应用AppID',
                 'is_required'   => 0,
                 'message'       => '请填写QQ开放平台APP支付分配的AppID',
             ],
@@ -240,12 +240,13 @@ class QQ
                     if(APPLICATION == 'app')
                     {
                         $data = [
-                            'pay_url'       => $data['code_url'],
-                            'qrcode_url'    => $data['code_url'],
-                            'order_no'      => $params['order_no'],
-                            'name'          => 'QQ支付',
-                            'msg'           => '打开QQAPP扫一扫进行支付',
-                            'check_url'     => $params['check_url'],
+                            'type'        => 'qq',
+                            'pay_url'     => $data['code_url'],
+                            'qrcode_url'  => $data['code_url'],
+                            'order_no'    => $params['order_no'],
+                            'name'        => 'QQ支付',
+                            'msg'         => '打开QQAPP扫一扫进行支付',
+                            'check_url'   => $params['check_url'],
                         ];
                     } else {
                         $pay_params = [

@@ -67,10 +67,11 @@ class Weixin
                 'type'          => 'text',
                 'default'       => '',
                 'name'          => 'app_appid',
-                'placeholder'   => '开放平台AppID',
-                'title'         => '开放平台AppID',
+                'placeholder'   => '移动应用AppID',
+                'title'         => '移动应用AppID',
+                'desc'          => '微信开放平台申请的移动应用',
                 'is_required'   => 0,
-                'message'       => '请填写微信开放平台APP支付分配的AppID',
+                'message'       => '请填写微信移动应用APP支付分配的AppID',
             ],
             [
                 'element'       => 'input',
@@ -109,15 +110,16 @@ class Weixin
                 'name'          => 'key',
                 'placeholder'   => '密钥',
                 'title'         => '密钥',
-                'desc'          => '微信支付商户平台API配置的密钥',
+                'desc'          => '微信支付商户平台API配置的密钥、使用v2',
                 'is_required'   => 0,
-                'message'       => '请填写密钥',
+                'message'       => '请填写密钥v2',
             ],
             [
                 'element'       => 'textarea',
                 'name'          => 'apiclient_cert',
                 'placeholder'   => '证书(apiclient_cert.pem)',
-                'title'         => '证书(apiclient_cert.pem)（退款操作必填项）',
+                'title'         => '证书(apiclient_cert.pem)',
+                'desc'          => '退款操作必填项',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写证书(apiclient_cert.pem)',
@@ -126,7 +128,8 @@ class Weixin
                 'element'       => 'textarea',
                 'name'          => 'apiclient_key',
                 'placeholder'   => '证书密钥(apiclient_key.pem)',
-                'title'         => '证书密钥(apiclient_key.pem)（退款操作必填项）',
+                'title'         => '证书密钥(apiclient_key.pem)',
+                'desc'          => '退款操作必填项',
                 'is_required'   => 0,
                 'rows'          => 6,
                 'message'       => '请填写证书密钥(apiclient_key.pem)',
@@ -305,19 +308,21 @@ class Weixin
                 if(APPLICATION == 'app')
                 {
                     $data = [
-                        'qrcode_url'    => $data['code_url'],
-                        'order_no'      => $params['order_no'],
-                        'name'          => '微信支付',
-                        'msg'           => '打开微信APP扫一扫进行支付',
-                        'check_url'     => $params['check_url'],
+                        'type'        => 'weixin',
+                        'qrcode_url'  => $data['code_url'],
+                        'order_no'    => $params['order_no'],
+                        'name'        => '微信支付',
+                        'msg'         => '打开微信APP扫一扫进行支付',
+                        'check_url'   => $params['check_url'],
                     ];
                 } else {
                     $pay_params = [
-                        'url'       => $data['code_url'],
-                        'order_no'  => $params['order_no'],
-                        'name'      => '微信支付',
-                        'msg'       => '打开微信APP扫一扫进行支付',
-                        'check_url' => $params['check_url'],
+                        'type'       => 'weixin',
+                        'url'        => $data['code_url'],
+                        'order_no'   => $params['order_no'],
+                        'name'       => '微信支付',
+                        'msg'        => '打开微信APP扫一扫进行支付',
+                        'check_url'  => $params['check_url'],
                     ];
                     MySession('payment_qrcode_data', $pay_params);
                     $data = MyUrl('index/pay/qrcode');

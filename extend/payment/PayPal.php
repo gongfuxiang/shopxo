@@ -122,7 +122,7 @@ class PayPal
                 'element'       => 'input',
                 'type'          => 'text',
                 'default'       => '',
-                'name'          => 'membershiplevelvip_webhook_id',
+                'name'          => 'vip_webhook_id',
                 'placeholder'   => '会员购买WebhookID',
                 'title'         => '会员购买WebhookID',
                 'is_required'   => 0,
@@ -186,7 +186,7 @@ class PayPal
             ],
             [
                 'element'       => 'message',
-                'message'       => '1. 订单异步通知地址，将该地址配置到支付后台异步通知<br />'.__MY_URL__.'payment_default_order_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php<br /><br />2. 钱包充值异步通知地址，将该地址配置到支付后台异步通知<br />'.__MY_URL__.'payment_default_wallet_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php<br /><br />3. 会员等级购买异步通知地址，将该地址配置到支付后台异步通知<br />'.__MY_URL__.'payment_default_membershiplevelvip_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php<br /><br />4. 扫码收款异步通知地址，将该地址配置到支付后台异步通知<br />'.__MY_URL__.'payment_default_scanpay_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php<br /><br />异步通知类型勾选【Payments & Payouts 下面的 Payment capture completed】即可',
+                'message'       => '1. 订单异步通知地址，将该地址配置到支付后台异步通知<br />'.__MY_URL__.'payment_default_order_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php<br /><br />2. 钱包充值异步通知地址，将该地址配置到支付后台异步通知<br />'.__MY_URL__.'payment_default_wallet_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php<br /><br />3. 会员等级购买异步通知地址，将该地址配置到支付后台异步通知<br />'.__MY_URL__.'payment_default_vip_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php<br /><br />4. 扫码收款异步通知地址，将该地址配置到支付后台异步通知<br />'.__MY_URL__.'payment_default_scanpay_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php<br /><br />异步通知类型勾选【Payments & Payouts 下面的 Payment capture completed】即可',
             ],
         ];
 
@@ -424,7 +424,7 @@ class PayPal
 
         // 判断webhookid、默认订单
         $pluginsname = MyInput('pluginsname');
-        $arr = ['wallet'=>'wallet_webhook_id', 'membershiplevelvip'=>'membershiplevelvip_webhook_id', 'scanpay'=>'scanpay_webhook_id'];
+        $arr = ['wallet'=>'wallet_webhook_id', 'vip'=>'vip_webhook_id', 'scanpay'=>'scanpay_webhook_id'];
         $webhook_field = empty($arr[$pluginsname]) ? 'webhook_id' : $arr[$pluginsname];
 
         // 签名验证

@@ -158,38 +158,23 @@ class Barcode
     public function Download($params = [])
     {
         // 图片地址
-        $url = empty($params['url']) ? '' : base64_decode(urldecode($params['url']));
-        if(empty($url))
+        $url_param = empty($params['url']) ? '' : base64_decode(urldecode($params['url']));
+        if(empty($url_param))
         {
             return DataReturn(MyLang('common_extend.base.barcode.url_empty_tips'), -1);
         }
 
-        // 是否存在问号、去掉问号后面的参数
-        $arr = explode('?', $url);
-        if(count($arr) > 0)
-        {
-            $url = $arr[0];
-        }
-
-        // 文件是否存在
-        $file = ROOT.'public'.ResourcesService::AttachmentPathHandle($url);
-        if(!file_exists($file))
+        // 解析为 public 下真实路径（防 phar/zip 流、路径穿越；与 RequestGet 参数一致）
+        $file = AttachmentPublicDownloadRealpath($url_param);
+        if($file === false)
         {
             return DataReturn(MyLang('common_extend.barcode.qrcode.url_illegal_tips'), -1);
         }
 
         // 格式校验，希望仅下载图片文件
-        $len = strripos($arr[0], '.');
-        if($len === false)
-        {
-            return DataReturn(MyLang('common_extend.base.barcode.url_invalid_tips'), -1);
-        }
-
-        // 防止存在锚点
         $ext_arr = MyConfig('ueditor.imageManagerAllowFiles');
-        $ext = mb_substr($arr[0], $len, null, 'utf-8');
-        $temp_ext = explode('#', $ext);
-        if(!in_array($temp_ext[0], $ext_arr))
+        $dot_ext = '.'.strtolower(pathinfo($file, PATHINFO_EXTENSION));
+        if(!in_array($dot_ext, $ext_arr))
         {
             return DataReturn(MyLang('common_extend.base.barcode.images_url_invalid_tips'), -1);
         }
@@ -208,7 +193,7 @@ class Barcode
         header('Content-Disposition: attachment; filename="'.$filename.'"');
         header('Content-Transfer-Encoding: binary');
         header('Connection: close');
-        echo RequestGet($url);
+        echo RequestGet($file);
     }
 
     /**

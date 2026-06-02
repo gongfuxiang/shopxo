@@ -186,12 +186,13 @@ class AlipayFace
                 if(APPLICATION == 'app')
                 {
                     $data = [
-                        'pay_url'       => $result[$key]['qr_code'],
-                        'qrcode_url'    => $result[$key]['qr_code'],
-                        'order_no'      => $params['order_no'],
-                        'name'          => '支付宝支付',
-                        'msg'           => '打开支付宝APP扫一扫进行支付',
-                        'check_url'     => $params['check_url'],
+                        'type'        => 'alipay',
+                        'pay_url'     => $result[$key]['qr_code'],
+                        'qrcode_url'  => $result[$key]['qr_code'],
+                        'order_no'    => $params['order_no'],
+                        'name'        => '支付宝支付',
+                        'msg'         => '打开支付宝APP扫一扫进行支付',
+                        'check_url'   => $params['check_url'],
                     ];
                 } else {
                     $pay_params = [

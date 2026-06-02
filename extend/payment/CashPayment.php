@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace payment;
 
+use app\service\ResourcesService;
 use app\service\PayLogService;
 
 /**
@@ -173,7 +174,7 @@ class CashPayment
             }
 
             // 支付金额
-            $html .= '<p style="margin-top: 15px;font-size: 14px;line-height: 24px;">打款金额：<strong style="color:#E22C08;">￥'.$params['total_price'].'</strong></p>';
+            $html .= '<p style="margin-top: 15px;font-size: 14px;line-height: 24px;">打款金额：<strong style="color:#E22C08;">'.ResourcesService::CurrencyDataSymbol().$params['total_price'].'</strong></p>';
 
             // 备注
             $html .= '<p style="margin-top: 5px;font-size: 14px;line-height: 24px;">打款备注：<strong style="color:#2196f3;">'.$params['order_no'].'</strong>';

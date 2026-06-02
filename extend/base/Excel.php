@@ -29,6 +29,7 @@ class Excel
 	private $horizontal_center;
 	private $vertical_center;
 	private $warap_text;
+	private $multi_sheets;
 
 	/**
 	 * 构造方法
@@ -43,6 +44,7 @@ class Excel
 	 * @param    [string]       $params['file_type']			[导出文件类型（默认excel）]
 	 * @param    [array]        $params['title']				[标题（二维数组）]
 	 * @param    [array]        $params['data']					[数据（二维数组）]
+	 * @param    [array]        $params['multi_sheets']			[多工作表：每项含 name、headers、rows，配合 ExportMultiSheet]
 	 * @param    [int]          $params['horizontal_center']	[是否水平居中 1是]
 	 * @param    [int]          $params['vertical_center']		[是否垂直居中 1是]
 	 * @param    [int]          $params['warap_text']			[是否内容自动换行 1是]
@@ -78,6 +80,99 @@ class Excel
 
 		// 内容自动换行
 		$this->warap_text = isset($params['warap_text']) ? intval($params['warap_text']) : 1;
+
+		// 多工作表（xlsx/xls），见 ExportMultiSheet
+		$this->multi_sheets = isset($params['multi_sheets']) ? $params['multi_sheets'] : null;
+	}
+
+	/**
+	 * 多工作表 Excel 导出（PhpSpreadsheet，与 ExportExcel 同编码与响应头）
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2026-04-14
+	 * @desc    构造参数 multi_sheets 每项：name 工作表名、headers 表头一维数组、rows 二维行数据（与 headers 列序一致）
+	 */
+	public function ExportMultiSheet()
+	{
+		if(empty($this->multi_sheets) || !is_array($this->multi_sheets))
+		{
+			$this->title = [];
+			$this->data = [];
+			$this->msg = empty($this->msg) ? 'multi_sheets cannot be empty!' : $this->msg;
+			$this->IsErrorCheck();
+		}
+
+		$excel_charset = MyC('admin_excel_charset', 0);
+		$charset = MyConst('common_excel_charset_list')[$excel_charset]['value'];
+
+		$spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+		$is_first = true;
+		foreach($this->multi_sheets as $spec)
+		{
+			$sheet_name = isset($spec['name']) ? (string) $spec['name'] : 'Sheet';
+			$headers = isset($spec['headers']) && is_array($spec['headers']) ? $spec['headers'] : [];
+			$rows = isset($spec['rows']) && is_array($spec['rows']) ? $spec['rows'] : [];
+
+			$sheet = $is_first ? $spreadsheet->getActiveSheet() : $spreadsheet->createSheet();
+			$is_first = false;
+			$sheet->setTitle(mb_substr($sheet_name, 0, 31, 'UTF-8'));
+
+			$col_count = count($headers);
+			for($c = 0; $c < $col_count; $c++)
+			{
+				$h = isset($headers[$c]) ? $headers[$c] : '';
+				$value = ($excel_charset == 0) ? $h : mb_convert_encoding((string) $h, $charset, 'utf-8');
+				$sheet->setCellValueByColumnAndRow($c + 1, 1, $value);
+				$sheet->getStyleByColumnAndRow($c + 1, 1)->getFont()->setBold(true);
+			}
+
+			$rnum = 2;
+			foreach($rows as $row)
+			{
+				if(!is_array($row))
+				{
+					$row = [];
+				}
+				$row = array_values($row);
+				for($c = 0; $c < $col_count; $c++)
+				{
+					$cell = array_key_exists($c, $row) ? $row[$c] : '';
+					if(is_array($cell) || is_object($cell))
+					{
+						$cell = '';
+					}
+					$val = ($excel_charset == 0) ? (string) $cell : mb_convert_encoding((string) $cell, $charset, 'utf-8');
+					$sheet->setCellValueByColumnAndRow($c + 1, $rnum, $val);
+				}
+				$rnum++;
+			}
+
+			for($c = 1; $c <= $col_count; $c++)
+			{
+				$sheet->getColumnDimensionByColumn($c)->setAutoSize(true);
+			}
+		}
+
+		$spreadsheet->setActiveSheetIndex(0);
+
+		if(ob_get_length() > 0)
+		{
+			ob_clean();
+		}
+
+		header('Pragma: public');
+		header('Expires: 0');
+		header('Cache-Control:must-revalidate, post-check=0, pre-check=0');
+		header('Content-Type:application/force-download');
+		header('Content-Type:application/'.$this->file_type.';charset='.$charset);
+		header('Content-Type:application/octet-stream');
+		header('Content-Type:application/download');
+		header('Content-Disposition:attachment;filename='.$this->filename.'.'.$this->suffix);
+		header('Content-Transfer-Encoding:binary');
+		$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, ucfirst($this->suffix));
+		$writer->save('php://output');
+		exit;
 	}
 
 	/**

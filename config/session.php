@@ -10,8 +10,14 @@
 // +----------------------------------------------------------------------
 
 // +----------------------------------------------------------------------
-// | 会话设置
+// | 会话设置（有效期读取后台 系统配置 → Session配置，默认 43200 秒）
 // +----------------------------------------------------------------------
+$session_expire = (int) MyFileConfig('common_session_expire', '', 43200, true);
+if($session_expire < 0)
+{
+    $session_expire = 43200;
+}
+
 if(MyFileConfig('common_session_is_use_cache', '', 0, true) == 1)
 {
     // redis配置
@@ -20,8 +26,8 @@ if(MyFileConfig('common_session_is_use_cache', '', 0, true) == 1)
         'type'    => 'cache',
         'store'   => 'redis',
         'prefix'  => MyFileConfig('common_cache_session_redis_prefix', '', 'shopxo', true),
-        // 过期时间
-        'expire'  => 43200,
+        // 服务端 Session 数据有效期（秒）
+        'expire'  => $session_expire,
     ];
 } else {
     // 默认配置
@@ -34,8 +40,8 @@ if(MyFileConfig('common_session_is_use_cache', '', 0, true) == 1)
         'type'            => 'file',
         // 存储连接标识 当type使用cache的时候有效
         'store'           => null,
-        // 过期时间
-        'expire'          => 43200,
+        // 服务端 Session 数据有效期（秒）
+        'expire'          => $session_expire,
         // 前缀
         'prefix'          => 'shopxo',
     ];
