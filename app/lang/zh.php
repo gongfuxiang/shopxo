@@ -363,6 +363,8 @@ return [
     'store_title'                                           => '店铺',
     'system_title'                                          => '系统',
     'operate_title'                                         => '操作',
+    'expand_title'                                          => '展开',
+    'retract_title'                                         => '收起',
     'all_title'                                             => '全部',
     'select_all_title'                                      => '全选',
     'reverse_select_title'                                  => '反选',
@@ -472,12 +474,14 @@ return [
     'revoke_audit_title'                                    => '撤审',
     'reverse_audit_title'                                   => '反审',
     'submit_audit_title'                                    => '提审',
+    'submit_audit_confirm_tips'                             => '提交后将进入平台审核，确定提审吗？',
     'audit_title'                                           => '审核',
     'retrial_audit_title'                                   => '复审',
     'signin_title'                                          => '签到',
     'refuse_title'                                          => '拒绝',
     'pass_title'                                            => '通过',
     'agree_title'                                           => '同意',
+    'batch_title'                                           => '批量',
     'expire_title'                                          => '过期',
     'order_title'                                           => '订单',
     'install_title'                                         => '安装',
@@ -565,6 +569,10 @@ return [
     'password_title'                                        => '密码',
     'safety_title'                                          => '安全',
     'extend_title'                                          => '扩展',
+    'attachment_config_title'                               => '附件配置',
+    'verify_config_title'                                   => '验证码',
+    'cache_config_title'                                    => '缓存',
+    'session_config_title'                                  => 'Session配置',
     'import_title'                                          => '导入',
     'export_title'                                          => '导出',
     'content_title'                                         => '内容',
@@ -595,6 +603,7 @@ return [
     'log_title'                                             => '日志',
     'plugins_title'                                         => '插件',
     'valid_title'                                           => '有效',
+    'lock_title'                                            => '锁定',
     'suspend_title'                                         => '暂停',
     'end_title'                                             => '结束',
     'callback_title'                                        => '回调',
@@ -785,6 +794,9 @@ return [
     'form_sort_tips'                                        => '从小到大',
     'form_sort_message'                                     => '顺序0~255之间的数值',
     'form_platform_title'                                   => '所属平台',
+    'form_phone_brand_title'                                => '手机品牌',
+    'form_phone_brand_empty'                                => '不指定',
+    'form_phone_brand_invalid_tips'                         => '手机品牌无效',
     'form_platform_message'                                 => '请选择所属平台',
     'form_event_type_title'                                 => '事件类型',
     'form_event_type_message'                               => '请选择事件类型',
@@ -1081,8 +1093,13 @@ return [
     'common_message_type_list' => [
         0 => '默认',
     ],
+    // 用户积分 - 积分类型
+    'common_integral_log_integral_type_list' => [
+        0 => '有效',
+        1 => '锁定',
+    ],
     // 用户积分 - 操作类型
-    'common_integral_log_type_list' => [
+    'common_integral_log_operation_type_list' => [
         0 => '减少',
         1 => '增加',
     ],
@@ -2121,7 +2138,6 @@ return [
             'form_spec_thead_inventory_unit_title'  => '库存单位',
             'form_spec_thead_inventory_unit_message'=> '库存单位最多60个字符',
             'form_spec_row_add_title'               => '添加一行',
-            'form_spec_images_tips'                 => '规格名称与规格值保持一致，相同规格名称添加一次即可，重复添加则后面覆盖前面，顺序不影响前端展示效果。',
             'form_spec_images_title'                => '商品规格图片',
             'form_spec_images_add_title'            => '添加规格图片',
             'form_spec_images_add_auto_first'       => '第',
@@ -2200,6 +2216,9 @@ return [
                 ],
                 'spec_images' => [
                     'name' => '规格图片',
+                    'tips' => [
+                        '规格名称与规格值保持一致，相同规格名称添加一次即可，重复添加则后面覆盖前面，顺序不影响前端展示效果。',
+                    ],
                 ],
                 'parameters' => [
                     'name' => '商品参数',
@@ -3912,6 +3931,11 @@ return [
             'desc' => '默认否',
             'tips' => '请选择获启用订单批量支付',
         ],
+        'common_is_order_show_goods_snapshot'  => [
+            'name' => '订单显示商品快照',
+            'desc' => '默认否',
+            'tips' => '请选择是否订单显示商品快照',
+        ],
         'common_session_is_use_cache'  => [
             'name' => 'Session使用缓存',
             'desc' => '默认否',
@@ -4792,10 +4816,40 @@ return [
             'desc' => '默认安装系统已自动生成、可以修改',
             'tips' => '请填写数据加密秘钥',
         ],
+        'common_is_sensitive_data_masking'  => [
+            'name' => '敏感数据脱敏',
+            'desc' => '开启后前台客服电话、邮箱、QQ 等不以明文出现在页面 HTML（以图片等形式展示）',
+            'tips' => '请选择是否敏感数据脱敏',
+        ],
         'common_cookie_domain'  => [
             'name' => 'Cookie有效域名',
             'desc' => '默认空则是当前访问域名有效',
             'tips' => '请填写Cookie有效域名',
+        ],
+        'common_cookie_expire'  => [
+            'name' => 'Cookie有效期',
+            'desc' => '单位秒；默认空则配置文件为0（浏览器关闭前有效）',
+            'tips' => '请填写Cookie有效期（秒），留空为0',
+        ],
+        'common_session_expire'  => [
+            'name' => 'Session有效期',
+            'desc' => '服务端 Session 数据保存时间，单位秒；留空则按默认 43200 秒（12 小时）',
+            'tips' => '请填写 Session 有效期（秒），留空使用默认 43200',
+        ],
+        'common_cookie_secure'  => [
+            'name' => 'Cookie启用安全传输（Secure）',
+            'desc' => '默认关闭；开启后浏览器仅在HTTPS请求中携带Cookie，需全站HTTPS',
+            'tips' => '请选择是否启用Secure',
+        ],
+        'common_cookie_httponly'  => [
+            'name' => 'Cookie HttpOnly',
+            'desc' => '默认关闭；开启后前端脚本无法读取Cookie，可降低XSS窃取会话风险',
+            'tips' => '请选择是否启用HttpOnly',
+        ],
+        'common_cookie_samesite'  => [
+            'name' => 'Cookie SameSite',
+            'desc' => '默认不设置；Strict仅同站发送；Lax跨站部分请求不发送（常用）',
+            'tips' => '请选择SameSite策略',
         ],
         'common_token_created_rules'  => [
             'name' => 'Token生成规则',

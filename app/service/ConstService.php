@@ -149,6 +149,7 @@ class ConstService
                 '6.7.0' => ['value' => '6.7.0', 'name' => 'v6.7.0'],
                 '6.7.1' => ['value' => '6.7.1', 'name' => 'v6.7.1'],
                 '6.8.0' => ['value' => '6.8.0', 'name' => 'v6.8.0'],
+                '6.9.0' => ['value' => '6.9.0', 'name' => 'v6.9.0'],
             ],
 
             // 搜索排序方式
@@ -277,10 +278,15 @@ class ConstService
             'common_message_type_list' => [
                 0 => ['id' => 0, 'name' => MyLang('common_message_type_list.0'), 'checked' => true],
             ],
+            // 用户积分 - 积分类型
+            'common_integral_log_integral_type_list' => [
+                0 => ['id' => 0, 'name' => MyLang('common_integral_log_integral_type_list.0'), 'checked' => true],
+                1 => ['id' => 1, 'name' => MyLang('common_integral_log_integral_type_list.1')],
+            ],
             // 用户积分 - 操作类型
-            'common_integral_log_type_list' => [
-                0 => ['id' => 0, 'name' => MyLang('common_integral_log_type_list.0'), 'checked' => true],
-                1 => ['id' => 1, 'name' => MyLang('common_integral_log_type_list.1')],
+            'common_integral_log_operation_type_list' => [
+                0 => ['id' => 0, 'name' => MyLang('common_integral_log_operation_type_list.0'), 'checked' => true],
+                1 => ['id' => 1, 'name' => MyLang('common_integral_log_operation_type_list.1')],
             ],
             // 是否上架/下架
             'common_is_shelves_list' => [

@@ -43,7 +43,6 @@ return [
         'header_top_nav_left_login_last'        => 'Bienvenido a',
         // 搜索
         'search_input_placeholder'              => '¡De hecho, la búsqueda es muy simple..!',
-        'search_button_text'                    => 'Buscar',
         // 用户
         'avatar_upload_tips'                    => [
             'Ampliar y reducir el área de trabajo y mover el cuadro de selección, seleccionar el rango a cortar y fijar la proporción de ancho a alto;',
@@ -527,12 +526,13 @@ return [
         'base_integral_unit'                    => 'Puntos',
         // 动态表格统计数据
         'form_table'                            => [
-            'type'                  => 'Tipo de operación',
-            'operation_integral'    => 'Puntos de operación',
-            'original_integral'     => 'Puntos originales',
-            'new_integral'          => 'Los últimos puntos',
-            'msg'                   => 'Descripción',
-            'add_time_time'         => 'Tiempo',
+            'integral_type'       => 'Tipo de Puntos',
+            'operation_type'      => 'Tipo de Operación',
+            'operation_integral'  => 'Puntos de operación',
+            'original_integral'   => 'Puntos originales',
+            'new_integral'        => 'Los últimos puntos',
+            'msg'                 => 'Descripción',
+            'add_time_time'       => 'Tiempo',
         ],
     ],
 

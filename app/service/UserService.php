@@ -826,7 +826,7 @@ class UserService
                     $integral_type = ($user['integral'] > $data['integral']) ? 0 : 1;
                     $opt_integral = ($integral_type == 1) ? $data['integral']-$user['integral'] : $user['integral']-$data['integral'];
                 }
-                IntegralService::UserIntegralLogAdd($user_id, $old_integral, $opt_integral, MyLang('common_service.user.admin_operate_name'), $integral_type, $params['admin']['id']);
+                IntegralService::UserIntegralLogAdd($user_id, $old_integral, $opt_integral, MyLang('common_service.user.admin_operate_name'), $integral_type, 'integral', $params['admin']['id']);
             }
             return DataReturn(MyLang('operate_success'), 0);
         }
@@ -3072,7 +3072,22 @@ class UserService
             'key_prefix'    => 'user_bind_'.md5($params[$type]),
             'expire_time'   => MyC('common_verify_expire_time')
         ];
-        $obj = new \base\Sms($verify_params);
+        switch($type)
+        {
+            // 短信
+            case 'mobile' :
+                $obj = new \base\Sms($verify_params);
+                break;
+
+            // 邮箱
+            case 'email' :
+                $obj = new \base\Email($verify_params);
+                break;
+
+            // 默认
+            default :
+                return DataReturn(MyLang('verify_code_not_support_send_error_tips'), -2);
+        }
 
         // 是否已过期
         if(!$obj->CheckExpire())

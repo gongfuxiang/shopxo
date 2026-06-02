@@ -16,7 +16,7 @@
                                 {{/case}}
                                 {{default /}}
                                     <!-- 默认url地址 -->
-                                    <a {{if !empty($banner['event_value'])}}href="{{$banner.event_value}}" target="_blank"{{else /}}href="javascript:;"{{/if}}><img src="{{$banner.images_url}}" alt="{{$banner.name}}" /></a>
+                                    <a {{if !empty($banner['event_value'])}}href="{{$banner.event_value}}" target="_blank" rel="noopener noreferrer"{{else /}}href="javascript:;"{{/if}}><img src="{{$banner.images_url}}" alt="{{$banner.name}}" /></a>
                             {{/switch}}
                         </li>
                     {{/if}}

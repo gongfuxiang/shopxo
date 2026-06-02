@@ -136,6 +136,7 @@
             {{if isset($t['is_color']) and $t['is_color'] eq 1}}
                 {{if !empty($t['color_key']) and !empty($t['color_style']) and is_array($t['color_style']) and isset($form_table_data_detail[$t['color_key']]) and isset($t['color_style'][$form_table_data_detail[$t['color_key']]]) and substr($t['color_style'][$form_table_data_detail[$t['color_key']]], 0, 1) eq '#'}}color: {{$t['color_style'][$form_table_data_detail[$t['color_key']]]}};{{/if}}
                 {{if !empty($t['color_style']) and !is_array($t['color_style'])}}color: {{$t['color_style']}};{{/if}}
+                {{if !empty($t['color_field_key']) and !empty($form_table_data_detail[$t['color_field_key']])}}color: {{$form_table_data_detail[$t['color_field_key']]}};{{/if}}
             {{/if}}" 
             {{if isset($t['is_popover']) and $t['is_popover'] eq 1 and !empty($t['popover_field']) and !empty($form_table_data_detail[$t['popover_field']])}}data-am-popover="{content: '{{:PopoverContentHandle($form_table_data_detail[$t['popover_field']])}}', trigger: 'hover focus', theme: 'sm'}"{{/if}} 
             {{if isset($t['is_popup']) and $t['is_popup'] eq 1 and (!empty($t['popup_url']) or (!empty($t['popup_url_key']) and !empty($form_table_data_detail[$t['popup_url_key']])))}}
@@ -177,7 +178,7 @@
 
             <!-- 连接+提示 -->
             {{if isset($t['is_first_link']) and $t['is_first_link'] eq 1 and ((!empty($t['first_link_key']) and !empty($form_table_data_detail[$t['first_link_key']])) or (!empty($t['first_link_data'])))}}
-                <a href="{{if !empty($t['first_link_key']) and !empty($form_table_data_detail[$t['first_link_key']])}}{{$form_table_data_detail[$t['first_link_key']]}}{{else /}}{{$t.first_link_data}}{{/if}}" class="am-margin-right-xs {{if !empty($t['first_link_style'])}}am-text-{{$t.first_link_style}}{{/if}} am-icon-{{if empty($t['first_link_icon'])}}external-link{{else /}}{{$t.first_link_icon}}{{/if}}" target="_blank" {{if !empty($t['first_link_popover'])}}data-am-popover="{content: '{{:PopoverContentHandle($t.first_link_popover)}}', trigger: 'hover focus', theme: 'sm'}"{{/if}}></a>
+                <a href="{{if !empty($t['first_link_key']) and !empty($form_table_data_detail[$t['first_link_key']])}}{{$form_table_data_detail[$t['first_link_key']]}}{{else /}}{{$t.first_link_data}}{{/if}}" class="am-margin-right-xs {{if !empty($t['first_link_style'])}}am-text-{{$t.first_link_style}}{{/if}} am-icon-{{if empty($t['first_link_icon'])}}external-link{{else /}}{{$t.first_link_icon}}{{/if}}" target="_blank" rel="noopener noreferrer" {{if !empty($t['first_link_popover'])}}data-am-popover="{content: '{{:PopoverContentHandle($t.first_link_popover)}}', trigger: 'hover focus', theme: 'sm'}"{{/if}}></a>
             {{/if}}
 
             <!-- 圆点 -->

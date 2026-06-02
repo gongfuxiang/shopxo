@@ -86,7 +86,7 @@
                         {{foreach $nav_header as $nav}}
                             {{if empty($nav['items'])}}
                                 <li>
-                                    <a href="{{$nav.url}}" {{if $nav['is_new_window_open'] eq 1}}target="_blank"{{/if}} {{if isset($nav['active']) and $nav['active'] eq 1}}class="active"{{/if}}>{{$nav.name}}</a>
+                                    <a href="{{$nav.url}}" {{if isset($nav['is_new_window_open']) and $nav['is_new_window_open'] eq 1}}target="_blank" rel="noopener noreferrer"{{/if}} {{if isset($nav['active']) and $nav['active'] eq 1}}class="active"{{/if}}>{{$nav.name}}</a>
                                 </li>
                             {{else /}}
                                 <li class="am-dropdown" data-am-dropdown>

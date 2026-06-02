@@ -167,6 +167,7 @@ class User
                     'round_point_key'    => 'status',
                     'round_point_style'  => [0=>'success', 1=>'warning', 2=>'danger'],
                     'is_sort'            => 1,
+                    'params_where_name'  => 'status',
                     'search_config'      => [
                         'form_type'         => 'select',
                         'form_name'         => 'status',

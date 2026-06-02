@@ -77,19 +77,21 @@ class Goods extends Common
             // 模板数据
             $assign = [
                 // 商品信息
-                'goods'             => $goods,
+                'goods'              => $goods,
                 // 商品底部导航左侧小导航
-                'buy_left_nav'      => GoodsService::GoodsBuyLeftNavList($goods),
+                'buy_left_nav'       => GoodsService::GoodsBuyLeftNavList($goods),
                 // 商品购买按钮列表
-                'buy_button'        => GoodsService::GoodsBuyButtonList($goods),
+                'buy_button'         => GoodsService::GoodsBuyButtonList($goods),
+                // 商品购买指向链接数据
+                'buy_to_link'        => GoodsService::GoodsBuyToLinkData($goods),
                 // 中间tabs导航
-                'middle_tabs_nav'   => GoodsService::GoodsDetailMiddleTabsNavList($goods),
+                'middle_tabs_nav'    => GoodsService::GoodsDetailMiddleTabsNavList($goods),
                 // 面包屑导航
-                'breadcrumb_data'   => BreadcrumbService::Data('GoodsDetail', ['goods'=>$goods]),
+                'breadcrumb_data'    => BreadcrumbService::Data('GoodsDetail', ['goods'=>$goods]),
                 // 加载放大镜
-                'is_load_imagezoom' => 1,
+                'is_load_imagezoom'  => 1,
                 // 加载视频播放器组件
-                'is_load_ckplayer'  => 1,
+                'is_load_ckplayer'   => 1,
             ];
             // 是否商品详情页展示相册
             $assign['common_is_goods_detail_content_show_photo'] = MyC('common_is_goods_detail_content_show_photo', 0, true);

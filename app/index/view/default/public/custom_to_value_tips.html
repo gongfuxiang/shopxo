@@ -10,7 +10,7 @@
                         {{/foreach}}
                         {{if !empty($v['tips']) and $v['type'] eq 'mini' and !empty($site_store_links) and !empty($site_store_links['app_mini_pages'])}}
                             <p>
-                                <a href="{{$site_store_links.app_mini_pages}}" target="_blank">{{$v.tips}} <i class="am-icon-external-link"></i></a>
+                                <a href="{{$site_store_links.app_mini_pages}}" target="_blank" rel="noopener noreferrer">{{$v.tips}} <i class="am-icon-external-link"></i></a>
                             </p>
                         {{/if}}
                     </div>

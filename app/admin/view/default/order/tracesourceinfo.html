@@ -10,11 +10,11 @@
                 {{if isset($v['is_trace_source']) and $v['is_trace_source'] eq 1}}
                     <div class="am-padding-bottom-xl am-margin-bottom-xl">
                         <div class="am-flex am-gap-1">
-                            <a href="{{$v.goods_url}}" target="_blank">
+                            <a href="{{$v.goods_url}}" target="_blank" rel="noopener noreferrer">
                                 <img src="{{$v.images}}" class="am-radius am-border-grey" width="60" height="60" />
                             </a>
                             <div>
-                                <a href="{{$v.goods_url}}" target="_blank" class="am-text-truncates">{{$v.title}}</a>
+                                <a href="{{$v.goods_url}}" target="_blank" rel="noopener noreferrer" class="am-text-truncates">{{$v.title}}</a>
                                 <p>{{$data.currency_data.currency_symbol}}{{$v.price}} x{{$v.buy_number}}</p>
                             </div>
                         </div>

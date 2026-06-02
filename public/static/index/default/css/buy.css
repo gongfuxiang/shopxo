@@ -8,7 +8,7 @@
 .buy-items > .goods-group-list > .am-panel > .am-panel-bd > table > thead > tr > th,
 .buy-items > .goods-group-list > .am-panel > .am-panel-bd > table > tbody > tr > td {
     border: 0;
-    padding: 1rem 1rem 1rem 0;
+    padding: 1rem 1rem 1rem 0 !important;
 }
 .buy-items table thead tr th {
     font-size: 1.4rem;
@@ -189,15 +189,6 @@ ul.address-list li .user-base .address-detail .user {
     text-align: left;
     font-size: 1.4rem;
 }
-.pay-address {
-    display: none;
-}
-.buy-order-nav {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-}
 .link-list h3 span {
     font-weight: 500;
 }
@@ -215,9 +206,21 @@ ul.address-list,
     color: #ff8f44;
 }
 
+.buy-extension-data-wrap .buy-extension-fold-hidden {
+    display: none;
+}
+
+.buy-extension-data-wrap.is-expanded .buy-extension-fold-hidden {
+    display: list-item;
+}
+
+.buy-extension-fold-toggle {
+    display: inline-block;
+}
+
 /**
-* 手机下选择地址
-*/
+ * 手机下选择地址
+ */
 .link-list .mobile-address {
     position: fixed;
     left: 0;
@@ -299,21 +302,14 @@ ul.address-list,
         float: right;
         width: auto;
         height: auto;
-        font-size: 1.2rem;
         line-height: 3rem;
         overflow: hidden;
-    }
-    .pay-address {
-        display: block;
     }
     .buy-order-nav {
         clear: both;
         text-align: right;
         position: relative;
         margin-top: 1rem;
-        border: none;
-        -webkit-box-shadow: none !important;
-        box-shadow: none !important;
     }
     .buy-order-nav .address-confirm .box {
         position: relative;
@@ -327,9 +323,6 @@ ul.address-list,
         right: 0;
         background-color: #fff0e8;
     }
-    .buy-order-nav form.am-form {
-        overflow: inherit;
-    }
     .nav-buy .go-btn-wrap {
         width: 100%;
         overflow: hidden;
@@ -341,7 +334,7 @@ ul.address-list,
         position: relative;
     }
     .buy-line-title {
-        width: 5.2rem;
+        width: 9rem;
         text-align: right;
         display: inline-block;
     }
@@ -395,6 +388,9 @@ ul.address-list,
     }
 }
 @media only screen and (max-width: 640px) {
+    .pay-address {
+        display: none;
+    }
     .cart-content table tr .base {
         width: 100%;
     }
@@ -427,22 +423,17 @@ ul.address-list,
     }
     .buy-order-nav .box {
         border: 0;
+        text-align: right;
+        padding: 0 1rem 0 0;
+        margin: 0;
     }
     .buy-order-nav .nav-total-price {
         color: var(--color-main);
         font-weight: 700;
         font-size: 2.6rem;
     }
-    .buy-order-nav {
-        z-index: 100;
-    }
     .am-footer {
         padding-bottom: 4rem;
-    }
-    .buy-order-nav .box {
-        text-align: right;
-        padding: 0 1rem 0 0;
-        margin: 0;
     }
     .link-list .address-container {
         margin-top: 0;
@@ -463,8 +454,8 @@ ul.address-list,
 }
 
 /**
-* 商品列表
-*/
+ * 商品列表
+ */
 .goods-items table.am-table tr th {
     font-weight: 500;
 }
@@ -526,8 +517,8 @@ ul.address-list,
 }
 
 /**
-* 自提地址
-*/
+ * 自提地址
+ */
 .extraction-address-item {
     box-shadow: none;
     position: relative;
@@ -616,8 +607,8 @@ ul.address-list,
 
 
 /**
-* 自提地址-弹层
-*/
+ * 自提地址-弹层
+ */
 #extraction-address-popup .am-list {
     margin-top: 0;
 }
@@ -643,16 +634,20 @@ ul.address-list,
 }
 
 /**
-* 销售+自提导航
-*/
+ * 切换导航
+ */
 .buy-header-nav .am-nav-tabs > li > a {
     line-height: 3.6rem;
+    background-color: transparent;
 }
 @media only screen and (min-width: 641px) {
     .buy-header-nav {
         margin-top: 1rem;
         margin-left: 0.5rem;
         margin-right: 0.5rem;
+    }
+    .goods-group-list > .am-panel > .am-panel-bd > table > thead > tr > th:first-child {
+        width: 50%;
     }
 }
 @media only screen and (min-width: 1025px) {
@@ -663,8 +658,8 @@ ul.address-list,
 }
 
 /**
-* 商品分组列表
-*/
+ * 商品分组列表
+ */
 @media only screen and (max-width: 1024px) {
     .goods-group-list {
         padding: 0 0.5rem;
@@ -672,46 +667,24 @@ ul.address-list,
 }
 
 /**
-* 无数据提示
-*/
+ * 无数据提示
+ */
 .link-list .table-no {
     padding: 0;
     min-height: 20rem;
 }
 
 /**
-* 面板
-*/
+ * 面板
+ */
 .link-list .am-panel {
     -webkit-box-shadow: none;
     box-shadow: none;
 }
 
 /**
-* 查看地图
-*/
+ * 查看地图
+ */
 .link-list .am-badge-default:hover {
     background: #666;
-}
-
-/* * 
-* 选择支付 
-*/
-.buy-pay-footer .business-list-nbfc ul {
-    width: calc(100% + 3.8rem);
-    margin-left: -1.9rem;
-    margin-top: -0.9rem;
-    display: flex;
-    flex-flow: row wrap;
-}
-.buy-pay-footer .business-list-nbfc ul li i {
-    position: absolute;
-    bottom: -1.9rem;
-    right: -1.7rem;
-    font-size: 3.4rem;
-    color: var(--color-main);
-    display: none;
-}
-.buy-pay-footer .business-list-nbfc ul li.selected i {
-    display: block;
 }

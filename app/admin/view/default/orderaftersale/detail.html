@@ -1,2 +1,52 @@
 <!-- 继承公共的 form -->
 {{extend name="../../../module/view/form_table/detail" /}}
+
+<!-- 重写数据模块 -->
+{{block name="detail_data"}}
+    {{:ModuleInclude('public/detail_nav_switch_tabs', [
+        'nav_data' => [
+            [
+                'name' => MyLang('form_base_data_title'),
+                'key'  => 'base',
+            ],
+            [
+                'name' => MyLang('order.detail_log_nav_title'),
+                'key'  => 'status-history',
+            ],
+        ]
+    ])}}
+    <div class="detail-content-switch-data-item">
+        <!-- 父级内容 -->
+        <div class="item am-active" data-key="base">
+            {__block__}
+        </div>
+
+        <!-- 订单售后状态日志 -->
+        <div class="item" data-key="status-history">
+            <div class="am-padding-sm">
+                {{if !empty($data['status_history_data'])}}
+                    <table class="am-table am-table-striped am-table-hover am-text-left">
+                        <thead>
+                            <tr>
+                                <th>{{:MyLang('order.detail_log_creator_msg')}}</th>
+                                <th>{{:MyLang('order.detail_log_creator_name')}}</th>
+                                <th>{{:MyLang('order.detail_log_creator_time')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{foreach $data['status_history_data'] as $v}}
+                                <tr>
+                                    <td>{{$v.msg}}</td>
+                                    <td>{{$v.creator_name}}</td>
+                                    <td>{{$v.add_time}}</td>
+                                </tr>
+                            {{/foreach}}
+                        </tbody>
+                    </table>
+                {{else /}}
+                    {{:ModuleInclude('public/not_data')}}
+                {{/if}}
+            </div>
+        </div>
+    </div>
+{{/block}}

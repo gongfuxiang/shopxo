@@ -205,7 +205,7 @@ class SearchService
         foreach($data as &$v)
         {
             // 是否转ascii处理主键字段
-            if($is_ascii && !empty($field) && isset($v[$field]))
+            if($is_ascii && !empty($field) && isset($v[$field]) && !is_array($v[$field]))
             {
                 $v[$did] = StrToAscii($v[$field]);
             }
@@ -280,22 +280,40 @@ class SearchService
             'page_size'                 => &$result['page_size'],
         ]);
 
+        // 仅在存在分类关联条件时才关联分类关系表
+        $is_need_join_category = self::SearchWhereHasAlias($where_base, 'gci.');
+        $goods_query = Db::name('Goods')->alias('g');
+        if($is_need_join_category)
+        {
+            $goods_query->join('goods_category_join gci', 'g.id=gci.goods_id');
+        }
+
         // 获取商品总数
-        $result['total'] = (int) Db::name('Goods')->alias('g')->join('goods_category_join gci', 'g.id=gci.goods_id')->where($where_base)->where(function($query) use($where_keywords) {
+        $result['total'] = (int) $goods_query->where($where_base)->where(function($query) use($where_keywords) {
             self::SearchKeywordsWhereJoinType($query, $where_keywords);
         })->where(function($query) use($where_screening_price) {
             $query->whereOr($where_screening_price);
-        })->count('DISTINCT g.id');
+        })->count($is_need_join_category ? 'DISTINCT g.id' : 'g.id');
 
         // 获取商品列表
         if($result['total'] > 0)
         {
             // 查询数据
-            $data = Db::name('Goods')->alias('g')->join('goods_category_join gci', 'g.id=gci.goods_id')->field($field)->where($where_base)->where(function($query) use($where_keywords) {
+            $goods_query = Db::name('Goods')->alias('g');
+            if($is_need_join_category)
+            {
+                $goods_query->join('goods_category_join gci', 'g.id=gci.goods_id');
+            }
+            $goods_query = $goods_query->field($field)->where($where_base)->where(function($query) use($where_keywords) {
                 self::SearchKeywordsWhereJoinType($query, $where_keywords);
             })->where(function($query) use($where_screening_price) {
                 $query->whereOr($where_screening_price);
-            })->group('g.id')->order($order_by)->limit($result['page_start'], $result['page_size'])->select()->toArray();
+            })->order($order_by)->limit($result['page_start'], $result['page_size']);
+            if($is_need_join_category)
+            {
+                $goods_query->group('g.id');
+            }
+            $data = $goods_query->select()->toArray();
 
             // 数据处理
             $params['is_spec'] = (!isset($params['is_spec']) || $params['is_spec'] == 1) ? 1 : 0;
@@ -337,6 +355,59 @@ class SearchService
     }
 
     /**
+     * 搜索条件是否包含指定别名字段
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-04-29
+     * @desc    description
+     * @param   [array]           $where [条件]
+     * @param   [string]          $alias [别名]
+     */
+    private static function SearchWhereHasAlias($where, $alias)
+    {
+        if(empty($where) || !is_array($where) || empty($alias))
+        {
+            return false;
+        }
+        foreach($where as $item)
+        {
+            if(!empty($item) && is_array($item) && isset($item[0]) && is_string($item[0]) && stripos($item[0], $alias) === 0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 搜索参数数组值归一化（一维去空去重）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-04-29
+     * @desc    description
+     * @param   [mixed]           $value [输入值]
+     */
+    private static function SearchNormalizeArrayValue($value)
+    {
+        if(!is_array($value))
+        {
+            return [$value];
+        }
+
+        $result = [];
+        array_walk_recursive($value, function($item) use (&$result)
+        {
+            if($item !== '' && $item !== null)
+            {
+                $result[] = $item;
+            }
+        });
+        return array_values(array_unique($result));
+    }
+
+    /**
      * 搜索条件处理
      * @author  Devil
      * @blog    http://gong.gg/
@@ -375,6 +446,7 @@ class SearchService
             if(count($keywords) == 1)
             {
                 $goods_ids = Db::name('GoodsSpecBase')->where(['barcode|coding'=>$keywords[0]])->column('goods_id');
+                $goods_ids = self::SearchNormalizeArrayValue($goods_ids);
                 if(!empty($goods_ids))
                 {
                     $where_base[] = ['g.id', 'in', $goods_ids];
@@ -403,6 +475,7 @@ class SearchService
             {
                 $params['brand_ids'] = (substr($params['brand_ids'], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params['brand_ids']), true) : explode(',', $params['brand_ids']);
             }
+            $params['brand_ids'] = self::SearchNormalizeArrayValue($params['brand_ids']);
             if(!empty($params['brand_ids']))
             {
                 $where_base[] = ['g.brand_id', 'in', array_unique($params['brand_ids'])];
@@ -427,15 +500,18 @@ class SearchService
             {
                 $params['category_ids'] = (substr($params['category_ids'], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params['category_ids']), true) : explode(',', $params['category_ids']);
             }
+            $params['category_ids'] = self::SearchNormalizeArrayValue($params['category_ids']);
             if(!empty($params['category_ids']))
             {
                 $ids = GoodsCategoryService::GoodsCategoryItemsIds($params['category_ids'], 1);
+                $ids = self::SearchNormalizeArrayValue($ids);
                 $where_base[] = ['gci.category_id', 'in', $ids];
             }
         } else {
             if(!empty($params['category_id']))
             {
                 $ids = GoodsCategoryService::GoodsCategoryItemsIds([intval($params['category_id'])], 1);
+                $ids = self::SearchNormalizeArrayValue($ids);
                 $where_base[] = ['gci.category_id', 'in', $ids];
             }
         }
@@ -443,6 +519,7 @@ class SearchService
         if(!empty($params['cid']))
         {
             $ids = GoodsCategoryService::GoodsCategoryItemsIds([intval($params['cid'])], 1);
+            $ids = self::SearchNormalizeArrayValue($ids);
             $where_base[] = ['gci.category_id', 'in', $ids];
         }
 
@@ -458,6 +535,7 @@ class SearchService
             {
                 $params['produce_region_ids'] = (substr($params['produce_region_ids'], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params['produce_region_ids']), true) : explode(',', $params['produce_region_ids']);
             }
+            $params['produce_region_ids'] = self::SearchNormalizeArrayValue($params['produce_region_ids']);
             if(!empty($params['produce_region_ids']))
             {
                 $where_base[] = ['g.produce_region', 'in', $params['produce_region_ids']];
@@ -530,11 +608,18 @@ class SearchService
             if(!is_array($params['goods_params_values']))
             {
                 $map_params = (substr($params['goods_params_values'], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params['goods_params_values']), true) : explode(',', $params['goods_params_values']);
+            } else {
+                $map_params = $params['goods_params_values'];
             }
+            $map_params = self::SearchNormalizeArrayValue($map_params);
         }
         if(!empty($params['psid']))
         {
-            $map_params[] = AsciiToStr($params['psid']);
+            $psid = self::SearchNormalizeArrayValue($params['psid']);
+            foreach($psid as $v)
+            {
+                $map_params[] = AsciiToStr($v);
+            }
         }
         if(!empty($map_params))
         {
@@ -543,6 +628,7 @@ class SearchService
                 return md5($item);
             }, $map_params);
             $ids = Db::name('GoodsParams')->where(['md5_key'=>$map_params, 'scope'=>self::SearchParamsWhereTypeValue()])->column('goods_id');
+            $ids = self::SearchNormalizeArrayValue($ids);
             if(!empty($ids))
             {
                 $where_base[] = ['g.id', 'in', $ids];
@@ -556,11 +642,18 @@ class SearchService
             if(!is_array($params['goods_spec_values']))
             {
                 $map_spec = (substr($params['goods_spec_values'], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params['goods_spec_values']), true) : explode(',', $params['goods_spec_values']);
+            } else {
+                $map_spec = $params['goods_spec_values'];
             }
+            $map_spec = self::SearchNormalizeArrayValue($map_spec);
         }
         if(!empty($params['scid']))
         {
-            $map_spec[] = AsciiToStr($params['scid']);
+            $scid = self::SearchNormalizeArrayValue($params['scid']);
+            foreach($scid as $v)
+            {
+                $map_spec[] = AsciiToStr($v);
+            }
         }
         if(!empty($map_spec))
         {
@@ -569,6 +662,7 @@ class SearchService
                 return md5($item);
             }, $map_spec);
             $ids = Db::name('GoodsSpecValue')->where(['md5_key'=>$map_spec])->column('goods_id');
+            $ids = self::SearchNormalizeArrayValue($ids);
             if(!empty($ids))
             {
                 $where_base[] = ['g.id', 'in', $ids];
@@ -633,8 +727,16 @@ class SearchService
         {
             $value = explode(',', $value);
         }
-
-        return $value;
+        // 防止缓存数据结构异常导致 where in 出现嵌套数组
+        $value = self::SearchNormalizeArrayValue($value);
+        $value = array_map(function($item)
+        {
+            return intval($item);
+        }, $value);
+        return array_values(array_filter(array_unique($value), function($item)
+        {
+            return $item >= 0;
+        }));
     }
 
     /**
@@ -691,21 +793,32 @@ class SearchService
                 {
                     if(!empty($params[$vs]))
                     {
+                        $current = $params[$vs];
+
                         // 价格区间
                         if($vs == 'peid')
                         {
-                            $temp_price = Db::name('ScreeningPrice')->where(['is_enable'=>1, 'id'=>intval($params[$vs])])->field('min_price,max_price')->find();
-                            $params[$vs] = empty($temp_price) ? '' : implode('-', $temp_price);
+                            if(is_array($current))
+                            {
+                                $current = reset($current);
+                            }
+                            $temp_price = Db::name('ScreeningPrice')->where(['is_enable'=>1, 'id'=>intval($current)])->field('min_price,max_price')->find();
+                            $current = empty($temp_price) ? '' : implode('-', $temp_price);
                         }
 
                         // Ascii处理
-                        if(in_array($vs, ['psid', 'scid']))
+                        if(in_array($vs, ['psid', 'scid']) && !is_array($current))
                         {
-                            $params[$vs] = AsciiToStr($params[$vs]);
+                            $current = AsciiToStr($current);
                         }
 
                         // 合并参数
-                        $tv = (substr($params[$vs], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params[$vs]), true) : $params[$vs];
+                        if(is_array($current))
+                        {
+                            $tv = $current;
+                        } else {
+                            $tv = (is_string($current) && substr($current, 0, 1) == '{') ? json_decode(htmlspecialchars_decode($current), true) : $current;
+                        }
                         if($tv !== '' && $tv !== null)
                         {
                             $item = array_merge($item, is_array($tv) ? $tv : [$tv]);
@@ -774,6 +887,13 @@ class SearchService
         $data = [];
         if(MyC('home_search_is_brand', 0) == 1)
         {
+            $cache_key = SystemService::CacheKey('shopxo.cache_search_keywords_key').'_category_brand_list_'.md5(json_encode([$map, $params], JSON_UNESCAPED_UNICODE));
+            $cache_data = MyCache($cache_key);
+            if($cache_data !== null && !MyEnv('app_debug'))
+            {
+                return $cache_data;
+            }
+
             // 基础条件
             $brand_where = [
                 ['is_enable', '=', 1],
@@ -783,9 +903,15 @@ class SearchService
             if(!empty($map['keywords']))
             {
                 $where_keywords = $map['keywords'];
-                $ids = Db::name('Goods')->alias('g')->join('goods_category_join gci', 'g.id=gci.goods_id')->where(function($query) use($where_keywords) {
+                $goods_query = Db::name('Goods')->alias('g');
+                if(self::SearchWhereHasAlias($map['base'], 'gci.'))
+                {
+                    $goods_query->join('goods_category_join gci', 'g.id=gci.goods_id');
+                }
+                $ids = $goods_query->where($map['base'])->where(function($query) use($where_keywords) {
                     self::SearchKeywordsWhereJoinType($query, $where_keywords);
-                })->group('g.brand_id')->column('g.brand_id');
+                })->column('distinct g.brand_id');
+                $ids = self::SearchNormalizeArrayValue($ids);
                 if(!empty($ids))
                 {
                     $brand_where[] = ['id', 'in', array_unique($ids)];
@@ -798,7 +924,14 @@ class SearchService
                 ['is_delete_time', '=', 0],
                 ['brand_id', '>', 0],
             ];
-            $ids = Db::name('Goods')->where($where)->column('distinct brand_id');
+            $key = SystemService::CacheKey('shopxo.cache_search_keywords_key').'_brand_goods_ids_';
+            $ids = MyCache($key);
+            if($ids === null || MyEnv('app_debug'))
+            {
+                $ids = Db::name('Goods')->where($where)->column('distinct brand_id');
+                MyCache($key, $ids, 300);
+            }
+            $ids = self::SearchNormalizeArrayValue($ids);
             if(!empty($ids))
             {
                 $brand_where[] = ['id', 'in', $ids];
@@ -813,6 +946,7 @@ class SearchService
             ];
             $ret = BrandService::BrandList($data_params);
             $data = empty($ret['data']) ? [] : $ret['data'];
+            MyCache($cache_key, $data, 120);
         }
         return $data;
     }
@@ -831,11 +965,18 @@ class SearchService
         $data = [];
         if(MyC('home_search_is_category', 0) == 1)
         {
+            $cache_key = SystemService::CacheKey('shopxo.cache_search_keywords_key').'_goods_category_list_'.md5(json_encode($params, JSON_UNESCAPED_UNICODE));
+            $cache_data = MyCache($cache_key);
+            if($cache_data !== null && !MyEnv('app_debug'))
+            {
+                return $cache_data;
+            }
             $cid = empty($params['category_id']) ? (empty($params['cid']) ? 0 : intval($params['cid'])) : intval($params['category_id']);
             $where = [
                 ['pid', '=', intval($cid)],
             ];
             $data = GoodsCategoryService::GoodsCategoryList(['where'=>$where, 'field'=>'id,name']);
+            MyCache($cache_key, $data, 300);
         }
         return $data;
     }
@@ -854,7 +995,14 @@ class SearchService
         $data = [];
         if(MyC('home_search_is_price', 0) == 1)
         {
-            $data = Db::name('ScreeningPrice')->field('id,name,min_price,max_price')->where(['is_enable'=>1])->order('sort asc')->select()->toArray();
+            $cache_key = SystemService::CacheKey('shopxo.cache_search_keywords_key').'_screening_price_list_';
+            $cache_data = MyCache($cache_key);
+            if($cache_data === null || MyEnv('app_debug'))
+            {
+                $cache_data = Db::name('ScreeningPrice')->field('id,name,min_price,max_price')->where(['is_enable'=>1])->order('sort asc')->select()->toArray();
+                MyCache($cache_key, $cache_data, 300);
+            }
+            $data = $cache_data;
         }
         return $data;
     }
@@ -874,13 +1022,25 @@ class SearchService
         $data = [];
         if(MyC('home_search_is_produce_region', 0) == 1)
         {
+            $cache_key = SystemService::CacheKey('shopxo.cache_search_keywords_key').'_goods_produce_region_list_'.md5(json_encode([$map, $params], JSON_UNESCAPED_UNICODE));
+            $cache_data = MyCache($cache_key);
+            if($cache_data !== null && !MyEnv('app_debug'))
+            {
+                return $cache_data;
+            }
+
             // 搜索条件
             $where_base = $map['base'];
             $where_keywords = $map['keywords'];
             $where_screening_price = $map['screening_price'];
 
             // 一维数组、参数值去重
-            $list = RegionService::RegionName(Db::name('Goods')->alias('g')->join('goods_category_join gci', 'g.id=gci.goods_id')->join('goods_params gp', 'g.id=gp.goods_id')->where($where_base)->where(function($query) use($where_keywords) {
+            $goods_query = Db::name('Goods')->alias('g');
+            if(self::SearchWhereHasAlias($where_base, 'gci.'))
+            {
+                $goods_query->join('goods_category_join gci', 'g.id=gci.goods_id');
+            }
+            $list = RegionService::RegionName($goods_query->where($where_base)->where(function($query) use($where_keywords) {
                 self::SearchKeywordsWhereJoinType($query, $where_keywords);
             })->where(function($query) use($where_screening_price) {
                 $query->whereOr($where_screening_price);
@@ -895,6 +1055,9 @@ class SearchService
                     ];
                 }
             }
+
+            // 存储缓存
+            MyCache($cache_key, $data, 120);
         }
         return $data;
     }
@@ -914,20 +1077,36 @@ class SearchService
         $data = [];
         if(MyC('home_search_is_params', 0) == 1)
         {
+            $cache_key = SystemService::CacheKey('shopxo.cache_search_keywords_key').'_goods_params_value_list_'.md5(json_encode([$map, $params], JSON_UNESCAPED_UNICODE));
+            $cache_data = MyCache($cache_key);
+            if($cache_data !== null && !MyEnv('app_debug'))
+            {
+                return $cache_data;
+            }
+
             // 搜索条件
             $where_base = $map['base'];
             $where_keywords = $map['keywords'];
             $where_screening_price = $map['screening_price'];
 
             // 仅搜索基础参数
-            $where_base[] = ['gp.scope', 'in', self::SearchParamsWhereTypeValue()];
+            $scope = self::SearchNormalizeArrayValue(self::SearchParamsWhereTypeValue());
+            $where_base[] = ['gp.scope', 'in', $scope];
 
             // 一维数组、参数值去重
-            $data = Db::name('Goods')->alias('g')->join('goods_category_join gci', 'g.id=gci.goods_id')->join('goods_params gp', 'g.id=gp.goods_id')->where($where_base)->where(function($query) use($where_keywords) {
+            $goods_query = Db::name('Goods')->alias('g');
+            if(self::SearchWhereHasAlias($where_base, 'gci.'))
+            {
+                $goods_query->join('goods_category_join gci', 'g.id=gci.goods_id');
+            }
+            $data = $goods_query->join('goods_params gp', 'g.id=gp.goods_id')->where($where_base)->where(function($query) use($where_keywords) {
                 self::SearchKeywordsWhereJoinType($query, $where_keywords);
             })->where(function($query) use($where_screening_price) {
                 $query->whereOr($where_screening_price);
-            })->group('gp.value')->field('gp.value')->select()->toArray();
+            })->group('gp.value')->order('gp.id desc')->field('gp.value')->limit(200)->select()->toArray();
+
+            // 存储缓存
+            MyCache($cache_key, $data, 120);
         }
         return $data;
     }
@@ -947,17 +1126,32 @@ class SearchService
         $data = [];
         if(MyC('home_search_is_spec', 0) == 1)
         {
+            $cache_key = SystemService::CacheKey('shopxo.cache_search_keywords_key').'_goods_spec_value_list_'.md5(json_encode([$map, $params], JSON_UNESCAPED_UNICODE));
+            $cache_data = MyCache($cache_key);
+            if($cache_data !== null && !MyEnv('app_debug'))
+            {
+                return $cache_data;
+            }
+
             // 搜索条件
             $where_base = $map['base'];
             $where_keywords = $map['keywords'];
             $where_screening_price = $map['screening_price'];
 
             // 一维数组、参数值去重
-            $data = Db::name('Goods')->alias('g')->join('goods_category_join gci', 'g.id=gci.goods_id')->join('goods_spec_value gsv', 'g.id=gsv.goods_id')->where($where_base)->where(function($query) use($where_keywords) {
+            $goods_query = Db::name('Goods')->alias('g');
+            if(self::SearchWhereHasAlias($where_base, 'gci.'))
+            {
+                $goods_query->join('goods_category_join gci', 'g.id=gci.goods_id');
+            }
+            $data = $goods_query->join('goods_spec_value gsv', 'g.id=gsv.goods_id')->where($where_base)->where(function($query) use($where_keywords) {
                 self::SearchKeywordsWhereJoinType($query, $where_keywords);
             })->where(function($query) use($where_screening_price) {
                 $query->whereOr($where_screening_price);
-            })->group('gsv.value')->field('gsv.value')->select()->toArray();
+            })->group('gsv.value')->order('gsv.id desc')->field('gsv.value')->limit(200)->select()->toArray();
+
+            // 存储缓存
+            MyCache($cache_key, $data, 120);
         }
         return $data;
     }
@@ -1018,7 +1212,18 @@ class SearchService
      */
     public static function SearchGoodsMaxPrice($params = [])
     {
-        return Db::name('GoodsSpecBase')->max('price');
+        $key = SystemService::CacheKey('shopxo.cache_search_keywords_key').'_goods_max_price_';
+        $data = MyCache($key);
+        if($data === null || MyEnv('app_debug'))
+        {
+            $data = Db::name('GoodsSpecBase')->max('price');
+            MyCache($key, $data, 300);
+        }
+        if(is_array($data))
+        {
+            $data = reset($data);
+        }
+        return is_numeric($data) ? $data : 0;
     }
 
     /**

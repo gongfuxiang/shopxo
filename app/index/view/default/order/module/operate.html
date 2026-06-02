@@ -1,6 +1,6 @@
 <!-- 操作栏 -->
 <!-- 0待确认, 1已确认/待支付, 2已支付/待发货, 3已发货/待收货, 4已完成, 5已取消, 6已关闭 -->
-<a href="{{:MyUrl('index/order/detail', ['id'=>$module_data['id']])}}" class="am-btn am-btn-default am-btn-xs am-radius am-btn-block" target="_blank">
+<a href="{{:MyUrl('index/order/detail', ['id'=>$module_data['id']])}}" class="am-btn am-btn-default am-btn-xs am-radius am-btn-block" target="_blank" rel="noopener noreferrer">
     <i class="am-icon-eye"></i>
     <span>{{:MyLang('detail_title')}}</span>
 </a>
@@ -24,7 +24,7 @@
         </button>
     {{/if}}
     {{if $module_data['operate_data']['is_comments'] eq 1}}
-        <a href="{{:MyUrl('index/order/comments', ['id'=>$module_data['id']])}}" target="_blank" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block">
+        <a href="{{:MyUrl('index/order/comments', ['id'=>$module_data['id']])}}" target="_blank" rel="noopener noreferrer" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block">
             <i class="am-icon-heart-o"></i>
             <span>{{:MyLang('comment_title')}}</span>
         </a>

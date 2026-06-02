@@ -12,7 +12,7 @@
                         <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
                         <i class="iconfont icon-retract-diagonal contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i> 
                     </div>
-                    <p class="am-text-xs">{{:MyLang('seo.top_tips')}} {{if !empty($site_store_links) and !empty($site_store_links['htaccess_set_course'])}}<a href="{{$site_store_links.htaccess_set_course}}" class="am-margin-left-sm" target="_blank">{{:MyLang('view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}</p>
+                    <p class="am-text-xs">{{:MyLang('seo.top_tips')}} {{if !empty($site_store_links) and !empty($site_store_links['htaccess_set_course'])}}<a href="{{$site_store_links.htaccess_set_course}}" class="am-margin-left-sm" target="_blank" rel="noopener noreferrer">{{:MyLang('view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}</p>
                 </div>
                 <div class="am-form-group">
                     <label>{{$data.home_seo_url_model.name}}<span class="am-form-group-label-tips">{{$data.home_seo_url_model.describe}}</span></label>

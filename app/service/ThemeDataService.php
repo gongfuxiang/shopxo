@@ -31,8 +31,6 @@ use app\service\AdminService;
 class ThemeDataService
 {
     // 排除的文件后缀
-    private static $exclude_ext = ['php'];
-
     /**
      * 主题数据管理数据
      * @author  Devil
@@ -1181,7 +1179,7 @@ class ThemeDataService
 
             // 分页计算
             $m = intval(($result['page']-1)*$result['page_size']);
-            $goods = GoodsService::CategoryGoodsList(['where'=>$where, 'm'=>$m, 'n'=>$result['page_size'], 'field'=>$field, 'order_by'=>$order_by]);
+            $goods = GoodsService::CategoryGoodsList(['where'=>$where, 'm'=>$m, 'n'=>$result['page_size'], 'field'=>$field, 'order_by'=>$order_by, 'is_admin_access'=>1]);
             $result['data'] = $goods['data'];
             $result['page_total'] = ceil($result['total']/$result['page_size']);
              // 数据处理
@@ -1697,6 +1695,11 @@ class ThemeDataService
             return DataReturn(MyLang('common_service.themedata.upload_dir_no_power_tips').'['.$app_upload_dir.']', -3);
         }
 
+        if(!ZipPackageFileIsReadablePkMagic($package_file))
+        {
+            return DataReturn(MyLang('form_open_zip_message').'[-12]', -11);
+        }
+
         // 开始解压文件
         $zip = new \ZipArchive();
         $resource = $zip->open($package_file);
@@ -1713,6 +1716,11 @@ class ThemeDataService
             // 当前是配置文件
             if(stripos($file, 'config.json') !== false)
             {
+                if(ZipArchiveEntryRelativePathUnsafe($file))
+                {
+                    $zip->close();
+                    return DataReturn(MyLang('common_service.themedata.upload_config_file_get_fail_tips'), -1);
+                }
                 // 是否主题上传，则需要验证主题包目录分隔符
                 if($is_theme_upload && stripos($file, $theme_dir_ds_unique) === false)
                 {
@@ -1732,8 +1740,9 @@ class ThemeDataService
                 if($pos !== false)
                 {
                     $info = pathinfo($file);
-                    if(isset($info['extension']) && in_array(strtolower($info['extension']), self::$exclude_ext))
+                    if(isset($info['extension']) && ZipPublicDirExtensionIsForbidden($info['extension']))
                     {
+                        fclose($stream);
                         continue;
                     }
                 }
@@ -1813,6 +1822,10 @@ class ThemeDataService
             // 排除临时文件和临时目录
             if(strpos($file, '/.') === false && strpos($file, '__') === false)
             {
+                if(ZipArchiveEntryRelativePathUnsafe($file))
+                {
+                    continue;
+                }
                 // 是否主题上传处理
                 if($is_theme_upload)
                 {
@@ -1823,20 +1836,54 @@ class ThemeDataService
                     }
 
                     // 去除以_theme_data_分割的和前面部分
-                    $temp_file = substr($file, strpos($file, $theme_dir_ds_unique)+strlen($theme_dir_ds_unique)+1);
+                    $td_pos = strpos($file, $theme_dir_ds_unique);
+                    if($td_pos === false)
+                    {
+                        continue;
+                    }
+                    $temp_file = substr($file, $td_pos + strlen($theme_dir_ds_unique) + 1);
                 } else {
                     // 去除第一个目录（为原始数据的id）
-                    $temp_file = substr($file, strpos($file, '/')+1);
+                    $slash_pos = strpos($file, '/');
+                    if($slash_pos === false)
+                    {
+                        continue;
+                    }
+                    $temp_file = substr($file, $slash_pos + 1);
+                }
+                if(ZipArchiveEntryRelativePathUnsafe($temp_file))
+                {
+                    continue;
                 }
 
                 // 获取第一个目录得到当前数据唯一标识
-                $unique = substr($temp_file, 0, strpos($temp_file, '/'));
+                $u_pos = strpos($temp_file, '/');
+                if($u_pos === false)
+                {
+                    continue;
+                }
+                $unique = substr($temp_file, 0, $u_pos);
                 // 再去除当前数据唯一标识目录段
-                $temp_file = substr($temp_file, strpos($temp_file, '/')+1);
+                $temp_file = substr($temp_file, $u_pos + 1);
+                if(ZipArchiveEntryRelativePathUnsafe($temp_file))
+                {
+                    continue;
+                }
                 // 空或者目录及配置文件则跳过
                 if(empty($temp_file) || in_array($temp_file, ['static/', 'static/upload/', 'config.json']) || empty($handle_data[$unique]))
                 {
                     continue;
+                }
+
+                // 排除危险后缀（此前仅部分分支校验）
+                $ext_pos = strripos($file, '.');
+                if($ext_pos !== false)
+                {
+                    $pinfo = pathinfo($file);
+                    if(isset($pinfo['extension']) && ZipPublicDirExtensionIsForbidden($pinfo['extension']))
+                    {
+                        continue;
+                    }
                 }
 
                 // 截取文件路径

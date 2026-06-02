@@ -117,6 +117,13 @@
                                     <b class="price">{{$module_data.goods.price}}</b>
                                     <em class="unit am-text-grey" data-value="{{$module_data.goods.show_price_unit}}">{{$module_data.goods.show_price_unit}}</em>
                                 </span>
+                                {{if isset($module_data['goods']['show_inventory_status']) and $module_data['goods']['show_inventory_status'] eq 1}}
+                                    <span class="stock-tips theme-signin-popup-stock">
+                                        <em>{{:MyLang('inventory_title')}}</em>
+                                        <em class="stock">{{$module_data.goods.inventory}}</em>
+                                        <em class="unit" data-value="{{$module_data.goods.inventory_unit}}">{{$module_data.goods.inventory_unit}}</em>
+                                    </span>
+                                {{/if}}
                             </div>
                         </div>
                     </form>

@@ -373,6 +373,7 @@ function FromInit (form_name = null) {
                     var request_value = $temp_form.attr('request-value') || null;
                     var is_progress = ($temp_form.attr('data-is-progress') == undefined || parseInt($temp_form.attr('data-is-progress') || 0) == 1) ? 1 : 0;
                     var is_loading = parseInt($temp_form.attr('data-is-loading') || 0);
+                    var is_close_loading = ($temp_form.attr('data-is-close-loading') == undefined || parseInt($temp_form.attr('data-is-close-loading') || 0) == 1) ? 1 : 0;
                     var loading_msg = $temp_form.attr('data-loading-msg') || window['lang_request_handle_loading_tips'] || '正在处理中、请稍候...';
                     // 以 ajax 开头的都会先请求再处理
                     // ajax-reload  请求完成后刷新页面
@@ -489,7 +490,7 @@ function FromInit (form_name = null) {
                         processData: false,
                         contentType: false,
                         success: function (result) {
-                            if (is_loading == 1) {
+                            if (is_loading == 1 && is_close_loading == 1) {
                                 AMUI.dialog.loading('close');
                             }
                             if(is_progress == 1) {
@@ -563,7 +564,7 @@ function FromInit (form_name = null) {
                             }
                         },
                         error: function (xhr, type) {
-                            if (is_loading == 1) {
+                            if (is_loading == 1 && is_close_loading == 1) {
                                 AMUI.dialog.loading('close');
                             }
                             if(is_progress == 1) {
@@ -1282,6 +1283,7 @@ function DataDelete (e) {
     var ext_delete_tag = e.attr('data-ext-delete-tag') || null;
     var is_progress = (e.attr('data-is-progress') == undefined || parseInt(e.attr('data-is-progress') || 0) == 1) ? 1 : 0;
     var is_loading = parseInt(e.attr('data-is-loading') || 0);
+    var is_close_loading = (e.attr('data-is-close-loading') == undefined || parseInt(e.attr('data-is-close-loading') || 0) == 1) ? 1 : 0;
     var loading_msg = e.attr('data-loading-msg') || window['lang_request_handle_loading_tips'] || '正在处理中、请稍候...';
 
     // 参数校验
@@ -1331,7 +1333,7 @@ function DataDelete (e) {
                     case 'reload':
                         Prompt(result.msg, 'success');
                         setTimeout(function () {
-                            if (is_loading == 1) {
+                            if (is_loading == 1 && is_close_loading == 1) {
                                 AMUI.dialog.loading('close');
                             }
                             // 等于parent则刷新父窗口
@@ -1372,19 +1374,19 @@ function DataDelete (e) {
 
                 // 非刷新和跳转操作
                 if (view != 'reload' && view != 'jump') {
-                    if (is_loading == 1) {
+                    if (is_loading == 1 && is_close_loading == 1) {
                         AMUI.dialog.loading('close');
                     }
                 }
             } else {
-                if (is_loading == 1) {
+                if (is_loading == 1 && is_close_loading == 1) {
                     AMUI.dialog.loading('close');
                 }
                 Prompt(result.msg);
             }
         },
         error: function (xhr, type) {
-            if (is_loading == 1) {
+            if (is_loading == 1 && is_close_loading == 1) {
                 AMUI.dialog.loading('close');
             }
             if(is_progress == 1) {
@@ -1444,6 +1446,7 @@ function AjaxRequest (e) {
     var is_reset = e.attr('data-is-reset');
     var is_progress = (e.attr('data-is-progress') == undefined || parseInt(e.attr('data-is-progress') || 0) == 1) ? 1 : 0;
     var is_loading = parseInt(e.attr('data-is-loading') || 0);
+    var is_close_loading = (e.attr('data-is-close-loading') == undefined || parseInt(e.attr('data-is-close-loading') || 0) == 1) ? 1 : 0;
     var loading_msg = e.attr('data-loading-msg') || window['lang_request_handle_loading_tips'] || '正在处理中、请稍候...';
 
     // 请求数据
@@ -1504,7 +1507,7 @@ function AjaxRequest (e) {
                     case 'reload':
                         Prompt(result.msg, 'success');
                         setTimeout(function () {
-                            if (is_loading == 1) {
+                            if (is_loading == 1 && is_close_loading == 1) {
                                 AMUI.dialog.loading('close');
                             }
                             // 等于parent则刷新父窗口
@@ -1542,12 +1545,12 @@ function AjaxRequest (e) {
 
                 // 非刷新和跳转操作
                 if (view != 'reload' && view != 'jump') {
-                    if (is_loading == 1) {
+                    if (is_loading == 1 && is_close_loading == 1) {
                         AMUI.dialog.loading('close');
                     }
                 }
             } else {
-                if (is_loading == 1) {
+                if (is_loading == 1 && is_close_loading == 1) {
                     AMUI.dialog.loading('close');
                 }
                 if (is_example) {
@@ -1559,7 +1562,7 @@ function AjaxRequest (e) {
                         case 'reload':
                             Prompt(result.msg);
                             setTimeout(function () {
-                                if (is_loading == 1) {
+                                if (is_loading == 1 && is_close_loading == 1) {
                                     AMUI.dialog.loading('close');
                                 }
                                 // 等于parent则刷新父窗口
@@ -1600,7 +1603,7 @@ function AjaxRequest (e) {
             }
         },
         error: function (xhr, type) {
-            if (is_loading == 1) {
+            if (is_loading == 1 && is_close_loading == 1) {
                 AMUI.dialog.loading('close');
             }
             if (is_example) {
@@ -3233,13 +3236,13 @@ function InputClearOutHandle (e) {
                 // 存在popup弹窗则减去弹窗的外边距
                 if (e.parents('.am-popup').length > 0) {
                     var offset = e.parents('.am-popup').offset();
-                    top -= offset.top;
+                    top -= offset.top - scroll_top;
                     left -= offset.left;
                 }
                 // 存在modal弹窗则减去弹窗的外边距
                 if (e.parents('.am-modal').length > 0) {
                     var offset = e.parents('.am-modal .am-modal-dialog').offset();
-                    top -= offset.top;
+                    top -= offset.top - scroll_top;
                     left -= offset.left;
                 }
                 // 存在tabs
@@ -3300,7 +3303,7 @@ function ColorPickerInit () {
         // 调用颜色组件
         $(document).on('click', '.colorpicker-container', function () {
             var $self = $(this).find('.colorpicker-submit');
-            if ($self.find('.fcolorpicker-curbox').length == 0) {
+            if ($self[0] && $self.find('.fcolorpicker-curbox').length == 0) {
                 // 颜色格式
                 var color_format = $self.attr('data-color-format') || 'hex';
                 // 初始化颜色
@@ -3310,9 +3313,12 @@ function ColorPickerInit () {
                 var color_style_arr = color_style.split('|');
                 // 语言
                 var lang = (window['lang_multilingual_default_code'] || 'zh-cn') == 'en' ? 'en' : 'cn';
-                new XNColorPicker({
+                // xncolorpicker：show:true 时构造过程里 this.show 仍为 false，init() 内 setPosition() 会因 !this.show 直接 return，
+                // 面板保留默认 left/top；第二次点击走 changeShow 才置 show 并定位。此处补一次 show + setPosition。
+                var color_picker_ins = new XNColorPicker({
                     color: init_color,
-                    selector: $self,
+                    // xnquery 仅支持原生 DOM / 字符串选择器，传入 jQuery 对象会得到空集合导致面板固定在左上角
+                    selector: $self[0],
                     showprecolor: true,//显示预制颜色
                     prevcolors: null,//预制颜色，不设置则默认
                     showhistorycolor: true,//显示历史
@@ -3396,6 +3402,12 @@ function ColorPickerInit () {
                         $($self.data('color-tag')).trigger('change');
                     }
                 });
+                if (color_picker_ins && color_picker_ins.dom) {
+                    color_picker_ins.show = true;
+                    requestAnimationFrame(function () {
+                        color_picker_ins.setPosition();
+                    });
+                }
             }
         });
     }
@@ -4732,6 +4744,7 @@ function CommonStateOperateHandle(e, reason = '')
     var is_update_status = e.attr('data-is-update-status') || 0;
     var is_progress = (e.attr('data-is-progress') == undefined || parseInt(e.attr('data-is-progress') || 0) == 1) ? 1 : 0;
     var is_loading = parseInt(e.attr('data-is-loading') || 0);
+    var is_close_loading = (e.attr('data-is-close-loading') == undefined || parseInt(e.attr('data-is-close-loading') || 0) == 1) ? 1 : 0;
     var loading_msg = e.attr('data-loading-msg') || window['lang_request_handle_loading_tips'] || '正在处理中、请稍候...';
     if (id == undefined || url == undefined) {
         Prompt(window['lang_params_error_tips'] || '参数配置有误');
@@ -4754,7 +4767,7 @@ function CommonStateOperateHandle(e, reason = '')
         timeout: e.attr('data-timeout') || 60000,
         data: { id: id, state: state, field: field, reason: reason },
         success: function (result) {
-            if (is_loading == 1) {
+            if (is_loading == 1 && is_close_loading == 1) {
                 AMUI.dialog.loading('close');
             }
             if (is_progress == 1) {
@@ -4787,7 +4800,7 @@ function CommonStateOperateHandle(e, reason = '')
             }
         },
         error: function (xhr, type) {
-            if (is_loading == 1) {
+            if (is_loading == 1 && is_close_loading == 1) {
                 AMUI.dialog.loading('close');
             }
             if (is_progress == 1) {
@@ -4797,10 +4810,6 @@ function CommonStateOperateHandle(e, reason = '')
         }
     });
 }
-
-
-
-
 
 // 公共数据操作
 $(function () {
@@ -5432,6 +5441,7 @@ $(function () {
         var head_col = TreeHeadConfig();
         var url = $('#tree').attr('data-status-url');
         var is_loading = parseInt($('#tree').attr('data-status-is-loading') || 0);
+        var is_close_loading = ($('#tree').attr('data-is-close-loading') == undefined || parseInt($('#tree').attr('data-is-close-loading') || 0) == 1) ? 1 : 0;
         var loading_msg = $('#tree').attr('data-status-loading-msg') || window['lang_request_handle_loading_tips'] || '正在处理中、请稍候...';
 
         // 弹层加载
@@ -5455,7 +5465,7 @@ $(function () {
                 setTimeout(() => {
                     $this.find('input').switch().toggleSwitchOpen();
                 }, 1000);
-                if (is_loading == 1) {
+                if (is_loading == 1 && is_close_loading == 1) {
                     setTimeout(function () {
                         AMUI.dialog.loading('close');
                     }, 1000);
@@ -5528,7 +5538,7 @@ $(function () {
                 }
             },
             error: function (xhr, type) {
-                if (is_loading == 1) {
+                if (is_loading == 1 && is_close_loading == 1) {
                     setTimeout(function () {
                         AMUI.dialog.loading('close');
                     }, 1000);

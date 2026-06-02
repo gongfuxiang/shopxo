@@ -18,10 +18,24 @@
 
 <!-- conntent start  -->
 <div class="am-g am-container">
-    <div class="am-radius qrcode-pay am-background-body am-margin-xl" data-ajax-url="{{$pay_data.check_url}}" data-order-no="{{$pay_data.order_no}}">
+    <div class="qrcode-pay am-text-center am-radius am-background-white am-margin-top am-padding-xl" data-ajax-url="{{$pay_data.check_url}}" data-order-no="{{$pay_data.order_no}}">
         <div class="name">{{$pay_data.name}}</div>
-        <div class="view-qrcode-init" data-width="260" data-height="260" data-value="{{$pay_data.url}}"></div>
-        <div class="msg am-margin-top-main">{{$pay_data.msg}}</div>
+        <div class="am-flex am-flex-items-center am-flex-justify-center am-gap-32 am-padding-vertical-xl">
+            <div>
+                <div class="view-qrcode-init" data-width="260" data-height="260" data-value="{{$pay_data.url}}"></div>
+                <div class="msg am-color-red am-margin-top-sm">{{$pay_data.msg}}</div>
+            </div>
+            {{if !empty($pay_data['type'])}}
+                {{switch $pay_data.type}}
+                    {{case weixin}}
+                        <img src="{{:StaticAttachmentUrl('payment-weixin.jpg')}}" class="am-hide-sm-only" height="250" />
+                    {{/case}}
+                    {{case alipay}}
+                        <img src="{{:StaticAttachmentUrl('payment-alipay.jpg')}}" class="am-hide-sm-only" height="250" />
+                    {{/case}}
+                {{/switch}}
+            {{/if}}
+        </div>
     </div>
 </div>
 <!-- conntent end  -->

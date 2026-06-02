@@ -14,13 +14,13 @@
                     {{if !empty($module_data['base_nav']['keywords_arr'])}}
                         <div class="base-nav-keywords">
                             {{foreach $module_data.base_nav.keywords_arr as $kdv}}
-                                <a href="{{:MyUrl('index/search/index', ['wd'=>StrToAscii($kdv)])}}" target="_blank">{{$kdv}}</a>
+                                <a href="{{:MyUrl('index/search/index', ['wd'=>StrToAscii($kdv)])}}" target="_blank" rel="noopener noreferrer">{{$kdv}}</a>
                             {{/foreach}}
                         </div>
                     {{/if}}
                     {{if !empty($module_data['base_nav']['url'])}}
                         <span class="base-nav-more">
-                            <a href="{{$module_data.base_nav.url}}" target="_blank">{{:MyLang('more_title')}} <i class="iconfont icon-angle-right"></i></a>
+                            <a href="{{$module_data.base_nav.url}}" target="_blank" rel="noopener noreferrer">{{:MyLang('more_title')}} <i class="iconfont icon-angle-right"></i></a>
                         </span>
                     {{/if}}
                 </div>
@@ -55,11 +55,11 @@
                             }
                         {{/php}}
 
-                        <a href="{{$v.goods_url}}" target="_blank">
+                        <a href="{{$v.goods_url}}" target="_blank" rel="noopener noreferrer">
                             <img src="{{$v.images}}" alt="{{$v.title}}" class="goods-images am-radius scale-sm" />
                         </a>
                         <div class="goods-base-right am-fr">
-                            <a href="{{$v.goods_url}}" target="_blank">
+                            <a href="{{$v.goods_url}}" target="_blank" rel="noopener noreferrer">
                                 <p class="am-text-truncate">{{$v.title|raw}}</p>
                             </a>
 
@@ -86,7 +86,13 @@
 
                             {{if isset($v['show_field_price_status']) and $v['show_field_price_status'] eq 1}}
                                 <p class="am-text-truncate price">
-                                    <strong>{{$v.show_price_symbol}}{{$v.price}}</strong>
+                                    {{if isset($module_data['price_key'])}}
+                                        {{if isset($v[$module_data['price_key']])}}
+                                            <strong>{{$v.show_price_symbol}}{{$v[$module_data['price_key']]}}</strong>
+                                        {{/if}}
+                                    {{else/}}
+                                        <strong>{{$v.show_price_symbol}}{{$v.price}}</strong>
+                                    {{/if}}
                                     <span class="am-text-grey am-text-xs unit">{{$v.show_price_unit}}</span>
                                 </p>
                             {{/if}}

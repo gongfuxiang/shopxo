@@ -7,7 +7,7 @@
             {{if !empty($v['show_name'])}}
                 <b>|</b>
                 <p class="footer-icp">
-                    <a {{if empty($v['url'])}}href="javascript:;"{{else /}}href="{{$v.url}}" target="_blank"{{/if}}>
+                    <a {{if empty($v['url'])}}href="javascript:;"{{else /}}href="{{$v.url}}" target="_blank" rel="noopener noreferrer"{{/if}}>
                         {{if !empty($v['icon'])}}
                             <img src="{{$v.icon}}" alt="{{$v.show_name}}" />
                         {{/if}}

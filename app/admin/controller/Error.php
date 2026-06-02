@@ -39,8 +39,7 @@ class Error extends Common
         {
             return ApiService::ApiDataReturn(DataReturn($msg, -1000));
         } else {
-            MyViewAssign('msg', $msg);
-            return MyView('public/tips_error');
+            return response(MyView('public/tips_error', ['msg'=>$msg]), 404);
         }
     }
 

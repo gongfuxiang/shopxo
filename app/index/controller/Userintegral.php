@@ -49,8 +49,8 @@ class UserIntegral extends Center
     {
         // 模板数据
         $assign = [
-            // 用户积分
-            'user_integral_data'    => IntegralService::UserIntegral($this->user['id']),
+            // 用户积分页顶部（与 IntegralService::UserIntegralPageHeader 一致）
+            'user_integral_header'  => IntegralService::UserIntegralPageHeader($this->user['id']),
 
             // 浏览器名称
             'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('userintegral.base_nav_title'), 1),

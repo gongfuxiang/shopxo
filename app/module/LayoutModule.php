@@ -837,7 +837,7 @@ class LayoutModule
 
             // 分页计算
             $m = intval(($result['page']-1)*$result['page_size']);
-            $ret = GoodsService::CategoryGoodsList(['where'=>$where, 'm'=>$m, 'n'=>$result['page_size'], 'field'=>$field, 'order_by'=>$order_by]);
+            $ret = GoodsService::CategoryGoodsList(['where'=>$where, 'm'=>$m, 'n'=>$result['page_size'], 'field'=>$field, 'order_by'=>$order_by, 'is_admin_access'=>1]);
             $result['data'] = $ret['data'];
             $result['page_total'] = ceil($result['total']/$result['page_size']);
              // 数据处理
@@ -951,11 +951,12 @@ class LayoutModule
             // 商品
             case 'goods' :
                 $request_params = [
-                    'where'     => $where,
-                    'm'         => $m,
-                    'n'         => $n,
-                    'field'     => $field,
-                    'order_by'  => $order_by,
+                    'where'            => $where,
+                    'm'                => $m,
+                    'n'                => $n,
+                    'field'            => $field,
+                    'order_by'         => $order_by,
+                    'is_admin_access'  => 1,
                 ];
                 $ret = GoodsService::GoodsList($request_params);
                 if(!empty($ret['data']))
@@ -977,11 +978,12 @@ class LayoutModule
             // 商品分类
             case 'category' :
                 $request_params = [
-                    'where'     => $where,
-                    'm'         => $m,
-                    'n'         => $n,
-                    'field'     => $field,
-                    'order_by'  => $order_by,
+                    'where'            => $where,
+                    'm'                => $m,
+                    'n'                => $n,
+                    'field'            => $field,
+                    'order_by'         => $order_by,
+                    'is_admin_access'  => 1,
                 ];
                 $ret = GoodsService::CategoryGoodsList($request_params);
                 break;

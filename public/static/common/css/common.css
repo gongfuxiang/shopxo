@@ -588,10 +588,10 @@ pre {
  * 表单组件
  */
 .am-form select, .am-form textarea, .am-form input[type="text"], .am-form input[type="password"], .am-form input[type="datetime"], .am-form input[type="datetime-local"], .am-form input[type="date"], .am-form input[type="month"], .am-form input[type="time"], .am-form input[type="week"], .am-form input[type="number"], .am-form input[type="email"], .am-form input[type="url"], .am-form input[type="search"], .am-form input[type="tel"], .am-form input[type="color"], .am-form-field {
-    line-height: 1.44rem;
+    line-height: 1.7rem;
 }
 select.chosen-select {
-    height: 2.84rem !important;
+    height: 3.1rem !important;
 }
 
 /* 没数据 */
@@ -721,7 +721,8 @@ button.colorpicker-submit:hover,
     -webkit-box-shadow: 0 0 0.5rem #4FACF5;
     box-shadow:0 0 0.5rem #4FACF5;
 }
-.am-form-error .chosen-choices, .am-form-error .chosen-default {
+.am-form-error .chosen-container-required .chosen-choices,
+.am-form-error .chosen-container-required .chosen-default {
     border: 0.1rem solid #dd514c !important;
 }
 form.am-form .am-form-group-label-tips, form.am-form .am-form-group-label-tips-must, form.am-form .am-form-group-label-tips-either {
@@ -1522,12 +1523,12 @@ ul.plug-file-upload-view-file li {
 .am-checkbox, .am-radio, .am-checkbox-inline, .am-radio-inline {
     padding-left: 2.2rem;
     min-width: 1.4rem;
-    min-height: 2.2rem;
+    min-height: 1.8rem;
     font-size: 1.4rem;
     
 }
 .am-ucheck-icons {
-    line-height: 2.2rem;
+    line-height: 1.8rem;
 }
 ul.am-dropdown-content > .am-active > a, ul.am-dropdown-content > .am-active > a:hover, ul.am-dropdown-content > .am-active > a:focus {
     color: var(--color-main);
@@ -2635,11 +2636,13 @@ form .am-tab-panel .am-form-group:last-child {
 
 
 /**
- * 表单基础
+ * 表单基础-双输入框
  */
-.form-multiple-where-input input {
-    display: -webkit-inline-box !important;
-    width: calc(50% - 0.9rem) !important;
+.form-multiple-where-input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
 }
 
 /**
@@ -2869,6 +2872,12 @@ a.input-clearout-submit:focus > i {
 .chosen-container-single > .chosen-single.input-clearout-element > .chosen-single-icon,
 .am-selected > .am-selected-btn.input-clearout-element > .am-selected-icon {
     display: none;
+}
+
+/* 颜色选择器弹窗内：当前色值输入框描边与小圆角 */
+.fcolorpicker .current-color-value input {
+    border: 0.1rem solid #eee;
+    border-radius: 0.4rem;
 }
 
 
@@ -5100,4 +5109,10 @@ legend a i:hover {
 }
 #specifications-quick-container:hover .chosen-container .chosen-drop {
     border-color: #666  !important;
+}
+
+.customer-sensitive-contact-img {
+    height: 2rem;
+    width: auto;
+    vertical-align: middle;
 }

@@ -120,7 +120,7 @@ class SiteService
 
             // 分页计算
             $m = intval(($result['page']-1)*$result['page_size']);
-            $goods = GoodsService::CategoryGoodsList(['where'=>$where, 'm'=>$m, 'n'=>$result['page_size'], 'field'=>$field, 'order_by'=>$order_by]);
+            $goods = GoodsService::CategoryGoodsList(['where'=>$where, 'm'=>$m, 'n'=>$result['page_size'], 'field'=>$field, 'order_by'=>$order_by, 'is_admin_access'=>1]);
             $result['data'] = $goods['data'];
             $result['page_total'] = ceil($result['total']/$result['page_size']);
              // 数据处理

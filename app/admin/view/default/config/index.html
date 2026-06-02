@@ -4,12 +4,12 @@
 <div class="content-right">
 	<div class="content">
         <!-- form start -->
-        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/config/save', ['view_type'=>$view_type])}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/config/index')}}">
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/config/save', ['view_type'=>$view_type])}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/config/index')}}" data-config-reload-base="{{:MyUrl('admin/config/index')}}">
             {{:ModuleInclude('public/nav_switch_btn', [
                 'nav_data' => [
                     [
                         'name' => MyLang('base_config_title'),
-                        'key'  => 'base-config-title',
+                        'key'  => 'base-config',
                     ],
                     [
                         'name' => MyLang('config.admin_login_title'),
@@ -28,14 +28,35 @@
                         'key'  => 'extend',
                     ],
                     [
+                        'name' => MyLang('verify_config_title'),
+                        'key'  => 'verify-config',
+                    ],
+                    [
+                        'name' => MyLang('attachment_config_title'),
+                        'key'  => 'attachment-config',
+                    ],
+                    [
                         'name' => MyLang('safety_title'),
                         'key'  => 'safety',
+                    ],
+                    [
+                        'name' => MyLang('cache_config_title'),
+                        'key'  => 'cache-config',
+                    ],
+                    [
+                        'name' => MyLang('config.cookie_config_title'),
+                        'key'  => 'cookie-config',
+                    ],
+                    [
+                        'name' => MyLang('session_config_title'),
+                        'key'  => 'session-config',
                     ]
-                ]
+                ],
+                'index' => $config_nav_tab_index,
             ])}}
             <div class="nav-content">
                 <!-- 基础配置 -->
-                <div class="item am-active" data-key="base-config-title">
+                <div class="item {{if $config_tab_key eq 'base-config'}}am-active{{/if}}" data-key="base-config">
                     <div class="am-form-group">
                         <label class="am-block">{{$data.admin_logo.name}}<span class="am-form-group-label-tips">{{$data.admin_logo.describe}}</span></label>
                         <div class="am-form-file-upload-container plug-file-upload-view-width-auto">
@@ -84,7 +105,7 @@
                 </div>
 
                 <!-- 后台登录 -->
-                <div class="item" data-key="admin-login">
+                <div class="item {{if $config_tab_key eq 'admin-login'}}am-active{{/if}}" data-key="admin-login">
                     <div class="am-form-group">
                         <label class="am-block">{{$data.admin_login_logo.name}}<span class="am-form-group-label-tips">{{$data.admin_login_logo.describe}}</span></label>
                         <div class="am-form-file-upload-container plug-file-upload-view-width-auto">
@@ -157,7 +178,7 @@
                 </div>
 
                 <!-- 商品 -->
-                <div class="item" data-key="goods">
+                <div class="item {{if $config_tab_key eq 'goods'}}am-active{{/if}}" data-key="goods">
                     <div class="am-form-group">
                         <label>{{$data.common_spec_add_max_number.name}}<span class="am-form-group-label-tips">{{$data.common_spec_add_max_number.describe}}</span></label>
                         <input type="number" name="{{$data.common_spec_add_max_number.only_tag}}" placeholder="{{$data.common_spec_add_max_number.describe}}" data-validation-message="{{$data.common_spec_add_max_number.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_spec_add_max_number.value}}"{{/if}} />
@@ -230,7 +251,7 @@
                 </div>
 
                 <!-- 地图 -->
-                <div class="item" data-key="map">
+                <div class="item {{if $config_tab_key eq 'map'}}am-active{{/if}}" data-key="map">
                     <div class="am-form-group">
                         <label>{{$data.common_map_type.name}}<span class="am-form-group-label-tips">{{$data.common_map_type.describe}}</span><a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('config.map_type_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
                         <div class="am-radio-group">
@@ -249,7 +270,7 @@
                         <label>{{$data.common_baidu_map_ak_server.name}}<span class="am-form-group-label-tips">{{$data.common_baidu_map_ak_server.describe}}</span></label>
                         <input type="text" name="{{$data.common_baidu_map_ak_server.only_tag}}" placeholder="{{$data.common_baidu_map_ak_server.describe}}" data-validation-message="{{$data.common_baidu_map_ak_server.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_baidu_map_ak_server.value}}"{{/if}} />
                         <div class="am-tips-card">
-                            {{:MyLang('config.apply_map_baidu_name')}} {{if !empty($site_store_links) and !empty($site_store_links['baidu_map_course'])}}<a href="{{$site_store_links.baidu_map_course}}" target="_blank" class="am-margin-left-sm">{{:MyLang('view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
+                            {{:MyLang('config.apply_map_baidu_name')}} {{if !empty($site_store_links) and !empty($site_store_links['baidu_map_course'])}}<a href="{{$site_store_links.baidu_map_course}}" target="_blank" rel="noopener noreferrer" class="am-margin-left-sm">{{:MyLang('view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
                         </div>
                     </div>
 
@@ -262,7 +283,7 @@
                         <label>{{$data.common_amap_map_ak_server.name}}<span class="am-form-group-label-tips">{{$data.common_amap_map_ak_server.describe}}</span></label>
                         <input type="text" name="{{$data.common_amap_map_ak_server.only_tag}}" placeholder="{{$data.common_amap_map_ak_server.describe}}" data-validation-message="{{$data.common_amap_map_ak_server.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_amap_map_ak_server.value}}"{{/if}} />
                         <div class="am-tips-card">
-                            {{:MyLang('config.apply_map_amap_name')}} {{if !empty($site_store_links) and !empty($site_store_links['amap_map_course'])}}<a href="{{$site_store_links.amap_map_course}}" target="_blank" class="am-margin-left-sm">{{:MyLang('view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
+                            {{:MyLang('config.apply_map_amap_name')}} {{if !empty($site_store_links) and !empty($site_store_links['amap_map_course'])}}<a href="{{$site_store_links.amap_map_course}}" target="_blank" rel="noopener noreferrer" class="am-margin-left-sm">{{:MyLang('view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
                         </div>
                     </div>
 
@@ -274,7 +295,7 @@
                         <label>{{$data.common_tencent_map_ak_server.name}}<span class="am-form-group-label-tips">{{$data.common_tencent_map_ak_server.describe}}</span></label>
                         <input type="text" name="{{$data.common_tencent_map_ak_server.only_tag}}" placeholder="{{$data.common_tencent_map_ak_server.describe}}" data-validation-message="{{$data.common_tencent_map_ak_server.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_tencent_map_ak_server.value}}"{{/if}} />
                         <div class="am-tips-card">
-                            {{:MyLang('config.apply_map_tencent_name')}} {{if !empty($site_store_links) and !empty($site_store_links['tencent_map_course'])}}<a href="{{$site_store_links.tencent_map_course}}" target="_blank" class="am-margin-left-sm">{{:MyLang('view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
+                            {{:MyLang('config.apply_map_tencent_name')}} {{if !empty($site_store_links) and !empty($site_store_links['tencent_map_course'])}}<a href="{{$site_store_links.tencent_map_course}}" target="_blank" rel="noopener noreferrer" class="am-margin-left-sm">{{:MyLang('view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
                         </div>
                     </div>
 
@@ -286,13 +307,13 @@
                         <label>{{$data.common_tianditu_map_ak_server.name}}<span class="am-form-group-label-tips">{{$data.common_tianditu_map_ak_server.describe}}</span></label>
                         <input type="text" name="{{$data.common_tianditu_map_ak_server.only_tag}}" placeholder="{{$data.common_tianditu_map_ak_server.describe}}" data-validation-message="{{$data.common_tianditu_map_ak_server.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_tianditu_map_ak_server.value}}"{{/if}} />
                         <div class="am-tips-card">
-                            {{:MyLang('config.apply_map_tianditu_name')}} {{if !empty($site_store_links) and !empty($site_store_links['tianditu_map_course'])}}<a href="{{$site_store_links.tianditu_map_course}}" target="_blank" class="am-margin-left-sm">{{:MyLang('view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
+                            {{:MyLang('config.apply_map_tianditu_name')}} {{if !empty($site_store_links) and !empty($site_store_links['tianditu_map_course'])}}<a href="{{$site_store_links.tianditu_map_course}}" target="_blank" rel="noopener noreferrer" class="am-margin-left-sm">{{:MyLang('view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
                         </div>
                     </div>
                 </div>
 
                 <!-- 扩展 -->
-                <div class="item" data-key="extend">
+                <div class="item {{if $config_tab_key eq 'extend'}}am-active{{/if}}" data-key="extend">
                     <div class="am-form-group">
                         <label>{{$data.common_is_https_connect_store.name}}<span class="am-form-group-label-tips">{{$data.common_is_https_connect_store.describe}}</span></label>
                         <div class="am-radio-group">
@@ -305,21 +326,88 @@
                     </div>
                 </div>
 
-                <!-- 安全 -->
-                <div class="item" data-key="safety">
+                <!-- 验证码 -->
+                <div class="item {{if $config_tab_key eq 'verify-config'}}am-active{{/if}}" data-key="verify-config">
                     <div class="am-form-group">
-                        <label>{{$data.common_data_encryption_secret.name}}<span class="am-form-group-label-tips">{{$data.common_data_encryption_secret.describe}}</span></label>
-                        <input type="text" name="{{$data.common_data_encryption_secret.only_tag}}" placeholder="{{$data.common_data_encryption_secret.describe}}" data-validation-message="{{$data.common_data_encryption_secret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_data_encryption_secret.value}}"{{/if}} />
+                        <label>{{$data.common_verify_expire_time.name}}<span class="am-form-group-label-tips">{{$data.common_verify_expire_time.describe}}</span></label>
+                        <div class="am-input-group am-input-group-sm">
+                            <input type="number" min="0" step="1" name="{{$data.common_verify_expire_time.only_tag}}" placeholder="{{$data.common_verify_expire_time.describe}}" data-validation-message="{{$data.common_verify_expire_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_verify_expire_time.value}}"{{/if}} />
+                            <span class="am-input-group-label am-radius">{{:MyLang('second_title')}}</span>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_verify_interval_time.name}}<span class="am-form-group-label-tips">{{$data.common_verify_interval_time.describe}}</span></label>
+                        <div class="am-input-group am-input-group-sm">
+                            <input type="number" min="0" step="1" name="{{$data.common_verify_interval_time.only_tag}}" placeholder="{{$data.common_verify_interval_time.describe}}" data-validation-message="{{$data.common_verify_interval_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_verify_interval_time.value}}"{{/if}} />
+                            <span class="am-input-group-label am-radius">{{:MyLang('second_title')}}</span>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.common_img_verify_state.describe}}</span></label>
+                        <div class="am-radio-group">
+                            {{foreach $common_close_open_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.value}}" name="{{$data.common_img_verify_state.only_tag}}" data-validation-message="{{$data.common_img_verify_state.error_tips}}" required {{if isset($data['common_img_verify_state']['value']) and $data['common_img_verify_state']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
                     </div>
 
                     <div class="am-form-group">
-                        <label>{{$data.common_cookie_domain.name}}<span class="am-form-group-label-tips">{{$data.common_cookie_domain.describe}}</span></label>
-                        <input type="text" name="{{$data.common_cookie_domain.only_tag}}" placeholder="{{$data.common_cookie_domain.describe}}" data-validation-message="{{$data.common_cookie_domain.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_cookie_domain.value}}"{{/if}} />
-                        {{if is_array(MyLang('config.cookie_domain_list_tips'))}}
-                            <div class="am-tips-card">
-                                <p>{{:implode('</p><p>', MyLang('config.cookie_domain_list_tips'))}}</p>
-                            </div>
-                        {{/if}}
+                        <label class="am-block">{{$data.common_images_verify_rand_type.name}}<span class="am-form-group-label-tips">{{$data.common_images_verify_rand_type.describe}}</span></label>
+                        <div class="am-radio-group">
+                            {{foreach $common_site_images_verify_rand_type_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" name="{{$data.common_images_verify_rand_type.only_tag}}" value="{{$v.value}}" {{if isset($data['common_images_verify_rand_type']['value']) and $v['value'] eq $data['common_images_verify_rand_type']['value']}}checked{{/if}} data-validation-message="{{$data.common_images_verify_rand_type.error_tips}}" data-am-ucheck /> {{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_images_verify_rules.name}}<span class="am-form-group-label-tips">{{$data.common_images_verify_rules.describe}}</span></label>
+                        <div class="am-checkbox-group">
+                            {{foreach $common_site_images_verify_rules_list as $v}}
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="{{$data.common_images_verify_rules.only_tag}}" value="{{$v.value}}" {{if isset($data['common_images_verify_rules']['value']) and in_array($v['value'], $data['common_images_verify_rules']['value'])}}checked{{/if}} data-validation-message="{{$data.common_images_verify_rules.error_tips}}" data-am-ucheck /> {{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 附件配置 -->
+                <div class="item {{if $config_tab_key eq 'attachment-config'}}am-active{{/if}}" data-key="attachment-config">
+                    <div class="am-form-group">
+                        <label>{{$data.home_max_limit_image.name}}<span class="am-form-group-label-tips">{{$data.home_max_limit_image.describe}}</span></label>
+                        <input type="number" min="0" name="{{$data.home_max_limit_image.only_tag}}" placeholder="{{$data.home_max_limit_image.name}}" data-validation-message="{{$data.home_max_limit_image.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.home_max_limit_image.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.home_max_limit_file.name}}<span class="am-form-group-label-tips">{{$data.home_max_limit_file.describe}}</span></label>
+                        <input type="number" min="0" name="{{$data.home_max_limit_file.only_tag}}" placeholder="{{$data.home_max_limit_file.name}}" data-validation-message="{{$data.home_max_limit_file.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.home_max_limit_file.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.home_max_limit_video.name}}<span class="am-form-group-label-tips">{{$data.home_max_limit_video.describe}}</span></label>
+                        <input type="number" min="0" name="{{$data.home_max_limit_video.only_tag}}" placeholder="{{$data.home_max_limit_video.name}}" data-validation-message="{{$data.home_max_limit_video.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.home_max_limit_video.value}}"{{/if}} />
+                    </div>
+                </div>
+
+                <!-- 安全 -->
+                <div class="item {{if $config_tab_key eq 'safety'}}am-active{{/if}}" data-key="safety">
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_is_sensitive_data_masking.name}}<span class="am-form-group-label-tips">{{$data.common_is_sensitive_data_masking.describe}}</span></label>
+                        <div class="am-radio-group">
+                            {{foreach $common_is_text_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_is_sensitive_data_masking.only_tag}}" data-validation-message="{{$data.common_is_sensitive_data_masking.error_tips}}" required {{if isset($data['common_is_sensitive_data_masking']['value']) and $data['common_is_sensitive_data_masking']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label>{{$data.common_data_encryption_secret.name}}<span class="am-form-group-label-tips">{{$data.common_data_encryption_secret.describe}}</span></label>
+                        <input type="text" name="{{$data.common_data_encryption_secret.only_tag}}" placeholder="{{$data.common_data_encryption_secret.describe}}" data-validation-message="{{$data.common_data_encryption_secret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_data_encryption_secret.value}}"{{/if}} />
                     </div>
 
                     <div class="am-form-group">
@@ -330,6 +418,166 @@
                                     <input type="checkbox" name="{{$data.common_token_created_rules.only_tag}}" value="{{$v.value}}" {{if isset($data['common_token_created_rules']['value']) and is_array($data['common_token_created_rules']['value']) and in_array($v['value'], $data['common_token_created_rules']['value'])}}checked{{/if}} data-validation-message="{{$data.common_token_created_rules.error_tips}}" data-am-ucheck /> {{$v.name}}
                                 </label>
                             {{/foreach}}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 缓存（Session / 数据 / Redis 自上而下展示） -->
+                <div class="item {{if $config_tab_key eq 'cache-config'}}am-active{{/if}}" data-key="cache-config">
+                    {{if is_array(MyLang('site.site_cache_tips_list'))}}
+                        <div class="am-operate-stretch-tips am-margin-bottom-lg">
+                            <div class="title">
+                                <i class="iconfont icon-tips"></i>
+                                <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                                <i class="iconfont icon-retract-diagonal contract" title="{{:MyLang('operate_list_tips_retract_text')}}"></i>
+                            </div>
+                            <p>{{:implode('</p><p>', MyLang('site.site_cache_tips_list'))}}</p>
+                        </div>
+                    {{/if}}
+
+                    <div class="am-panel am-panel-default am-radius">
+                        <div class="am-panel-hd">
+                            <h3 class="am-panel-title">{{:MyLang('site.base_item_session_cache_title')}}</h3>
+                        </div>
+                        <div class="am-panel-bd am-padding-bottom-0">
+                            <div class="am-form-group">
+                                <label>{{$data.common_session_is_use_cache.name}}<span class="am-form-group-label-tips">{{$data.common_session_is_use_cache.describe}}</span></label>
+                                <div class="am-radio-group">
+                                    {{foreach $common_is_text_list as $v}}
+                                        <label class="am-radio-inline">
+                                            <input type="radio" value="{{$v.id}}" name="{{$data.common_session_is_use_cache.only_tag}}" data-validation-message="{{$data.common_session_is_use_cache.error_tips}}" required {{if isset($data['common_session_is_use_cache']['value']) and $data['common_session_is_use_cache']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                        </label>
+                                    {{/foreach}}
+                                </div>
+                            </div>
+                            <div class="am-form-group">
+                                <label>{{$data.common_cache_session_redis_prefix.name}}<span class="am-form-group-label-tips">{{$data.common_cache_session_redis_prefix.describe}}</span></label>
+                                <input type="text" name="{{$data.common_cache_session_redis_prefix.only_tag}}" placeholder="{{$data.common_cache_session_redis_prefix.describe}}" data-validation-message="{{$data.common_cache_session_redis_prefix.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_cache_session_redis_prefix.value}}"{{/if}} />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="am-panel am-panel-default am-radius">
+                        <div class="am-panel-hd">
+                            <h3 class="am-panel-title">{{:MyLang('site.base_item_data_cache_title')}}</h3>
+                        </div>
+                        <div class="am-panel-bd am-padding-bottom-0">
+                            <div class="am-form-group">
+                                <label>{{$data.common_data_is_use_cache.name}}<span class="am-form-group-label-tips">{{$data.common_data_is_use_cache.describe}}</span></label>
+                                <div class="am-radio-group">
+                                    {{foreach $common_is_text_list as $v}}
+                                        <label class="am-radio-inline">
+                                            <input type="radio" value="{{$v.id}}" name="{{$data.common_data_is_use_cache.only_tag}}" data-validation-message="{{$data.common_data_is_use_cache.error_tips}}" required {{if isset($data['common_data_is_use_cache']['value']) and $data['common_data_is_use_cache']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                        </label>
+                                    {{/foreach}}
+                                </div>
+                            </div>
+                            <div class="am-form-group">
+                                <label>{{$data.common_cache_data_redis_prefix.name}}<span class="am-form-group-label-tips">{{$data.common_cache_data_redis_prefix.describe}}</span></label>
+                                <input type="text" name="{{$data.common_cache_data_redis_prefix.only_tag}}" placeholder="{{$data.common_cache_data_redis_prefix.describe}}" data-validation-message="{{$data.common_cache_data_redis_prefix.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_cache_data_redis_prefix.value}}"{{/if}} />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="am-panel am-panel-default am-radius">
+                        <div class="am-panel-hd">
+                            <h3 class="am-panel-title">{{:MyLang('site.base_item_redis_cache_title')}}</h3>
+                        </div>
+                        <div class="am-panel-bd am-padding-bottom-0">
+                            <div class="am-form-group">
+                                <label>{{$data.common_data_is_use_redis_cache.name}}<span class="am-form-group-label-tips">{{$data.common_data_is_use_redis_cache.describe}}</span></label>
+                                <div class="am-radio-group">
+                                    {{foreach $common_is_text_list as $v}}
+                                        <label class="am-radio-inline">
+                                            <input type="radio" value="{{$v.id}}" name="{{$data.common_data_is_use_redis_cache.only_tag}}" data-validation-message="{{$data.common_data_is_use_redis_cache.error_tips}}" required {{if isset($data['common_data_is_use_redis_cache']['value']) and $data['common_data_is_use_redis_cache']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                        </label>
+                                    {{/foreach}}
+                                </div>
+                            </div>
+                            <div class="am-form-group">
+                                <label>{{$data.common_cache_data_redis_host.name}}<span class="am-form-group-label-tips">{{$data.common_cache_data_redis_host.describe}}</span></label>
+                                <input type="text" name="{{$data.common_cache_data_redis_host.only_tag}}" placeholder="{{$data.common_cache_data_redis_host.describe}}" data-validation-message="{{$data.common_cache_data_redis_host.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_cache_data_redis_host.value}}"{{/if}} />
+                            </div>
+                            <div class="am-form-group">
+                                <label>{{$data.common_cache_data_redis_port.name}}<span class="am-form-group-label-tips">{{$data.common_cache_data_redis_port.describe}}</span></label>
+                                <input type="text" name="{{$data.common_cache_data_redis_port.only_tag}}" placeholder="{{$data.common_cache_data_redis_port.describe}}" data-validation-message="{{$data.common_cache_data_redis_port.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_cache_data_redis_port.value}}"{{/if}} />
+                            </div>
+                            <div class="am-form-group">
+                                <label>{{$data.common_cache_data_redis_password.name}}<span class="am-form-group-label-tips">{{$data.common_cache_data_redis_password.describe}}</span></label>
+                                <input type="text" name="{{$data.common_cache_data_redis_password.only_tag}}" placeholder="{{$data.common_cache_data_redis_password.describe}}" data-validation-message="{{$data.common_cache_data_redis_password.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_cache_data_redis_password.value}}"{{/if}} />
+                            </div>
+                            <div class="am-form-group">
+                                <label>{{$data.common_cache_data_redis_expire.name}}<span class="am-form-group-label-tips">{{$data.common_cache_data_redis_expire.describe}}</span></label>
+                                <div class="am-input-group am-input-group-sm">
+                                    <input type="number" min="0" name="{{$data.common_cache_data_redis_expire.only_tag}}" placeholder="{{$data.common_cache_data_redis_expire.name}}" data-validation-message="{{$data.common_cache_data_redis_expire.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_cache_data_redis_expire.value}}"{{/if}} />
+                                    <span class="am-input-group-label am-radius">{{:MyLang('second_title')}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cookie配置 -->
+                <div class="item {{if $config_tab_key eq 'cookie-config'}}am-active{{/if}}" data-key="cookie-config">
+                    <div class="am-form-group">
+                        <label>{{$data.common_cookie_domain.name}}<span class="am-form-group-label-tips">{{$data.common_cookie_domain.describe}}</span></label>
+                        <input type="text" name="{{$data.common_cookie_domain.only_tag}}" placeholder="{{$data.common_cookie_domain.name}}" data-validation-message="{{$data.common_cookie_domain.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_cookie_domain.value}}"{{/if}} />
+                        {{if is_array(MyLang('config.cookie_domain_list_tips'))}}
+                            <div class="am-tips-card">
+                                <p>{{:implode('</p><p>', MyLang('config.cookie_domain_list_tips'))}}</p>
+                            </div>
+                        {{/if}}
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_cookie_expire.name}}<span class="am-form-group-label-tips">{{$data.common_cookie_expire.describe}}</span></label>
+                        <div class="am-input-group am-input-group-sm">
+                            <input type="number" min="0" step="1" name="{{$data.common_cookie_expire.only_tag}}" placeholder="{{$data.common_cookie_expire.name}}" data-validation-message="{{$data.common_cookie_expire.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_cookie_expire.value}}"{{/if}} />
+                            <span class="am-input-group-label am-radius">{{:MyLang('second_title')}}</span>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_cookie_secure.name}}<span class="am-form-group-label-tips">{{$data.common_cookie_secure.describe}}</span></label>
+                        <div class="am-radio-group">
+                            {{foreach $common_close_open_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.value}}" name="{{$data.common_cookie_secure.only_tag}}" data-validation-message="{{$data.common_cookie_secure.error_tips}}" required {{if (isset($data['common_cookie_secure']['value']) and $data['common_cookie_secure']['value'] eq $v['value']) or (!isset($data['common_cookie_secure']['value']) and $v['value'] eq 0)}}checked{{/if}} data-am-ucheck /> {{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_cookie_httponly.name}}<span class="am-form-group-label-tips">{{$data.common_cookie_httponly.describe}}</span></label>
+                        <div class="am-radio-group">
+                            {{foreach $common_close_open_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.value}}" name="{{$data.common_cookie_httponly.only_tag}}" data-validation-message="{{$data.common_cookie_httponly.error_tips}}" required {{if (isset($data['common_cookie_httponly']['value']) and $data['common_cookie_httponly']['value'] eq $v['value']) or (!isset($data['common_cookie_httponly']['value']) and $v['value'] eq 0)}}checked{{/if}} data-am-ucheck /> {{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_cookie_samesite.name}}<span class="am-form-group-label-tips">{{$data.common_cookie_samesite.describe}}</span></label>
+                        <div class="am-radio-group">
+                            <label class="am-radio-inline">
+                                <input type="radio" value="" name="{{$data.common_cookie_samesite.only_tag}}" data-validation-message="{{$data.common_cookie_samesite.error_tips}}" required {{if !isset($data['common_cookie_samesite']['value']) or $data['common_cookie_samesite']['value'] eq ''}}checked{{/if}} data-am-ucheck /> {{:MyLang('config.cookie_samesite_option_empty')}}
+                            </label>
+                            <label class="am-radio-inline">
+                                <input type="radio" value="strict" name="{{$data.common_cookie_samesite.only_tag}}" data-validation-message="{{$data.common_cookie_samesite.error_tips}}" required {{if isset($data['common_cookie_samesite']['value']) and $data['common_cookie_samesite']['value'] eq 'strict'}}checked{{/if}} data-am-ucheck /> {{:MyLang('config.cookie_samesite_option_strict')}}
+                            </label>
+                            <label class="am-radio-inline">
+                                <input type="radio" value="lax" name="{{$data.common_cookie_samesite.only_tag}}" data-validation-message="{{$data.common_cookie_samesite.error_tips}}" required {{if isset($data['common_cookie_samesite']['value']) and $data['common_cookie_samesite']['value'] eq 'lax'}}checked{{/if}} data-am-ucheck /> {{:MyLang('config.cookie_samesite_option_lax')}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session配置 -->
+                <div class="item {{if $config_tab_key eq 'session-config'}}am-active{{/if}}" data-key="session-config">
+                    <div class="am-form-group">
+                        <label>{{$data.common_session_expire.name}}<span class="am-form-group-label-tips">{{$data.common_session_expire.describe}}</span></label>
+                        <div class="am-input-group am-input-group-sm">
+                            <input type="number" min="0" step="1" name="{{$data.common_session_expire.only_tag}}" placeholder="{{$data.common_session_expire.name}}" data-validation-message="{{$data.common_session_expire.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_session_expire.value}}"{{/if}} />
+                            <span class="am-input-group-label am-radius">{{:MyLang('second_title')}}</span>
                         </div>
                     </div>
                 </div>
@@ -346,5 +594,31 @@
 </div>
 <!-- right content end  -->
 
+<script type="text/javascript">
+$(function () {
+    $('form[data-config-reload-base]').each(function () {
+        var $form = $(this);
+        var base = $form.data('config-reload-base');
+        function applyReloadUrl(key) {
+            if (!base || !key) {
+                return;
+            }
+            var join = base.indexOf('?') >= 0 ? '&' : '?';
+            $form.attr('request-value', base + join + 'switch=' + encodeURIComponent(key));
+        }
+        var activeKey = $form.find('.nav-switch-btn .item.am-active').data('key');
+        applyReloadUrl(activeKey);
+    });
+    $(document).on('click', 'form[data-config-reload-base] .nav-switch-btn .item', function () {
+        var $form = $(this).closest('form');
+        var base = $form.data('config-reload-base');
+        var key = $(this).data('key');
+        if (base && key) {
+            var join = base.indexOf('?') >= 0 ? '&' : '?';
+            $form.attr('request-value', base + join + 'switch=' + encodeURIComponent(key));
+        }
+    });
+});
+</script>
 <!-- footer start -->
 {{:ModuleInclude('public/footer')}}

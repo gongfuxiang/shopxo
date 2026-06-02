@@ -43,6 +43,10 @@
                 'key'      => 'use-guide',
                 'is_show'  => empty($data['use_guide_data']) ? 0 : 1,
             ],
+            [
+                'name' => MyLang('order.detail_log_nav_title'),
+                'key'  => 'status-history',
+            ],
         ]
     ])}}
     <div class="detail-content-switch-data-item">
@@ -86,7 +90,7 @@
                                                 {{/if}}
                                                 <span class="am-vertical-align-middle">{{$v.express_name}}</span>
                                             {{else /}}
-                                                <a href="{{$v.express_website_url}}" target="_blank">
+                                                <a href="{{$v.express_website_url}}" target="_blank" rel="noopener noreferrer">
                                                     {{if !empty($v['express_icon'])}}
                                                         <img src="{{$v.express_icon}}" class="am-img-thumbnail am-radius am-vertical-align-middle" width="20" height="20" alt="{{$v.express_name}}" />
                                                     {{/if}}
@@ -321,11 +325,11 @@
                 <div class="am-padding-sm">
                     {{foreach $data.items as $k=>$v}}
                         <div class="am-flex am-gap-1">
-                            <a href="{{$v.goods_url}}" target="_blank">
+                            <a href="{{$v.goods_url}}" target="_blank" rel="noopener noreferrer">
                                 <img src="{{$v.images}}" class="am-radius am-border-grey" width="60" height="60" />
                             </a>
                             <div>
-                                <a href="{{$v.goods_url}}" target="_blank" class="am-text-truncates">{{$v.title}}</a>
+                                <a href="{{$v.goods_url}}" target="_blank" rel="noopener noreferrer" class="am-text-truncates">{{$v.title}}</a>
                                 <p>{{$data.currency_data.currency_symbol}}{{$v.price}} x{{$v.buy_number}}</p>
                             </div>
                         </div>
@@ -400,5 +404,33 @@
                 </div>
             </div>
         {{/if}}
+
+        <!-- 订单状态日志 -->
+        <div class="item" data-key="status-history">
+            <div class="am-padding-sm">
+                {{if !empty($data['status_history_data'])}}
+                    <table class="am-table am-table-striped am-table-hover am-text-left">
+                        <thead>
+                            <tr>
+                                <th>{{:MyLang('order.detail_log_creator_msg')}}</th>
+                                <th>{{:MyLang('order.detail_log_creator_name')}}</th>
+                                <th>{{:MyLang('order.detail_log_creator_time')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{foreach $data['status_history_data'] as $v}}
+                                <tr>
+                                    <td>{{$v.msg}}</td>
+                                    <td>{{$v.creator_name}}</td>
+                                    <td>{{$v.add_time}}</td>
+                                </tr>
+                            {{/foreach}}
+                        </tbody>
+                    </table>
+                {{else /}}
+                    {{:ModuleInclude('public/not_data')}}
+                {{/if}}
+            </div>
+        </div>
     </div>
 {{/block}}

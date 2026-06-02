@@ -5,7 +5,7 @@
 {{block name="form_operate_top"}}
     <!-- 新增 -->
     {{if AdminIsPower('design', 'saveinfo')}}
-        <a href="{{:MyUrl('admin/design/saveinfo')}}" class="am-btn am-btn-primary am-radius am-btn-xs" target="_blank">
+        <a href="{{:MyUrl('admin/design/saveinfo')}}" class="am-btn am-btn-primary am-radius am-btn-xs" target="_blank" rel="noopener noreferrer">
             <i class="iconfont icon-add am-show-sm-only"></i>
             <span>{{:MyLang('add_title')}}</span>
         </a>
@@ -21,7 +21,7 @@
     <!-- 父级内容 -->
     {__block__}
     {{if $is_system_show_base eq 1 and AdminIsPower('packageinstall', 'index') and !empty($store_design_url)}}
-        <a class="am-margin-left-sm" href="{{$store_design_url}}" target="_blank">
+        <a class="am-margin-left-sm" href="{{$store_design_url}}" target="_blank" rel="noopener noreferrer">
             <i class="iconfont icon-download-b-line"></i>
             <span class="am-hide-sm-only am-margin-left-xs">{{:MyLang('design.nav_store_design_name')}}</span>
         </a>
@@ -70,7 +70,7 @@
                                     </div>
                                 </div>
                                 <div class="am-form-popup-submit">
-                                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
+                                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs" data-am-modal-close>
                                         <i class="am-icon-paint-brush"></i>
                                         <span>{{:MyLang('cancel_title')}}</span>
                                     </button>

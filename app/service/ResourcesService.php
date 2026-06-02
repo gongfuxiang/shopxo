@@ -15,6 +15,7 @@ use app\service\UserService;
 use app\service\ConfigService;
 use app\service\SystemBaseService;
 use app\service\AttachmentCategoryService;
+use app\service\ThemeAdminService;
 
 /**
  * 资源服务层
@@ -487,10 +488,16 @@ class ResourcesService
      * @version 1.0.0
      * @date    2025-12-17
      * @desc    description
-     * @param   [array]           $params [输入参数]
+     * @param   [array]           $params [theme=当前PC主题标识（底部脱敏图配色与缓存）；可选]
      */
     public static function SiteInfoData($params = [])
     {
+        $masking_theme = '';
+        if(!empty($params['theme']) && is_string($params['theme']))
+        {
+            $masking_theme = trim($params['theme']);
+        }
+
         // 数据容器
         $data = [
             'base' => [
@@ -597,12 +604,18 @@ class ResourcesService
             $value = MyC('common_customer_store_chat_'.$v['key'], null, true);
             if(!empty($value))
             {
-                $data['chat']['data']['text'][$v['key']] = [
+                $item = [
                     'name'   => $v['name'],
                     'key'    => $v['key'],
                     'icon'   => $v['icon'],
                     'value'  => $value,
                 ];
+                if(self::IsSensitiveContactImageDisplay() && in_array($v['key'], ['tel', 'email', 'qq'], true))
+                {
+                    $item['image_url'] = self::SensitiveContactTextImageUrl($value, ['theme' => $masking_theme]);
+                    $item['value'] = '';
+                }
+                $data['chat']['data']['text'][$v['key']] = $item;
             }
         }
         // 客服（line、微信）
@@ -1220,6 +1233,46 @@ class ResourcesService
             'plugins_css'       => $plugins_css,
             'plugins_js'        => $plugins_js,
         ];
+    }
+
+    /**
+     * 是否将客服电话/邮箱/QQ 以图片形式展示（页面不出现明文，便于等保类场景）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-05-13
+     */
+    public static function IsSensitiveContactImageDisplay()
+    {
+        return (int) MyC('common_is_sensitive_data_masking', 0, true) === 1;
+    }
+
+    /**
+     * 敏感联系方式图片地址（实现见 extend/base/TextCreateImage.php）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-05-13
+     * @param    [string]          $text   [展示内容，如电话、邮箱、QQ]
+     * @param    [array]           $params [theme=当前PC模板目录名；use_theme_footer_masking_color 缺省 true，false 为多商户（不读页脚主题色）]
+     */
+    public static function SensitiveContactTextImageUrl($text, $params = [])
+    {
+        $defaults = [
+            'font_size'             => 22,
+            'font_size_min'         => 7,
+            'canvas_h'              => 36,
+            'pad_x'                 => 3,
+            'max_inner_width'       => 640,
+            'text_vertical_margin'  => 2,
+            'color_rgb'             => [0, 0, 0],
+            'bg_transparent'        => true,
+            'font_variant'          => 'thin',
+            'theme'                 => empty($params['theme']) ? ThemeAdminService::DefaultTheme() : trim($params['theme']),
+        ];
+        $use_theme_footer_masking_color = isset($params['use_theme_footer_masking_color']) ? $params['use_theme_footer_masking_color'] : true;
+        $style = array_merge($defaults, ThemeAdminService::SensitiveContactMaskingStyleForTheme($defaults['theme'], $use_theme_footer_masking_color));
+        return \base\TextCreateImage::ImageUrl($text, $style);
     }
 }
 ?>

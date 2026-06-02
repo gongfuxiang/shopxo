@@ -1,7 +1,10 @@
 {
 	"name":"默认主题",
-	"ver":"6.8.0",
+	"ver":"6.9.0",
 	"author":"Devil",
 	"home":"https://shopxo.net/",
-    "is_theme_data_admin": 1
+    "is_theme_data_admin": 1,
+    "theme_style" : {
+        "color_footer_masking": "#000"
+    }
 }

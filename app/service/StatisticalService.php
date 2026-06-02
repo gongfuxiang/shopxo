@@ -67,6 +67,14 @@ class StatisticalService
     public static $this_month_time_start;
     public static $this_month_time_end;
 
+    // 前天（完整自然日）
+    public static $before_yesterday_time_start;
+    public static $before_yesterday_time_end;
+
+    // 上上月（完整自然月）
+    public static $month_before_last_time_start;
+    public static $month_before_last_time_end;
+
     // 去年
     public static $this_year_time_start;
     public static $this_year_time_end;
@@ -132,6 +140,15 @@ class StatisticalService
             self::$this_month_time_start = strtotime(date('Y-m-01 00:00:00'));
             self::$this_month_time_end = time();
 
+            // 前天
+            self::$before_yesterday_time_start = strtotime(date('Y-m-d 00:00:00', strtotime('-2 day')));
+            self::$before_yesterday_time_end = strtotime(date('Y-m-d 23:59:59', strtotime('-2 day')));
+
+            // 上上月（相对当月首日的连续两个月之前那一整个自然月）
+            $mb_m = strtotime('-2 month', strtotime(date('Y-m-01 00:00:00')));
+            self::$month_before_last_time_start = strtotime(date('Y-m-01 00:00:00', $mb_m));
+            self::$month_before_last_time_end = strtotime(date('Y-m-t 23:59:59', $mb_m));
+
             // 去年
             self::$last_year_time_start = strtotime(date('Y-01-01 00:00:00', strtotime('-1 year', strtotime(date('Y-m', time())))));
             self::$last_year_time_end = strtotime(date('Y-12-31 23:59:59', strtotime('-1 year', strtotime(date('Y-m', time())))));
@@ -163,6 +180,66 @@ class StatisticalService
                 self::${$name} = array_reverse($date);
             }
         }
+    }
+
+    /**
+     * 环比：当前值相对上一同粒度周期的增减百分比
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-04-30
+     * @desc    description
+     * @param   [float|int]       $current  [当前周期数值]
+     * @param   [float|int]       $previous [上一同粒度周期数值]
+     * @param   [int]             $decimals [百分比小数位]
+     * @return  [array]                     [text、type（up|down|flat）视图层拼样式]
+     */
+    public static function StatsPeriodComparePercent($current, $previous, $decimals = 2)
+    {
+        $cur = is_numeric($current) ? (float) $current : 0.0;
+        $prev = is_numeric($previous) ? (float) $previous : 0.0;
+        if(abs($cur - $prev) < 1e-9 && abs($cur) < 1e-9)
+        {
+            return [
+                'text'  => PriceBeautify(PriceNumberFormat(0, $decimals), '0').'%',
+                'type'  => 'flat',
+            ];
+        }
+        if($prev <= 1e-9)
+        {
+            if($cur > 1e-9)
+            {
+                return [
+                    'text'  => '+'.PriceBeautify(PriceNumberFormat(100, $decimals), '0').'%',
+                    'type'  => 'up',
+                ];
+            }
+            return [
+                'text'  => PriceBeautify(PriceNumberFormat(0, $decimals), '0').'%',
+                'type'  => 'flat',
+            ];
+        }
+        $pct = ($cur - $prev) / $prev * 100.0;
+        $rnd = round($pct, $decimals);
+        if(abs($rnd) < pow(10, -$decimals))
+        {
+            return [
+                'text'  => PriceBeautify(PriceNumberFormat(0, $decimals), '0').'%',
+                'type'  => 'flat',
+            ];
+        }
+        $abs_txt = PriceBeautify(PriceNumberFormat(abs($pct), $decimals), '0');
+        if($pct > 0)
+        {
+            return [
+                'text'  => '+'.$abs_txt.'%',
+                'type'  => 'up',
+            ];
+        }
+        return [
+            'text'  => '-'.$abs_txt.'%',
+            'type'  => 'down',
+        ];
     }
 
     /**
@@ -285,12 +362,30 @@ class StatisticalService
         ];
         $today_count = Db::name('User')->where($where)->count();
 
+        // 上上月
+        $where = [
+            ['add_time', '>=', self::$month_before_last_time_start],
+            ['add_time', '<=', self::$month_before_last_time_end],
+        ];
+        $month_before_last_count = Db::name('User')->where($where)->count();
+
+        // 前天
+        $where = [
+            ['add_time', '>=', self::$before_yesterday_time_start],
+            ['add_time', '<=', self::$before_yesterday_time_end],
+        ];
+        $before_yesterday_count = Db::name('User')->where($where)->count();
+
         // 数据组装
         $result = [
             'last_month_count'  => $last_month_count,
             'same_month_count'  => $same_month_count,
             'yesterday_count'   => $yesterday_count,
             'today_count'       => $today_count,
+            'same_month_pct'    => self::StatsPeriodComparePercent($same_month_count, $last_month_count, 2),
+            'last_month_pct'    => self::StatsPeriodComparePercent($last_month_count, $month_before_last_count, 2),
+            'yesterday_pct'     => self::StatsPeriodComparePercent($yesterday_count, $before_yesterday_count, 2),
+            'today_pct'         => self::StatsPeriodComparePercent($today_count, $yesterday_count, 2),
         ];
         return DataReturn(MyLang('handle_success'), 0, $result);
     }
@@ -343,12 +438,32 @@ class StatisticalService
         ];
         $today_count = Db::name('Order')->where($where)->count();
 
+        // 上上月
+        $where = [
+            ['status', 'not in', [5,6]],
+            ['add_time', '>=', self::$month_before_last_time_start],
+            ['add_time', '<=', self::$month_before_last_time_end],
+        ];
+        $month_before_last_count = Db::name('Order')->where($where)->count();
+
+        // 前天
+        $where = [
+            ['status', 'not in', [5,6]],
+            ['add_time', '>=', self::$before_yesterday_time_start],
+            ['add_time', '<=', self::$before_yesterday_time_end],
+        ];
+        $before_yesterday_count = Db::name('Order')->where($where)->count();
+
         // 数据组装
         $result = [
             'last_month_count'  => $last_month_count,
             'same_month_count'  => $same_month_count,
             'yesterday_count'   => $yesterday_count,
             'today_count'       => $today_count,
+            'same_month_pct'    => self::StatsPeriodComparePercent($same_month_count, $last_month_count, 2),
+            'last_month_pct'    => self::StatsPeriodComparePercent($last_month_count, $month_before_last_count, 2),
+            'yesterday_pct'     => self::StatsPeriodComparePercent($yesterday_count, $before_yesterday_count, 2),
+            'today_pct'         => self::StatsPeriodComparePercent($today_count, $yesterday_count, 2),
         ];
         return DataReturn(MyLang('handle_success'), 0, $result);
     }
@@ -401,12 +516,32 @@ class StatisticalService
         ];
         $today_count = Db::name('Order')->where($where)->count();
 
+        // 上上月
+        $where = [
+            ['status', '=', 4],
+            ['add_time', '>=', self::$month_before_last_time_start],
+            ['add_time', '<=', self::$month_before_last_time_end],
+        ];
+        $month_before_last_count = Db::name('Order')->where($where)->count();
+
+        // 前天
+        $where = [
+            ['status', '=', 4],
+            ['add_time', '>=', self::$before_yesterday_time_start],
+            ['add_time', '<=', self::$before_yesterday_time_end],
+        ];
+        $before_yesterday_count = Db::name('Order')->where($where)->count();
+
         // 数据组装
         $result = [
             'last_month_count'  => $last_month_count,
             'same_month_count'  => $same_month_count,
             'yesterday_count'   => $yesterday_count,
             'today_count'       => $today_count,
+            'same_month_pct'    => self::StatsPeriodComparePercent($same_month_count, $last_month_count, 2),
+            'last_month_pct'    => self::StatsPeriodComparePercent($last_month_count, $month_before_last_count, 2),
+            'yesterday_pct'     => self::StatsPeriodComparePercent($yesterday_count, $before_yesterday_count, 2),
+            'today_pct'         => self::StatsPeriodComparePercent($today_count, $yesterday_count, 2),
         ];
         return DataReturn(MyLang('handle_success'), 0, $result);
     }
@@ -461,19 +596,41 @@ class StatisticalService
                 ['add_time', '<=', self::$today_time_end],
             ];
             $today_count = Db::name('Order')->where($where)->sum('pay_price')-Db::name('Order')->where($where)->sum('refund_price');
+
+            // 上上月
+            $where = [
+                ['status', 'not in', [0,1,5,6]],
+                ['add_time', '>=', self::$month_before_last_time_start],
+                ['add_time', '<=', self::$month_before_last_time_end],
+            ];
+            $month_before_last_count = Db::name('Order')->where($where)->sum('pay_price')-Db::name('Order')->where($where)->sum('refund_price');
+
+            // 前天
+            $where = [
+                ['status', 'not in', [0,1,5,6]],
+                ['add_time', '>=', self::$before_yesterday_time_start],
+                ['add_time', '<=', self::$before_yesterday_time_end],
+            ];
+            $before_yesterday_count = Db::name('Order')->where($where)->sum('pay_price')-Db::name('Order')->where($where)->sum('refund_price');
         } else {
             $last_month_count = 0.00;
             $same_month_count = 0.00;
             $yesterday_count = 0.00;
             $today_count = 0.00;
+            $month_before_last_count = 0.00;
+            $before_yesterday_count = 0.00;
         }
 
-        // 数据组装
+        // 数据组装（环比使用原始金额计算后再格式化展示）
         $result = [
             'last_month_count'  => PriceNumberFormat($last_month_count),
             'same_month_count'  => PriceNumberFormat($same_month_count),
             'yesterday_count'   => PriceNumberFormat($yesterday_count),
             'today_count'       => PriceNumberFormat($today_count),
+            'same_month_pct'    => self::StatsPeriodComparePercent($same_month_count, $last_month_count, 2),
+            'last_month_pct'    => self::StatsPeriodComparePercent($last_month_count, $month_before_last_count, 2),
+            'yesterday_pct'     => self::StatsPeriodComparePercent($yesterday_count, $before_yesterday_count, 2),
+            'today_pct'         => self::StatsPeriodComparePercent($today_count, $yesterday_count, 2),
         ];
         return DataReturn(MyLang('handle_success'), 0, $result);
     }
@@ -509,21 +666,47 @@ class StatisticalService
         // 订单成交总量
         $order_sale_count = Db::name('Order')->where(array_merge($where, [['status', '=', 4]]))->count();
 
-        // 订单收入总计、是否有收入统计权限
-        if(AdminIsPower('index', 'income'))
+        // 订单收入总计、是否有收入统计权限（环比用原始金额）
+        $can_income = AdminIsPower('index', 'income');
+        $order_complete_total_raw = 0.00;
+        if($can_income)
         {
-            $order_complete_total = Db::name('Order')->where(array_merge($where, [['status', 'in', [2,3,4]]]))->sum('pay_price')-Db::name('Order')->where(array_merge($where, [['status', 'in', [2,3,4]]]))->sum('refund_price');
-        } else {
-            $order_complete_total = 0.00;
+            $order_complete_total_raw = Db::name('Order')->where(array_merge($where, [['status', 'in', [2,3,4]]]))->sum('pay_price')-Db::name('Order')->where(array_merge($where, [['status', 'in', [2,3,4]]]))->sum('refund_price');
         }
-        
 
         $result = [
             'user_count'            => $user_count,
             'order_count'           => $order_count,
             'order_sale_count'      => $order_sale_count,
-            'order_complete_total'  => PriceNumberFormat($order_complete_total),
+            'order_complete_total'  => PriceNumberFormat($order_complete_total_raw),
         ];
+
+        // 环比：当前筛选区间 vs 上一段等长区间（需同时有起止时间）
+        if(!empty($params['start']) && !empty($params['end']) && $params['end'] >= $params['start'])
+        {
+            $span = $params['end'] - $params['start'];
+            $prev_end = $params['start'] - 1;
+            $prev_start = $prev_end - $span;
+            $where_prev = [
+                ['add_time', '>=', $prev_start],
+                ['add_time', '<=', $prev_end],
+            ];
+
+            $prev_user = Db::name('User')->where($where_prev)->count();
+            $prev_order = Db::name('Order')->where(array_merge($where_prev, [['status', '<=', 4]]))->count();
+            $prev_sale = Db::name('Order')->where(array_merge($where_prev, [['status', '=', 4]]))->count();
+
+            $result['user_count_pct'] = self::StatsPeriodComparePercent($user_count, $prev_user, 2);
+            $result['order_count_pct'] = self::StatsPeriodComparePercent($order_count, $prev_order, 2);
+            $result['order_sale_count_pct'] = self::StatsPeriodComparePercent($order_sale_count, $prev_sale, 2);
+
+            if($can_income)
+            {
+                $prev_money = Db::name('Order')->where(array_merge($where_prev, [['status', 'in', [2,3,4]]]))->sum('pay_price')-Db::name('Order')->where(array_merge($where_prev, [['status', 'in', [2,3,4]]]))->sum('refund_price');
+                $result['order_complete_total_pct'] = self::StatsPeriodComparePercent($order_complete_total_raw, $prev_money, 2);
+            }
+        }
+
         return DataReturn(MyLang('handle_success'), 0, $result);
     }
 

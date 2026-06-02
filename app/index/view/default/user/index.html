@@ -192,7 +192,7 @@
                             <div class="am-panel-hd">
                                 <span class="am-title-left-border">{{:MyLang('user.various_transaction_title')}}</span>
                                 {{if !empty($order_list)}}
-                                    <a class="am-fr am-text-grey" href="{{:MyUrl('index/order/index')}}" target="_blank">
+                                    <a class="am-fr am-text-grey" href="{{:MyUrl('index/order/index')}}" target="_blank" rel="noopener noreferrer">
                                         <span>{{:MyLang('more_title')}}</span>
                                         <span class="iconfont icon-angle-right"></span>
                                     </a>
@@ -204,11 +204,11 @@
                                         {{foreach $order.items as $key=>$goods}}
                                             {{if $key eq 0}}
                                                 <div class="goods-detail">
-                                                    <a href="{{:MyUrl('index/order/detail', ['id'=>$order['id']])}}" target="_blank">
+                                                    <a href="{{:MyUrl('index/order/detail', ['id'=>$order['id']])}}" target="_blank" rel="noopener noreferrer">
                                                         <img src="{{$goods.images}}" alt="{{$goods.title}}" class="am-img-thumbnail am-radius" />
                                                     </a>
                                                     <div class="goods-base">
-                                                        <a href="{{:MyUrl('index/order/detail', ['id'=>$order['id']])}}" target="_blank" class="goods-title am-text-truncate">{{$goods.title}}</a>
+                                                        <a href="{{:MyUrl('index/order/detail', ['id'=>$order['id']])}}" target="_blank" rel="noopener noreferrer" class="goods-title am-text-truncate">{{$goods.title}}</a>
                                                         <ul>
                                                             <li>
                                                                 <span>{{$order.add_time_time}}</span>
@@ -221,13 +221,13 @@
                                                         </ul>
                                                     </div>
                                                     {{if in_array($order['status'], [1])}}
-                                                        <a class="am-btn am-btn-primary am-btn-xs am-radius am-fr order-submit" href="{{:MyUrl('index/order/detail', ['id'=>$order['id'], 'ids'=>$order['id'], 'is_pay_auto'=>1])}}" target="_blank">{{:MyLang('payment_title')}}</a>
+                                                        <a class="am-btn am-btn-primary am-btn-xs am-radius am-fr order-submit" href="{{:MyUrl('index/order/detail', ['id'=>$order['id'], 'ids'=>$order['id'], 'is_pay_auto'=>1])}}" target="_blank" rel="noopener noreferrer">{{:MyLang('payment_title')}}</a>
                                                     {{/if}}
                                                     {{if in_array($order['status'], [3])}}
                                                         <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-fr order-submit submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/collect')}}" data-id="{{$order.id}}" data-view="reload" data-msg="{{:MyLang('collect_confirm_tips')}}">{{:MyLang('collect_title')}}</button>
                                                     {{/if}}
                                                     {{if in_array($order['status'], [4]) and $order['user_is_comments'] eq 0}}
-                                                        <a href="{{:MyUrl('index/order/comments', ['id'=>$order['id']])}}" target="_blank" class="am-btn am-btn-warning am-btn-xs am-radius am-fr order-submit">{{:MyLang('comment_title')}}</a>
+                                                        <a href="{{:MyUrl('index/order/comments', ['id'=>$order['id']])}}" target="_blank" rel="noopener noreferrer" class="am-btn am-btn-warning am-btn-xs am-radius am-fr order-submit">{{:MyLang('comment_title')}}</a>
                                                     {{/if}}
                                                 </div>
                                             {{/if}}
@@ -251,7 +251,7 @@
                             <div class="am-panel-hd">
                                 <span class="am-title-left-border">{{:MyLang('user.various_cart_title')}}</span>
                                 {{if !empty($cart_list)}}
-                                    <a class="am-fr am-text-grey" href="{{:MyUrl('index/cart/index')}}" target="_blank">
+                                    <a class="am-fr am-text-grey" href="{{:MyUrl('index/cart/index')}}" target="_blank" rel="noopener noreferrer">
                                         <span>{{:MyLang('more_title')}}</span>
                                         <span class="iconfont icon-angle-right"></span>
                                     </a>
@@ -262,11 +262,11 @@
                                     {{foreach $cart_list as $key=>$goods}}
                                         {{if $key lt 3}}
                                             <div class="goods-detail">
-                                                <a href="{{:MyUrl('index/goods/index', ['id'=>$goods['goods_id']])}}" target="_blank">
+                                                <a href="{{:MyUrl('index/goods/index', ['id'=>$goods['goods_id']])}}" target="_blank" rel="noopener noreferrer">
                                                     <img src="{{$goods.images}}" alt="{{$goods.title}}" class="am-img-thumbnail am-radius" />
                                                 </a>
                                                 <div class="goods-base">
-                                                    <a href="{{:MyUrl('index/goods/index', ['id'=>$goods['goods_id']])}}" target="_blank" class="goods-title am-text-truncate">{{$goods.title}}</a>
+                                                    <a href="{{:MyUrl('index/goods/index', ['id'=>$goods['goods_id']])}}" target="_blank" rel="noopener noreferrer" class="goods-title am-text-truncate">{{$goods.title}}</a>
                                                     <ul>
                                                         <li>
                                                             <span class="line-price">{{$currency_symbol}}{{$goods.price}}</span>
@@ -295,7 +295,7 @@
                             <div class="am-panel-hd">
                                 <span class="am-title-left-border">{{:MyLang('user.various_favor_title')}}</span>
                                 {{if !empty($goods_favor_list)}}
-                                    <a class="am-fr am-text-grey" href="{{:MyUrl('index/usergoodsfavor/index')}}" target="_blank">
+                                    <a class="am-fr am-text-grey" href="{{:MyUrl('index/usergoodsfavor/index')}}" target="_blank" rel="noopener noreferrer">
                                         <span>{{:MyLang('more_title')}}</span>
                                         <span class="iconfont icon-angle-right"></span>
                                     </a>
@@ -307,7 +307,7 @@
                                         {{foreach $goods_favor_list as $goods}}
                                             <li>
                                                 <div class="am-gallery-item">
-                                                    <a href="{{:MyUrl('index/goods/index', ['id'=>$goods['goods_id']])}}" target="_blank">
+                                                    <a href="{{:MyUrl('index/goods/index', ['id'=>$goods['goods_id']])}}" target="_blank" rel="noopener noreferrer">
                                                         <img src="{{$goods.images}}" alt="{{$goods.title}}" class="am-img-thumbnail am-radius am-padding-0" />
                                                         <h3 class="am-gallery-title">{{$goods.title}}</h3>
                                                         <div class="am-gallery-desc line-price">{{$currency_symbol}}{{$goods.min_price}}</div>
@@ -334,7 +334,7 @@
                             <div class="am-panel-hd">
                                 <span class="am-title-left-border">{{:MyLang('user.various_browse_title')}}</span>
                                 {{if !empty($goods_browse_list)}}
-                                    <a class="am-fr am-text-grey" href="{{:MyUrl('index/usergoodsbrowse/index')}}" target="_blank">
+                                    <a class="am-fr am-text-grey" href="{{:MyUrl('index/usergoodsbrowse/index')}}" target="_blank" rel="noopener noreferrer">
                                         <span>{{:MyLang('more_title')}}</span>
                                         <span class="iconfont icon-angle-right"></span>
                                     </a>
@@ -346,7 +346,7 @@
                                         {{foreach $goods_browse_list as $goods}}
                                             <li>
                                                 <div class="am-gallery-item">
-                                                    <a href="{{:MyUrl('index/goods/index', ['id'=>$goods['goods_id']])}}" target="_blank">
+                                                    <a href="{{:MyUrl('index/goods/index', ['id'=>$goods['goods_id']])}}" target="_blank" rel="noopener noreferrer">
                                                         <img src="{{$goods.images}}" alt="{{$goods.title}}" class="am-img-thumbnail am-circle" />
                                                         <h3 class="am-gallery-title">{{$goods.title}}</h3>
                                                     </a>

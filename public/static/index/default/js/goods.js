@@ -825,7 +825,6 @@ $(function() {
     });
 
     // 视频
-    var player = null;
     $(document).on('click', '.goods-video-submit-start', function()
     {
         // 当前
@@ -839,11 +838,10 @@ $(function() {
         $('.goods-video-'+(is_wap ? 'pc' : 'wap')+'-container').html('');
 
         // 调用播放器
-        player = new ckplayer({
+        new ckplayer({
             container: cu_ent,
             video: $(cu_ent).attr('data-url'),
-            autoplay: true,
-            menu: null
+            autoplay: true
         });
     });
     $(document).on('click', '.goods-video-submit-close', function()
@@ -851,7 +849,7 @@ $(function() {
         $('.goods-video-container').addClass('none');
         $('.goods-video-submit-close').addClass('none');
         $('.goods-video-submit-start').removeClass('none');
-        player.pause();
+        $('.goods-video-pc-container, .goods-video-wap-container').text('');
     });
 
     //获得文本框对象
@@ -918,7 +916,8 @@ $(function() {
         var value = parseInt($input.val())-1;
         if(value < min)
         {
-            $input.val(min);
+            var max = parseInt($number_tag.attr('data-max-limit') || 1);
+            $input.val(min > max ? max : min);
             Prompt((window['lang_goods_stock_min_tips'] || '最低起购数量')+min+unit);
             return false;
         }

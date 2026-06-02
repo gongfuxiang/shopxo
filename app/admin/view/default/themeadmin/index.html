@@ -14,7 +14,7 @@
                         </button>
                     {{/if}}
                     {{if $is_system_show_base eq 1 and AdminIsPower('packageinstall', 'index') and !empty($store_theme_url)}}
-                        <a class="am-text-sm am-flex nwarp" href="{{$store_theme_url}}" target="_blank">
+                        <a class="am-text-sm am-flex nwarp" href="{{$store_theme_url}}" target="_blank" rel="noopener noreferrer">
                             <i class="iconfont icon-download-b-line"></i> 
                             <span class="am-hide-sm-only am-margin-left-xs">{{:MyLang('themeadmin.base_nav_store_theme_name')}}</span>
                         </a>
@@ -50,7 +50,7 @@
                                             {{/if}}
                                         {{/if}}
                                         {{if isset($v['is_theme_data_admin']) and $v['is_theme_data_admin'] eq 1}}
-                                            <a href="{{:MyUrl('index/index/index', ['default_theme'=>$v['theme'], 'is_theme_data_admin'=>1, 'admin_url_data'=>urlencode(base64_encode(json_encode($admin_url_data)))])}}" target="_blank" class="am-icon-cog am-margin-left-sm am-color-ccc theme-data-admin-submit {{if $v['theme'] neq $theme}}am-hide{{/if}}" title="{{:MyLang('admin_title')}}"></a>
+                                            <a href="{{:MyUrl('index/index/index', ['default_theme'=>$v['theme'], 'is_theme_data_admin'=>1, 'admin_url_data'=>urlencode(base64_encode(json_encode($admin_url_data)))])}}" target="_blank" rel="noopener noreferrer" class="am-icon-cog am-margin-left-sm am-color-ccc theme-data-admin-submit {{if $v['theme'] neq $theme}}am-hide{{/if}}" title="{{:MyLang('admin_title')}}"></a>
                                         {{/if}}
                                         {{if AdminIsPower('themeadmin', 'delete') and $v.is_delete eq 1}}
                                             <a href="javascript:;" class="iconfont icon-delete submit-delete am-margin-left-sm am-text-warning {{if $v['theme'] eq $theme}}am-hide{{/if}}" title="{{:MyLang('delete_title')}}" data-url="{{:MyUrl('admin/themeadmin/delete')}}" data-id="{{$v.theme}}"></a>
@@ -64,7 +64,7 @@
                                     {{if empty($v['home'])}}
                                         {{$v.author}}
                                     {{else /}}
-                                        <a href="{{$v.home}}" target="_blank">{{$v.author}}</a>
+                                        <a href="{{$v.home}}" target="_blank" rel="noopener noreferrer">{{$v.author}}</a>
                                     {{/if}}
                                 </div>
                                 <div class="am-gallery-desc">{{:MyLang('themeadmin.list_version_title')}}：{{$v.ver}}</div>

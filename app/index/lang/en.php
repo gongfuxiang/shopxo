@@ -43,7 +43,6 @@ return [
         'header_top_nav_left_login_last'        => ', Welcome to',
         // 搜索
         'search_input_placeholder'              => 'Actually, the search is very simple ^ _ ^!',
-        'search_button_text'                    => 'Search',
         // 用户
         'avatar_upload_tips'                    => [
             'Please zoom in and out in the working area and move the selection box to select the range to be cut. The cutting width and height ratio are fixed;',
@@ -527,12 +526,13 @@ return [
         'base_integral_unit'                    => 'integral',
         // 动态表格统计数据
         'form_table'                            => [
-            'type'                  => 'Operation Type',
-            'operation_integral'    => 'Operation Integral',
-            'original_integral'     => 'Original Integral',
-            'new_integral'          => 'New Integral',
-            'msg'                   => 'Describe',
-            'add_time_time'         => 'Time',
+            'integral_type'       => 'Points Type',
+            'operation_type'      => 'Operation Type',
+            'operation_integral'  => 'Operation Integral',
+            'original_integral'   => 'Original Integral',
+            'new_integral'        => 'New Integral',
+            'msg'                 => 'Describe',
+            'add_time_time'       => 'Time',
         ],
     ],
 

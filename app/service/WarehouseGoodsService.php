@@ -341,7 +341,7 @@ class WarehouseGoodsService
 
             // 分页计算
             $m = intval(($result['page']-1)*$result['page_size']);
-            $goods = GoodsService::CategoryGoodsList(['where'=>$where, 'm'=>$m, 'n'=>$result['page_size'], 'field'=>$field, 'order_by'=>$order_by]);
+            $goods = GoodsService::CategoryGoodsList(['where'=>$where, 'm'=>$m, 'n'=>$result['page_size'], 'field'=>$field, 'order_by'=>$order_by, 'is_admin_access'=>1]);
             $result['data'] = $goods['data'];
             $result['page_total'] = ceil($result['total']/$result['page_size']);
             // 数据处理
@@ -531,7 +531,7 @@ class WarehouseGoodsService
                 $arr = explode(GoodsService::$goods_spec_to_string_separator, $v);
                 $inventory_spec[] = [
                     'name'      => implode(' / ', $arr),
-                    'spec'      => json_encode(self::GoodsSpecMuster($v, $res['title']), JSON_UNESCAPED_UNICODE),
+                    'spec'      => json_encode(GoodsService::GoodsSpecMuster($v, $res['title']), JSON_UNESCAPED_UNICODE),
                     'md5_key'   => md5(implode('', $arr)),
                     'inventory' => 0,
                 ];
@@ -573,33 +573,6 @@ class WarehouseGoodsService
             'spec'  => $inventory_spec,
         ];
         return DataReturn('success', 0, $result);
-    }
-
-    /**
-     * 规格值组合
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2020-07-16
-     * @desc    description
-     * @param   [string]         $spec_str   [规格字符串，英文逗号分割]
-     * @param   [array]          $spec_title [规格类型名称]
-     */
-    public static function GoodsSpecMuster($spec_str, $spec_title)
-    {
-        $result = [];
-        $arr = explode(GoodsService::$goods_spec_to_string_separator, $spec_str);
-        if(count($arr) == count($spec_title))
-        {
-            foreach($arr as $k=>$v)
-            {
-                $result[] = [
-                    'type'  => $spec_title[$k],
-                    'value' => $v,
-                ];
-            }
-        }
-        return $result;
     }
 
     /**
@@ -757,7 +730,7 @@ class WarehouseGoodsService
                         'goods_id'      => $wg['goods_id'],
                         'md5_key'       => $md5_key,
                     ])->value('inventory');
-                    $spec = self::GoodsSpecMuster($v['value'], $res['title']);
+                    $spec = GoodsService::GoodsSpecMuster($v['value'], $res['title']);
                     $data[] = [
                         'warehouse_goods_id'    => $wg['id'],
                         'warehouse_id'          => $wg['warehouse_id'],
@@ -1161,7 +1134,6 @@ class WarehouseGoodsService
                 ['warehouse_id', '=', $warehouse_id],
                 ['goods_id', '=', $goods_id],
                 ['md5_key', '=', $md5_key],
-                ['inventory', '>=', $buy_number],
             ];
             if(Db::name('WarehouseGoodsSpec')->where($where)->inc('inventory', $buy_number)->update() === false)
             {
@@ -1176,7 +1148,6 @@ class WarehouseGoodsService
             $where = [
                 ['warehouse_id', '=', $warehouse_id],
                 ['goods_id', '=', $goods_id],
-                ['inventory', '>=', $buy_number],
             ];
             if(Db::name('WarehouseGoods')->where($where)->inc('inventory', $buy_number)->update() === false)
             {

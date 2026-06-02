@@ -411,5 +411,65 @@ class GoodsParamsService
         }
         return DataReturn(MyLang('common_service.goodsparamstemplate.save_params_data_empty_tips'), -1);
     }
+
+    /**
+     * 商品参数保存验证
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-04-21
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function GoodsParamsTemplateSaveCheck($params = [])
+    {
+        if(MyC('common_is_goods_parameters_custom_mode') != 1)
+        {
+            // 商品分类id
+            if(empty($params['category_ids']))
+            {
+                $category_ids = empty($params['category_id']) ? [] : (is_array($params['category_id']) ? $params['category_id'] : explode(',', $params['category_id']));
+            } else {
+                $category_ids = is_array($params['category_ids']) ? $params['category_ids'] : explode(',', $params['category_ids']);
+            }
+            // 获取商品分类对应的模板
+            $parameter_template = self::GoodsCategoryParamsTemplateList(['category_ids'=>$category_ids]);
+            if(!empty($parameter_template['data']))
+            {
+                // 当前已经填写的数据
+                $parameter_value = [];
+                if(!empty($params['parameter_value']))
+                {
+                    foreach($params['parameter_value'] as $pv)
+                    {
+                        if(isset($pv['name']) && isset($pv['data_type']) && isset($pv['value']))
+                        {
+                            $parameter_value[$pv['name'].$pv['data_type']] = $pv['value'];
+                        }
+                    }
+                }
+                // 根据模板验证数据
+                foreach($parameter_template['data'] as $ptv)
+                {
+                    if(!empty($ptv['config_data']) && is_array($ptv['config_data']))
+                    {
+                        foreach($ptv['config_data'] as $ptvc)
+                        {
+                            if(isset($ptvc['required']) && $ptvc['required'] == 1 && isset($ptvc['name']) && isset($ptvc['data_type']))
+                            {
+                                $temp_key = $ptvc['name'].$ptvc['data_type'];
+                                if(!array_key_exists($temp_key, $parameter_value) || $parameter_value[$temp_key] === null || $parameter_value[$temp_key] === '')
+                                {
+                                    $first_msg = ($ptvc['data_type'] == 0) ? MyLang('not_fill_in_error') : MyLang('not_choice_error');
+                                    return DataReturn($first_msg.MyLang('goods_params').'('.$ptvc['name'].')', -1);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return DataReturn('success', 0);
+    }
 }
 ?>

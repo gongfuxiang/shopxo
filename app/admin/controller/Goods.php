@@ -57,7 +57,7 @@ class Goods extends Base
             // 商品参数展示范围
             'common_goods_parameters_scope_list'  => MyConst('common_goods_parameters_scope_list'),
             // 商品导航
-            'goods_admin_nav_list'                      => ResourcesService::GoodsAdminNavList(),
+            'goods_admin_nav_list'                => ResourcesService::GoodsAdminNavList(),
     	];
         if(!empty($this->data_detail) && !empty($this->data_detail['id']))
         {

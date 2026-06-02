@@ -162,6 +162,7 @@ class SystemBaseService
             
             // 订单相关
             'home_is_enable_order_bulk_pay'                      => (int) MyC('home_is_enable_order_bulk_pay', 0),
+            'common_is_order_show_goods_snapshot'                => (int) MyC('common_is_order_show_goods_snapshot', 0),
             'common_order_is_booking'                            => (int) MyC('common_order_is_booking'),
             
             // 用户中心相关

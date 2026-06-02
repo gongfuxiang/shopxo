@@ -3,12 +3,12 @@
     {{if !empty($module_data['goods'])}}
         <div class="am-nbfc">
             {{if !empty($module_data['goods']['images'])}}
-                <a href="{{$module_data.goods.goods_url}}" target="_blank">
+                <a href="{{$module_data.goods.goods_url}}" target="_blank" rel="noopener noreferrer">
                     <img src="{{$module_data.goods.images}}" alt="{{$module_data.goods.title}}" class="am-img-thumbnail am-radius am-margin-right-sm am-fl" width="35" height="35" />
                 </a>
             {{/if}}
             <p class="am-text-truncate">
-                <a href="{{$module_data.goods.goods_url}}" target="_blank">{{$module_data.goods.title}}</a>
+                <a href="{{$module_data.goods.goods_url}}" target="_blank" rel="noopener noreferrer">{{$module_data.goods.title}}</a>
             </p>
             <p>{{$currency_symbol}}{{$module_data.goods.price}}</p>
         </div>

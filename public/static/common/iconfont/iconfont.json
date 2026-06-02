@@ -6,6 +6,104 @@
   "description": "1. diy, form, 小程序仅base64, TIF，（web端也可以使用这个方式）；2. web端 Base64, WOFF2, WOFF, TEF, SVG, EOT",
   "glyphs": [
     {
+      "icon_id": "11654833",
+      "name": "砍价",
+      "font_class": "bargain",
+      "unicode": "e690",
+      "unicode_decimal": 59024
+    },
+    {
+      "icon_id": "44113025",
+      "name": "推特",
+      "font_class": "twitter",
+      "unicode": "e78b",
+      "unicode_decimal": 59275
+    },
+    {
+      "icon_id": "1098516",
+      "name": "新浪",
+      "font_class": "sina",
+      "unicode": "e729",
+      "unicode_decimal": 59177
+    },
+    {
+      "icon_id": "3692812",
+      "name": "QQ",
+      "font_class": "qq",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "3888092",
+      "name": "Url",
+      "font_class": "url",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "5229623",
+      "name": "qq空间",
+      "font_class": "qzone",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "6222045",
+      "name": "分享",
+      "font_class": "share",
+      "unicode": "e9d1",
+      "unicode_decimal": 59857
+    },
+    {
+      "icon_id": "7747107",
+      "name": "微信",
+      "font_class": "weixin",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "11981609",
+      "name": "facebook",
+      "font_class": "facebook",
+      "unicode": "e953",
+      "unicode_decimal": 59731
+    },
+    {
+      "icon_id": "2700122",
+      "name": "感叹号-空心",
+      "font_class": "sigh-o",
+      "unicode": "e72b",
+      "unicode_decimal": 59179
+    },
+    {
+      "icon_id": "11372776",
+      "name": "感叹号",
+      "font_class": "sigh",
+      "unicode": "e8c6",
+      "unicode_decimal": 59590
+    },
+    {
+      "icon_id": "47199306",
+      "name": "点击",
+      "font_class": "hand-click",
+      "unicode": "101d1",
+      "unicode_decimal": 66001
+    },
+    {
+      "icon_id": "16534420",
+      "name": "分享-圆形",
+      "font_class": "share-circle",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "40047917",
+      "name": "更多",
+      "font_class": "more",
+      "unicode": "e76f",
+      "unicode_decimal": 59247
+    },
+    {
       "icon_id": "15872071",
       "name": "没有数据",
       "font_class": "no-data",
@@ -125,25 +223,18 @@
       "unicode_decimal": 58891
     },
     {
-      "icon_id": "468194",
-      "name": "qq-空心",
-      "font_class": "qq-o",
-      "unicode": "e615",
-      "unicode_decimal": 58901
-    },
-    {
-      "icon_id": "10304546",
-      "name": "qq",
-      "font_class": "qq",
-      "unicode": "e629",
-      "unicode_decimal": 58921
-    },
-    {
       "icon_id": "5085205",
       "name": "咖啡",
       "font_class": "coffee",
       "unicode": "e60a",
       "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "8989633",
+      "name": "qq-空心",
+      "font_class": "qq-o",
+      "unicode": "e615",
+      "unicode_decimal": 58901
     },
     {
       "icon_id": "45203584",
@@ -494,13 +585,6 @@
       "font_class": "copy-square",
       "unicode": "e839",
       "unicode_decimal": 59449
-    },
-    {
-      "icon_id": "39479058",
-      "name": "感叹号",
-      "font_class": "sigh-o",
-      "unicode": "e83a",
-      "unicode_decimal": 59450
     },
     {
       "icon_id": "31617637",
@@ -3563,8 +3647,8 @@
     },
     {
       "icon_id": "36639787",
-      "name": "更多3",
-      "font_class": "more3",
+      "name": "更多-空心-圆点",
+      "font_class": "more-o-point",
       "unicode": "e68e",
       "unicode_decimal": 59022
     },
@@ -3686,13 +3770,6 @@
       "font_class": "gift",
       "unicode": "e600",
       "unicode_decimal": 58880
-    },
-    {
-      "icon_id": "579811",
-      "name": "分享",
-      "font_class": "share",
-      "unicode": "e624",
-      "unicode_decimal": 58916
     },
     {
       "icon_id": "905458",

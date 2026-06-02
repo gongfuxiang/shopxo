@@ -31,7 +31,7 @@
                                         {{if !empty($v['items'])}}
                                             {{foreach $v.items as $vs}}
                                                 <p class="am-text-truncate">
-                                                    <a href="{{$vs.url}}" {{if $vs['is_new_window_open'] eq 1}}target="_blank"{{/if}}>{{$vs.name}}</a>
+                                                    <a href="{{$vs.url}}" {{if isset($vs['is_new_window_open']) and $vs['is_new_window_open'] eq 1}}target="_blank" rel="noopener noreferrer"{{/if}}>{{$vs.name}}</a>
                                                 </p>
                                             {{/foreach}}
                                         {{/if}}
@@ -48,21 +48,33 @@
                         <!-- 客服信息 -->
                         {{if !empty($site_info_data['chat']['data']['text']) and is_array($site_info_data['chat']['data']['text'])}}
                             {{foreach $site_info_data.chat.data.text as $v}}
-                                {{if !empty($v['value']) and !empty($v['key'])}}
+                                {{if !empty($v['key']) and (!empty($v['value']) or !empty($v['image_url']))}}
                                     <li class="am-text-left">
                                         <i class="iconfont {{$v.icon}} am-vertical-align-middle"></i>
                                         {{switch $v.key}}
                                             {{case tel}}
-                                                <a href="tel:{{$v.value}}" class="am-vertical-align-middle">{{$v.value}}</a>
+                                                {{if !empty($v.image_url)}}
+                                                    <img src="{{$v.image_url}}" alt="{{$v.name}}" class="am-vertical-align-middle customer-sensitive-contact-img" />
+                                                {{else /}}
+                                                    <a href="tel:{{$v.value}}" class="am-vertical-align-middle">{{$v.value}}</a>
+                                                {{/if}}
                                             {{/case}}
                                             {{case email}}
-                                                <a href="mailto:{{$v.value}}" class="am-vertical-align-middle">{{$v.value}}</a>
+                                                {{if !empty($v.image_url)}}
+                                                    <img src="{{$v.image_url}}" alt="{{$v.name}}" class="am-vertical-align-middle customer-sensitive-contact-img" />
+                                                {{else /}}
+                                                    <a href="mailto:{{$v.value}}" class="am-vertical-align-middle">{{$v.value}}</a>
+                                                {{/if}}
                                             {{/case}}
                                             {{case qq}}
-                                                <a href="https://wpa.qq.com/msgrd?v=3&uin={{$v.value}}&site=qq&menu=yes" target="_blank" class="am-vertical-align-middle">{{$v.value}}</a>
+                                                {{if !empty($v.image_url)}}
+                                                    <img src="{{$v.image_url}}" alt="{{$v.name}}" class="am-vertical-align-middle customer-sensitive-contact-img" />
+                                                {{else /}}
+                                                    <a href="https://wpa.qq.com/msgrd?v=3&uin={{$v.value}}&site=qq&menu=yes" target="_blank" rel="noopener noreferrer" class="am-vertical-align-middle">{{$v.value}}</a>
+                                                {{/if}}
                                             {{/case}}
                                             {{case url}}
-                                                <a href="{{$v.value}}" target="_blank" class="am-vertical-align-middle">{{$v.name}}</a>
+                                                <a href="{{$v.value}}" target="_blank" rel="noopener noreferrer" class="am-vertical-align-middle">{{$v.name}}</a>
                                             {{/case}}
                                             {{default /}}
                                                 <span class="am-vertical-align-middle">{{$v.value}}</span>
@@ -138,7 +150,7 @@
                                 <li class="am-fl am-text-center title">友情链接</li>
                                 {{foreach $link_list as $v}}
                                     <li class="am-fl am-text-center">
-                                        <a href="{{$v.url}}" {{if $v['is_new_window_open'] eq 1}} target="_blank"{{/if}}>{{$v.name}}</a>
+                                        <a href="{{$v.url}}" {{if isset($v['is_new_window_open']) and $v['is_new_window_open'] eq 1}} target="_blank" rel="noopener noreferrer"{{/if}}>{{$v.name}}</a>
                                     </li>
                                 {{/foreach}}
                             </ul>

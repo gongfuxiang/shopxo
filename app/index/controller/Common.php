@@ -238,17 +238,45 @@ class Common extends BaseController
         // 预约模式
         $assign['common_order_is_booking'] = MyC('common_order_is_booking', 0, true);
 
+        // 主题（底部脱敏图等依赖当前主题 config，须在 SiteInfoData 之前）
+        $this->default_theme = DefaultTheme();
+        $assign['default_theme'] = $this->default_theme;
+        $masking_theme = $this->default_theme;
+
         // 商店信息
-        $assign['site_info_data'] = ResourcesService::SiteInfoData();
-        $assign['common_customer_store_chat_tel'] = MyC('common_customer_store_chat_tel');
-        $assign['common_customer_store_chat_email'] = MyC('common_customer_store_chat_email');
+        $assign['site_info_data'] = ResourcesService::SiteInfoData(['theme' => $masking_theme]);
+        $chat_tel = MyC('common_customer_store_chat_tel');
+        $chat_email = MyC('common_customer_store_chat_email');
+        if(ResourcesService::IsSensitiveContactImageDisplay())
+        {
+            $chat_tel_image = !empty($chat_tel) ? ResourcesService::SensitiveContactTextImageUrl($chat_tel, ['theme' => $masking_theme]) : '';
+            $chat_email_image = !empty($chat_email) ? ResourcesService::SensitiveContactTextImageUrl($chat_email, ['theme' => $masking_theme]) : '';
+            // 出图成功才清空明文，与 SiteInfoData 一致
+            if(!empty($chat_tel_image))
+            {
+                $assign['common_customer_store_chat_tel'] = '';
+                $assign['common_customer_store_chat_tel_image'] = $chat_tel_image;
+            } else {
+                $assign['common_customer_store_chat_tel'] = $chat_tel;
+                $assign['common_customer_store_chat_tel_image'] = '';
+            }
+            if(!empty($chat_email_image))
+            {
+                $assign['common_customer_store_chat_email'] = '';
+                $assign['common_customer_store_chat_email_image'] = $chat_email_image;
+            } else {
+                $assign['common_customer_store_chat_email'] = $chat_email;
+                $assign['common_customer_store_chat_email_image'] = '';
+            }
+        } else {
+            $assign['common_customer_store_chat_tel'] = $chat_tel;
+            $assign['common_customer_store_chat_tel_image'] = '';
+            $assign['common_customer_store_chat_email'] = $chat_email;
+            $assign['common_customer_store_chat_email_image'] = '';
+        }
         $assign['common_customer_store_address'] = MyC('common_customer_store_address');
         $assign['common_customer_store_describe'] = MyC('common_customer_store_describe');
         $assign['common_customer_store_public_weixin'] = AttachmentPathViewHandle(MyC('common_customer_store_public_weixin'));
-
-        // 主题
-        $this->default_theme = DefaultTheme();
-        $assign['default_theme'] = $this->default_theme;
 
         // 当前系统操作名称
         $this->module_name = RequestModule();
@@ -661,12 +689,12 @@ class Common extends BaseController
      */
     public function __call($method, $args)
     {
+        $msg = MyLang('illegal_access_tips').'('.$method.')';
         if(IS_AJAX)
         {
-            return DataReturn($method.' 非法访问', -1000);
+            return DataReturn($msg, -1000);
         } else {
-            MyViewAssign('msg', $method.' 非法访问');
-            return MyView('public/tips_error');
+            return response(MyView('public/tips_error', ['msg'=>$msg]), 404);
         }
     }
 

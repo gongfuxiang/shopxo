@@ -97,6 +97,55 @@ header.am-topbar-inverse .admin-header-right-list > li ul.am-dropdown-content > 
 header .admin-header-right-list .notice-width {
     width: 30rem;
 }
+
+/* 后台顶部：公告 + 待处理（铃铛下拉） */
+header .admin-header-right-list .admin-nav-pending-todo > a {
+    position: relative;
+}
+/* 后台顶部铃铛角标（呼吸动画） */
+header .admin-header-right-list .admin-nav-pending-todo > a > .hot-dot {
+    font-size: 7rem;
+    line-height: 0;
+    position: absolute;
+    top: -0.5rem;
+    right: 0;
+    animation: hot-dot-breathing 2s ease-in-out infinite;
+}
+@keyframes hot-dot-breathing {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+header .admin-header-right-list .admin-nav-pending-todo-panel {
+    width: 46rem;
+}
+header .admin-header-right-list .admin-nav-pending-todo-panel .admin-nav-pending-todo-notice-block .notice-width {
+    width: auto;
+    max-width: none;
+}
+.admin-nav-pending-todo-notice-body {
+    max-height: 22rem;
+    overflow-y: auto;
+    word-break: break-word;
+}
+.admin-nav-pending-todo-list {
+    max-height: calc(100vh - 30rem);
+}
+.admin-nav-pending-todo-list > li {
+    border: 0;
+    padding: 0;
+}
+.admin-nav-pending-todo-list > li > a {
+    padding: 1rem;
+    border-radius: 0.2rem;
+    color: #333;
+}
+.admin-nav-pending-todo-list > li > a:hover {
+    background: rgba(0, 0, 0, 0.04);
+}
 .admin-header {position:fixed;top:0;right:0;z-index:1000;margin-bottom:0;}
 .admin-sidebar {width:26rem;min-height:100%;float:left;}
 .admin-sidebar.am-active {z-index:1600;}
@@ -506,9 +555,6 @@ a.am-badge-danger-plain:focus {
     padding-left: 2.2rem;
     font-size: 1.2rem;
     
-}
-.am-ucheck-icons {
-    line-height: 1.8rem;
 }
 
 /**

@@ -322,7 +322,7 @@
                                                             {{if empty($v['url'])}}
                                                                 <span class="warehouse-name">{{$v.name}}</span>
                                                             {{else /}}
-                                                                <a href="{{$v.url}}" target="_blank" class="text-deco-none">
+                                                                <a href="{{$v.url}}" target="_blank" rel="noopener noreferrer" class="text-deco-none">
                                                                     <span class="warehouse-name">{{$v.name}}</span>
                                                                 </a>
                                                             {{/if}}
@@ -428,11 +428,11 @@
                                                         {{/php}}
                                                         <!-- 分组商品详情基础顶部钩子-结束 -->
                                                         <div class="goods-detail">
-                                                            <a href="{{$goods.goods_url}}" target="_blank">
+                                                            <a href="{{$goods.goods_url}}" target="_blank" rel="noopener noreferrer">
                                                                 <img class="am-border-grey-light am-radius" src="{{$goods.images}}">
                                                             </a>
                                                             <div class="goods-base">
-                                                                <a href="{{$goods.goods_url}}" target="_blank" class="goods-title am-text-truncate-2">{{$goods.title}}</a>
+                                                                <a href="{{$goods.goods_url}}" target="_blank" rel="noopener noreferrer" class="goods-title am-text-truncate-2">{{$goods.title}}</a>
                                                                 {{if !empty($goods.spec)}}
                                                                     <ul class="goods-attr">
                                                                         {{foreach $goods.spec as $kspeck=>$spec}}
@@ -609,16 +609,40 @@
 
                                                     <!-- 扩展展示数据 -->
                                                     {{if !empty($v['order_base']['extension_data'])}}
-                                                        <ul class="buy-extension-data">
-                                                            {{foreach $v['order_base']['extension_data'] as $ext}}
-                                                                {{if !isset($ext['is_buy_show']) or $ext['is_buy_show'] eq 1}}
-                                                                    <li class="am-margin-top-xs">
-                                                                        <span class="extension-items-name">{{$ext.name}}:</span>
-                                                                        <span class="extension-items-tips">{{$ext.tips}}</span>
-                                                                    </li>
+                                                        {{php}}
+                                                            $buy_ext_visible_list = [];
+                                                            if(!empty($v['order_base']['extension_data']) && is_array($v['order_base']['extension_data']))
+                                                            {
+                                                                foreach($v['order_base']['extension_data'] as $_ext)
+                                                                {
+                                                                    if(!isset($_ext['is_buy_show']) || $_ext['is_buy_show'] == 1)
+                                                                    {
+                                                                        $buy_ext_visible_list[] = $_ext;
+                                                                    }
+                                                                }
+                                                            }
+                                                            $buy_ext_visible_count = count($buy_ext_visible_list);
+                                                        {{/php}}
+                                                        {{if !empty($buy_ext_visible_list)}}
+                                                            <div class="buy-extension-data-wrap">
+                                                                <ul class="buy-extension-data">
+                                                                    {{foreach $buy_ext_visible_list as $buy_ext_k=>$ext}}
+                                                                        <li class="am-margin-top-xs{{if $buy_ext_visible_count gt 5 and $buy_ext_k gt 4}} buy-extension-fold-hidden{{/if}}">
+                                                                            <span class="extension-items-name">{{$ext.name}}:</span>
+                                                                            <a {{if empty($ext['url'])}}href="javascript:;"{{else /}}href="{{$ext.url}}" target="_blank" rel="noopener noreferrer"{{/if}}>
+                                                                                {{if !empty($ext['images'])}}
+                                                                                    <img src="{{$ext.images}}" width="20" height="20" class="am-img-thumbnail am-radius" />
+                                                                                {{/if}}
+                                                                                <span class="extension-items-tips">{{$ext.tips}}</span>
+                                                                            </a>
+                                                                        </li>
+                                                                    {{/foreach}}
+                                                                </ul>
+                                                                {{if $buy_ext_visible_count gt 5}}
+                                                                    <a href="javascript:;" class="buy-extension-fold-toggle am-color-blue am-margin-top-xs" data-fold-expand="{{:MyLang('expand_title')}}{{:MyLang('all_title')}}" data-fold-collapse="{{:MyLang('retract_title')}}{{:MyLang('all_title')}}">{{:MyLang('expand_title')}}{{:MyLang('all_title')}}({{$buy_ext_visible_count}})<i class="iconfont icon-angle-down am-vertical-align-middle am-margin-left-xs"></i></a>
                                                                 {{/if}}
-                                                            {{/foreach}}
-                                                        </ul>
+                                                            </div>
+                                                        {{/if}}
                                                     {{/if}}
 
                                                     <!-- 分组商品组扩展底部钩子-开始 -->
@@ -681,10 +705,7 @@
                                         {{else /}}
                                             <tr>
                                                 <td colspan="4">
-                                                    <div class="table-no">
-                                                        <i class="am-icon-skyatlas am-icon-lg"></i>
-                                                        <p>{{:MyLang('buy.not_goods_tips')}}</p>
-                                                    </div>
+                                                    {{:ModuleInclude('public/not_data', ['msg'=>MyLang('buy.not_goods_tips')])}}
                                                 </td>
                                             </tr>
                                         {{/if}}
@@ -717,10 +738,7 @@
                     </div>
                 </div>
             {{else /}}
-                <div class="table-no">
-                    <i class="am-icon-skyatlas am-icon-lg"></i>
-                    <p>{{:MyLang('buy.not_goods_tips')}}</p>
-                </div>
+                {{:ModuleInclude('public/not_data', ['msg'=>MyLang('buy.not_goods_tips')])}}
             {{/if}}
         </div>
 
@@ -745,8 +763,8 @@
                 {{if $base['actual_price'] gt 0 and $common_order_is_booking neq 1}}
                     <div id="buy-items-payment" class="buy-items">
                         <h3>{{:MyLang('buy.buy_item_payment_title')}}</h3>
-                        <div class="business-list business-list-nbfc payment am-margin-top-sm" data-field="payment_id">
-                            {{if !empty($payment_list)}}
+                        {{if !empty($payment_list)}}
+                            <div class="business-list business-list-nbfc payment am-margin-top-sm" data-field="payment_id">
                                 <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 payment-list" data-is-required="1">
                                     {{foreach $payment_list as $payment}}
                                         <li data-value="{{$payment.id}}" class="am-padding-sm am-padding-left-main am-padding-right-main am-text-center {{if isset($params['payment_id']) and $params['payment_id'] eq $payment['id']}}selected{{/if}}">
@@ -763,13 +781,9 @@
                                         </li>
                                     {{/foreach}}
                                 </ul>
-                            {{/if}}
-                        </div>
-                        {{if empty($payment_list)}}
-                            <div class="table-no">
-                                <i class="am-icon-skyatlas am-icon-lg"></i>
-                                <p>{{:MyLang('buy.not_payment_tips')}}</p>
                             </div>
+                        {{else /}}
+                            {{:ModuleInclude('public/not_data', ['msg'=>MyLang('buy.not_payment_tips')])}}
                         {{/if}}
                     </div>
                 {{/if}}
@@ -832,7 +846,7 @@
                 <!-- 订单确认页面订单确认信息顶部钩子-结束 -->
 
                 <!-- 基础信息 -->
-                <div class="buy-order-nav am-padding-top-sm am-background-white box-shadow-top-hover">
+                <div class="buy-order-nav am-margin-top-sm">
                     <div class="box am-radius am-padding-main am-color-grey-dark am-margin-bottom-main am-border-grey am-radius">
                         <div class="base-real-pay">
                             <span class="buy-line-title">{{:MyLang('buy.summary_title')}}</span>
@@ -914,7 +928,6 @@
                     {{/foreach}}
                 {{/if}}
                 <!-- 订单确认页面内部底部钩子-结束 -->
-
             </div>
         </div>
     </div>
@@ -954,7 +967,6 @@
 
 <!-- footer start -->
 {{:ModuleInclude('public/footer')}}
-
 <script type="text/javascript">
 // 提交订单回调
 function BuySubmitBack(e)

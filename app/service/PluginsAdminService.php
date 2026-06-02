@@ -34,9 +34,6 @@ class PluginsAdminService
     // 排除不能使用的名称
     public static $plugins_exclude_verification = ['view', 'shopxo', 'www'];
 
-    // 排除的文件后缀
-    public static $exclude_ext = ['php'];
-
     // 读取插件排序方式(自定义排序 -> 最早安装)
     public static $plugins_order_by = 'sort asc,id asc';
 
@@ -187,19 +184,24 @@ class PluginsAdminService
             }
             if($is_home !== null)
             {
-                // 是否指定二级域名状态
-                if($is_second_domain === null)
+                if(APPLICATION == 'app')
                 {
-                    $is_second_domain = PluginsService::PluginsField($plugins, 'plugins_is_second_domain');
-                }
-                // 取cookie设置为主域名
-                $main_domain = MyC('common_cookie_domain');
-                // 是否二级域名和主域名都正确
-                if($is_second_domain === 1 && !empty($main_domain))
-                {
-                    return __MY_HTTP__.'://'.$plugins.'.'.$main_domain.'/';
+                    return '/pages/plugins/'.$plugins.'/index/index';
                 } else {
-                    return PluginsHomeUrl($plugins, 'index', 'index');
+                    // 是否指定二级域名状态
+                    if($is_second_domain === null)
+                    {
+                        $is_second_domain = PluginsService::PluginsField($plugins, 'plugins_is_second_domain');
+                    }
+                    // 取cookie设置为主域名
+                    $main_domain = MyC('common_cookie_domain');
+                    // 是否二级域名和主域名都正确
+                    if($is_second_domain === 1 && !empty($main_domain))
+                    {
+                        return __MY_HTTP__.'://'.$plugins.'.'.$main_domain.'/';
+                    } else {
+                        return PluginsHomeUrl($plugins, 'index', 'index');
+                    }
                 }
             }
         }
@@ -1145,6 +1147,11 @@ php;
      */
     public static function PluginsPackageHandle($package_file, $type = 0, $plugins_old = '')
     {
+        if(!ZipPackageFileIsReadablePkMagic($package_file))
+        {
+            return DataReturn(MyLang('form_open_zip_message').'[-12]', -11);
+        }
+
         // 资源目录
         $dir_list = self::PluginsDirStructureMapping();
 
@@ -1248,6 +1255,19 @@ php;
                 {
                     if(strpos($file, $dir_key) !== false)
                     {
+                        // 路径须以「插件标识/目录键/」为前缀，避免仅靠子串匹配误写目录
+                        $norm_file = str_replace('\\', '/', $file);
+                        $expected = str_replace('\\', '/', $plugins.'/'.$dir_key.'/');
+                        if(strncmp($norm_file, $expected, strlen($expected)) !== 0)
+                        {
+                            continue;
+                        }
+                        if(strpos($file, '..') !== false)
+                        {
+                            fclose($stream);
+                            continue 2;
+                        }
+
                         // 仅控制器模块支持php文件
                         if($dir_key != '_main_')
                         {
@@ -1256,15 +1276,40 @@ php;
                             if($pos !== false)
                             {
                                 $info = pathinfo($file);
-                                if(isset($info['extension']) && in_array(strtolower($info['extension']), self::$exclude_ext))
+                                if(isset($info['extension']) && ZipPublicDirExtensionIsForbidden($info['extension']))
                                 {
                                     continue;
                                 }
                             }
                         } else {
-                            if(strpos($file_content, 'eval(') !== false)
+                            // _main_ 下 PHP 默认走序言校验；lang 下多为「return 数组」语言包，无类定义，不适用该校验
+                            $pinfo = pathinfo($file);
+                            $ext_lc = isset($pinfo['extension']) ? strtolower($pinfo['extension']) : '';
+                            if($ext_lc === 'php')
                             {
-                                continue;
+                                $is_plugin_lang_php = (preg_match('#/_main_/[^/]+/lang/.+\.php$#i', $norm_file) === 1);
+                                if($file_content === false)
+                                {
+                                    fclose($stream);
+                                    continue 2;
+                                }
+                                if($is_plugin_lang_php)
+                                {
+                                    if(!PhpLangArrayFileSourceSafe($file_content))
+                                    {
+                                        fclose($stream);
+                                        continue 2;
+                                    }
+                                } elseif(!PhpStrictAutoloadFileSourceSafe($file_content))
+                                {
+                                    fclose($stream);
+                                    continue 2;
+                                }
+                            } elseif($ext_lc !== '' && ZipPublicDirExtensionIsForbidden($ext_lc))
+                            {
+                                // _main_ 仅对 .php 做序言校验时，phtml、phar 等会绕过，须一律拒绝
+                                fclose($stream);
+                                continue 2;
                             }
                         }
 
@@ -1278,31 +1323,28 @@ php;
                 // 没有匹配到则指定目录跳过
                 if($is_has_find == false)
                 {
+                    fclose($stream);
                     continue;
                 }
+                fclose($stream);
 
                 // 截取文件路径
-                $file_path = substr($new_file, 0, strrpos($new_file, '/'));
+                $path_sep_pos = strrpos($new_file, '/');
+                if($path_sep_pos === false)
+                {
+                    $path_sep_pos = strrpos($new_file, '\\');
+                }
+                $file_path = $path_sep_pos === false ? $new_file : substr($new_file, 0, $path_sep_pos);
 
                 // 路径不存在则创建
                 \base\FileUtil::CreateDir($file_path);
 
-                // 如果不是目录则写入文件
+                // 如果不是目录则写入文件（已读取的 $file_content，避免二次打开 zip 流）
                 if(!is_dir($new_file))
                 {
-                    // 读取这个文件
-                    $stream = $zip->getStream($file);
-                    if($stream !== false)
+                    if($file_content !== false && file_put_contents($new_file, $file_content))
                     {
-                        $file_content = stream_get_contents($stream);
-                        if($file_content !== false)
-                        {
-                            if(file_put_contents($new_file, $file_content))
-                            {
-                                $success++;
-                            }
-                        }
-                        fclose($stream);
+                        $success++;
                     }
                 }
             }

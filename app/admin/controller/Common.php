@@ -20,6 +20,7 @@ use app\service\ResourcesService;
 use app\service\StoreService;
 use app\service\MultilingualService;
 use app\service\ConfigService;
+use app\service\AdminNavTodoService;
 
 /**
  * 管理员公共控制器
@@ -429,6 +430,9 @@ class Common extends BaseController
         $admin_notice = MyC('admin_notice');
         $assign['admin_notice'] = empty($admin_notice) ? '' : str_replace("\n", '<br />', $admin_notice);
 
+        // 后台顶部待处理铃铛数据
+        $assign['admin_nav_pending_todo'] = AdminNavTodoService::PendingTodoData(['admin' => $this->admin]);
+
         // 系统环境参数最大数
         $assign['env_max_input_vars_count'] = SystemService::EnvMaxInputVarsCount();
 
@@ -589,8 +593,7 @@ class Common extends BaseController
         {
             return DataReturn($msg, -1000);
         } else {
-            MyViewAssign('msg', $msg);
-            return MyView('public/tips_error');
+            return response(MyView('public/tips_error', ['msg'=>$msg]), 404);
         }
     }
 

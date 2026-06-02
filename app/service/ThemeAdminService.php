@@ -29,9 +29,6 @@ class ThemeAdminService
     private static $html_path = 'app'.DS.'index'.DS.'view'.DS;
     private static $static_path = 'public'.DS.'static'.DS.'index'.DS;
 
-    // 排除的文件后缀
-    private static $exclude_ext = ['php'];
-
     /**
      * 默认主题标识符
      * @author  Devil
@@ -58,6 +55,69 @@ class ThemeAdminService
     {
         $ret = self::ThemeAdminConfig($theme);
         return (!empty($ret['data']) && isset($ret['data']['home_is_theme_data_mode']) && $ret['data']['home_is_theme_data_mode'] == 1);
+    }
+
+    /**
+     * 敏感联系方式出图样式
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-05-13
+     * @param   [string]  $theme                           当前 PC 模板目录名（如 default、website3）
+     * @param   [bool]    $use_theme_footer_masking_color  true=读 theme_style.color_footer_masking；false 不使用主题定义的脱敏色
+     * @return  [array]                                     color_rgb
+     */
+    public static function SensitiveContactMaskingStyleForTheme($theme, $use_theme_footer_masking_color = true)
+    {
+        $out = [];
+        if(!empty($theme) && $use_theme_footer_masking_color)
+        {
+            $rgb = self::FooterMaskingColorRgb($theme);
+            if($rgb !== null)
+            {
+                $out['color_rgb'] = $rgb;
+            }
+        }
+        return $out;
+    }
+
+    /**
+     * 底部脱敏联系方式图文字颜色（读取指定主题 config.json 内 theme_style.color_footer_masking，含 default；如 #ffffff / #fff）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-05-13
+     * @param   [string]          $theme [主题标识]
+     * @return  [array|null]              [RGB 索引 0～255；非法串返回 null。解析使用公共函数 HexToRgb]
+     */
+    public static function FooterMaskingColorRgb($theme)
+    {
+        if(!is_string($theme) || $theme === '')
+        {
+            return null;
+        }
+        $ret = self::ThemeAdminConfig($theme);
+        if(empty($ret['data']) || empty($ret['data']['theme_style']) || !is_array($ret['data']['theme_style']))
+        {
+            return null;
+        }
+        $ts = $ret['data']['theme_style'];
+        if(empty($ts['color_footer_masking']) || !is_string($ts['color_footer_masking']))
+        {
+            return null;
+        }
+        $raw = trim($ts['color_footer_masking']);
+        if($raw === '')
+        {
+            return null;
+        }
+        $hex = str_replace('#', '', $raw);
+        if(!preg_match('/^[0-9a-fA-F]{3}$|^[0-9a-fA-F]{6}$/', $hex))
+        {
+            return null;
+        }
+        $rgb = HexToRgb($raw);
+        return [(int) $rgb['r'], (int) $rgb['g'], (int) $rgb['b']];
     }
 
     /**
@@ -100,6 +160,11 @@ class ThemeAdminService
                             continue;
                         }
                         $preview = ROOT.self::$static_path.$temp_file.DS.'images'.DS.'preview.jpg';
+                        $footer_masking = '';
+                        if(!empty($config['theme_style']) && is_array($config['theme_style']) && array_key_exists('color_footer_masking', $config['theme_style']))
+                        {
+                            $footer_masking = $config['theme_style']['color_footer_masking'];
+                        }
                         $result[] = array(
                             'theme'                    =>  $temp_file,
                             'name'                     =>  htmlentities($config['name']),
@@ -109,6 +174,7 @@ class ThemeAdminService
                             'preview'                  =>  file_exists($preview) ? __MY_PUBLIC_URL__.'static'.DS.'index'.DS.$temp_file.DS.'images'.DS.'preview.jpg' : $default_preview,
                             'is_theme_data_admin'      => (isset($config['is_theme_data_admin']) && $config['is_theme_data_admin'] == 1) ? 1 : 0,
                             'home_is_theme_data_mode'  => (isset($config['home_is_theme_data_mode']) && $config['home_is_theme_data_mode'] == 1) ? 1 : 0,
+                            'color_footer_masking'     =>  $footer_masking,
                             'is_delete'                => ($temp_file == 'default') ? 0 : 1,
                         );
                     }
@@ -196,6 +262,11 @@ class ThemeAdminService
             return DataReturn(MyLang('common_service.themeadmin.static_dir_no_power_tips').'['.self::$static_path.']', -10);
         }
 
+        if(!ZipPackageFileIsReadablePkMagic($package_file))
+        {
+            return DataReturn(MyLang('form_open_zip_message').'[-12]', -11);
+        }
+
         // 资源目录
         $dir_list = [
             '_html_'        => ROOT.self::$html_path,
@@ -210,40 +281,64 @@ class ThemeAdminService
             return DataReturn(MyLang('form_open_zip_message').'['.$resource.']', -11);
         }
 
-        // 配置信息
+        // 配置信息（取首个合法 config，并锁定主题标识，防子串误匹配 _html_/_static_）
+        $theme_package = '';
         for($i=0; $i<$zip->numFiles; $i++)
         {
             $file = $zip->getNameIndex($i);
-            if(stripos($file, 'config.json') !== false)
+            if(stripos($file, 'config.json') === false)
             {
-                // 打开文件资源
-                $stream = $zip->getStream($file);
-                if($stream === false)
-                {
-                    $zip->close();
-                    return DataReturn(MyLang('common_service.themeadmin.upload_config_file_get_fail_tips'), -1);
-                }
-
-                // 获取配置信息并解析
-                $file_content = stream_get_contents($stream);
-                $config = empty($file_content) ? [] : json_decode($file_content, true);
-                if(empty($config))
-                {
-                    $zip->close();
-                    return DataReturn(MyLang('common_service.themeadmin.config_file_no_exist_tips'), -1);
-                }
-
-                // 主题名称
-                $theme = substr($file, 0, strpos($file, '/'));
-
-                // 安全验证
-                $ret = self::ThemeAdminLegalCheck($theme, $config);
-                if($ret['code'] != 0)
-                {
-                    $zip->close();
-                    return $ret;
-                }
+                continue;
             }
+            if(ZipArchiveEntryRelativePathUnsafe($file))
+            {
+                $zip->close();
+                return DataReturn(MyLang('common_service.themeadmin.upload_config_file_get_fail_tips'), -1);
+            }
+            $slash_pos = strpos($file, '/');
+            if($slash_pos === false)
+            {
+                continue;
+            }
+            $theme = substr($file, 0, $slash_pos);
+            if($theme === '' || !preg_match('/^[a-zA-Z0-9_\\-]+$/', $theme))
+            {
+                $zip->close();
+                return DataReturn(MyLang('common_service.themeadmin.config_file_no_exist_tips'), -1);
+            }
+
+            // 打开文件资源
+            $stream = $zip->getStream($file);
+            if($stream === false)
+            {
+                $zip->close();
+                return DataReturn(MyLang('common_service.themeadmin.upload_config_file_get_fail_tips'), -1);
+            }
+
+            // 获取配置信息并解析
+            $file_content = stream_get_contents($stream);
+            fclose($stream);
+            $config = empty($file_content) ? [] : json_decode($file_content, true);
+            if(empty($config))
+            {
+                $zip->close();
+                return DataReturn(MyLang('common_service.themeadmin.config_file_no_exist_tips'), -1);
+            }
+
+            // 安全验证
+            $ret = self::ThemeAdminLegalCheck($theme, $config);
+            if($ret['code'] != 0)
+            {
+                $zip->close();
+                return $ret;
+            }
+            $theme_package = $theme;
+            break;
+        }
+        if($theme_package === '')
+        {
+            $zip->close();
+            return DataReturn(MyLang('common_service.themeadmin.config_file_no_exist_tips'), -1);
         }
 
         // 处理文件
@@ -256,17 +351,31 @@ class ThemeAdminService
             // 排除临时文件和临时目录
             if(strpos($file, '/.') === false && strpos($file, '__') === false)
             {
-                // 文件包对应系统所在目录
+                if(ZipArchiveEntryRelativePathUnsafe($file))
+                {
+                    continue;
+                }
+                $norm_file = str_replace('\\', '/', $file);
+
+                // 文件包对应系统所在目录（须为 主题标识/_html_|_static_/ 前缀）
                 $is_has_find = false;
+                $new_file = '';
                 foreach($dir_list as $dir_key=>$dir_value)
                 {
-                    if(strpos($file, $dir_key) !== false)
+                    $expected = $theme_package.'/'.$dir_key.'/';
+                    if(strncmp($norm_file, $expected, strlen($expected)) !== 0)
                     {
-                        // 匹配成功文件路径处理、跳出循环
-                        $new_file = str_replace($dir_key.'/', '', $dir_value.$file);
-                        $is_has_find = true;
-                        break;
+                        continue;
                     }
+                    $rel = substr($norm_file, strlen($expected));
+                    if(ZipArchiveEntryRelativePathUnsafe($rel))
+                    {
+                        continue;
+                    }
+                    $base = rtrim(str_replace(['\\', '/'], DS, $dir_value), DS).DS;
+                    $new_file = $base.str_replace('/', DS, $rel);
+                    $is_has_find = true;
+                    break;
                 }
 
                 // 没有匹配到则指定目录跳过
@@ -280,14 +389,19 @@ class ThemeAdminService
                 if($pos !== false)
                 {
                     $info = pathinfo($file);
-                    if(isset($info['extension']) && in_array(strtolower($info['extension']), self::$exclude_ext))
+                    if(isset($info['extension']) && ZipPublicDirExtensionIsForbidden($info['extension']))
                     {
                         continue;
                     }
                 }
 
                 // 截取文件路径
-                $file_path = substr($new_file, 0, strrpos($new_file, '/'));
+                $rpos = strrpos(str_replace('\\', '/', $new_file), '/');
+                if($rpos === false)
+                {
+                    $rpos = strrpos($new_file, '\\');
+                }
+                $file_path = $rpos === false ? $new_file : substr($new_file, 0, $rpos);
 
                 // 路径不存在则创建
                 if(!is_dir($file_path))

@@ -62,8 +62,23 @@ class BuyService
             $params['goods_data'] = json_decode(base64_decode(urldecode($params['goods_data'])), true);
         }
 
+        // 数据处理
+        return self::BuyGoodsHandle(array_column($params['goods_data'], 'goods_id'), $params);
+    }
+
+    /**
+     * 下订单 - 正常购买数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-03-10
+     * @desc    description
+     * @param   [array]          $goods_ids [商品id]
+     * @param   [array]          $params    [输入参数]
+     */
+    public static function BuyGoodsHandle($goods_ids, $params = [])
+    {
         // 获取商品
-        $goods_ids = array_column($params['goods_data'], 'goods_id');
         $goods_params = array_merge($params, [
             'where' => [
                 ['id', 'in', $goods_ids],
@@ -75,7 +90,7 @@ class BuyService
             'n'     => 0,
         ]);
         $ret = GoodsService::GoodsList($goods_params);
-        if(empty($ret['data'][0]))
+        if(empty($ret['data']) || empty($ret['data'][0]))
         {
             return DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -10);
         }
@@ -757,6 +772,21 @@ class BuyService
                     return DataReturn(MyLang('common_service.buy.address_empty_tips'), -1);
                 } else {
                     $address = $v['order_base']['address'];
+                }
+            }
+
+            // 扩展数据处理
+            if(!empty($v['order_base']['extension_data']) && is_array($v['order_base']['extension_data']))
+            {
+                foreach($v['order_base']['extension_data'] as $ek=>$ev)
+                {
+                    // 图片处理
+                    if(!empty($ev['images']))
+                    {
+                        $v['order_base']['extension_data'][$ek]['images'] = ResourcesService::AttachmentPathHandle($ev['images']);
+                    }
+                    // url的地址清空
+                    $v['order_base']['extension_data'][$ek]['url'] = '';
                 }
             }
 

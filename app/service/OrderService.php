@@ -479,7 +479,7 @@ class OrderService
 
         // 支付方式
         $payment_id = empty($params['payment_id']) ? $order['payment_id'] : intval($params['payment_id']);
-        $payment = PaymentService::PaymentData(['where'=>['id'=>$payment_id]]);
+        $payment = PaymentService::PaymentData(['where'=>['id'=>$payment_id, 'is_enable'=>1]]);
         if(empty($payment))
         {
             return DataReturn(MyLang('payment_method_error_tips'), -1);
@@ -1509,6 +1509,16 @@ class OrderService
 
                 // 扩展数据
                 $v['extension_data'] = empty($v['extension_data']) ? '' : json_decode($v['extension_data'], true);
+                if(!empty($v['extension_data']) && is_array($v['extension_data']))
+                {
+                    foreach($v['extension_data'] as $exk=>$exv)
+                    {
+                        if(!empty($exv['images']))
+                        {
+                            $v['extension_data'][$exk]['images'] = ResourcesService::AttachmentPathViewHandle($exv['images']);
+                        }
+                    }
+                }
 
                 // 订单详情
                 if($is_items == 1)
@@ -2401,6 +2411,29 @@ class OrderService
      */
     public static function OrderCancel($params = [])
     {
+        // 订单发货处理
+        Db::startTrans();
+        $ret = self::OrderCancelHandle($params);
+        if($ret['code'] == 0)
+        {
+            Db::commit();
+        } else {
+            Db::rollback();
+        }
+        return $ret;
+    }
+
+    /**
+     * 订单取消处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-30
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function OrderCancelHandle($params = [])
+    {
         // 请求参数
         $p = [
             [
@@ -2438,8 +2471,7 @@ class OrderService
             return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_text.']', -1);
         }
 
-        // 开启事务
-        Db::startTrans();
+        // 订单更新
         $upd_data = [
             'status'        => 5,
             'cancel_time'   => time(),
@@ -2451,8 +2483,6 @@ class OrderService
             $ret = BuyService::OrderInventoryRollback(['order_id'=>$order['id'], 'order_data'=>$upd_data]);
             if($ret['code'] != 0)
             {
-                // 事务回滚
-                Db::rollback();
                 return DataReturn($ret['msg'], -10);
             }
 
@@ -2465,13 +2495,8 @@ class OrderService
             $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
             self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], MyLang('cancel_title'), $creator, $creator_name);
 
-            // 提交事务
-            Db::commit();
             return DataReturn(MyLang('cancel_success'), 0);
         }
-
-        // 事务回滚
-        Db::rollback();
         return DataReturn(MyLang('cancel_fail'), -1);
     }
 
@@ -3569,7 +3594,7 @@ class OrderService
                 foreach($order['items'] as &$dv)
                 {
                     $dv['is_trace_source'] = 1;
-                    $dv['trace_source_required'] = 0;
+                    $dv['trace_source_required'] = [];
                 }
             }
         }

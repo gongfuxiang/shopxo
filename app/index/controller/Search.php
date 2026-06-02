@@ -128,12 +128,25 @@ class Search extends Common
         // 价格滑条
         if(!empty($params['price']))
         {
+            if(is_array($params['price']))
+            {
+                $params['price'] = reset($params['price']);
+            }
             $arr = explode('-', $params['price']);
             if(count($arr) == 2)
             {
-                $params['price_min'] = $arr[0];
-                $params['price_max'] = $arr[1];
+                $params['price_min'] = is_array($arr[0]) ? 0 : $arr[0];
+                $params['price_max'] = is_array($arr[1]) ? 0 : $arr[1];
             }
+        }
+        // 防止模板输出时出现数组转字符串
+        if(isset($params['price_min']) && is_array($params['price_min']))
+        {
+            $params['price_min'] = empty($params['price_min']) ? 0 : reset($params['price_min']);
+        }
+        if(isset($params['price_max']) && is_array($params['price_max']))
+        {
+            $params['price_max'] = empty($params['price_max']) ? 0 : reset($params['price_max']);
         }
 
         // 模板数据
@@ -156,26 +169,29 @@ class Search extends Common
             'range_max_price'   => SearchService::SearchGoodsMaxPrice(),
         ];
 
-        // 品牌列表
-        $assign['brand_list'] = SearchService::SearchMapHandle(SearchService::CategoryBrandList($map, $this->data_request), 'bid', 'id', $this->data_request);
-
         // 指定数据
         $assign['search_map_info'] = SearchService::SearchMapInfo($this->data_request);
 
-        // 商品分类
+        // 基础筛选项（常驻）
+        $assign['brand_list'] = SearchService::SearchMapHandle(SearchService::CategoryBrandList($map, $this->data_request), 'bid', 'id', $this->data_request);
         $assign['category_list'] = SearchService::SearchMapHandle(SearchService::GoodsCategoryList($this->data_request), 'cid', 'id', $this->data_request);
-
-        // 筛选价格区间
         $assign['screening_price_list'] = SearchService::SearchMapHandle(SearchService::ScreeningPriceList($this->data_request), 'peid', 'id', $this->data_request);
 
-        // 商品产地
-        $assign['goods_produce_region_list'] = SearchService::SearchMapHandle(SearchService::SearchGoodsProduceRegionList($map, $this->data_request), 'poid', 'id', $this->data_request);
+        // 扩展筛选项（数据为空时无需做重查询）
+        $assign['goods_produce_region_list'] = [];
+        $assign['goods_params_list'] = [];
+        $assign['goods_spec_list'] = [];
+        if($ret['data']['total'] > 0)
+        {
+            // 商品产地
+            $assign['goods_produce_region_list'] = SearchService::SearchMapHandle(SearchService::SearchGoodsProduceRegionList($map, $this->data_request), 'poid', 'id', $this->data_request);
 
-        // 商品参数
-        $assign['goods_params_list'] = SearchService::SearchMapHandle(SearchService::SearchGoodsParamsValueList($map, $this->data_request), 'psid', 'id', $this->data_request, ['is_ascii'=>true, 'field'=>'value']);
+            // 商品参数
+            $assign['goods_params_list'] = SearchService::SearchMapHandle(SearchService::SearchGoodsParamsValueList($map, $this->data_request), 'psid', 'id', $this->data_request, ['is_ascii'=>true, 'field'=>'value']);
 
-        // 商品规格
-        $assign['goods_spec_list'] = SearchService::SearchMapHandle(SearchService::SearchGoodsSpecValueList($map, $this->data_request), 'scid', 'id', $this->data_request, ['is_ascii'=>true, 'field'=>'value']);
+            // 商品规格
+            $assign['goods_spec_list'] = SearchService::SearchMapHandle(SearchService::SearchGoodsSpecValueList($map, $this->data_request), 'scid', 'id', $this->data_request, ['is_ascii'=>true, 'field'=>'value']);
+        }
 
         // 增加搜索记录
         $params['user_id'] = empty($this->user) ? 0 : $this->user['id'];

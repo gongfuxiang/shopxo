@@ -5,7 +5,7 @@
         <span>{{:MyLang('detail_title')}}</span>
     </button>
 {{/if}}
-<a class="am-btn am-btn-default am-btn-xs am-radius am-btn-block" href="{{:MyUrl('index/design/index', ['id'=>$module_data['id']])}}" target="_blank">
+<a class="am-btn am-btn-default am-btn-xs am-radius am-btn-block" href="{{:MyUrl('index/design/index', ['id'=>$module_data['id']])}}" target="_blank" rel="noopener noreferrer">
     <i class="am-icon-eye"></i>
     <span>{{:MyLang('view_title')}}</span>
 </a>
@@ -16,13 +16,13 @@
     </button>
 {{/if}}
 {{if AdminIsPower('design', 'download')}}
-    <a class="am-btn am-btn-success am-btn-xs am-radius am-btn-block" href="{{:MyUrl('admin/design/download', array_merge($form_back_params, ['id'=>$module_data['id']]))}}" target="_blank">
+    <a class="am-btn am-btn-success am-btn-xs am-radius am-btn-block" href="{{:MyUrl('admin/design/download', array_merge($form_back_params, ['id'=>$module_data['id']]))}}" target="_blank" rel="noopener noreferrer">
         <i class="am-icon-download"></i>
         <span>{{:MyLang('download_title')}}</span>
     </a>
 {{/if}}
 {{if AdminIsPower('design', 'saveinfo')}}
-    <a class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block" href="{{:MyUrl('admin/design/saveinfo', array_merge($form_back_params, ['id'=>$module_data['id']]))}}" target="_blank">
+    <a class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block" href="{{:MyUrl('admin/design/saveinfo', array_merge($form_back_params, ['id'=>$module_data['id']]))}}" target="_blank" rel="noopener noreferrer">
         <i class="am-icon-edit"></i>
         <span>{{:MyLang('edit_title')}}</span>
     </a>

@@ -157,7 +157,7 @@
                             {{if !empty($v['images'])}}
                                 <li>
                                     <div class="am-gallery-item">
-                                        <a href="{{$v.images}}" target="_blank">
+                                        <a href="{{$v.images}}" target="_blank" rel="noopener noreferrer">
                                             <img src="{{$v.images}}" alt="{{$v.name}}"/>
                                             <h3 class="am-gallery-title am-text-center">{{$v.name}}</h3>
                                         </a>
@@ -195,7 +195,7 @@
                     <ul>
                         {{foreach $data.content_app as $v}}
                             <li class="am-margin-bottom-sm">
-                                <a href="{{$v.images}}" target="_blank">
+                                <a href="{{$v.images}}" target="_blank" rel="noopener noreferrer">
                                     <img src="{{$v.images}}" />
                                 </a>
                                 {{if !empty($v['content']) and is_array($v['content'])}}

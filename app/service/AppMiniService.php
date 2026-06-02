@@ -34,8 +34,6 @@ class AppMiniService
     public static $default_theme;
 
     // 排除的文件后缀
-    private static $exclude_ext = ['php'];
-
     /**
      * @author   Devil
      * @blog    http://gong.gg/
@@ -226,6 +224,11 @@ class AppMiniService
             return DataReturn(MyLang('view_dir_power_tips').'['.$dir.']', -10);
         }
 
+        if(!ZipPackageFileIsReadablePkMagic($package_file))
+        {
+            return DataReturn(MyLang('form_open_zip_message').'[-12]', -11);
+        }
+
         // 开始解压文件
         $zip = new \ZipArchive();
         $resource = $zip->open($package_file);
@@ -243,20 +246,29 @@ class AppMiniService
             {
                 continue;
             }
+            if(ZipArchiveEntryRelativePathUnsafe($file))
+            {
+                continue;
+            }
 
             // 排除后缀文件
             $pos = strripos($file, '.');
             if($pos !== false)
             {
                 $info = pathinfo($file);
-                if(isset($info['extension']) && in_array(strtolower($info['extension']), self::$exclude_ext))
+                if(isset($info['extension']) && ZipPublicDirExtensionIsForbidden($info['extension']))
                 {
                     continue;
                 }
             }
 
             // 截取文件路径
-            $file_path = $dir.substr($file, 0, strrpos($file, '/'));
+            $rslash = strrpos(str_replace('\\', '/', $file), '/');
+            if($rslash === false)
+            {
+                continue;
+            }
+            $file_path = $dir.substr($file, 0, $rslash);
 
             // 路径不存在则创建
             if(!is_dir($file_path))

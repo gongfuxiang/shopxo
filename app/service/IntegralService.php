@@ -34,33 +34,34 @@ class IntegralService
      * @param    [int]                   $operation_integral[操作积分]
      * @param    [string]                $msg               [操作原因]
      * @param    [int]                   $type              [操作类型（0减少, 1增加）]
+     * @param    [string]                $field             [字段（有效积分 integral， 锁定积分 locking_integral ）]
      * @param    [int]                   $operation_id      [操作人员id]
      * @return   [boolean]                                  [成功true, 失败false]
      */
-    public static function UserIntegralUpdate($user_id, $original_integral, $operation_integral, $msg = '', $type = 0, $operation_id = 0)
+    public static function UserIntegralUpdate($user_id, $original_integral, $operation_integral, $msg = '', $type = 0, $field = 'integral', $operation_id = 0)
     {
         // 是否传递了原始积分
         if($original_integral === null)
         {
-            $original_integral = Db::name('User')->where(['id'=>$user_id])->value('integral');
+            $original_integral = Db::name('User')->where(['id'=>$user_id])->value($field);
         }
 
         // 用户积分更新
         if($type == 1)
         {
-            if(!Db::name('User')->where(['id'=>$user_id])->inc('integral', $operation_integral)->update())
+            if(!Db::name('User')->where(['id'=>$user_id])->inc($field, $operation_integral)->update())
             {
                 return DataReturn(MyLang('common_service.integral.integral_inc_fail_tips'), -1);
             }
         } else {
-            if(!Db::name('User')->where(['id'=>$user_id])->dec('integral', $operation_integral)->update())
+            if(!Db::name('User')->where(['id'=>$user_id])->dec($field, $operation_integral)->update())
             {
                 return DataReturn(MyLang('common_service.integral.integral_dec_fail_tips'), -1);
             }
         }
 
         // 积分日志
-        if(self::UserIntegralLogAdd($user_id, $original_integral, $operation_integral, $msg, $type, $operation_id))
+        if(self::UserIntegralLogAdd($user_id, $original_integral, $operation_integral, $msg, $type, $field, $operation_id))
         {
             return DataReturn('success', 0);
         }
@@ -77,29 +78,32 @@ class IntegralService
      * @param    [int]                   $original_integral [原始积分]
      * @param    [int]                   $operation_integral[操作积分]
      * @param    [string]                $msg               [操作原因]
-     * @param    [int]                   $type              [操作类型（0减少, 1增加）]
+     * @param    [int]                   $operation_type    [操作类型（0减少, 1增加）]
+     * @param    [string]                $field             [字段（有效积分 integral， 锁定积分 locking_integral ）]
      * @param    [int]                   $operation_id      [操作人员id]
      * @return   [boolean]                                  [成功true, 失败false]
      */
-    public static function UserIntegralLogAdd($user_id, $original_integral, $operation_integral, $msg = '', $type = 0, $operation_id = 0)
+    public static function UserIntegralLogAdd($user_id, $original_integral, $operation_integral, $msg = '', $operation_type = 0, $field = 'integral', $operation_id = 0)
     {
         // 积分日志数据
         $data = [
-            'user_id'               => intval($user_id),
-            'original_integral'     => $original_integral,
-            'operation_integral'    => intval($operation_integral),
-            'msg'                   => $msg,
-            'type'                  => intval($type),
-            'operation_id'          => intval($operation_id),
-            'add_time'              => time(),
+            'user_id'             => intval($user_id),
+            'original_integral'   => $original_integral,
+            'operation_integral'  => intval($operation_integral),
+            'msg'                 => $msg,
+            'integral_type'       => ($field == 'integral') ? 0 : 1,
+            'operation_type'      => intval($operation_type),
+            'operation_id'        => intval($operation_id),
+            'add_time'            => time(),
         ];
-        $data['new_integral'] = ($data['type'] == 1) ? $data['original_integral']+$data['operation_integral'] : $data['original_integral']-$data['operation_integral'];
+        $data['new_integral'] = ($data['operation_type'] == 1) ? $data['original_integral']+$data['operation_integral'] : $data['original_integral']-$data['operation_integral'];
         $log_id = Db::name('UserIntegralLog')->insertGetId($data);
         if($log_id > 0)
         {
+            $field_type = ($data['integral_type'] == 0) ? MyLang('valid_title') : MyLang('lock_title');
             $lang = MyLang('common_service.integral.add_message_data');
-            $type_msg = MyConst('common_integral_log_type_list')[$type]['name'];
-            $detail = $msg.$lang['title'].$type_msg.$operation_integral;
+            $type_msg = MyConst('common_integral_log_operation_type_list')[$operation_type]['name'];
+            $detail = $msg.'[ '.$field_type.$lang['title'].$type_msg.$operation_integral.' ]';
             MessageService::MessageAdd($user_id, $lang['desc'], $detail, $lang['title'], $log_id);
             return true;
         }
@@ -142,7 +146,8 @@ class IntegralService
     {
         if(!empty($data))
         {
-            $integral_log_type_list = MyConst('common_integral_log_type_list');
+            $integral_type_list = MyConst('common_integral_log_integral_type_list');
+            $operation_type_list = MyConst('common_integral_log_operation_type_list');
             foreach($data as &$v)
             {
                 // 用户信息
@@ -154,8 +159,11 @@ class IntegralService
                     }
                 }
 
+                // 积分类型
+                $v['integral_type_text'] = isset($integral_type_list[$v['integral_type']]) ? $integral_type_list[$v['integral_type']]['name'] : '';
+
                 // 操作类型
-                $v['type_text'] = $integral_log_type_list[$v['type']]['name'];
+                $v['operation_type_text'] = isset($operation_type_list[$v['operation_type']]) ? $operation_type_list[$v['operation_type']]['name'] : '';
 
                 // 时间
                 $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
@@ -450,6 +458,37 @@ class IntegralService
     public static function UserIntegral($user_id)
     {
         return Db::name('User')->where(['id'=>$user_id])->field('integral,locking_integral')->find();
+    }
+
+    /**
+     * 我的积分页顶部统计
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-05-13
+     * @desc    description
+     * @param   [int]          $user_id [用户id]
+     */
+    public static function UserIntegralPageHeader($user_id)
+    {
+        $row = empty($user_id) ? [] : (self::UserIntegral($user_id) ?: []);
+        $integral = isset($row['integral']) ? intval($row['integral']) : 0;
+        $locking = isset($row['locking_integral']) ? intval($row['locking_integral']) : 0;
+
+        return [
+            'available' => [
+                'icon'  => StaticAttachmentUrl('integral.png'),
+                'name'  => MyLang('userintegral.base_normal_title'),
+                'value' => strval($integral),
+                'unit'  => MyLang('userintegral.base_integral_unit'),
+            ],
+            'locking' => [
+                'icon'  => StaticAttachmentUrl('lock.png'),
+                'name'  => MyLang('userintegral.base_locking_title'),
+                'value' => strval($locking),
+                'unit'  => MyLang('userintegral.base_integral_unit'),
+            ],
+        ];
     }
 }
 ?>

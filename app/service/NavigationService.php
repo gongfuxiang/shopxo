@@ -89,15 +89,13 @@ class NavigationService
             {
                 if($k > 0)
                 {
-                    $url = str_replace(['.'.$suffix, $suffix], '', $v['url']);
-                    $v['active'] = (stripos(__MY_VIEW_URL__, $url) === false) ? 0 : 1;
+                    $v['active'] = (__MY_VIEW_URL__ == $v['url']) ? 1 : 0;
                     if($v['active'] == 0 && !empty($v['items']))
                     {
                         $status = false;
                         foreach($v['items'] as &$vs)
                         {
-                            $url = str_replace(['.'.$suffix, $suffix], '', $vs['url']);
-                            if((stripos(__MY_VIEW_URL__, $url) !== false))
+                            if(__MY_VIEW_URL__ == $vs['url'])
                             {
                                 $vs['active'] = 1;
                                 $status = true;
@@ -715,7 +713,7 @@ class NavigationService
                     'type'      => 'quick',
                     'is_login'  => 1,
                     'badge'     => null,
-                    'icon'      => 'icon-more3',
+                    'icon'      => 'icon-more-o-point',
                     'url'       => '',
                     'items'     => $nav_quick,
                 ];

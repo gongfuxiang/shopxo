@@ -285,8 +285,9 @@ function DefaultTheme($theme = null)
  * @param   [string]    $value      [文件名称、含后缀]
  * @param   [string]    $type       [类型（图片images, 文件file, 视频video, svg文件svg）]
  * @param   [string]    $plugins    [指定插件]
+ * @param   [string]    $group      [指定分组]
  */
-function StaticAttachmentUrl($value, $type = 'images', $plugins = '')
+function StaticAttachmentUrl($value, $type = 'images', $plugins = '', $group = '')
 {
     // 是否前面增加了斜杠
     if(substr($value, 0, 1) != DS)
@@ -296,7 +297,10 @@ function StaticAttachmentUrl($value, $type = 'images', $plugins = '')
     // url结果
     $result = '';
     // 当前组
-    $group = RequestModule();
+    if(empty($group))
+    {
+        $group = RequestModule();
+    }
     // 插件标识
     $plugins_name = empty($plugins) ? PluginsNameBacktrace() : $plugins;
     // 是否插件
@@ -380,6 +384,10 @@ function StaticAttachmentUrl($value, $type = 'images', $plugins = '')
 
     if(empty($result))
     {
+        if($group == 'api')
+        {
+            return StaticAttachmentUrl($value, $type, $plugins, 'index');
+        }
         return '';
     }
     $url = SystemBaseService::AttachmentHost().$result;
@@ -588,13 +596,16 @@ function MyLang($key, $vars = [], $lang = '', $plugins = '')
     if(!empty($key))
     {
         static $lang_key_data = [];
-        if(!array_key_exists($key, $lang_key_data))
+
+        // 当前语言（缓存键需含语言与插件，避免不同插件共用同一顶层 key 如 admin_power_menu 时互相覆盖）
+        $current_lang = empty($lang) ? MultilingualService::GetUserMultilingualValue() : $lang;
+        $plugins_name = empty($plugins) ? PluginsNameBacktrace() : $plugins;
+        $cache_key = $key.'|'.$current_lang.'|'.(string) $plugins_name;
+
+        if(!array_key_exists($cache_key, $lang_key_data))
         {
             // key使用 . 分隔
             $key_arr = explode('.', $key);
-
-            // 当前语言
-            $current_lang = empty($lang) ? MultilingualService::GetUserMultilingualValue() : $lang;
 
             // 语言数据容器
             static $lang_file_data = [];
@@ -613,7 +624,6 @@ function MyLang($key, $vars = [], $lang = '', $plugins = '')
             $arr_file[] = APP_PATH.'lang'.DS.$current_lang.'.php';
 
             // 是否插件语言、未指定则处理
-            $plugins_name = empty($plugins) ? PluginsNameBacktrace() : $plugins;
             if(!empty($plugins_name))
             {
                 $plugins_dir = APP_PATH.'plugins'.DS.$plugins_name.DS.'lang'.DS;
@@ -699,9 +709,9 @@ function MyLang($key, $vars = [], $lang = '', $plugins = '')
             }
 
             // 放入静态数据
-            $lang_key_data[$key] = $value;
+            $lang_key_data[$cache_key] = $value;
         } else {
-            $value = $lang_key_data[$key];
+            $value = $lang_key_data[$cache_key];
         }
 
         // 变量解析
@@ -2611,8 +2621,18 @@ function CallPluginsData($plugins, $attachment_field = [], $service_name = '', $
  * @param    [mixed]           $params8   [参数8]
  * @param    [mixed]           $params9   [参数9]
  * @param    [mixed]           $params10  [参数10]
+ * @param    [mixed]           $params11  [参数11]
+ * @param    [mixed]           $params12  [参数12]
+ * @param    [mixed]           $params13  [参数13]
+ * @param    [mixed]           $params14  [参数14]
+ * @param    [mixed]           $params15  [参数15]
+ * @param    [mixed]           $params16  [参数16]
+ * @param    [mixed]           $params17  [参数17]
+ * @param    [mixed]           $params18  [参数18]
+ * @param    [mixed]           $params19  [参数19]
+ * @param    [mixed]           $params20  [参数20]
  */
-function CallPluginsServiceMethod($plugins, $service, $method, $params1 = null, $params2 = null, $params3 = null, $params4 = null, $params5 = null, $params6 = null, $params7 = null, $params8 = null, $params9 = null, $params10 = null)
+function CallPluginsServiceMethod($plugins, $service, $method, $params1 = null, $params2 = null, $params3 = null, $params4 = null, $params5 = null, $params6 = null, $params7 = null, $params8 = null, $params9 = null, $params10 = null, $params11 = null, $params12 = null, $params13 = null, $params14 = null, $params15 = null, $params16 = null, $params17 = null, $params18 = null, $params19 = null, $params20 = null)
 {
     $plugins_class = 'app\plugins\\'.$plugins.'\service\\'.$service;
     if(class_exists($plugins_class))
@@ -2626,7 +2646,7 @@ function CallPluginsServiceMethod($plugins, $service, $method, $params1 = null, 
             }
 
             // 调用方法返回数据
-            return $plugins_class::$method($params1, $params2, $params3, $params4, $params5, $params6, $params7, $params8, $params9, $params10);
+            return $plugins_class::$method($params1, $params2, $params3, $params4, $params5, $params6, $params7, $params8, $params9, $params10, $params11, $params12, $params13, $params14, $params15, $params16, $params17, $params18, $params19, $params20);
         } else {
             return DataReturn(MyLang('common_function.plugins_class_action_no_exist_tips').'['.$plugins.'-'.$service.'-'.$method.']', -1);
         }
@@ -3625,6 +3645,604 @@ function IsJson($jsonstr)
 }
 
 /**
+ * 是否包含可触发反序列化/异常行为的 PHP 流封装（phar/zip 等）
+ * @author  Devil
+ * @version 1.0.0
+ * @date    2026-04-30
+ * @param   [string]          $value [路径或 URL]
+ */
+function RequestGetStreamWrapperReject($value)
+{
+    if(empty($value) || !is_string($value))
+    {
+        return false;
+    }
+    $v = strtolower($value);
+    static $wrappers = [
+        'phar://', 'zip://', 'glob://', 'compress.zlib://', 'compress.bzip2://',
+        'php://', 'data://', 'expect://', 'file://', 'oci://', 'ldap://', 'dav://',
+    ];
+    foreach($wrappers as $w)
+    {
+        if(strpos($v, $w) !== false)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * 解析二维码/条码等「附件下载」地址为 public 目录内真实文件路径
+ * 防 phar 反序列化、路径穿越与非站点文件读取（CNVD 相关）
+ * @author  Devil
+ * @version 1.0.0
+ * @date    2026-04-30
+ * @param   [string]          $decoded_url [已 base64 解码后的 url 参数]
+ * @return  [string|false]    绝对路径或 false
+ */
+function AttachmentPublicDownloadRealpath($decoded_url)
+{
+    if(empty($decoded_url) || !is_string($decoded_url))
+    {
+        return false;
+    }
+    if(strpos($decoded_url, '..') !== false || preg_match('/%2e%2e|%252e/i', $decoded_url))
+    {
+        return false;
+    }
+    if(RequestGetStreamWrapperReject($decoded_url))
+    {
+        return false;
+    }
+    $arr = explode('?', $decoded_url, 2);
+    $url = $arr[0];
+    if($url === '')
+    {
+        return false;
+    }
+    $rel = ResourcesService::AttachmentPathHandle($url);
+    $file = ROOT.'public'.$rel;
+    $public = @realpath(ROOT.'public');
+    if($public === false)
+    {
+        return false;
+    }
+    $target = @realpath($file);
+    if($target === false || !is_file($target))
+    {
+        return false;
+    }
+    $prefix = $public.DIRECTORY_SEPARATOR;
+    if($target !== $public && strncmp($target, $prefix, strlen($prefix)) !== 0)
+    {
+        return false;
+    }
+    return $target;
+}
+
+/**
+ * 判断 token 序列中下一有效 token 是否为左括号「(」（用于识别函数调用）
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2026-04-30
+ * @desc    description
+ * @param   [array]           $tokens [token_get_all 结果]
+ * @param   [int]             $from   [起始下标]
+ * @param   [int]             $len    [tokens 长度]
+ * @return  [boolean]                 [下一非空白/注释 token 为「(」返回 true]
+ */
+function PhpStrictAutoloadNextTokenIsOpenParen($tokens, $from, $len)
+{
+    for($j = $from; $j < $len; $j++)
+    {
+        $t = $tokens[$j];
+        if(is_string($t))
+        {
+            return ($t === '(');
+        }
+        if(!in_array($t[0], [T_WHITESPACE, T_COMMENT, T_DOC_COMMENT], true))
+        {
+            return false;
+        }
+    }
+    return false;
+}
+
+/**
+ * 判断当前 T_CLASS 是否属于「new ClassName」形式的匿名类
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2026-04-30
+ * @desc    description
+ * @param   [array]           $tokens    [token_get_all 结果]
+ * @param   [int]             $class_idx [T_CLASS 所在下标]
+ * @return  [boolean]
+ */
+function PhpStrictAutoloadClassIsAnonymous($tokens, $class_idx)
+{
+    $j = $class_idx - 1;
+    while($j >= 0)
+    {
+        $t = $tokens[$j];
+        if(is_string($t))
+        {
+            if(trim($t) === '')
+            {
+                $j--;
+                continue;
+            }
+            return false;
+        }
+        if(in_array($t[0], [T_WHITESPACE, T_COMMENT, T_DOC_COMMENT], true))
+        {
+            $j--;
+            continue;
+        }
+        return ($t[0] === T_NEW);
+    }
+    return false;
+}
+
+/**
+ * 从 T_CLASS 起跳过整个类体（含花括号配对，用于跳过匿名类再继续扫描序言）
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2026-04-30
+ * @desc    description
+ * @param   [array]           $tokens    [token_get_all 结果]
+ * @param   [int]             $class_idx [T_CLASS 所在下标]
+ * @return  [int]                        [跳过后的下标]
+ */
+function PhpStrictAutoloadSkipClassBody($tokens, $class_idx)
+{
+    $len = count($tokens);
+    $i = $class_idx + 1;
+    while($i < $len)
+    {
+        if(is_string($tokens[$i]))
+        {
+            if($tokens[$i] === '{')
+            {
+                break;
+            }
+            $i++;
+            continue;
+        }
+        $i++;
+    }
+    if($i >= $len || $tokens[$i] !== '{')
+    {
+        return $len;
+    }
+    $depth = 1;
+    $i++;
+    while($i < $len && $depth > 0)
+    {
+        $t = $tokens[$i];
+        if(is_string($t))
+        {
+            if($t === '{')
+            {
+                $depth++;
+            } elseif($t === '}')
+            {
+                $depth--;
+            }
+            $i++;
+            continue;
+        }
+        if($t[0] === T_CURLY_OPEN || $t[0] === T_DOLLAR_OPEN_CURLY_BRACES)
+        {
+            $depth++;
+        }
+        $i++;
+    }
+    return $i;
+}
+
+/**
+ * 禁止类静态属性初始化中出现高危函数调用（类加载时可能执行）
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2026-04-30
+ * @desc    description
+ * @param   [string]          $src [PHP 源码全文]
+ * @return  [boolean]              [通过校验返回 true]
+ */
+function PhpStrictAutoloadStaticInitSafe($src)
+{
+    if(preg_match('/static\s+\$\w+[^=]*=\s*[^;]{0,8000}(file_put_contents|eval|assert|shell_exec|exec|system|passthru|proc_open|popen|base64_decode)\s*\(/is', $src))
+    {
+        return false;
+    }
+    return true;
+}
+
+/**
+ * 校验 zip 内 PHP 文件源码：首个类/接口/trait/enum 之前须为声明性序言（防上传包内恶意 PHP 在 autoload 时执行）
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2026-04-30
+ * @desc    description
+ * @param   [string]          $src [PHP 源码]
+ * @return  [boolean]              [安全返回 true，不安全或无法解析返回 false]
+ */
+function PhpStrictAutoloadFileSourceSafe($src)
+{
+    if(!is_string($src) || $src === '' || strpos($src, "\0") !== false)
+    {
+        return false;
+    }
+    $tokens = @token_get_all($src);
+    if(empty($tokens) || !is_array($tokens))
+    {
+        return false;
+    }
+    $len = count($tokens);
+    $danger_call = [
+        'eval', 'assert', 'create_function', 'shell_exec', 'exec', 'system', 'passthru',
+        'proc_open', 'popen', 'pcntl_exec', 'dl', 'md5', 'sha1', 'base64_decode',
+        'str_rot13', 'gzinflate', 'gzuncompress', 'file_put_contents', 'fopen', 'fwrite',
+        'chmod', 'chown', 'unlink', 'rename', 'copy', 'symlink', 'mail', 'header',
+        'ini_set', 'putenv', 'apache_child_terminate', 'parse_ini_file', 'show_source',
+        'readfile', 'register_shutdown_function', 'register_tick_function', 'define',
+        'opcache_compile_file', 'highlight_file', 'virtual',
+    ];
+    $bad_ids = [
+        T_OPEN_TAG_WITH_ECHO,
+        T_VARIABLE, T_ECHO, T_PRINT, T_EXIT, T_EVAL,
+        T_INCLUDE, T_INCLUDE_ONCE, T_REQUIRE, T_REQUIRE_ONCE,
+        T_FUNCTION, T_RETURN, T_YIELD, T_YIELD_FROM,
+        T_IF, T_WHILE, T_FOR, T_FOREACH, T_DO, T_SWITCH, T_TRY, T_THROW,
+        T_BREAK, T_CONTINUE, T_GOTO,
+        T_ISSET, T_EMPTY, T_UNSET,
+        T_HALT_COMPILER,
+    ];
+    if(defined('T_MATCH'))
+    {
+        $bad_ids[] = T_MATCH;
+    }
+    if(defined('T_FN'))
+    {
+        $bad_ids[] = T_FN;
+    }
+    $i = 0;
+    while($i < $len)
+    {
+        $t = $tokens[$i];
+        if(is_string($t))
+        {
+            $i++;
+            continue;
+        }
+        list($id, $text) = $t;
+        if($id === T_CLASS)
+        {
+            if(PhpStrictAutoloadClassIsAnonymous($tokens, $i))
+            {
+                $i = PhpStrictAutoloadSkipClassBody($tokens, $i);
+                continue;
+            }
+            if(!PhpStrictAutoloadStaticInitSafe($src))
+            {
+                return false;
+            }
+            return true;
+        }
+        if($id === T_INTERFACE || $id === T_TRAIT)
+        {
+            if(!PhpStrictAutoloadStaticInitSafe($src))
+            {
+                return false;
+            }
+            return true;
+        }
+        if(defined('T_ENUM') && $id === T_ENUM)
+        {
+            if(!PhpStrictAutoloadStaticInitSafe($src))
+            {
+                return false;
+            }
+            return true;
+        }
+        if(in_array($id, $bad_ids, true))
+        {
+            return false;
+        }
+        if($id === T_STRING)
+        {
+            $low = strtolower($text);
+            if(in_array($low, $danger_call, true) && PhpStrictAutoloadNextTokenIsOpenParen($tokens, $i + 1, $len))
+            {
+                return false;
+            }
+        }
+        $i++;
+    }
+    return false;
+}
+
+/**
+ * 插件语言包 php 文件源码校验（仅允许声明/注释 + return 数组）
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2026-04-30
+ * @desc    description
+ * @param   [string]          $src [PHP 源码]
+ * @return  [boolean]              [合法语言包返回 true]
+ */
+function PhpLangArrayFileSourceSafe($src)
+{
+    if(!is_string($src) || $src === '' || strpos($src, " ") !== false)
+    {
+        return false;
+    }
+    $tokens = @token_get_all($src);
+    if(empty($tokens) || !is_array($tokens))
+    {
+        return false;
+    }
+
+    $allow_before_return = [
+        T_OPEN_TAG, T_CLOSE_TAG, T_WHITESPACE, T_COMMENT, T_DOC_COMMENT,
+        T_INLINE_HTML,
+        T_DECLARE, T_STRING, T_LNUMBER, T_DNUMBER,
+        T_CONSTANT_ENCAPSED_STRING,
+    ];
+    $allow_return_tail = [
+        T_WHITESPACE, T_COMMENT, T_DOC_COMMENT,
+        T_CLOSE_TAG, T_INLINE_HTML,
+    ];
+
+    $seen_return = false;
+    $seen_array_open = false;
+    $depth = 0;
+    $return_end_idx = -1;
+
+    $len = count($tokens);
+    for($i=0; $i<$len; $i++)
+    {
+        $t = $tokens[$i];
+        if(is_string($t))
+        {
+            if(!$seen_return)
+            {
+                if($t === ';')
+                {
+                    return false;
+                }
+                continue;
+            }
+
+            if(!$seen_array_open)
+            {
+                if($t === '[')
+                {
+                    $seen_array_open = true;
+                    $depth = 1;
+                    continue;
+                }
+                if($t === '(')
+                {
+                    $j = $i-1;
+                    while($j >= 0)
+                    {
+                        $prev = $tokens[$j];
+                        if(is_string($prev) && trim($prev) === '')
+                        {
+                            $j--;
+                            continue;
+                        }
+                        if(is_array($prev) && in_array($prev[0], [T_WHITESPACE, T_COMMENT, T_DOC_COMMENT], true))
+                        {
+                            $j--;
+                            continue;
+                        }
+                        break;
+                    }
+                    if($j >= 0 && is_array($tokens[$j]) && $tokens[$j][0] === T_ARRAY)
+                    {
+                        $seen_array_open = true;
+                        $depth = 1;
+                        continue;
+                    }
+                }
+                if(trim($t) === '')
+                {
+                    continue;
+                }
+                return false;
+            }
+
+            if($t === '[' || $t === '(')
+            {
+                $depth++;
+            } elseif($t === ']' || $t === ')')
+            {
+                $depth--;
+                if($depth < 0)
+                {
+                    return false;
+                }
+            } elseif($t === ';' && $depth === 0)
+            {
+                $return_end_idx = $i;
+                break;
+            }
+            continue;
+        }
+
+        $id = $t[0];
+        if(!$seen_return)
+        {
+            if($id === T_RETURN)
+            {
+                $seen_return = true;
+                continue;
+            }
+            if(!in_array($id, $allow_before_return, true))
+            {
+                return false;
+            }
+            continue;
+        }
+
+        if(!$seen_array_open)
+        {
+            if(in_array($id, [T_WHITESPACE, T_COMMENT, T_DOC_COMMENT], true))
+            {
+                continue;
+            }
+            if($id === T_ARRAY)
+            {
+                continue;
+            }
+            return false;
+        }
+    }
+
+    if(!$seen_return || !$seen_array_open || $depth !== 0 || $return_end_idx < 0)
+    {
+        return false;
+    }
+
+    for($k=$return_end_idx+1; $k<$len; $k++)
+    {
+        $t = $tokens[$k];
+        if(is_string($t))
+        {
+            if(trim($t) !== '')
+            {
+                return false;
+            }
+            continue;
+        }
+        if(!in_array($t[0], $allow_return_tail, true))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+/**
+ * Web 可访问目录 zip 解压：禁止后缀名黑名单（内部复用，单例 map）
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2026-04-30
+ * @desc    description
+ * @return  [array]               [扩展名小写 => true]
+ */
+function ZipPublicDirForbiddenExtensionsMap()
+{
+    static $map = null;
+    if($map === null)
+    {
+        $map = array_fill_keys([
+            'php', 'php3', 'php4', 'php5', 'php6', 'php7', 'php8',
+            'phtml', 'phps', 'pht', 'pgif', 'phar',
+            'inc',
+            'cgi', 'pl',
+            'asp', 'aspx', 'ashx', 'asax', 'ascx', 'asmx', 'cer', 'cdx',
+            'jsp', 'jspx', 'war',
+            'hta', 'htr', 'shtml', 'stm', 'htc',
+            'sh', 'bash', 'csh', 'ksh', 'zsh', 'exe', 'dll', 'msi', 'bat', 'cmd', 'com', 'scf',
+        ], true);
+    }
+    return $map;
+}
+
+/**
+ * 解压至 Web 可访问目录时禁止写入的文件后缀名列表
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2026-04-30
+ * @desc    zip 解压写入 public 或站点静态目录时禁止的扩展名列表；返回小写后缀一维数组；请勿修改返回值
+ * @return  [array]               [小写后缀名一维数组，首次调用后缓存]
+ */
+function ZipPublicDirForbiddenExtensions()
+{
+    static $list = null;
+    if($list === null)
+    {
+        $list = array_keys(ZipPublicDirForbiddenExtensionsMap());
+    }
+    return $list;
+}
+
+/**
+ * 解压至 Web 可访问目录时，是否禁止写入该扩展名
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2026-04-30
+ * @desc    判断扩展名是否在禁止写入黑名单内（基于 map 的 isset）
+ * @param   [string]          $extension [pathinfo 得到的 extension，可含大写]
+ * @return  [boolean]              [禁止写入 true，否则 false；空或非字符串为 false]
+ */
+function ZipPublicDirExtensionIsForbidden($extension)
+{
+    if(!is_string($extension) || $extension === '')
+    {
+        return false;
+    }
+    return isset(ZipPublicDirForbiddenExtensionsMap()[strtolower($extension)]);
+}
+
+/**
+ * 校验本地待解压包：可读且 zip 魔数 PK（防伪造扩展名/MIME）
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2026-04-30
+ * @desc    description
+ * @param   [string]          $package_file [服务器临时路径]
+ * @return  [boolean]              [合法 zip 可读返回 true]
+ */
+function ZipPackageFileIsReadablePkMagic($package_file)
+{
+    if(!is_string($package_file) || $package_file === '' || !is_readable($package_file))
+    {
+        return false;
+    }
+    $head = @file_get_contents($package_file, false, null, 0, 4);
+    return ($head !== false && strlen($head) >= 2 && substr($head, 0, 2) === 'PK');
+}
+
+/**
+ * zip 内条目相对路径是否不安全（目录穿越、空字节等）
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2026-04-30
+ * @desc    为真时跳过该 zip 条目或拒绝整包
+ * @param   [string]          $name [getNameIndex 返回的相对路径]
+ * @return  [boolean]              [不安全返回 true]
+ */
+function ZipArchiveEntryRelativePathUnsafe($name)
+{
+    if(!is_string($name) || $name === '')
+    {
+        return true;
+    }
+    if(strpos($name, "\0") !== false)
+    {
+        return true;
+    }
+    $norm = str_replace('\\', '/', $name);
+    return (strpos($norm, '..') !== false);
+}
+
+/**
  * 请求get，支持本地文件
  * @author  Devil
  * @blog    http://gong.gg/
@@ -3636,8 +4254,13 @@ function IsJson($jsonstr)
  */
 function RequestGet($value, $timeout = 10)
 {
-    if(!empty($value))
+    if(!empty($value) && is_string($value))
     {
+        // 禁止 phar/zip 等流封装（远程与本地均拦截，防反序列化利用链）
+        if(RequestGetStreamWrapperReject($value))
+        {
+            return '';
+        }
         // 远程
         if(substr($value, 0, 4) == 'http')
         {

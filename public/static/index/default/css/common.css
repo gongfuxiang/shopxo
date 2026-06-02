@@ -212,7 +212,7 @@ input.min {
 }
 
 .logo img {
-    width: 100%;
+    height: 100%;
     vertical-align: middle;
 }
 
@@ -1141,15 +1141,14 @@ ul.am-dropdown-content>li>a:focus {
  * 简洁导航
  */
 .header-nav-simple {
-    padding: 1.25rem 0 1.25rem 0;
-    height: 8.8rem;
+    padding: 0.5rem 0;
+    height: 6.8rem;
     background: #FFFFFF;
 }
 
 .header-nav-simple .logo {
     float: left;
-    height: 6rem;
-    width: 22rem;
+    height: 5.6rem;
     margin: 0px auto;
     margin-left: 0.5rem;
     margin-right: 0.5rem;
@@ -1199,7 +1198,7 @@ ul.am-dropdown-content>li>a:focus {
 
     .header-nav-simple .logo {
         height: 3.1rem;
-        width: 10rem;
+        max-width: 10rem;
     }
 
     .header-nav-simple .login-title {
@@ -2420,6 +2419,19 @@ a.am-badge-danger:active {
 /**
  * 小徽章 - 空心
  */
+.am-badge-main-plain {
+    border: 0.1rem solid var(--color-main);
+    background: transparent;
+    color: var(--color-main);
+}
+a.am-badge-main-plain:hover,
+a.am-badge-main-plain:focus,
+a.am-badge-main-plain:active {
+    color: var(--color-main);
+    border: 0.1rem solid var(--color-main);
+    background: transparent;
+}
+
 .am-badge-plain {
     border: 0.1rem solid var(--color-badge-default);
     background: transparent;
@@ -2736,7 +2748,6 @@ table.am-table .am-dropdown.am-active .am-selected-btn.am-btn-default.am-dropdow
 /* 用户 */
 img.common-user-icon {
     max-height: 1.5rem;
-    vertical-align: middle;
 }
 
 /**

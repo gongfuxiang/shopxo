@@ -158,10 +158,7 @@ return [
             ['name' => 'User Register', 'type' => 'register'],
             ['name' => 'User Login', 'type' => 'login'],
             ['name' => 'Password Recovery', 'type' => 'forgetpwd'],
-            ['name' => 'Verification Code', 'type' => 'verify'],
             ['name' => 'Order after-sales', 'type' => 'orderaftersale'],
-            ['name' => 'Annex', 'type' => 'attachment'],
-            ['name' => 'Cache', 'type' => 'cache'],
             ['name' => 'Extensions', 'type' => 'extends'],
         ],
         // 网站设置导航
@@ -296,6 +293,10 @@ return [
             '1. If it is empty by default, it is only valid for the currently accessed domain name',
             '2. If you need a secondary domain name to share cookies, fill in the top-level domain name, such as baidu.com',
         ],
+        'cookie_config_title'                   => 'Cookie',
+        'cookie_samesite_option_empty'          => 'Not set (default)',
+        'cookie_samesite_option_strict'         => 'Strict',
+        'cookie_samesite_option_lax'            => 'Lax',
     ],
 
     // 品牌
@@ -821,6 +822,10 @@ return [
         'detail_aftersale_reason'               => 'Reason',
         // 商品
         'detail_goods_title'                    => 'Order Goods',
+        'detail_log_nav_title'                  => 'Status Log',
+        'detail_log_creator_msg'                => 'Description',
+        'detail_log_creator_name'               => 'Operator',
+        'detail_log_creator_time'               => 'Time',
         'detail_payment_amount_less_tips'       => 'Please note that the order payment amount is less than the total amount',
         'detail_no_payment_tips'                => 'Please note that the order has not been paid',
         // 动态表格
@@ -834,6 +839,11 @@ return [
             'goods_placeholder'                => 'Please enter order ID/order number/product information',
             'user'                             => 'User Info',
             'user_placeholder'                 => 'Please enter user name/nickname/mobile phone/email',
+            'user_id'                          => 'User ID',
+            'user_username'                    => 'Username',
+            'user_nickname'                    => 'Nickname',
+            'user_mobile'                      => 'Mobile Phone',
+            'user_email'                       => 'Email Address',
             'status'                           => 'Order Status',
             'pay_status'                       => 'Payment Status',
             'total_price'                      => 'Total Price (yuan)',
@@ -1470,7 +1480,8 @@ return [
         'form_table'                            => [
             'user'                => 'User Info',
             'user_placeholder'    => 'Please enter user name/nickname/mobile phone/email',
-            'type'                => 'Operate Type',
+            'integral_type'       => 'Points Type',
+            'operation_type'      => 'Operation Type',
             'operation_integral'  => 'Operate Integral',
             'original_integral'   => 'Oiginal Integral',
             'new_integral'        => 'New Integral',
@@ -1590,6 +1601,11 @@ return [
         // 公共
         'admin_browser_title'                      => 'Background management system',
         'remove_cache_title'                       => 'Clear Cache',
+        'nav_pending_todo_order_delivery'          => 'Orders awaiting shipment',
+        'nav_pending_todo_order_aftersale_audit'   => 'After-sales orders pending confirmation / review',
+        'nav_pending_todo_goods_comments_reply'    => 'Product reviews awaiting reply',
+        'nav_pending_todo_user_audit'              => 'Users pending review',
+        'nav_pending_todo_empty'                   => 'No pending items',
         // 商品参数
         'form_goods_params_config_error_tips'      => 'Goods parameter configuration information',
         'form_goods_params_copy_no_tips'           => 'Please paste the configuration information first',

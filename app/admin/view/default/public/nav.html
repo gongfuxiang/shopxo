@@ -80,21 +80,47 @@
 
                 <!-- 首页 -->
                 <li class="am-dropdown">
-                    <a href="{{$home_url}}" class="am-flex am-flex-row am-flex-items-center am-gap-12" target="_blank" data-am-popover="{content: '{{:MyLang('shop_home_title')}}', trigger: 'hover focus', theme: 'sm'}">
+                    <a href="{{$home_url}}" class="am-flex am-flex-row am-flex-items-center am-gap-12" target="_blank" rel="noopener noreferrer" data-am-popover="{content: '{{:MyLang('shop_home_title')}}', trigger: 'hover focus', theme: 'sm'}">
                         <i class="iconfont icon-home"></i>
                         <span class="am-show-sm-only">{{:MyLang('shop_home_title')}}</span>
                     </a>
                 </li>
 
-                <!-- 后台公告 -->
-                {{if !empty($admin_notice)}}
-                    <li class="am-dropdown" data-am-dropdown="{trigger: 'hover'}">
+                <!-- 公告 + 待处理（同一铃铛下拉） -->
+                {{if !empty($admin) and (!empty($admin_notice) or !empty($admin_nav_pending_todo))}}
+                    <li class="am-dropdown admin-nav-pending-todo" data-am-dropdown="{trigger: 'hover'}">
                         <a href="javascript:;" class="am-dropdown-toggle am-flex am-flex-row am-flex-items-center am-gap-12">
-                            <i class="iconfont icon-notice"></i>
+                            <i class="iconfont icon-smallbell"></i>
                             <span class="am-show-sm-only">{{:MyLang('notice_title')}}</span>
+                            {{if !empty($admin_nav_pending_todo.has_pending)}}
+                                <i class="hot-dot am-color-red">.</i>
+                            {{/if}}
                         </a>
-                        <div class="am-dropdown-content am-radius-lg am-color-333 notice-width">
-                            <p>{{$admin_notice|raw}}</p>
+                        <div class="am-dropdown-content am-radius-lg am-color-333 admin-nav-pending-todo-panel">
+                            {{if !empty($admin_notice)}}
+                                <div class="admin-nav-pending-todo-notice-block notice-width">
+                                    <div class="am-color-yellow notice-content admin-nav-pending-todo-notice-body">{{$admin_notice|raw}}</div>
+                                </div>
+                            {{/if}}
+                            {{if !empty($admin_notice)}}
+                                <hr data-am-widget="divider" class="am-divider am-divider-default am-margin-bottom-xs am-margin-top-sm" />
+                            {{/if}}
+                            {{if !empty($admin_nav_pending_todo.data) and is_array($admin_nav_pending_todo.data)}}
+                                <ul class="am-list am-list-static am-margin-bottom-0 am-scrollable-vertical admin-nav-pending-todo-list">
+                                    {{foreach $admin_nav_pending_todo.data as $v}}
+                                        {{if !empty($v['name']) and !empty($v['url'])}}
+                                            <li>
+                                                <a href="javascript:;" class="submit-popup am-nbfc am-block am-radius" data-url="{{$v.url}}" data-title="{{if empty($v['title'])}}{{$v.name}}{{else /}}{{$v.title}}{{/if}}" data-offcanvas="right">
+                                                    <span class="am-fl">{{$v.name}}</span>
+                                                    <span class="am-fr am-badge am-badge{{if isset($v['count']) and $v.count gt 0}}-danger{{else /}}-secondary{{/if}} am-round">{{if isset($v['count'])}}{{$v.count}}{{else /}}0{{/if}}</span>
+                                                </a>
+                                            </li>
+                                        {{/if}}
+                                    {{/foreach}}
+                                </ul>
+                            {{else /}}
+                                <p class="am-text-center am-color-grey am-padding-top-sm am-padding-bottom-xs">{{:MyLang('common.nav_pending_todo_empty')}}</p>
+                            {{/if}}
                         </div>
                     </li>
                 {{/if}}

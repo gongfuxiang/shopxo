@@ -14,13 +14,13 @@
                     {{if !empty($module_data['base_nav']['keywords_arr'])}}
                         <div class="base-nav-keywords">
                             {{foreach $module_data.base_nav.keywords_arr as $kdv}}
-                                <a href="{{:MyUrl('index/search/index', ['wd'=>StrToAscii($kdv)])}}" target="_blank">{{$kdv}}</a>
+                                <a href="{{:MyUrl('index/search/index', ['wd'=>StrToAscii($kdv)])}}" target="_blank" rel="noopener noreferrer">{{$kdv}}</a>
                             {{/foreach}}
                         </div>
                     {{/if}}
                     {{if !empty($module_data['base_nav']['url'])}}
                         <span class="base-nav-more">
-                            <a href="{{$module_data.base_nav.url}}" target="_blank">{{:MyLang('more_title')}} <i class="iconfont icon-angle-right"></i></a>
+                            <a href="{{$module_data.base_nav.url}}" target="_blank" rel="noopener noreferrer">{{:MyLang('more_title')}} <i class="iconfont icon-angle-right"></i></a>
                         </span>
                     {{/if}}
                 </div>
@@ -58,7 +58,7 @@
                                 }
                             }
                         {{/php}}
-                        <a href="{{$v.goods_url}}" target="_blank" class="am-block goods-info">
+                        <a href="{{$v.goods_url}}" target="_blank" rel="noopener noreferrer" class="am-block goods-info">
                             <img src="{{$v.images}}" alt="{{$v.title}}" class="goods-images am-radius scale-sm" />
                         </a>
 
@@ -85,34 +85,31 @@
                         {{if isset($module_data['value_type']) and $module_data['value_type'] eq 1 }}
                             <div class="type-btn">
                                 <p class="am-text-truncate-2 goods-title am-padding-horizontal-sm">
-                                    <a href="{{$v.goods_url}}" target="_blank">{{$v.title|raw}}</a>
+                                    <a href="{{$v.goods_url}}" target="_blank" rel="noopener noreferrer">{{$v.title|raw}}</a>
                                 </p>
                                 {{if (isset($v['show_field_original_price_status']) and $v['show_field_original_price_status'] eq 1) or (isset($v['show_field_price_status']) and $v['show_field_price_status'] eq 1)}}
                                     <div class="item-bottom am-flex am-flex-justify-between am-gap-1 am-flex-items-end am-padding-sm">
                                         <div class="price-content">
-                                            {{if isset($v['show_field_original_price_status']) and $v['show_field_original_price_status'] eq 1}}
+                                            {{if isset($v['show_field_original_price_status']) and $v['show_field_original_price_status'] eq 1 and (!isset($module_data['is_show_original_price']) or (isset($module_data['is_show_original_price']) and $module_data['is_show_original_price'] eq 1))}}
                                                 {{if isset($module_data['original_price_key'])}}
-                                                    {{if (!isset($module_data['is_show_original_price']) or (isset($module_data['is_show_original_price']) and $module_data['is_show_original_price'] eq 1)) and isset($v[$module_data['original_price_key']]) and $v[$module_data['original_price_key']] gt 0}}
-                                                        <p class="original-price am-text-truncate">{{$v.show_original_price_symbol}}{{$v[$module_data['original_price_key']]}}{{$v.show_original_price_unit}}</p>
+                                                    {{if isset($v[$module_data['original_price_key']]) and $v[$module_data['original_price_key']] gt 0}}
+                                                        <p class="original-price am-text-truncate">{{if !isset($module_data['is_currency_symbol']) or $module_data['is_currency_symbol'] eq 1}}{{$v.show_original_price_symbol}}{{/if}}{{$v[$module_data['original_price_key']]}}{{$v.show_original_price_unit}}</p>
                                                     {{/if}}
                                                 {{else/}}
-                                                    {{if (!isset($module_data['is_show_original_price']) or (isset($module_data['is_show_original_price']) and $module_data['is_show_original_price'] eq 1)) and isset($v['min_original_price']) and $v['min_original_price'] gt 0}}
-                                                        <p class="original-price am-text-truncate">{{$v.show_original_price_symbol}}{{$v.min_original_price}}{{$v.show_original_price_unit}}</p>
+                                                    {{if isset($v['min_original_price']) and $v['min_original_price'] gt 0}}
+                                                        <p class="original-price am-text-truncate">{{if !isset($module_data['is_currency_symbol']) or $module_data['is_currency_symbol'] eq 1}}{{$v.show_original_price_symbol}}{{/if}}{{$v.min_original_price}}{{$v.show_original_price_unit}}</p>
                                                     {{/if}}
                                                 {{/if}}
                                             {{/if}}
 
                                             {{if isset($v['show_field_price_status']) and $v['show_field_price_status'] eq 1}}
                                                 <p class="am-text-truncate price am-text-truncate am-font-weight am-text-lg am-text-left">
-                                                    {{if !isset($module_data['is_currency_symbol']) or $module_data['is_currency_symbol'] eq 1}}
-                                                        {{$v.show_price_symbol}}
-                                                    {{/if}}
                                                     {{if isset($module_data['price_key'])}}
                                                         {{if isset($v[$module_data['price_key']])}}
-                                                            {{$v[$module_data['price_key']]}}
+                                                            {{if !isset($module_data['is_currency_symbol']) or $module_data['is_currency_symbol'] eq 1}}{{$v.show_price_symbol}}{{/if}}{{$v[$module_data['price_key']]}}
                                                         {{/if}}
                                                     {{else/}}
-                                                        {{$v.min_price}}
+                                                        {{if !isset($module_data['is_currency_symbol']) or $module_data['is_currency_symbol'] eq 1}}{{$v.show_price_symbol}}{{/if}}{{$v.min_price}}
                                                     {{/if}}
                                                     <span class="am-text-grey unit">
                                                         {{if !empty($module_data['price_unit'])}}
@@ -125,7 +122,7 @@
                                             {{/if}}
                                         </div>
                                         {{if isset($v['show_field_price_status']) and $v['show_field_price_status'] eq 1}}
-                                            <a class="am-btn {{if isset($module_data['is_disabled']) and $module_data['is_disabled'] eq 1}}am-btn-default{{else/}}am-btn-primary{{/if}} am-radius buy-btn" href="{{$v.goods_url}}" target="_blank" {{if isset($module_data['is_disabled']) and $module_data['is_disabled'] eq 1}}disabled{{/if}}>
+                                            <a class="am-btn {{if isset($module_data['is_disabled']) and $module_data['is_disabled'] eq 1}}am-btn-default{{else/}}am-btn-primary{{/if}} am-radius buy-btn" href="{{$v.goods_url}}" target="_blank" rel="noopener noreferrer" {{if isset($module_data['is_disabled']) and $module_data['is_disabled'] eq 1}}disabled{{/if}}>
                                                 {{if isset($module_data['button_text'])}}
                                                     {{$module_data['button_text']}}
                                                 {{else/}}
@@ -140,18 +137,32 @@
                             <div class="price-content">
                                 <p class="price am-text-truncate">
                                     {{if isset($v['show_field_price_status']) and $v['show_field_price_status'] eq 1}}
-                                        <strong>{{$v.show_price_symbol}}{{$v.min_price}}</strong>
+                                        {{if isset($module_data['price_key'])}}
+                                            {{if isset($v[$module_data['price_key']])}}
+                                                <strong>{{if !isset($module_data['is_currency_symbol']) or $module_data['is_currency_symbol'] eq 1}}{{$v.show_price_symbol}}{{/if}}{{$v[$module_data['price_key']]}}</strong>
+                                            {{/if}}
+                                        {{else/}}
+                                            <strong>{{if !isset($module_data['is_currency_symbol']) or $module_data['is_currency_symbol'] eq 1}}{{$v.show_price_symbol}}{{/if}}{{$v.min_price}}</strong>
+                                        {{/if}}
                                         <span class="am-text-grey unit">{{$v.show_price_unit}}</span>
                                     {{/if}}
 
                                     {{if isset($v['show_field_original_price_status']) and $v['show_field_original_price_status'] eq 1}}
-                                        {{if (!isset($module_data['is_show_original_price']) or (isset($module_data['is_show_original_price']) and $module_data['is_show_original_price'] eq 1)) and isset($v['min_original_price']) and $v['min_original_price'] gt 0}}
-                                            <span class="original-price am-text-truncate">{{$v.show_original_price_symbol}}{{$v.min_original_price}}{{$v.show_original_price_unit}}</span>
+                                        {{if (!isset($module_data['is_show_original_price']) or (isset($module_data['is_show_original_price']) and $module_data['is_show_original_price'] eq 1))}}
+                                            {{if isset($module_data['original_price_key'])}}
+                                                {{if isset($v[$module_data['original_price_key']]) and $v[$module_data['original_price_key']] gt 0}}
+                                                    <span class="original-price am-text-truncate">{{if !isset($module_data['is_currency_symbol']) or $module_data['is_currency_symbol'] eq 1}}{{$v.show_original_price_symbol}}{{/if}}{{$v[$module_data['original_price_key']]}}{{$v.show_original_price_unit}}</p>
+                                                {{/if}}
+                                            {{else/}}
+                                                {{if isset($v['min_original_price']) and $v['min_original_price'] gt 0}}
+                                                    <span class="original-price am-text-truncate">{{if !isset($module_data['is_currency_symbol']) or $module_data['is_currency_symbol'] eq 1}}{{$v.show_original_price_symbol}}{{/if}}{{$v.min_original_price}}{{$v.show_original_price_unit}}</span>
+                                                {{/if}}
+                                            {{/if}}
                                         {{/if}}
                                     {{/if}}
                                 </p>
                                 <p class="am-text-truncate-2-md goods-title">
-                                    <a href="{{$v.goods_url}}" target="_blank">{{$v.title|raw}}</a>
+                                    <a href="{{$v.goods_url}}" target="_blank" rel="noopener noreferrer">{{$v.title|raw}}</a>
                                 </p>
                             </div>
                         {{/if}}

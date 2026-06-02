@@ -309,7 +309,7 @@
                                     {{if !empty($v['goods_url'])}}
                                         <li>
                                             <div class="am-gallery-item am-radius">
-                                                <a href="{{$v.goods_url}}" target="_blank">
+                                                <a href="{{$v.goods_url}}" target="_blank" rel="noopener noreferrer">
                                                     <img src="{{if empty($v['custom_cover'])}}{{$v.images}}{{else /}}{{$v.custom_cover}}{{/if}}" class="am-radius" />
                                                     <h3 class="am-gallery-title">{{$v.title}}</h3>
                                                     <p>
@@ -386,7 +386,7 @@
                                     {{if !empty($v['url'])}}
                                         <li>
                                             <div class="am-gallery-item am-radius">
-                                                <a href="{{$v.url}}" target="_blank">
+                                                <a href="{{$v.url}}" target="_blank" rel="noopener noreferrer">
                                                     {{if !empty($v['custom_cover']) or !empty($v['cover'])}}
                                                         <img src="{{if empty($v['custom_cover'])}}{{$v.cover}}{{else /}}{{$v.custom_cover}}{{/if}}" class="am-radius am-fl am-margin-right-xs" />
                                                     {{/if}}
@@ -510,7 +510,7 @@
                                                         {{if !empty($v['goods_url'])}}
                                                             <li>
                                                                 <div class="am-gallery-item am-radius">
-                                                                    <a href="{{$v.goods_url}}" target="_blank">
+                                                                    <a href="{{$v.goods_url}}" target="_blank" rel="noopener noreferrer">
                                                                         <img src="{{if empty($v['custom_cover'])}}{{$v.images}}{{else /}}{{$v.custom_cover}}{{/if}}" class="am-radius" />
                                                                         <h3 class="am-gallery-title">{{$v.title}}</h3>
                                                                         <p>
@@ -612,7 +612,7 @@
                                                         {{if !empty($v['url'])}}
                                                             <li>
                                                                 <div class="am-gallery-item am-radius">
-                                                                    <a href="{{$v.url}}" target="_blank">
+                                                                    <a href="{{$v.url}}" target="_blank" rel="noopener noreferrer">
                                                                         {{if !empty($v['custom_cover']) or !empty($v['cover'])}}
                                                                             <img src="{{if empty($v['custom_cover'])}}{{$v.cover}}{{else /}}{{$v.custom_cover}}{{/if}}" class="am-radius am-fl am-margin-right-xs" />
                                                                         {{/if}}

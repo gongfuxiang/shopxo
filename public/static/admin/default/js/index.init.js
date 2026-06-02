@@ -85,11 +85,31 @@ function SystemUpgradeRequestHandle (params) {
  * @desc    description
  * @param   {[array]}        data      [数据]
  */
+function StatsBaseRangePctUpdate (selector, pct) {
+    var $inner = $(selector).find('.stats-base-range-pct-val');
+    if (!$inner.length) {
+        return;
+    }
+    if (!pct || pct.text === undefined || pct.text === null) {
+        $inner.text('');
+        $inner.removeClass('am-color-green am-color-red am-color-grey');
+        return;
+    }
+    $inner.text(pct.text);
+    $inner.removeClass('am-color-green am-color-red am-color-grey');
+    var color_class = pct.type === 'up' ? 'am-color-green' : (pct.type === 'down' ? 'am-color-red' : 'am-color-grey');
+    $inner.addClass(color_class);
+}
+
 function EchartsBaseCount (data) {
     $('.base-user-count').text(data.user_count);
     $('.base-order-count').text(data.order_count);
     $('.base-order-sale-count').text(data.order_sale_count);
     $('.base-order-complete-total').text(data.order_complete_total);
+    StatsBaseRangePctUpdate('.stats-base-range-pct-user', data.user_count_pct);
+    StatsBaseRangePctUpdate('.stats-base-range-pct-order', data.order_count_pct);
+    StatsBaseRangePctUpdate('.stats-base-range-pct-sale', data.order_sale_count_pct);
+    StatsBaseRangePctUpdate('.stats-base-range-pct-money', data.order_complete_total_pct);
 }
 
 /**

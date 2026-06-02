@@ -28,8 +28,6 @@ use app\service\AppMiniUserService;
 class DiyService
 {
     // 排除的文件后缀
-    private static $exclude_ext = ['php'];
-
     /**
      * 手机端首页diy数据
      * @author  Devil
@@ -724,6 +722,11 @@ class DiyService
             return DataReturn(MyLang('common_service.diy.upload_dir_no_power_tips').'['.$app_upload_dir.']', -3);
         }
 
+        if(!ZipPackageFileIsReadablePkMagic($package_file))
+        {
+            return DataReturn(MyLang('form_open_zip_message').'[-12]', -11);
+        }
+
         // 开始解压文件
         $zip = new \ZipArchive();
         $resource = $zip->open($package_file);
@@ -741,6 +744,11 @@ class DiyService
             $file = $zip->getNameIndex($i);
             if(stripos($file, 'config.json') !== false)
             {
+                if(ZipArchiveEntryRelativePathUnsafe($file))
+                {
+                    $zip->close();
+                    return DataReturn(MyLang('common_service.diy.upload_config_file_handle_fail_tips'), -1);
+                }
                 // 打开文件资源
                 $stream = $zip->getStream($file);
                 if($stream === false)
@@ -817,19 +825,32 @@ class DiyService
             // 排除临时文件和临时目录
             if(strpos($file, '/.') === false && strpos($file, '__') === false)
             {
+                if(ZipArchiveEntryRelativePathUnsafe($file))
+                {
+                    continue;
+                }
                 // 排除后缀文件
                 $pos = strripos($file, '.');
                 if($pos !== false)
                 {
                     $info = pathinfo($file);
-                    if(isset($info['extension']) && in_array(strtolower($info['extension']), self::$exclude_ext))
+                    if(isset($info['extension']) && ZipPublicDirExtensionIsForbidden($info['extension']))
                     {
                         continue;
                     }
                 }
 
                 // 去除第一个目录（为原始数据的id）
-                $temp_file = substr($file, strpos($file, '/')+1);
+                $slash_pos = strpos($file, '/');
+                if($slash_pos === false)
+                {
+                    continue;
+                }
+                $temp_file = substr($file, $slash_pos + 1);
+                if(ZipArchiveEntryRelativePathUnsafe($temp_file))
+                {
+                    continue;
+                }
                 if(empty($temp_file) || in_array($temp_file, ['static/', 'static/upload/', 'config.json']))
                 {
                     continue;

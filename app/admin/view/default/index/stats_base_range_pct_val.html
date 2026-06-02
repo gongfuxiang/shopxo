@@ -1,0 +1,5 @@
+{{if isset($module_data.stats_pct.text)}}
+    <span class="am-margin-left-xs stats-base-range-pct-val {{if $module_data.stats_pct.type eq 'up'}}am-color-green{{elseif $module_data.stats_pct.type eq 'down' /}}am-color-red{{else /}}am-color-grey{{/if}}">{{$module_data.stats_pct.text}}</span>
+{{else /}}
+    <span class="am-margin-left-xs stats-base-range-pct-val"></span>
+{{/if}}

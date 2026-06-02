@@ -323,6 +323,7 @@ i.buy-event {
     color: #333;
     border: 0.1rem solid var(--color-main);
     box-shadow: 0px 0 0px 0.1rem var(--color-main);
+    cursor: pointer;
 }
 
 .theme-signin-left .cart-title {
@@ -394,21 +395,6 @@ i.buy-event {
         display: none;
     }
 
-    /*商品信息*/
-    .theme-signin-right {
-        display: none;
-    }
-
-    .text-info .price-now {
-        float: left;
-        margin-right: 1rem;
-    }
-
-    .text-info span.stock-tips {
-        float: left;
-        font-size: 1.2rem;
-    }
-
     /*操作*/
     .btn-op {
         overflow: hidden;
@@ -434,6 +420,75 @@ i.buy-event {
 
     .btn.confirm {
         float: right;
+    }
+}
+
+/* 中屏弹窗：顶部展示商品图、价格、库存 */
+@media only screen and (min-width: 641px) and (max-width: 1024px) {
+    .system-goods-detail .theme-signin {
+        display: flex;
+        flex-direction: column;
+    }
+    .system-goods-detail .theme-signin-right {
+        display: flex !important;
+        flex-direction: row;
+        align-items: flex-start;
+        order: -1;
+        flex-shrink: 0;
+        position: relative;
+        width: 100%;
+        padding: 0 0 1.6rem;
+        margin-bottom: 1.6rem;
+        box-sizing: border-box;
+        border-bottom: 0.1rem solid #f0f0f0;
+        background: #fff;
+        overflow: visible;
+    }
+    .system-goods-detail .theme-signin-right .img-info {
+        position: static;
+        flex-shrink: 0;
+        margin: 0 1rem 0 0;
+        border: 0.1rem solid #f5f5f5;
+        border-radius: 0.4rem;
+        background: #fff;
+    }
+    .system-goods-detail .theme-signin-right .img-info img {
+        display: block;
+        width: 5rem;
+        height: 5rem;
+        margin: 0.5rem;
+        object-fit: cover;
+    }
+    .system-goods-detail .theme-signin-right .text-info {
+        position: static;
+        flex: 1;
+        min-width: 0;
+        left: auto;
+        top: auto;
+    }
+    .system-goods-detail .theme-signin-right .text-info .price-now {
+        display: block;
+        float: none;
+        margin: 0 0 0.4rem;
+        line-height: 1.4;
+    }
+    .system-goods-detail .theme-signin-right .theme-signin-popup-stock {
+        display: block;
+        float: none;
+        margin: 0;
+        margin-left: 0 !important;
+        font-size: 1.2rem;
+        line-height: 1.6rem;
+        color: #666;
+    }
+    .system-goods-detail .theme-signin-right .theme-signin-popup-stock em {
+        font-style: normal;
+    }
+    .system-goods-detail .theme-signin-right .theme-signin-popup-stock .stock {
+        color: var(--color-price);
+    }
+    .system-goods-detail .theme-signin-right .theme-signin-popup-stock .unit {
+        margin-left: 0.4rem;
     }
 }
 

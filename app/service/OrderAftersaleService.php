@@ -1146,6 +1146,24 @@ class OrderAftersaleService
         {
             $is_walet = true;
         } else {
+            // 写入退款日志
+            $msg = MyLang('common_service.orderaftersale.pay_log_refund_reason', ['order_no'=>$order['data']['order_no'], 'price'=>$aftersale['price']]);
+            $refund_log = [
+                'user_id'       => $order['data']['user_id'],
+                'order_id'      => $order['data']['id'],
+                'pay_price'     => $order['data']['pay_price'],
+                'trade_no'      => '',
+                'buyer_user'    => '',
+                'refund_price'  => $aftersale['price'],
+                'msg'           => $msg,
+                'pay_id'        => intval($pay_log['id'] ?? 0),
+                'payment'       => $pay_log['payment'] ?? '',
+                'payment_name'  => $pay_log['payment_name'] ?? '',
+                'refundment'    => $params['refundment'],
+                'business_type' => 'order',
+                'return_params' => '',
+            ];
+            RefundLogService::RefundLogInsert($refund_log);
             // 手动处理不涉及金额
             $refund = DataReturn(MyLang('refund_success'), 0);
         }
@@ -1459,8 +1477,8 @@ class OrderAftersaleService
 
         // 钱包更新数据
         $data = [
-            'normal_money'      => PriceNumberFormat($user_wallet['data']['normal_money']+$aftersale['price']),
-            'upd_time'          => time(),
+            'normal_money'  => PriceNumberFormat($user_wallet['data']['normal_money']+$aftersale['price']),
+            'upd_time'      => time(),
         ];
         if(Db::name('PluginsWallet')->where(['id'=>$user_wallet['data']['id']])->update($data) === false)
         {
@@ -1498,7 +1516,7 @@ class OrderAftersaleService
             'payment'       => $pay_log['payment'],
             'payment_name'  => $pay_log['payment_name'],
             'refundment'    => $params['refundment'],
-            'business_type' => 1,
+            'business_type' => 'order',
             'return_params' => '',
         ];
         RefundLogService::RefundLogInsert($refund_log);

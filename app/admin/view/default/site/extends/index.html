@@ -31,25 +31,25 @@
                     <div class="am-form-group">
                         <label>{{$data.common_order_close_limit_time.name}}<span class="am-form-group-label-tips">{{$data.common_order_close_limit_time.describe}}</span></label>
                         <input type="number" min="0" name="{{$data.common_order_close_limit_time.only_tag}}" placeholder="{{$data.common_order_close_limit_time.name}}" data-validation-message="{{$data.common_order_close_limit_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_order_close_limit_time.value}}"{{/if}} />
-                        <a href="{{:MyUrl('api/crontab/orderclose')}}" target="_blank">{{:MyUrl('api/crontab/orderclose')}}</a>
+                        <a href="{{:MyUrl('api/crontab/orderclose')}}" target="_blank" rel="noopener noreferrer">{{:MyUrl('api/crontab/orderclose')}}</a>
                     </div>
 
                     <div class="am-form-group">
                         <label>{{$data.common_order_success_limit_time.name}}<span class="am-form-group-label-tips">{{$data.common_order_success_limit_time.describe}}</span></label>
                         <input type="number" min="0" name="{{$data.common_order_success_limit_time.only_tag}}" placeholder="{{$data.common_order_success_limit_time.name}}" data-validation-message="{{$data.common_order_success_limit_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_order_success_limit_time.value}}"{{/if}} />
-                        <a href="{{:MyUrl('api/crontab/ordersuccess')}}" target="_blank">{{:MyUrl('api/crontab/ordersuccess')}}</a>
+                        <a href="{{:MyUrl('api/crontab/ordersuccess')}}" target="_blank" rel="noopener noreferrer">{{:MyUrl('api/crontab/ordersuccess')}}</a>
                     </div>
 
                     <div class="am-form-group">
                         <label>{{$data.common_pay_log_order_close_limit_time.name}}<span class="am-form-group-label-tips">{{$data.common_pay_log_order_close_limit_time.describe}}</span></label>
                         <input type="number" min="0" name="{{$data.common_pay_log_order_close_limit_time.only_tag}}" placeholder="{{$data.common_pay_log_order_close_limit_time.name}}" data-validation-message="{{$data.common_pay_log_order_close_limit_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_pay_log_order_close_limit_time.value}}"{{/if}} />
-                        <a href="{{:MyUrl('api/crontab/paylogorderclose')}}" target="_blank">{{:MyUrl('api/crontab/paylogorderclose')}}</a>
+                        <a href="{{:MyUrl('api/crontab/paylogorderclose')}}" target="_blank" rel="noopener noreferrer">{{:MyUrl('api/crontab/paylogorderclose')}}</a>
                     </div>
 
                     <div class="am-form-group">
                         <label>{{$data.common_goods_give_integral_limit_time.name}}<span class="am-form-group-label-tips">{{$data.common_goods_give_integral_limit_time.describe}}</span></label>
                         <input type="number" min="0" name="{{$data.common_goods_give_integral_limit_time.only_tag}}" placeholder="{{$data.common_goods_give_integral_limit_time.name}}" data-validation-message="{{$data.common_goods_give_integral_limit_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_goods_give_integral_limit_time.value}}"{{/if}} />
-                        <a href="{{:MyUrl('api/crontab/goodsgiveintegral')}}" target="_blank">{{:MyUrl('api/crontab/goodsgiveintegral')}}</a>
+                        <a href="{{:MyUrl('api/crontab/goodsgiveintegral')}}" target="_blank" rel="noopener noreferrer">{{:MyUrl('api/crontab/goodsgiveintegral')}}</a>
                     </div>
                 </div>
 

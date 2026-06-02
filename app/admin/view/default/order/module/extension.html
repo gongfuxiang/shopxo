@@ -1,6 +1,11 @@
 <!-- 扩展信息 -->
 {{if !empty($module_data) and !empty($module_data['extension_data'])}}
     {{foreach $module_data.extension_data as $extk=>$ext}}
-        <p>{{$ext.name}}{{if !empty($ext['tips'])}} [{{$ext.tips}}]{{/if}}</p>
+        <p>
+            <span>{{$ext.name}}</span>
+            {{if !empty($ext['images']) or !empty($ext['tips'])}}
+                [ <a {{if empty($ext['url'])}}href="javascript:;"{{else /}}href="{{$ext.url}}" target="_blank" rel="noopener noreferrer"{{/if}}>{{if !empty($ext['images'])}}<img src="{{$ext.images}}" class="am-img-thumbnail am-radius am-vertical-align-middle am-margin-right-xs" width="20" height="20" />{{/if}}{{if !empty($ext['tips'])}}<span class="am-vertical-align-middle">{{$ext.tips}}</span>{{/if}}</a> ]
+            {{/if}}
+        </p>
     {{/foreach}}
 {{/if}}

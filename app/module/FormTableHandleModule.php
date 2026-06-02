@@ -15,6 +15,7 @@ use app\service\FormTableService;
 use app\service\ResourcesService;
 use app\service\UserService;
 use app\service\GoodsService;
+use app\service\AdminService;
 
 /**
  * 动态表格处理
@@ -833,7 +834,7 @@ class FormTableHandleModule
                             }
 
                             // 时间处理
-                            if($is_handle_time_field && (substr($ks, -5) == '_time' || (!empty($handle_time_format) && is_array($handle_time_format) && array_key_exists($ks, $handle_time_format))))
+                            if($is_handle_time_field && (substr($ks, -5) == '_time' || substr($ks, 0, 5) == 'time_' || (!empty($handle_time_format) && is_array($handle_time_format) && array_key_exists($ks, $handle_time_format))))
                             {
                                 $format = empty($handle_time_format) ? 'Y-m-d H:i:s' : (is_array($handle_time_format) ? (empty($handle_time_format[$ks]) ? 'Y-m-d H:i:s' : $handle_time_format[$ks]) : $handle_time_format);
                                 $vs = empty($vs) ? '' : (is_numeric($vs) ? date($format, $vs) : $vs);
@@ -1141,6 +1142,18 @@ class FormTableHandleModule
     {
         if($this->is_export_excel)
         {
+            // 后台导出须存在有效管理员会话（防未授权通过 form_table_is_export_excel 拉取用户/管理员数据，CNVD）
+            if($this->module_name == 'admin')
+            {
+                $admin = AdminService::LoginInfo();
+                if(empty($admin) || empty($admin['id']))
+                {
+                    header('HTTP/1.1 403 Forbidden');
+                    header('Content-Type: text/plain; charset=utf-8');
+                    exit('403 Forbidden');
+                }
+            }
+
             // 错误提示
             $error_msg = '';
             if(empty($this->form_data['data']))
@@ -1876,7 +1889,7 @@ class FormTableHandleModule
                                 $value = $this->WhereValueHandle($value, $value_custom, $object_custom, ['is_min'=>1]);
                                 if($value !== null && $value !== '')
                                 {
-                                    $this->where[] = [$where_name, '>=', $value];
+                                    $this->where[] = [$where_name, is_array($value) ? $where_symbol : '>=', $value];
                                 }
                             }
                             if(array_key_exists($key_max, $this->out_params) && $this->out_params[$key_max] !== null && $this->out_params[$key_max] !== '')
@@ -1889,7 +1902,7 @@ class FormTableHandleModule
                                 $value = $this->WhereValueHandle($value, $value_custom, $object_custom, ['is_end'=>1]);
                                 if($value !== null && $value !== '')
                                 {
-                                    $this->where[] = [$where_name, '<=', $value];
+                                    $this->where[] = [$where_name, is_array($value) ? $where_symbol : '<=', $value];
                                 }
                             }
                             break;
@@ -1909,7 +1922,7 @@ class FormTableHandleModule
                                 $value = $this->WhereValueHandle(strtotime($value), $value_custom, $object_custom, ['is_start'=>1]);
                                 if($value !== null && $value !== '')
                                 {
-                                    $this->where[] = [$where_name, '>=', $value];
+                                    $this->where[] = [$where_name, is_array($value) ? $where_symbol : '>=', $value];
                                 }
                             }
                             if(array_key_exists($key_end, $this->out_params) && $this->out_params[$key_end] !== null && $this->out_params[$key_end] !== '')
@@ -1922,7 +1935,7 @@ class FormTableHandleModule
                                 $value = $this->WhereValueHandle(strtotime($value), $value_custom, $object_custom, ['is_end'=>1]);
                                 if($value !== null && $value !== '')
                                 {
-                                    $this->where[] = [$where_name, '<=', $value];
+                                    $this->where[] = [$where_name, is_array($value) ? $where_symbol : '<=', $value];
                                 }
                             }
                             break;

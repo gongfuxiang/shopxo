@@ -31,7 +31,7 @@
                                     {{if empty($v['home'])}}
                                         {{$v.author}}
                                     {{else /}}
-                                        <a href="{{$v.home}}" target="_blank">{{$v.author}}</a>
+                                        <a href="{{$v.home}}" target="_blank" rel="noopener noreferrer">{{$v.author}}</a>
                                     {{/if}}
                                 </div>
                                 <div class="am-gallery-desc">{{:MyLang('appmini.list_version_title')}}：{{$v.ver}}</div>

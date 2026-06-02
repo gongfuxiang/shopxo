@@ -158,10 +158,7 @@ return [
             ['name' => 'Registro de usuarios', 'type' => 'register'],
             ['name' => 'Inicio de sesión del usuario', 'type' => 'login'],
             ['name' => 'Recuperación de la contraseña', 'type' => 'forgetpwd'],
-            ['name' => 'Código de verificación', 'type' => 'verify'],
             ['name' => 'Posventa de pedidos', 'type' => 'orderaftersale'],
-            ['name' => 'Anexo', 'type' => 'attachment'],
-            ['name' => 'Caché', 'type' => 'cache'],
             ['name' => 'Extensión', 'type' => 'extends'],
         ],
         // 网站设置导航
@@ -296,6 +293,10 @@ return [
             '1. si está vacío por defecto, solo es válido para el nombre de dominio de acceso actual.',
             '2. si se necesita un nombre de dominio secundario y una Cookie compartida, rellene el nombre de dominio de nivel superior, como: baidu.com',
         ],
+        'cookie_config_title'                   => 'Cookie',
+        'cookie_samesite_option_empty'          => 'No establecido (predeterminado)',
+        'cookie_samesite_option_strict'         => 'Strict',
+        'cookie_samesite_option_lax'            => 'Lax',
     ],
 
     // 品牌
@@ -821,6 +822,10 @@ return [
         'detail_aftersale_reason'               => 'Causa',
         // 商品
         'detail_goods_title'                    => 'Productos pedidos',
+        'detail_log_nav_title'                  => 'Registro de estado',
+        'detail_log_creator_msg'                => 'Descripción',
+        'detail_log_creator_name'               => 'Operador',
+        'detail_log_creator_time'               => 'Hora',
         'detail_payment_amount_less_tips'       => 'Tenga en cuenta que el monto pagado por el pedido es inferior al monto total del precio.',
         'detail_no_payment_tips'                => 'Tenga en cuenta que el pedido aún no se ha pagado',
         // 动态表格
@@ -834,6 +839,11 @@ return [
             'goods_placeholder'                => 'Introduzca el id del pedido / número de pedido / información del producto',
             'user'                             => 'Información del usuario',
             'user_placeholder'                 => 'Introduzca su nombre de usuario / apodo / teléfono móvil / buzón',
+            'user_id'                          => 'ID de usuario',
+            'user_username'                    => 'Nombre de usuario',
+            'user_nickname'                    => 'Apodo de usuario',
+            'user_mobile'                      => 'Teléfono móvil',
+            'user_email'                       => 'Correo electrónico',
             'status'                           => 'Estado del pedido',
             'pay_status'                       => 'Estado de pago',
             'total_price'                      => 'Precio total (yuan)',
@@ -1470,7 +1480,8 @@ return [
         'form_table'                            => [
             'user'                => 'Información del usuario',
             'user_placeholder'    => 'Introduzca su nombre de usuario / apodo / teléfono móvil / buzón',
-            'type'                => 'Tipo de operación',
+            'integral_type'       => 'Tipo de Puntos',
+            'operation_type'      => 'Tipo de Operación',
             'operation_integral'  => 'Puntos de operación',
             'original_integral'   => 'Puntos originales',
             'new_integral'        => 'Los últimos puntos',
@@ -1590,6 +1601,11 @@ return [
         // 公共
         'admin_browser_title'                      => 'Sistema de gestión de fondo',
         'remove_cache_title'                       => 'Borrar caché',
+        'nav_pending_todo_order_delivery'          => 'Pedidos por enviar',
+        'nav_pending_todo_order_aftersale_audit'   => 'Posventa pendiente de confirmación / revisión',
+        'nav_pending_todo_goods_comments_reply'    => 'Comentarios de productos pendientes de respuesta',
+        'nav_pending_todo_user_audit'              => 'Usuarios pendientes de revisión',
+        'nav_pending_todo_empty'                   => 'Sin elementos pendientes',
         // 商品参数
         'form_goods_params_config_error_tips'      => 'Información sobre la configuración de los parámetros de los productos básicos',
         'form_goods_params_copy_no_tips'           => 'Por favor, pegue la información de configuración primero.',

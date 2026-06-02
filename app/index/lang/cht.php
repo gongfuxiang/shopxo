@@ -43,7 +43,6 @@ return [
         'header_top_nav_left_login_last'        => '，歡迎來到',
         // 搜索
         'search_input_placeholder'              => '其實蒐索很簡單^_^！',
-        'search_button_text'                    => '蒐索',
         // 用户
         'avatar_upload_tips'                    => [
             '請在工作區域放大縮小及移動選取框，選擇要裁剪的範圍，裁切寬高比例固定；',
@@ -523,12 +522,13 @@ return [
         'base_integral_unit'                    => '積分',
         // 动态表格统计数据
         'form_table'                            => [
-            'type'                  => '操作類型',
-            'operation_integral'    => '操作積分',
-            'original_integral'     => '原始積分',
-            'new_integral'          => '最新積分',
-            'msg'                   => '描述',
-            'add_time_time'         => '時間',
+            'integral_type'       => '積分類型',
+            'operation_type'      => '操作類型',
+            'operation_integral'  => '操作積分',
+            'original_integral'   => '原始積分',
+            'new_integral'        => '最新積分',
+            'msg'                 => '描述',
+            'add_time_time'       => '時間',
         ],
     ],
 

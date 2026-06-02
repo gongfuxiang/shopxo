@@ -65,7 +65,7 @@
                     <div class="am-panel am-panel-default am-radius">
                         {{if !empty($aftersale_data)}}
                             <div class="am-padding-top">
-                                <a href="{{:MyUrl('index/orderaftersale/detail', ['id'=>$aftersale_data['id']])}}" target="_blank" class="am-color-blue">查看最新售后订单详情 >></a>
+                                <a href="{{:MyUrl('index/orderaftersale/detail', ['id'=>$aftersale_data['id']])}}" target="_blank" rel="noopener noreferrer" class="am-color-blue">查看最新售后订单详情 >></a>
                             </div>
                         {{/if}}
                         <div class="am-panel-bd am-padding-0 am-margin-top-lg">
@@ -105,11 +105,11 @@
                                     <tr>
                                         <td>
                                             <div class="goods-shop-info am-text-left">
-                                                <a href="{{$order_data.items.goods_url}}" target="_blank" class="am-nbfc am-radius am-border-grey goods-shop-info-left">
+                                                <a href="{{$order_data.items.goods_url}}" target="_blank" rel="noopener noreferrer" class="am-nbfc am-radius am-border-grey goods-shop-info-left">
                                                     <img src="{{$order_data.items.images}}">
                                                 </a>
                                                 <div class="goods-shop-info-right am-nbfc ">
-                                                    <a href="{{$order_data.items.goods_url}}" target="_blank" class="goods-title">{{$order_data.items.title}}</a>
+                                                    <a href="{{$order_data.items.goods_url}}" target="_blank" rel="noopener noreferrer" class="goods-title">{{$order_data.items.title}}</a>
                                                     {{if !empty($order_data.items.spec_text)}}
                                                         <div class="goods-shop-info-desc am-color-grey">{{$order_data.items.spec_text}}</div>
                                                     {{/if}}
@@ -514,11 +514,11 @@
                                         <span>{{:MyLang('orderaftersale.goods_list_thead_after_base_title')}}：</span>
                                         <div class="shop-aftersale-info am-background-body am-border-grey am-radius">
                                             <div class="shop-title am-border-bottom-grey">
-                                                <a href="{{$order_data.items.goods_url}}" target="_blank">
+                                                <a href="{{$order_data.items.goods_url}}" target="_blank" rel="noopener noreferrer">
                                                     <img src="{{$order_data.items.images}}" width="80" height="80" class="am-radius am-border-grey">
                                                 </a>
                                                 <div class="am-margin-left am-pr am-text-xs am-width">
-                                                    <a href="{{$order_data.items.goods_url}}" target="_blank" class="am-text-truncate-2 am-text-sm">{{$order_data.items.title}}</a>
+                                                    <a href="{{$order_data.items.goods_url}}" target="_blank" rel="noopener noreferrer" class="am-text-truncate-2 am-text-sm">{{$order_data.items.title}}</a>
                                                     <div class="am-pa am-bottom-0">
                                                         {{if !empty($order_data.items.spec_text)}}
                                                             <div class="am-text-truncate am-color-grey">{{$order_data.items.spec_text}}</div>
@@ -562,7 +562,7 @@
                                                 {{if empty($aftersale_data['order_data']['warehouse_url'])}}
                                                     <span class="warehouse-name">{{$aftersale_data.order_data.warehouse_name}}</span>
                                                 {{else /}}
-                                                    <a href="{{$aftersale_data.order_data.warehouse_url}}" target="_blank" class="text-deco-none">
+                                                    <a href="{{$aftersale_data.order_data.warehouse_url}}" target="_blank" rel="noopener noreferrer" class="text-deco-none">
                                                         <span class="warehouse-name">{{$aftersale_data.order_data.warehouse_name}}</span>
                                                     </a>
                                                 {{/if}}

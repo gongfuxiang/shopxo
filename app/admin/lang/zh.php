@@ -158,10 +158,7 @@ return [
             ['name' => '用户注册', 'type' => 'register'],
             ['name' => '用户登录', 'type' => 'login'],
             ['name' => '密码找回', 'type' => 'forgetpwd'],
-            ['name' => '验证码', 'type' => 'verify'],
             ['name' => '订单售后', 'type' => 'orderaftersale'],
-            ['name' => '附件', 'type' => 'attachment'],
-            ['name' => '缓存', 'type' => 'cache'],
             ['name' => '扩展项', 'type' => 'extends'],
         ],
         // 网站设置导航
@@ -296,6 +293,10 @@ return [
             '1. 默认空、则仅对当前访问域名有效',
             '2. 如需要二级域名也共享cookie则填写顶级域名、如：baidu.com',
         ],
+        'cookie_config_title'                   => 'Cookie配置',
+        'cookie_samesite_option_empty'          => '不设置（默认）',
+        'cookie_samesite_option_strict'         => 'Strict（严格）',
+        'cookie_samesite_option_lax'            => 'Lax（松弛）',
     ],
 
     // 品牌
@@ -821,6 +822,10 @@ return [
         'detail_aftersale_reason'               => '原因',
         // 商品
         'detail_goods_title'                    => '订单商品',
+        'detail_log_nav_title'                  => '状态日志',
+        'detail_log_creator_msg'                => '操作描述',
+        'detail_log_creator_name'               => '操作人',
+        'detail_log_creator_time'               => '操作时间',
         'detail_payment_amount_less_tips'       => '请注意、该订单支付金额小于总价金额',
         'detail_no_payment_tips'                => '请注意、该订单还未支付',
         // 动态表格
@@ -834,6 +839,11 @@ return [
             'goods_placeholder'                => '请输入订单ID/订单号/商品信息',
             'user'                             => '用户信息',
             'user_placeholder'                 => '请输入用户名/昵称/手机/邮箱',
+            'user_id'                          => '用户ID',
+            'user_username'                    => '用户名',
+            'user_nickname'                    => '用户昵称',
+            'user_mobile'                      => '用户手机',
+            'user_email'                       => '用户邮箱',
             'status'                           => '订单状态',
             'pay_status'                       => '支付状态',
             'total_price'                      => '总价',
@@ -1470,7 +1480,8 @@ return [
         'form_table'                            => [
             'user'                => '用户信息',
             'user_placeholder'    => '请输入用户名/昵称/手机/邮箱',
-            'type'                => '操作类型',
+            'integral_type'       => '积分类型',
+            'operation_type'      => '操作类型',
             'operation_integral'  => '操作积分',
             'original_integral'   => '原始积分',
             'new_integral'        => '最新积分',
@@ -1590,6 +1601,11 @@ return [
         // 公共
         'admin_browser_title'                      => '后台管理系统',
         'remove_cache_title'                       => '清除缓存',
+        'nav_pending_todo_order_delivery'          => '订单待发货',
+        'nav_pending_todo_order_aftersale_audit'   => '订单售后待确认/待审核',
+        'nav_pending_todo_goods_comments_reply'    => '商品评论待回复',
+        'nav_pending_todo_user_audit'              => '用户待审核',
+        'nav_pending_todo_empty'                   => '暂无待处理事项',
         // 商品参数
         'form_goods_params_config_error_tips'      => '商品参数配置信息',
         'form_goods_params_copy_no_tips'           => '请先粘贴配置信息',

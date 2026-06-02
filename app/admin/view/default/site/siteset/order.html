@@ -175,6 +175,17 @@
                     </div>
 
                     <div class="am-form-group">
+                        <label>{{$data.common_is_order_show_goods_snapshot.name}}<span class="am-form-group-label-tips">{{$data.common_is_order_show_goods_snapshot.describe}}</span></label>
+                        <div class="am-radio-group">
+                            {{foreach $common_is_text_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_is_order_show_goods_snapshot.only_tag}}" data-validation-message="{{$data.common_is_order_show_goods_snapshot.error_tips}}" required {{if isset($data['common_is_order_show_goods_snapshot']['value']) and $data['common_is_order_show_goods_snapshot']['value'] eq $v['id']}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
                         <label class="am-block">{{$data.common_order_detail_goods_use_guide_title.name}}<span class="am-form-group-label-tips">{{$data.common_order_detail_goods_use_guide_title.describe}}</span></label>
                         <input type="text" name="{{$data.common_order_detail_goods_use_guide_title.only_tag}}" placeholder="{{$data.common_order_detail_goods_use_guide_title.name}}" data-validation-message="{{$data.common_order_detail_goods_use_guide_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_order_detail_goods_use_guide_title.value}}"{{/if}} />
                     </div>

@@ -43,7 +43,6 @@ return [
         'header_top_nav_left_login_last'        => '，欢迎来到',
         // 搜索
         'search_input_placeholder'              => '其实搜索很简单^_^ !',
-        'search_button_text'                    => '搜索',
         // 用户
         'avatar_upload_tips'                    => [
             '请在工作区域放大缩小及移动选取框，选择要裁剪的范围，裁切宽高比例固定；',
@@ -527,7 +526,8 @@ return [
         'base_integral_unit'                    => '积分',
         // 动态表格统计数据
         'form_table'                            => [
-            'type'                  => '操作类型',
+            'integral_type'         => '积分类型',
+            'operation_type'        => '操作类型',
             'operation_integral'    => '操作积分',
             'original_integral'     => '原始积分',
             'new_integral'          => '最新积分',

@@ -75,6 +75,11 @@ class UserIntegral extends Common
             'page_total'    => $page_total,
             'data'          => $data['data'],
         ];
+        if($this->page == 1)
+        {
+            $result['user_integral_header'] = IntegralService::UserIntegralPageHeader($this->user['id']);
+        }
+
         return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }
 }

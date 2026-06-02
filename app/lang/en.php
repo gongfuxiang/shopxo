@@ -362,6 +362,8 @@ return [
     'store_title'                                           => 'Store',
     'system_title'                                          => 'System',
     'operate_title'                                         => 'Operate',
+    'expand_title'                                          => 'Expand',
+    'retract_title'                                         => 'Collapse',
     'all_title'                                             => 'All',
     'select_all_title'                                      => 'All',
     'reverse_select_title'                                  => 'Back',
@@ -471,12 +473,14 @@ return [
     'revoke_audit_title'                                    => 'Revoke Audit',
     'reverse_audit_title'                                   => 'Reverse Audit',
     'submit_audit_title'                                    => 'Submit Audit',
+    'submit_audit_confirm_tips'                             => 'This will be submitted for platform review. Continue?',
     'audit_title'                                           => 'Audit',
     'retrial_audit_title'                                   => 'Retrial Audit',
     'signin_title'                                          => 'SignIn',
     'refuse_title'                                          => 'Refuse',
     'pass_title'                                            => 'Pass',
     'agree_title'                                           => 'Agree',
+    'batch_title'                                           => 'Batch',
     'expire_title'                                          => 'Expire',
     'order_title'                                           => 'Order',
     'install_title'                                         => 'Install',
@@ -564,6 +568,10 @@ return [
     'password_title'                                        => 'Password',
     'safety_title'                                          => 'Safety',
     'extend_title'                                          => 'Extend',
+    'attachment_config_title'                               => 'Attachment',
+    'verify_config_title'                                   => 'Verification Code',
+    'cache_config_title'                                    => 'Cache',
+    'session_config_title'                                  => 'Session',
     'import_title'                                          => 'Import',
     'export_title'                                          => 'Export',
     'content_title'                                         => 'Content',
@@ -594,6 +602,7 @@ return [
     'log_title'                                             => 'Log',
     'plugins_title'                                         => 'Plugins',
     'valid_title'                                           => 'Valid',
+    'lock_title'                                            => 'Lock',
     'suspend_title'                                         => 'Suspend',
     'end_title'                                             => 'End',
     'callback_title'                                        => 'CallBack',
@@ -784,6 +793,9 @@ return [
     'form_sort_tips'                                        => 'from small to large',
     'form_sort_message'                                     => 'Values between 0 and 255',
     'form_platform_title'                                   => 'Platform',
+    'form_phone_brand_title'                                => 'Phone brand',
+    'form_phone_brand_empty'                                => 'Any (all brands)',
+    'form_phone_brand_invalid_tips'                         => 'Invalid phone brand',
     'form_platform_message'                                 => 'Please select the platform',
     'form_event_type_title'                                 => 'Event Type',
     'form_event_type_message'                               => 'Please select event type',
@@ -1080,10 +1092,15 @@ return [
     'common_message_type_list' => [
         0 => 'default',
     ],
+    // 用户积分 - 积分类型
+    'common_integral_log_integral_type_list' => [
+        0 => 'Valid',
+        1 => 'Locked',
+    ],
     // 用户积分 - 操作类型
-    'common_integral_log_type_list' => [
-        0 => 'reduce',
-        1 => 'increase',
+    'common_integral_log_operation_type_list' => [
+        0 => 'Deduct',
+        1 => 'Add',
     ],
     // 是否上架/下架
     'common_is_shelves_list' => [
@@ -2113,7 +2130,6 @@ return [
             'form_spec_thead_barcode_title'         => 'Barcode',
             'form_spec_thead_barcode_message'       => 'Barcode can be up to 60 characters',
             'form_spec_row_add_title'               => 'Add a row',
-            'form_spec_images_tips'                 => 'The specification name is consistent with the specification value. The same specification name can be added once, and repeated addition will cover the front. The order will not affect the front display effect.',
             'form_spec_images_title'                => 'Goods specification picture',
             'form_spec_images_add_title'            => 'Add specification picture',
             'form_spec_images_add_auto_first'       => 'No',
@@ -2192,6 +2208,9 @@ return [
                 ],
                 'spec_images' => [
                     'name' => 'Specification Images',
+                    'tips' => [
+                        'The specification name is consistent with the specification value. The same specification name can be added once, and repeated addition will cover the front. The order will not affect the front display effect.',
+                    ],
                 ],
                 'parameters' => [
                     'name' => 'Product Parameters',
@@ -3887,6 +3906,11 @@ return [
             'desc' => 'Default no',
             'tips' => 'Please select the enabled order batch payment',
         ],
+        'common_is_order_show_goods_snapshot'  => [
+            'name' => 'Show product snapshot on orders',
+            'desc' => 'Default no',
+            'tips' => 'Please choose whether to show product snapshot data on orders',
+        ],
         'common_session_is_use_cache'  => [
             'name' => 'Session uses cache',
             'desc' => 'Default no',
@@ -4794,10 +4818,40 @@ return [
             'desc' => 'The default installation system has been automatically generated and can be modified',
             'tips' => 'Please fill in the data encryption key',
         ],
+        'common_is_sensitive_data_masking'  => [
+            'name' => 'Sensitive data masking',
+            'desc' => 'When enabled, customer service phone, email, and QQ are not output as plain text in page HTML (e.g. shown as images)',
+            'tips' => 'Please choose whether to enable sensitive data masking',
+        ],
         'common_cookie_domain'  => [
             'name' => 'Cookie valid domain name',
             'desc' => 'If it is empty by default, the currently accessed domain name is valid',
             'tips' => 'Please fill in the valid domain name of the cookie',
+        ],
+        'common_cookie_expire'  => [
+            'name' => 'Cookie lifetime',
+            'desc' => 'Seconds; leave empty for 0 in config (session cookie until browser closes)',
+            'tips' => 'Cookie lifetime in seconds; leave empty for 0',
+        ],
+        'common_session_expire'  => [
+            'name' => 'Session lifetime',
+            'desc' => 'Server-side session lifetime in seconds; leave empty to use default 43200 (12 hours)',
+            'tips' => 'Session lifetime in seconds; leave empty for default 43200',
+        ],
+        'common_cookie_secure'  => [
+            'name' => 'Cookie Secure',
+            'desc' => 'Off by default; when on, cookies are sent only over HTTPS (requires HTTPS site-wide)',
+            'tips' => 'Please choose whether to enable Secure',
+        ],
+        'common_cookie_httponly'  => [
+            'name' => 'Cookie HttpOnly',
+            'desc' => 'Off by default; when on, scripts cannot read cookies',
+            'tips' => 'Please choose whether to enable HttpOnly',
+        ],
+        'common_cookie_samesite'  => [
+            'name' => 'Cookie SameSite',
+            'desc' => 'Not set by default; Strict is strictest; Lax is commonly used',
+            'tips' => 'Please select SameSite policy',
         ],
         'common_token_created_rules'  => [
             'name' => 'Token generation rules',

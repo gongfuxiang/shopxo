@@ -133,7 +133,7 @@ class RefundLog
                         'form_name'         => 'refundment',
                         'where_type'        => 'in',
                         'data'              => MyConst('common_order_aftersale_refundment_list'),
-                        'data_key'          => 'id',
+                        'data_key'          => 'value',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
                     ],

@@ -25,7 +25,7 @@
         <div class="banner-mixed am-radius-lg">
             <div class="mod-vip">
                 <div class="m-baseinfo am-flex {{if empty($user)}}am-flex-col{{/if}} am-flex-items-center">
-                    <a {{if !empty($user)}}href="{{:MyUrl('index/user/index')}}" target="_blank"{{else /}}href="javascript:;"{{/if}} class="am-inline-block">
+                    <a {{if !empty($user)}}href="{{:MyUrl('index/user/index')}}" target="_blank" rel="noopener noreferrer"{{else /}}href="javascript:;"{{/if}} class="am-inline-block">
                         <img src="{{if !empty($user['avatar'])}}{{$user.avatar}}{{else /}}{{:UserDefaultAvatar()}}{{/if}}" class="user-avatar" />
                     </a>
                     <div class="am-flex am-flex-col am-flex-1 am-padding-left-sm am-margin-top-sm">
@@ -65,9 +65,9 @@
                         {{if !empty($user_order_status)}}
                             {{foreach $user_order_status as $v}}
                                 {{if in_array($v['status'], [1,2,3])}}
-                                    <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'status'=>$v['status']])}}" class="am-text-truncate am-color-grey-dark" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
+                                    <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'status'=>$v['status']])}}" class="am-text-truncate am-color-grey-dark" target="_blank" rel="noopener noreferrer"><strong>{{$v.count}}</strong>{{$v.name}}</a>
                                 {{elseif in_array($v['status'], [100]) /}}
-                                    <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'is_comments'=>0, 'status'=>4])}}" class="am-text-truncate am-color-grey-dark" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
+                                    <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'is_comments'=>0, 'status'=>4])}}" class="am-text-truncate am-color-grey-dark" target="_blank" rel="noopener noreferrer"><strong>{{$v.count}}</strong>{{$v.name}}</a>
                                 {{/if}}
                             {{/foreach}}
                         {{/if}}
@@ -176,12 +176,12 @@
                             <div class="today-brands ">
                                 {{if !empty($floor['config_keywords']) and is_array($floor['config_keywords'])}}
                                     {{foreach $floor.config_keywords as $wd}}
-                                        <a href="{{:MyUrl('index/search/index', ['wd'=>StrToAscii($wd)])}}" target="_blank">{{$wd}}</a>
+                                        <a href="{{:MyUrl('index/search/index', ['wd'=>StrToAscii($wd)])}}" target="_blank" rel="noopener noreferrer">{{$wd}}</a>
                                     {{/foreach}}
                                 {{/if}}
                             </div>
                             <span class="more">
-                                <a href="{{:MyUrl('index/search/index', ['cid'=>$floor['id']])}}" target="_blank">{{:MyLang('common.more_text')}} <i class="iconfont icon-angle-right"></i></a>
+                                <a href="{{:MyUrl('index/search/index', ['cid'=>$floor['id']])}}" target="_blank" rel="noopener noreferrer">{{:MyLang('common.more_text')}} <i class="iconfont icon-angle-right"></i></a>
                             </span>
                         </div>
                     </div>
@@ -210,14 +210,14 @@
                         <div class="am-u-sm-3 aggregation-container">
                             <div class="aggregation am-radius" {{if !empty($floor['bg_color'])}}style="background-color:{{$floor.bg_color}};"{{else /}}style="background-color:#eaeaea;"{{/if}}>
                                 {{if !empty($floor['big_images'])}}
-                                    <a href="{{:MyUrl('index/search/index', ['cid'=>$floor['id']])}}" target="_blank" class="category-bg-images" {{if !empty($floor['bg_color'])}}style="background-color:{{$floor.bg_color}};"{{/if}}>
+                                    <a href="{{:MyUrl('index/search/index', ['cid'=>$floor['id']])}}" target="_blank" rel="noopener noreferrer" class="category-bg-images" {{if !empty($floor['bg_color'])}}style="background-color:{{$floor.bg_color}};"{{/if}}>
                                         <img src="{{$floor.big_images}}" class="scale-sm" />
                                     </a>
                                 {{/if}}
                                 {{if !empty($floor['items']) and is_array($floor['items'])}}
                                     <div class="word am-radius">
                                         {{foreach $floor.items as $category_key=>$category}}
-                                            <a href="{{:MyUrl('index/search/index', ['cid'=>$category['id']])}}" class="outer am-radius" target="_blank">{{:mb_substr($category['name'], 0, 4, 'utf-8')}}</a>
+                                            <a href="{{:MyUrl('index/search/index', ['cid'=>$category['id']])}}" class="outer am-radius" target="_blank" rel="noopener noreferrer">{{:mb_substr($category['name'], 0, 4, 'utf-8')}}</a>
                                         {{/foreach}}
                                     </div>
                                 {{/if}}

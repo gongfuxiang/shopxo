@@ -119,12 +119,12 @@ class Common extends BaseController
      */
     public function __call($method, $args)
     {
+        $msg = '非法访问('.$method.')';
         if(IS_AJAX)
         {
-            return DataReturn($method.' 非法访问', -1000);
+            return DataReturn($msg, -1000);
         } else {
-            MyViewAssign('msg', $method.' 非法访问');
-            return MyView('public/error');
+            return MyView('public/error', ['msg'=>$msg]);
         }
     }
 }

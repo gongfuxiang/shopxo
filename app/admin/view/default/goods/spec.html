@@ -4,7 +4,7 @@
         <p class="am-color-red">{{$goods_spec_operate_data.msg}}</p>
     {{/if}}
     {{if isset($goods_spec_operate_data['is_created']) and $goods_spec_operate_data['is_created'] eq 1}}
-        <div class="am-flex am-gap-32">
+        <div class="am-flex am-gap-15">
             <!-- 规格模板 -->
             <div class="am-inline-block business-operations-submit" id="specifications-quick-container"
                 data-spec-template-tips="{{:MyLang('common_service.goods.form_spec_template_tips')}}" 
@@ -19,7 +19,7 @@
                     {{/if}}
                 </select>
             </div>
-            <div class="am-flex am-gap-2">
+            <div class="am-flex am-gap-15">
                 <span class="business-operations-submit quick-spec-title-add">
                     <i class="iconfont icon-add"></i>
                     {{:MyLang('common_service.goods.form_spec_quick_add_title')}}
@@ -296,7 +296,9 @@
         {{/if}}
         <div class="spec-images-list">
             <div class="am-alert am-radius">
-                <span>{{:MyLang('common_service.goods.form_spec_images_tips')}}</span>
+                {{if !empty($goods_admin_nav_list['spec_images']['tips'])}}
+                    <span>{{if is_array($goods_admin_nav_list['spec_images']['tips'])}}{{:implode('</p><p>', $goods_admin_nav_list.spec_images.tips)}}{{else /}}{{$goods_admin_nav_list.spec_images.tips}}{{/if}}</span>
+                {{/if}}
                 <span class="business-operations-submit specifications-line-images-add">
                     <i class="iconfont icon-add"></i>
                     {{:MyLang('common_service.goods.form_spec_images_add_title')}}

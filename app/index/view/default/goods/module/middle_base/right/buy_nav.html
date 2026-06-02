@@ -72,7 +72,7 @@
                             {{/case}}
                             {{case url|link}}
                                 <a href="{{if !empty($v['value'])}}{{$v.value}}{{/if}}" 
-                                {{if !empty($v['value'])}}target="_blank"{{/if}} 
+                                {{if !empty($v['value'])}}target="_blank" rel="noopener noreferrer"{{/if}} 
                                 class="am-radius am-btn am-btn-{{if !empty($v['color']) and $v['color'] eq 'second'}}secondary{{else /}}primary{{/if}} {{if !empty($v['class'])}}{{$v.class}}{{/if}}">
                                     {{if !empty($v['icon'])}}
                                         <i class="{{$v.icon}}"></i>
@@ -107,14 +107,14 @@
             </div>
 
             <!-- 购买表单 -->
-            <form action="{{:MyUrl('index/buy/index')}}" method="post" class="buy-form am-hide">
+            <form action="{{if empty($buy_to_link) or empty($buy_to_link['buy'])}}{{:MyUrl('index/buy/index')}}{{else /}}{{$buy_to_link.buy}}{{/if}}" method="post" class="buy-form am-hide">
                 <input type="hidden" name="buy_type" value="goods" />
                 <input type="hidden" name="goods_data" value="" />
                 <button type="submit"></button>
             </form>
 
             <!-- 加入购物车表单 -->
-            <form action="{{:MyUrl('index/cart/save')}}" method="post" class="cart-form am-hide" request-type="ajax-fun" request-value="CartSubmitBack">
+            <form action="{{if empty($buy_to_link) or empty($buy_to_link['cart'])}}{{:MyUrl('index/cart/save')}}{{else /}}{{$buy_to_link.cart}}{{/if}}" method="post" class="cart-form am-hide" request-type="ajax-fun" request-value="CartSubmitBack">
                 <input type="hidden" name="goods_data" value="" />
                 <button type="submit"></button>
             </form>

@@ -15,7 +15,6 @@ use app\service\ResourcesService;
 use app\service\AttachmentService;
 use app\service\RegionService;
 use app\service\GoodsService;
-use app\service\WarehouseGoodsService;
 
 /**
  * 开发测试
@@ -207,7 +206,7 @@ class Devtest extends Common
                         $arr = explode(GoodsService::$goods_spec_to_string_separator, $v);
                         $inventory_spec[] = [
                             'name'      => implode(' / ', $arr),
-                            'spec'      => json_encode(WarehouseGoodsService::GoodsSpecMuster($v, $res['title']), JSON_UNESCAPED_UNICODE),
+                            'spec'      => json_encode(GoodsService::GoodsSpecMuster($v, $res['title']), JSON_UNESCAPED_UNICODE),
                             'md5_key'   => md5(implode('', $arr)),
                             'inventory' => isset($res['value'][$k]['inventory']) ? $res['value'][$k]['inventory'] : 0,
                         ];

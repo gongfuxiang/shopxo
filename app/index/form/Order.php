@@ -303,7 +303,7 @@ class Order
                 'label'         => $lang['extension'],
                 'view_type'     => 'module',
                 'view_key'      => 'order/module/extension',
-                'grid_size'     => 'sm',
+                'grid_size'     => 'lg',
                 'search_config' => [
                     'form_type'         => 'input',
                     'form_name'         => 'extension_data',

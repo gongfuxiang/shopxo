@@ -158,10 +158,7 @@ return [
             ['name' => '用戶註冊', 'type' => 'register'],
             ['name' => '用戶登錄', 'type' => 'login'],
             ['name' => '密碼找回', 'type' => 'forgetpwd'],
-            ['name' => '驗證碼', 'type' => 'verify'],
             ['name' => '訂單售後', 'type' => 'orderaftersale'],
-            ['name' => '附件', 'type' => 'attachment'],
-            ['name' => '緩存', 'type' => 'cache'],
             ['name' => '擴展項', 'type' => 'extends'],
         ],
         // 网站设置导航
@@ -296,6 +293,10 @@ return [
             '1.默認空、則僅對當前訪問功能變數名稱有效',
             '2.如需要二級功能變數名稱也共亯cookie則填寫頂層網域名、如：baidu.com',
         ],
+        'cookie_config_title'                   => 'Cookie配置',
+        'cookie_samesite_option_empty'          => '不設定（默認）',
+        'cookie_samesite_option_strict'         => 'Strict（嚴格）',
+        'cookie_samesite_option_lax'            => 'Lax（鬆弛）',
     ],
 
     // 品牌
@@ -821,6 +822,10 @@ return [
         'detail_aftersale_reason'               => '原因',
         // 商品
         'detail_goods_title'                    => '訂單商品',
+        'detail_log_nav_title'                  => '狀態日誌',
+        'detail_log_creator_msg'                => '操作描述',
+        'detail_log_creator_name'               => '操作人',
+        'detail_log_creator_time'               => '操作時間',
         'detail_payment_amount_less_tips'       => '請注意、該訂單支付金額小於總價金額',
         'detail_no_payment_tips'                => '請注意、該訂單還未支付',
         // 动态表格
@@ -834,6 +839,11 @@ return [
             'goods_placeholder'                => '請輸入訂單ID/訂單號/商品資訊',
             'user'                             => '用戶資訊',
             'user_placeholder'                 => '請輸入用戶名/昵稱/手機/郵箱',
+            'user_id'                          => '使用者ID',
+            'user_username'                    => '使用者帳號',
+            'user_nickname'                    => '使用者暱稱',
+            'user_mobile'                      => '使用者手機號碼',
+            'user_email'                       => '使用者電子郵件',
             'status'                           => '訂單狀態',
             'pay_status'                       => '支付狀態',
             'total_price'                      => '總價',
@@ -1470,7 +1480,8 @@ return [
         'form_table'                            => [
             'user'                => '用戶資訊',
             'user_placeholder'    => '請輸入用戶名/昵稱/手機/郵箱',
-            'type'                => '操作類型',
+            'integral_type'       => '積分類型',
+            'operation_type'      => '操作類型',
             'operation_integral'  => '操作積分',
             'original_integral'   => '原始積分',
             'new_integral'        => '最新積分',
@@ -1590,6 +1601,11 @@ return [
         // 公共
         'admin_browser_title'                      => '後臺管理系統',
         'remove_cache_title'                       => '清除緩存',
+        'nav_pending_todo_order_delivery'          => '訂單待發貨',
+        'nav_pending_todo_order_aftersale_audit'   => '訂單售後待確認/待稽核',
+        'nav_pending_todo_goods_comments_reply'    => '商品評論待回覆',
+        'nav_pending_todo_user_audit'              => '用戶待稽核',
+        'nav_pending_todo_empty'                   => '暫無待處理事項',
         // 商品参数
         'form_goods_params_config_error_tips'      => '商品參數配寘資訊',
         'form_goods_params_copy_no_tips'           => '請先粘貼配寘資訊',

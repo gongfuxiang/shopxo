@@ -8,7 +8,7 @@
                 <span class="am-text-xs">{{if !empty($data['name'])}}{{$data.name}}{{/if}}</span>
                 <a href="javascript:;" class="iconfont icon-edit-wide am-text-xs am-margin-left-xs" data-am-modal="{target: '#popup-saveinfo'}"></a>
             </span>
-            <a href="{{:MyUrl('index/design/index', ['id'=>$data['id']])}}" target="_blank" class="am-fr am-text-xs am-margin-top-sm">{{:MyLang('view_title')}} >></a>
+            <a href="{{:MyUrl('index/design/index', ['id'=>$data['id']])}}" target="_blank" rel="noopener noreferrer" class="am-fr am-text-xs am-margin-top-sm">{{:MyLang('view_title')}} >></a>
         </legend>
         <div class="am-padding-bottom-sm">
             <div class="layout-operate-container am-fr" data-save-url="{{:MyUrl('admin/design/save')}}" data-json="{{:urlencode(json_encode($data))}}">

@@ -64,6 +64,20 @@ class Site extends Base
      */
     public function Index()
     {
+        // 附件配置已迁移至 系统 > 系统配置
+        if($this->nav_type == 'attachment')
+        {
+            return MyRedirect(MyUrl('admin/config/index', ['switch' => 'attachment-config']));
+        }
+        if($this->nav_type == 'verify')
+        {
+            return MyRedirect(MyUrl('admin/config/index', ['switch' => 'verify-config']));
+        }
+        if($this->nav_type == 'cache')
+        {
+            return MyRedirect(MyUrl('admin/config/index', ['switch' => 'cache-config']));
+        }
+
         // 公共数据
         $assign = $this->CurrentViewInit();
 

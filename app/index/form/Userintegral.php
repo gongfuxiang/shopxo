@@ -62,16 +62,35 @@ class UserIntegral
             // 表单配置
             'form' => [
                 [
-                    'label'         => $lang['type'],
+                    'label'         => $lang['integral_type'],
                     'view_type'     => 'field',
-                    'view_key'      => 'type',
-                    'view_data_key' => 'name',
-                    'view_data'     => MyConst('common_integral_log_type_list'),
+                    'view_key'      => 'integral_type_name',
                     'is_sort'       => 1,
+                    'width'         => 130,
                     'search_config' => [
                         'form_type'         => 'select',
+                        'form_name'         => 'integral_type',
                         'where_type'        => 'in',
-                        'data'              => MyConst('common_integral_log_type_list'),
+                        'data'              => MyConst('common_integral_log_integral_type_list'),
+                        'data_key'          => 'id',
+                        'data_name'         => 'name',
+                        'is_multiple'       => 1,
+                    ],
+                ],
+                [
+                    'label'         => $lang['operation_type'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'operation_type_name',
+                    'is_color'      => 1,
+                    'color_key'     => 'operation_type',
+                    'color_style'   => [0=>'danger', 1=>'success'],
+                    'is_sort'       => 1,
+                    'width'         => 130,
+                    'search_config' => [
+                        'form_type'         => 'select',
+                        'form_name'         => 'operation_type',
+                        'where_type'        => 'in',
+                        'data'              => MyConst('common_integral_log_operation_type_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -131,14 +150,23 @@ class UserIntegral
                     'view_key'      => 'userintegral/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
+                    'width'         => 80,
                 ],
             ],
             // 数据配置
             'data'  => [
-                'table_name'    => 'UserIntegralLog',
-                'data_handle'   => 'IntegralService::IntegralLogListHandle',
-                'detail_where'  => $this->condition_base,
-                'is_page'       => 1,
+                'table_name'            => 'UserIntegralLog',
+                'data_handle'           => 'IntegralService::IntegralLogListHandle',
+                'detail_where'          => $this->condition_base,
+                'is_fixed_name_field'   => 1,
+                'fixed_name_data'       => [
+                    'integral_type'    => [
+                        'data'  => MyConst('common_integral_log_integral_type_list'),
+                    ],
+                    'operation_type'    => [
+                        'data'  => MyConst('common_integral_log_operation_type_list'),
+                    ],
+                ],
             ],
         ];
     }

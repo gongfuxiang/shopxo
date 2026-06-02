@@ -40,7 +40,7 @@
                 {{if empty($module_data['warehouse_url'])}}
                     <strong class="warehouse-name">{{$module_data.warehouse_name}}</strong>
                 {{else /}}
-                    <a href="{{$module_data.warehouse_url}}" target="_blank" class="text-deco-none">
+                    <a href="{{$module_data.warehouse_url}}" target="_blank" rel="noopener noreferrer" class="text-deco-none">
                         <strong class="warehouse-name">{{$module_data.warehouse_name}}</strong>
                     </a>
                 {{/if}}
@@ -97,11 +97,11 @@
     {{if !empty($module_data['items'])}}
         {{foreach $module_data.items as $item}}
             <div class="am-nbfc">
-                <a href="{{$item.goods_url}}" target="_blank">
+                <a href="{{$item.goods_url}}" target="_blank" rel="noopener noreferrer">
                     <img src="{{$item.images}}" class="am-img-thumbnail am-radius am-margin-right-sm am-fl" width="18" height="18" />
                 </a>
                 <div class="am-text-truncate">
-                    <a href="{{$item.goods_url}}" target="_blank">{{$item.title}}</a>
+                    <a href="{{$item.goods_url}}" target="_blank" rel="noopener noreferrer">{{$item.title}}</a>
                 </div>
             </div>
             {{if !empty($item['spec_text'])}}
@@ -119,7 +119,7 @@
 
                 {{if ($module_data['is_can_launch_aftersale'] eq 1 or !empty($item['orderaftersale'])) and !empty($item['orderaftersale_btn_text'])}}
                     <div class="am-fr">
-                        <a href="{{:MyUrl('index/orderaftersale/detail', ['oid'=>$module_data['id'], 'did'=>$item['id']])}}" target="_blank" class="am-text-primary">
+                        <a href="{{:MyUrl('index/orderaftersale/detail', ['oid'=>$module_data['id'], 'did'=>$item['id']])}}" target="_blank" rel="noopener noreferrer" class="am-text-primary">
                             {{if empty($item['orderaftersale'])}}
                                 {{$item.orderaftersale_btn_text}}
                             {{else /}}
@@ -131,118 +131,120 @@
             </div>
             <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-vertical-xs" />
             <!-- 商品基础数据 -->
-            {{if !empty($item['base_data']) or !empty($item['goods_params']) or !empty($item['goods_content_app']) or !empty($item['goods_content_web'])}}
-                <section data-am-widget="accordion" class="am-accordion am-accordion-basic am-margin-top-xs am-margin-left-0 am-margin-right-0 am-margin-bottom-0" data-am-accordion='{ "multiple": true }'>
-                    {{if !empty($item['base_data'])}}
-                        <dl class="am-accordion-item">
-                            <dt class="am-accordion-title">
-                                {{:MyLang('goods_base')}}
-                            </dt>
-                            <dd class="am-accordion-bd am-collapse">
-                                <div class="am-accordion-content">
-                                    <table class="am-table am-table-bordered am-table-compact am-table-radius am-text-left am-margin-bottom-0">
-                                        <thead>
-                                            <tr>
-                                                <th width="130">{{:MyLang('name_title')}}</th>
-                                                <th>{{:MyLang('data_title')}}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="am-background-white">
-                                            {{foreach $item.base_data as $v}}
+            {{if MyC('common_is_order_show_goods_snapshot', 0) eq 1}}
+                {{if !empty($item['base_data']) or !empty($item['goods_params']) or !empty($item['goods_content_app']) or !empty($item['goods_content_web'])}}
+                    <section data-am-widget="accordion" class="am-accordion am-accordion-basic am-margin-top-xs am-margin-left-0 am-margin-right-0 am-margin-bottom-0" data-am-accordion='{ "multiple": true }'>
+                        {{if !empty($item['base_data'])}}
+                            <dl class="am-accordion-item">
+                                <dt class="am-accordion-title">
+                                    {{:MyLang('goods_base')}}
+                                </dt>
+                                <dd class="am-accordion-bd am-collapse">
+                                    <div class="am-accordion-content">
+                                        <table class="am-table am-table-bordered am-table-compact am-table-radius am-text-left am-margin-bottom-0">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{$v.name}}</td>
-                                                    <td>
-                                                        <span class="text-copy-submit">{{$v.value}}</span>
-                                                    </td>
+                                                    <th width="130">{{:MyLang('name_title')}}</th>
+                                                    <th>{{:MyLang('data_title')}}</th>
                                                 </tr>
-                                            {{/foreach}}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </dd>
-                        </dl>
-                    {{/if}}
-                    {{if !empty($item['goods_params'])}}
-                        <dl class="am-accordion-item">
-                            <dt class="am-accordion-title">
-                                {{:MyLang('goods_params')}}
-                            </dt>
-                            <dd class="am-accordion-bd am-collapse ">
-                                <div class="am-accordion-content">
-                                    <table class="am-table am-table-bordered am-table-compact am-table-radius am-text-left am-margin-bottom-0">
-                                        <thead>
-                                            <tr>
-                                                <th width="80">{{:MyLang('type_title')}}</th>
-                                                <th width="130">{{:MyLang('name_title')}}</th>
-                                                <th>{{:MyLang('data_title')}}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="am-background-white">
-                                            {{foreach $item.goods_params as $v}}
+                                            </thead>
+                                            <tbody class="am-background-white">
+                                                {{foreach $item.base_data as $v}}
+                                                    <tr>
+                                                        <td>{{$v.name}}</td>
+                                                        <td>
+                                                            <span class="text-copy-submit">{{$v.value}}</span>
+                                                        </td>
+                                                    </tr>
+                                                {{/foreach}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </dd>
+                            </dl>
+                        {{/if}}
+                        {{if !empty($item['goods_params'])}}
+                            <dl class="am-accordion-item">
+                                <dt class="am-accordion-title">
+                                    {{:MyLang('goods_params')}}
+                                </dt>
+                                <dd class="am-accordion-bd am-collapse ">
+                                    <div class="am-accordion-content">
+                                        <table class="am-table am-table-bordered am-table-compact am-table-radius am-text-left am-margin-bottom-0">
+                                            <thead>
                                                 <tr>
-                                                    <td>
-                                                        {{if $v['scope'] eq 1}}
-                                                            {{:MyLang('detail_title')}}
-                                                        {{elseif $v['scope'] eq 2 /}}
-                                                            {{:MyLang('base_title')}}
-                                                        {{else /}}
-                                                            {{:MyLang('all_title')}}
-                                                        {{/if}}
-                                                    </td>
-                                                    <td>{{$v.name}}</td>
-                                                    <td>
-                                                        <span class="text-copy-submit">{{$v.value}}</span>
-                                                    </td>
+                                                    <th width="80">{{:MyLang('type_title')}}</th>
+                                                    <th width="130">{{:MyLang('name_title')}}</th>
+                                                    <th>{{:MyLang('data_title')}}</th>
                                                 </tr>
-                                            {{/foreach}}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </dd>
-                        </dl>
-                    {{/if}}
-                    {{if !empty($item['goods_content_web']) or !empty($item['goods_content_app'])}}
-                        <dl class="am-accordion-item">
-                            <dt class="am-accordion-title">
-                                {{:MyLang('goods_detail')}}
-                            </dt>
-                            <dd class="am-accordion-bd am-collapse">
-                                <div class="am-accordion-content">
-                                    <div class="am-tabs" data-am-tabs="{noSwipe: 1}">
-                                        <ul class="am-tabs-nav am-nav am-nav-tabs">
-                                            <li class="am-active"><a href="javascript: void(0)">{{:MyLang('web_title')}}</a></li>
-                                            <li><a href="javascript: void(0)">{{:MyLang('app_title')}}</a></li>
-                                        </ul>
-                                        <div class="am-tabs-bd am-background-white">
-                                            <div class="am-tab-panel am-active">
-                                                {{if empty($item['goods_content_web'])}}
-                                                    <span class="am-color-grey">{{:MyLang('no_data')}}</span>
-                                                {{else /}}
-                                                    <div class="am-scrollable-horizontal richtext">{{$item.goods_content_web|raw}}</div>
-                                                {{/if}}
-                                            </div>
-                                            <div class="am-tab-panel">
-                                                {{if empty($item['goods_content_app'])}}
-                                                    <span class="am-color-grey">{{:MyLang('no_data')}}</span>
-                                                {{else /}}
-                                                    {{foreach $item.goods_content_app as $v}}
-                                                        {{if !empty($v['images'])}}
-                                                            <img src="{{$v.images}}" class="am-block am-max-wh-auto common-annex-view-event" />
-                                                        {{/if}}
-                                                        {{if !empty($v['content'])}}
-                                                            <p>{{:implode('<br />', $v['content'])}}</p>
-                                                        {{/if}}
-                                                    {{/foreach}}
-                                                {{/if}}
+                                            </thead>
+                                            <tbody class="am-background-white">
+                                                {{foreach $item.goods_params as $v}}
+                                                    <tr>
+                                                        <td>
+                                                            {{if $v['scope'] eq 1}}
+                                                                {{:MyLang('detail_title')}}
+                                                            {{elseif $v['scope'] eq 2 /}}
+                                                                {{:MyLang('base_title')}}
+                                                            {{else /}}
+                                                                {{:MyLang('all_title')}}
+                                                            {{/if}}
+                                                        </td>
+                                                        <td>{{$v.name}}</td>
+                                                        <td>
+                                                            <span class="text-copy-submit">{{$v.value}}</span>
+                                                        </td>
+                                                    </tr>
+                                                {{/foreach}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </dd>
+                            </dl>
+                        {{/if}}
+                        {{if !empty($item['goods_content_web']) or !empty($item['goods_content_app'])}}
+                            <dl class="am-accordion-item">
+                                <dt class="am-accordion-title">
+                                    {{:MyLang('goods_detail')}}
+                                </dt>
+                                <dd class="am-accordion-bd am-collapse">
+                                    <div class="am-accordion-content">
+                                        <div class="am-tabs" data-am-tabs="{noSwipe: 1}">
+                                            <ul class="am-tabs-nav am-nav am-nav-tabs">
+                                                <li class="am-active"><a href="javascript: void(0)">{{:MyLang('web_title')}}</a></li>
+                                                <li><a href="javascript: void(0)">{{:MyLang('app_title')}}</a></li>
+                                            </ul>
+                                            <div class="am-tabs-bd am-background-white">
+                                                <div class="am-tab-panel am-active">
+                                                    {{if empty($item['goods_content_web'])}}
+                                                        <span class="am-color-grey">{{:MyLang('no_data')}}</span>
+                                                    {{else /}}
+                                                        <div class="am-scrollable-horizontal richtext">{{$item.goods_content_web|raw}}</div>
+                                                    {{/if}}
+                                                </div>
+                                                <div class="am-tab-panel">
+                                                    {{if empty($item['goods_content_app'])}}
+                                                        <span class="am-color-grey">{{:MyLang('no_data')}}</span>
+                                                    {{else /}}
+                                                        {{foreach $item.goods_content_app as $v}}
+                                                            {{if !empty($v['images'])}}
+                                                                <img src="{{$v.images}}" class="am-block am-max-wh-auto common-annex-view-event" />
+                                                            {{/if}}
+                                                            {{if !empty($v['content'])}}
+                                                                <p>{{:implode('<br />', $v['content'])}}</p>
+                                                            {{/if}}
+                                                        {{/foreach}}
+                                                    {{/if}}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </dd>
-                        </dl>
-                    {{/if}}
-                </section>
-                <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-vertical-xs" />
+                                </dd>
+                            </dl>
+                        {{/if}}
+                    </section>
+                    <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-vertical-xs" />
+                {{/if}}
             {{/if}}
         {{/foreach}}
     {{/if}}

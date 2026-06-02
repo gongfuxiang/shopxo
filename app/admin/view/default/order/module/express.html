@@ -32,7 +32,7 @@
                                                 {{/if}}
                                                 <span class="am-vertical-align-middle">{{$v.express_name}}</span>
                                             {{else /}}
-                                                <a href="{{$v.express_website_url}}" target="_blank">
+                                                <a href="{{$v.express_website_url}}" target="_blank" rel="noopener noreferrer">
                                                     {{if !empty($v['express_icon'])}}
                                                         <img src="{{$v.express_icon}}" class="am-img-thumbnail am-radius am-vertical-align-middle" width="20" height="20" alt="{{$v.express_name}}" />
                                                     {{/if}}

@@ -169,10 +169,25 @@ class PaymentService
         $payment = '\payment\\'.$payment;
         if(class_exists($payment))
         {
-            $obj = new $payment();
-            if(method_exists($obj, 'Config') && method_exists($obj, 'Pay') && method_exists($obj, 'Respond'))
+            try
             {
+                $ref = new \ReflectionClass($payment);
+                if(!$ref->hasMethod('Config') || !$ref->hasMethod('Pay') || !$ref->hasMethod('Respond'))
+                {
+                    return false;
+                }
+                foreach(['Config', 'Pay', 'Respond'] as $m)
+                {
+                    if(!$ref->getMethod($m)->isPublic())
+                    {
+                        return false;
+                    }
+                }
+                $obj = $ref->newInstanceWithoutConstructor();
                 return $obj->Config();
+            } catch(\Throwable $e)
+            {
+                return false;
             }
         }
         return false;
@@ -590,6 +605,51 @@ class PaymentService
     }
 
     /**
+     * 校验 zip 内支付插件路径/文件名（防目录穿越与畸形条目）
+     * @author  Devil
+     * @version 1.0.0
+     * @date    2026-04-30
+     * @param   [string]          $name [zip 内相对路径]
+     * @return  [array|false]     ['payment'=>标识] 或 false
+     */
+    private static function UploadZipPaymentEntryValid($name)
+    {
+        if(!is_string($name) || $name === '' || strpos($name, "\0") !== false)
+        {
+            return false;
+        }
+        $norm = str_replace('\\', '/', $name);
+        if(strpos($norm, '..') !== false)
+        {
+            return false;
+        }
+        if(basename($norm) !== $norm)
+        {
+            return false;
+        }
+        if(!preg_match('/^[A-Za-z_][A-Za-z0-9_]*\.php$/', $norm))
+        {
+            return false;
+        }
+        return ['payment' => substr($norm, 0, -4)];
+    }
+
+    /**
+     * 支付插件 zip 内 PHP 源码安全校验（委托公共函数 PhpStrictAutoloadFileSourceSafe）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-04-30
+     * @desc    description
+     * @param   [string]          $src [文件源码]
+     * @return  [boolean]
+     */
+    private static function UploadZipPaymentPhpSourceSafe($src)
+    {
+        return PhpStrictAutoloadFileSourceSafe($src);
+    }
+
+    /**
      * 上传插件
      * @author  Devil
      * @blog    http://gong.gg/
@@ -607,7 +667,12 @@ class PaymentService
             return DataReturn($error, -1);
         }
 
-        // 文件格式化校验
+        // 文件格式化校验（扩展名 + MIME，防伪造 Content-Type）
+        $orig_name = isset($_FILES['file']['name']) ? $_FILES['file']['name'] : '';
+        if(!preg_match('/\.zip$/i', $orig_name))
+        {
+            return DataReturn(MyLang('form_upload_zip_message'), -2);
+        }
         $type = ResourcesService::ZipExtTypeList();
         if(!in_array($_FILES['file']['type'], $type))
         {
@@ -640,6 +705,17 @@ class PaymentService
             return $ret;
         }
 
+        // 必须为真实 zip 包（魔数 PK），防止伪装扩展名/MIME
+        if(!is_string($package_file) || !is_readable($package_file))
+        {
+            return DataReturn(MyLang('form_open_zip_message').'[-12]', -11);
+        }
+        $head = @file_get_contents($package_file, false, null, 0, 4);
+        if($head === false || strlen($head) < 2 || substr($head, 0, 2) !== 'PK')
+        {
+            return DataReturn(MyLang('form_open_zip_message').'[-12]', -11);
+        }
+
         // 开始解压文件
         $zip = new \ZipArchive();
         $resource = $zip->open($package_file);
@@ -658,18 +734,25 @@ class PaymentService
             // 排除临时文件和临时目录
             if(strpos($file, '/.') === false && strpos($file, '__') === false)
             {
-                // 忽略非php文件
-                if(substr($file, -4) != '.php')
+                // 忽略非php文件（大小写）
+                $lower = strtolower($file);
+                if(substr($lower, -4) != '.php')
                 {
                     $error++;
                     continue;
                 }
 
-                // 文件名称
-                $payment = str_replace(array('.', '/', '\\', ':'), '', substr($file, 0, -4));
+                // zip 条目名校验（须为根目录下单个合法插件名）
+                $entry = self::UploadZipPaymentEntryValid($file);
+                if($entry === false)
+                {
+                    $error++;
+                    continue;
+                }
+                $payment = $entry['payment'];
 
-                // 是否已有存在插件
-                if(file_exists(self::$payment_dir.$payment))
+                // 是否已存在同名插件文件
+                if(is_file(self::$payment_dir.$payment.'.php'))
                 {
                     $error++;
                     continue;
@@ -684,7 +767,8 @@ class PaymentService
                     if($stream !== false)
                     {
                         $file_content = stream_get_contents($stream);
-                        if($file_content !== false && strpos($file_content, 'eval(') === false)
+                        fclose($stream);
+                        if($file_content !== false && self::UploadZipPaymentPhpSourceSafe($file_content))
                         {
                             if(@file_put_contents($new_file, $file_content) !== false)
                             {
@@ -708,8 +792,9 @@ class PaymentService
                                     $success++;
                                 }
                             }
+                        } else {
+                            $error++;
                         }
-                        fclose($stream);
                     }
                 }
             }

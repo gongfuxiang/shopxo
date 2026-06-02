@@ -20,7 +20,7 @@
                         {{/if}}
 
                         {{if empty($user)}}
-                            <em class="first">{{:MyLang('common.header_top_nav_left_not_login_first')}}</em>
+                            <em class="first am-vertical-align-middle">{{:MyLang('common.header_top_nav_left_not_login_first')}}</em>
                             <em class="site-name">{{$home_site_name}}</em>
                             {{if !empty($home_user_login_type)}}
                                 [<a href="{{:MyUrl('index/user/logininfo')}}">{{:MyLang('common.login_title')}}</a>]
@@ -29,9 +29,9 @@
                                 [<a href="{{:MyUrl('index/user/reginfo')}}">{{:MyLang('common.register_title')}}</a>]
                             {{/if}}
                         {{else /}}
-                            <em class="first">{{:MyLang('common.header_top_nav_left_login_first')}}</em>
+                            <em class="first am-vertical-align-middle">{{:MyLang('common.header_top_nav_left_login_first')}}</em>
                             {{if !empty($user['icon'])}}
-                                <img src="{{$user.icon}}" class="common-user-icon" {{if !empty($user['icon_title'])}}title="{{$user.icon_title}}"{{/if}} />
+                                <img src="{{$user.icon}}" class="common-user-icon am-vertical-align-middle am-radius" {{if !empty($user['icon_title'])}}title="{{$user.icon_title}}"{{/if}} />
                             {{/if}}
                             {{if !empty($user['user_name_view'])}}
                                 <em class="user">{{$user.user_name_view}}</em>

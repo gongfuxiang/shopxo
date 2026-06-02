@@ -216,10 +216,13 @@ class OrderSplitService
                     // 仓库组扩展展示数据
                     // name 名称
                     // price 金额
-                    // type 类型（0减少, 1增加）
+                    // type 类型（0减少, 1增加, 2其他）
                     // tips 提示信息
+                    // images 图片
+                    // url 链接地址
                     // business 业务类型（内容格式不限）
                     // ext 扩展数据（内容格式不限）
+                    // is_buy_show 订单确认页面是否显示（0否，1是），默认显示
                     // $extension_data = [
                         // [
                         //     'name'       => '感恩节9折',

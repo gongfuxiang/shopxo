@@ -32,12 +32,12 @@ class Error extends Common
      */
     public function __call($method, $args)
     {
+        $msg = '控制器不存在('.RequestController().')';
         if(IS_AJAX)
         {
-            return DataReturn(RequestController().' 控制器不存在', -1000);
+            return DataReturn($msg, -1000);
         } else {
-            MyViewAssign('msg', RequestController().' 控制器不存在');
-            return MyView('public/error');
+            return MyView('public/error', ['msg'=>$msg]);
         }
     }
 }

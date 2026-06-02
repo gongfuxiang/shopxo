@@ -141,14 +141,14 @@
 
             <!-- 右侧快捷入口 -->
             <div class="am-fr">
-                <a href="{{:MyUrl('index/user/forgetpwdinfo')}}" target="_blank" class="am-color-grey">{{:MyLang('user.forget_password_nav_title')}}</a>
+                <a href="{{:MyUrl('index/user/forgetpwdinfo')}}" target="_blank" rel="noopener noreferrer" class="am-color-grey">{{:MyLang('user.forget_password_nav_title')}}</a>
             </div>
         </div>
         <div class="am-padding-horizontal-sm am-padding-vertical-xs am-margin-bottom-sm am-nbfc">
             <div class="bottom-content">
                 {{if !empty($home_user_reg_type)}}
                     <span>{{:MyLang('user.login_top_register_tips')}}</span>
-                    <a href="{{:MyUrl('index/user/reginfo')}}" class="am-btn-xs am-color-main" {{if isset($action_name) and $action_name eq 'modallogininfo'}}target="_blank"{{/if}}>{{:MyLang('user.register_ahora_register_title')}}</a>
+                    <a href="{{:MyUrl('index/user/reginfo')}}" class="am-btn-xs am-color-main" {{if isset($action_name) and $action_name eq 'modallogininfo'}}target="_blank" rel="noopener noreferrer"{{/if}}>{{:MyLang('user.register_ahora_register_title')}}</a>
                 {{/if}}
 
                 <!-- 用户登录内注册底部钩子 -->

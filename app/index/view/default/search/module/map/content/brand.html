@@ -5,7 +5,7 @@
             <div class="brand-info">
                 <div class="map-left am-text-center am-fl">{{:MyLang('brand_title')}}</div>
                 <div class="map-right map-images-text-items am-fr am-nbfc theme-data-edit-event" data-id="{{$module_data.search_map_info.brand.id}}" data-module="brand">
-                    <a {{if empty($module_data['search_map_info']['brand']['website_url'])}}href="javascript:;"{{else /}}href="{{$module_data.search_map_info.brand.website_url}}" target="_blank"{{/if}}>
+                    <a {{if empty($module_data['search_map_info']['brand']['website_url'])}}href="javascript:;"{{else /}}href="{{$module_data.search_map_info.brand.website_url}}" target="_blank" rel="noopener noreferrer"{{/if}}>
                         {{if empty($module_data['search_map_info']['brand']['logo'])}}
                             <p class="info-logo-empty am-fl am-text-center">{{$module_data.search_map_info.brand.name}}</p>
                         {{else /}}

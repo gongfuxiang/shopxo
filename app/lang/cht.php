@@ -362,6 +362,8 @@ return [
     'store_title'                                           => '店鋪',
     'system_title'                                          => '系統',
     'operate_title'                                         => '操作',
+    'expand_title'                                          => '展開',
+    'retract_title'                                         => '收起',
     'all_title'                                             => '全部',
     'select_all_title'                                      => '全選',
     'reverse_select_title'                                  => '反選',
@@ -471,12 +473,14 @@ return [
     'revoke_audit_title'                                    => '撤審',
     'reverse_audit_title'                                   => '反審',
     'submit_audit_title'                                    => '提審',
+    'submit_audit_confirm_tips'                             => '提交後將進入平臺審核，確定提審嗎？',
     'audit_title'                                           => '審核',
     'retrial_audit_title'                                   => '複審',
     'signin_title'                                          => '簽到',
     'refuse_title'                                          => '拒絕',
     'pass_title'                                            => '通過',
     'agree_title'                                           => '同意',
+    'batch_title'                                           => '批量',
     'expire_title'                                          => '過期',
     'order_title'                                           => '訂單',
     'install_title'                                         => '安裝',
@@ -564,6 +568,10 @@ return [
     'password_title'                                        => '密碼',
     'safety_title'                                          => '安全',
     'extend_title'                                          => '擴展',
+    'attachment_config_title'                               => '附件配寘',
+    'verify_config_title'                                   => '驗證碼',
+    'cache_config_title'                                    => '緩存',
+    'session_config_title'                                  => 'Session配置',
     'import_title'                                          => '導入',
     'export_title'                                          => '匯出',
     'content_title'                                         => '內容',
@@ -594,6 +602,7 @@ return [
     'log_title'                                             => '日誌',
     'plugins_title'                                         => '挿件',
     'valid_title'                                           => '有效',
+    'lock_title'                                            => '鎖定',
     'suspend_title'                                         => '暫停',
     'end_title'                                             => '結束',
     'callback_title'                                        => '回檔',
@@ -784,6 +793,9 @@ return [
     'form_sort_tips'                                        => '從小到大',
     'form_sort_message'                                     => '順序0~255之間的數值',
     'form_platform_title'                                   => '所屬平臺',
+    'form_phone_brand_title'                                => '手機品牌',
+    'form_phone_brand_empty'                                => '不指定',
+    'form_phone_brand_invalid_tips'                         => '手機品牌無效',
     'form_platform_message'                                 => '請選擇所屬平臺',
     'form_event_type_title'                                 => '事件類型',
     'form_event_type_message'                               => '請選擇事件類型',
@@ -1080,10 +1092,15 @@ return [
     'common_message_type_list' => [
         0 => '默認',
     ],
+    // 用户积分 - 积分类型
+    'common_integral_log_integral_type_list' => [
+        0 => '有效',
+        1 => '鎖定',
+    ],
     // 用户积分 - 操作类型
-    'common_integral_log_type_list' => [
-        0 => '减少',
-        1 => '新增',
+    'common_integral_log_operation_type_list' => [
+        0 => '減少',
+        1 => '增加',
     ],
     // 是否上架/下架
     'common_is_shelves_list' => [
@@ -2116,7 +2133,6 @@ return [
             'form_spec_thead_barcode_title'         => '條碼',
             'form_spec_thead_barcode_message'       => '條碼最多60個字',
             'form_spec_row_add_title'               => '添加一行',
-            'form_spec_images_tips'                 => '規格名稱與規格值保持一致，相同規格名稱添加一次即可，重複添加則後面覆蓋前面，順序不影響前端展示效果。',
             'form_spec_images_title'                => '商品規格圖片',
             'form_spec_images_add_title'            => '添加規格圖片',
             'form_spec_images_add_auto_first'       => '第',
@@ -2195,6 +2211,9 @@ return [
                 ],
                 'spec_images' => [
                     'name' => '規格圖片',
+                    'tips' => [
+                        '規格名稱與規格值保持一致，相同規格名稱添加一次即可，重複添加則後面覆蓋前面，順序不影響前端展示效果。',
+                    ],
                 ],
                 'parameters' => [
                     'name' => '商品參數',
@@ -3880,6 +3899,11 @@ return [
             'desc' => '默認否',
             'tips' => '請選擇獲啟用訂單批量支付',
         ],
+        'common_is_order_show_goods_snapshot'  => [
+            'name' => '訂單顯示商品快照',
+            'desc' => '默認否',
+            'tips' => '請選擇是否訂單顯示商品快照',
+        ],
         'common_session_is_use_cache'  => [
             'name' => 'Session使用緩存',
             'desc' => '默認否',
@@ -4760,10 +4784,40 @@ return [
             'desc' => '默認安裝系統已自動生成、可以修改',
             'tips' => '請填寫資料加密秘鑰',
         ],
+        'common_is_sensitive_data_masking'  => [
+            'name' => '敏感資料脫敏',
+            'desc' => '開啟後前台客服電話、郵箱、QQ 等不以明文出現在頁面 HTML（以圖片等形式展示）',
+            'tips' => '請選擇是否敏感資料脫敏',
+        ],
         'common_cookie_domain'  => [
             'name' => 'Cookie有效功能變數名稱',
             'desc' => '默認空則是當前訪問功能變數名稱有效',
             'tips' => '請填寫Cookie有效功能變數名稱',
+        ],
+        'common_cookie_expire'  => [
+            'name' => 'Cookie有效期',
+            'desc' => '單位秒；默認空則配置文件為0（瀏覽器關閉前有效）',
+            'tips' => '請填寫Cookie有效期（秒），留空為0',
+        ],
+        'common_session_expire'  => [
+            'name' => 'Session有效期',
+            'desc' => '服務端 Session 資料保存時間，單位秒；留空則按預設 43200 秒（12 小時）',
+            'tips' => '請填寫 Session 有效期（秒），留空使用預設 43200',
+        ],
+        'common_cookie_secure'  => [
+            'name' => 'Cookie啟用安全傳輸（Secure）',
+            'desc' => '默認關閉；開啟後瀏覽器僅在HTTPS請求中攜帶Cookie，需全站HTTPS',
+            'tips' => '請選擇是否啟用Secure',
+        ],
+        'common_cookie_httponly'  => [
+            'name' => 'Cookie HttpOnly',
+            'desc' => '默認關閉；開啟後前端腳本無法讀取Cookie',
+            'tips' => '請選擇是否啟用HttpOnly',
+        ],
+        'common_cookie_samesite'  => [
+            'name' => 'Cookie SameSite',
+            'desc' => '默認不設置；Strict僅同站；Lax較常用',
+            'tips' => '請選擇SameSite策略',
         ],
         'common_token_created_rules'  => [
             'name' => 'Token生成規則',

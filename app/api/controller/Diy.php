@@ -36,7 +36,7 @@ class Diy extends Common
     {
         if(!empty($this->data_request['id']))
         {
-            $key = 'api_diy_data_'.intval($this->data_request['id']).'_'.APPLICATION_CLIENT_TYPE;
+            $key = 'api_diy_data_'.intval($this->data_request['id']).'_'.SYSTEM_TYPE.'_'.APPLICATION_CLIENT_TYPE;
             $result = MyCache($key);
             if(empty($result) || (isset($this->data_request['is_cache']) && $this->data_request['is_cache'] == 0))
             {

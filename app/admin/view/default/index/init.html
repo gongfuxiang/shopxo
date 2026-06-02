@@ -44,13 +44,13 @@
 
 					<!-- 广告 -->
 					{{if !empty($site_store_info) and !empty($site_store_info['adverts']) and !empty($site_store_info['adverts']['name'])}}
-						<a class="am-margin-left-sm am-text-danger am-vertical-align-middle ad-content {{if !empty($site_store_info['adverts']['icon'])}}{{$site_store_info.adverts.icon}}{{/if}}" {{if empty($site_store_info['adverts']['url'])}}href="javascript:;"{{else /}}href="{{$site_store_info.adverts.url}}" target="_blank"{{/if}}> {{$site_store_info.adverts.name}}</a>
+						<a class="am-margin-left-sm am-text-danger am-vertical-align-middle ad-content {{if !empty($site_store_info['adverts']['icon'])}}{{$site_store_info.adverts.icon}}{{/if}}" {{if empty($site_store_info['adverts']['url'])}}href="javascript:;"{{else /}}href="{{$site_store_info.adverts.url}}" target="_blank" rel="noopener noreferrer"{{/if}}> {{$site_store_info.adverts.name}}</a>
 					{{/if}}
 				</div>
 				<div class="am-fr am-nbfc right-content">
 					<!-- VIP授权信息 -->
 					{{if !empty($site_store_info) and !empty($site_store_info['vip']) and !empty($site_store_info['vip']['auth_view'])}}
-						<a class="vip am-radius {{if isset($site_store_info['vip']['status']) and $site_store_info['vip']['status'] eq 1}}vip-active{{/if}}" {{if empty($site_store_info['vip']['go_url'])}}href="javascript:;"{{else /}}href="{{$site_store_info.vip.go_url}}" target="_blank"{{/if}} {{if !empty($site_store_info['vip']['auth_person'])}}data-am-popover="{content: '{{:MyLang('store_bind_authorized_subject_name')}}：{{$site_store_info.vip.auth_person}}', trigger: 'hover focus', theme: 'sm'}"{{/if}}>
+						<a class="vip am-radius {{if isset($site_store_info['vip']['status']) and $site_store_info['vip']['status'] eq 1}}vip-active{{/if}}" {{if empty($site_store_info['vip']['go_url'])}}href="javascript:;"{{else /}}href="{{$site_store_info.vip.go_url}}" target="_blank" rel="noopener noreferrer"{{/if}} {{if !empty($site_store_info['vip']['auth_person'])}}data-am-popover="{content: '{{:MyLang('store_bind_authorized_subject_name')}}：{{$site_store_info.vip.auth_person}}', trigger: 'hover focus', theme: 'sm'}"{{/if}}>
                             <i class="iconfont icon-admin-store-vip"></i>
                             <span class="am-margin-left-xs">{{$site_store_info.vip.auth_view}}</span>
                         </a>
@@ -58,7 +58,7 @@
 
 					<!-- 右侧版本信息及更新检查 -->
 					<span class="right-base">
-						<a {{if !empty($site_store_links) and !empty($site_store_links['system_update_log'])}}href="{{$site_store_links.system_update_log}}" target="_blank"{{else /}}href="javascript:;"{{/if}} class="am-margin-left-xs">{{$Think.APPLICATION_VERSION}}</a>
+						<a {{if !empty($site_store_links) and !empty($site_store_links['system_update_log'])}}href="{{$site_store_links.system_update_log}}" target="_blank" rel="noopener noreferrer"{{else /}}href="javascript:;"{{/if}} class="am-margin-left-xs">{{$Think.APPLICATION_VERSION}}</a>
 						<a href="javascript:;" class="am-margin-left-sm inspect-upgrade-submit" data-url="{{:MyUrl('admin/index/inspectupgrade')}}">{{:MyLang('store_check_update_name')}}{{if !empty($site_store_info) and !empty($site_store_info['upgrade']) and !empty($site_store_info['upgrade']['version_old']) and $site_store_info['upgrade']['version_old'] eq $Think.APPLICATION_VERSION}}<i></i>{{/if}}</a>
 					</span>
 				</div>
@@ -145,25 +145,28 @@
                                     <div class="am-flex am-flex-row am-flex-justify-between">
                                         <div>
                                             <p class="name">{{:MyLang('index.base_item_user_title')}}</p>
-                                            <p class="total animation-count-to base-user-count" data-to="{{$base_count.user_count}}" data-speed="1500">0</p>
+                                            <p class="total am-flex am-flex-row am-flex-items-baseline am-flex-wrap am-gap-1-half">
+                                                <span class="animation-count-to base-user-count" data-to="{{$base_count.user_count}}" data-speed="1500">0</span>
+                                                <span class="am-text-xs stats-base-range-pct stats-base-range-pct-user">{{:ModuleInclude('index/stats_base_range_pct_val', ['stats_pct' => empty($base_count.user_count_pct) ? [] : $base_count.user_count_pct])}}</span>
+                                            </p>
                                         </div>
                                         <div class="item am-flex am-flex-col am-flex-items-end">
                                             <span class="am-color-999">{{:MyLang('index.base_item_today_title')}}</span>
-                                            <span class="animation-count-to am-font-weight am-text-sm" data-to="{{$user.today_count}}" data-speed="1500">0</span>
+                                            <span><span class="am-font-weight am-text-sm">{{$user.today_count}}</span>{{if isset($user.today_pct)}}{{:ModuleInclude('index/stats_period_pct', ['stats_pct' => $user.today_pct])}}{{/if}}</span>
                                         </div>
                                     </div>
-                                    <div class="am-flex am-flex-row am-gap-1 am-margin-bottom-xs">
+                                    <div class="am-flex am-flex-row am-gap-1-half am-margin-bottom-xs">
                                         <span>{{:MyLang('index.base_item_yesterday_title')}}</span>
-                                        <span class="animation-count-to" data-to="{{$user.yesterday_count}}" data-speed="1500">0</span>
+                                        <span><span>{{$user.yesterday_count}}</span>{{if isset($user.yesterday_pct)}}{{:ModuleInclude('index/stats_period_pct', ['stats_pct' => $user.yesterday_pct])}}{{/if}}</span>
                                     </div>
                                     <div class="li-content-foot am-flex am-flex-row am-flex-justify-between">
-                                        <div class="am-flex am-flex-row am-flex-justify-right am-gap-1">
+                                        <div class="am-flex am-flex-row am-flex-justify-right am-gap-1-half">
                                             <span>{{:MyLang('index.base_item_last_month_title')}}</span>
-                                            <span class="animation-count-to" data-to="{{$user.last_month_count}}" data-speed="1500">0</span>
+                                            <span><span>{{$user.last_month_count}}</span>{{if isset($user.last_month_pct)}}{{:ModuleInclude('index/stats_period_pct', ['stats_pct' => $user.last_month_pct])}}{{/if}}</span>
                                         </div>
-                                        <div class="am-flex am-flex-row am-flex-justify-right am-gap-1">
+                                        <div class="am-flex am-flex-row am-flex-justify-right am-gap-1-half">
                                             <span>{{:MyLang('index.base_item_same_month_title')}}</span>
-                                            <span class="animation-count-to" data-to="{{$user.same_month_count}}" data-speed="1500">0</span>
+                                            <span><span>{{$user.same_month_count}}</span>{{if isset($user.same_month_pct)}}{{:ModuleInclude('index/stats_period_pct', ['stats_pct' => $user.same_month_pct])}}{{/if}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -173,27 +176,28 @@
                                     <div class="am-flex am-flex-row am-flex-justify-between">
                                         <div>
                                             <p class="name">{{:MyLang('index.base_item_order_number_title')}}</p>
-                                            <p class="total animation-count-to base-order-count" data-to="{{$base_count.order_count}}" data-speed="1500">0</p>
+                                            <p class="total am-flex am-flex-row am-flex-items-baseline am-flex-wrap am-gap-1-half">
+                                                <span class="animation-count-to base-order-count" data-to="{{$base_count.order_count}}" data-speed="1500">0</span>
+                                                <span class="am-text-xs stats-base-range-pct stats-base-range-pct-order">{{:ModuleInclude('index/stats_base_range_pct_val', ['stats_pct' => empty($base_count.order_count_pct) ? [] : $base_count.order_count_pct])}}</span>
+                                            </p>
                                         </div>
                                         <div class="item am-flex am-flex-col am-flex-items-end">
                                             <span class="am-color-999">{{:MyLang('index.base_item_today_title')}}</span>
-                                            <span class="animation-count-to am-font-weight am-text-sm" data-to="{{$order_number.today_count}}" data-speed="1500">0</span>
+                                            <span><span class="am-font-weight am-text-sm">{{$order_number.today_count}}</span>{{if isset($order_number.today_pct)}}{{:ModuleInclude('index/stats_period_pct', ['stats_pct' => $order_number.today_pct])}}{{/if}}</span>
                                         </div>
                                     </div>
-                                    <div class="am-flex am-flex-row am-gap-24 am-margin-bottom-xs">    
-                                        <div class="item">
-                                            <span>{{:MyLang('index.base_item_yesterday_title')}}</span>
-                                            <span class="animation-count-to" data-to="{{$order_number.yesterday_count}}" data-speed="1500">0</span>
-                                        </div>
+                                    <div class="am-flex am-flex-row am-gap-1-half am-margin-bottom-xs">    
+                                        <span>{{:MyLang('index.base_item_yesterday_title')}}</span>
+                                        <span><span>{{$order_number.yesterday_count}}</span>{{if isset($order_number.yesterday_pct)}}{{:ModuleInclude('index/stats_period_pct', ['stats_pct' => $order_number.yesterday_pct])}}{{/if}}</span>
                                     </div>
                                     <div class="li-content-foot am-flex am-flex-row am-flex-justify-between">
-                                        <div class="am-flex am-flex-row am-flex-justify-right am-gap-1">
+                                        <div class="am-flex am-flex-row am-flex-justify-right am-gap-1-half">
                                             <span>{{:MyLang('index.base_item_last_month_title')}}</span>
-                                            <span class="animation-count-to" data-to="{{$order_number.last_month_count}}" data-speed="1500">0</span>
+                                            <span><span>{{$order_number.last_month_count}}</span>{{if isset($order_number.last_month_pct)}}{{:ModuleInclude('index/stats_period_pct', ['stats_pct' => $order_number.last_month_pct])}}{{/if}}</span>
                                         </div>
-                                        <div class="am-flex am-flex-row am-flex-justify-right am-gap-1">
+                                        <div class="am-flex am-flex-row am-flex-justify-right am-gap-1-half">
                                             <span>{{:MyLang('index.base_item_same_month_title')}}</span>
-                                            <span class="animation-count-to" data-to="{{$order_number.same_month_count}}" data-speed="1500">0</span>
+                                            <span><span>{{$order_number.same_month_count}}</span>{{if isset($order_number.same_month_pct)}}{{:ModuleInclude('index/stats_period_pct', ['stats_pct' => $order_number.same_month_pct])}}{{/if}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -203,27 +207,28 @@
                                     <div class="am-flex am-flex-row am-flex-justify-between">
                                         <div>
                                             <p class="name">{{:MyLang('index.base_item_order_complete_number_title')}}</p>
-                                            <p class="total animation-count-to base-order-sale-count" data-to="{{$base_count.order_sale_count}}" data-speed="1500">0</p>
+                                            <p class="total am-flex am-flex-row am-flex-items-baseline am-flex-wrap am-gap-1-half">
+                                                <span class="animation-count-to base-order-sale-count" data-to="{{$base_count.order_sale_count}}" data-speed="1500">0</span>
+                                                <span class="am-text-xs stats-base-range-pct stats-base-range-pct-sale">{{:ModuleInclude('index/stats_base_range_pct_val', ['stats_pct' => empty($base_count.order_sale_count_pct) ? [] : $base_count.order_sale_count_pct])}}</span>
+                                            </p>
                                         </div>
                                         <div class="item am-flex am-flex-col am-flex-items-end">
                                             <span class="am-color-999">{{:MyLang('index.base_item_today_title')}}</span>
-                                            <span class="animation-count-to am-font-weight am-text-sm" data-to="{{$order_complete_number.today_count}}" data-speed="1500">0</span>
+                                            <span><span class="am-font-weight am-text-sm">{{$order_complete_number.today_count}}</span>{{if isset($order_complete_number.today_pct)}}{{:ModuleInclude('index/stats_period_pct', ['stats_pct' => $order_complete_number.today_pct])}}{{/if}}</span>
                                         </div>
                                     </div>
-                                    <div class="am-flex am-flex-row am-gap-24 am-margin-bottom-xs">    
-                                        <div class="item">
-                                            <span>{{:MyLang('index.base_item_yesterday_title')}}</span>
-                                            <span class="animation-count-to" data-to="{{$order_complete_number.yesterday_count}}" data-speed="1500">0</span>
-                                        </div>
+                                    <div class="am-flex am-flex-row am-gap-1-half am-margin-bottom-xs">    
+                                        <span>{{:MyLang('index.base_item_yesterday_title')}}</span>
+                                        <span><span>{{$order_complete_number.yesterday_count}}</span>{{if isset($order_complete_number.yesterday_pct)}}{{:ModuleInclude('index/stats_period_pct', ['stats_pct' => $order_complete_number.yesterday_pct])}}{{/if}}</span>
                                     </div>
                                     <div class="li-content-foot am-flex am-flex-row am-flex-justify-between">
-                                        <div class="am-flex am-flex-row am-flex-justify-right am-gap-1">
+                                        <div class="am-flex am-flex-row am-flex-justify-right am-gap-1-half">
                                             <span>{{:MyLang('index.base_item_last_month_title')}}</span>
-                                            <span class="animation-count-to" data-to="{{$order_complete_number.last_month_count}}" data-speed="1500">0</span>
+                                            <span><span>{{$order_complete_number.last_month_count}}</span>{{if isset($order_complete_number.last_month_pct)}}{{:ModuleInclude('index/stats_period_pct', ['stats_pct' => $order_complete_number.last_month_pct])}}{{/if}}</span>
                                         </div>
-                                        <div class="am-flex am-flex-row am-flex-justify-right am-gap-1">
+                                        <div class="am-flex am-flex-row am-flex-justify-right am-gap-1-half">
                                             <span>{{:MyLang('index.base_item_same_month_title')}}</span>
-                                            <span class="animation-count-to" data-to="{{$order_complete_number.same_month_count}}" data-speed="1500">0</span>
+                                            <span><span>{{$order_complete_number.same_month_count}}</span>{{if isset($order_complete_number.same_month_pct)}}{{:ModuleInclude('index/stats_period_pct', ['stats_pct' => $order_complete_number.same_month_pct])}}{{/if}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -235,27 +240,28 @@
                                         <div class="am-flex am-flex-row am-flex-justify-between">
                                             <div>
                                                 <p class="name">{{:MyLang('index.base_item_order_complete_title')}}</p>
-                                                <p class="total animation-count-to base-order-complete-total" data-to="{{$base_count.order_complete_total}}" data-speed="1500" data-decimals="2">0.00</p>
+                                                <p class="total am-flex am-flex-row am-flex-items-baseline am-flex-wrap am-gap-1-half">
+                                                    <span class="animation-count-to base-order-complete-total" data-to="{{$base_count.order_complete_total}}" data-speed="1500" data-decimals="2">0.00</span>
+                                                    <span class="am-text-xs stats-base-range-pct stats-base-range-pct-money">{{:ModuleInclude('index/stats_base_range_pct_val', ['stats_pct' => empty($base_count.order_complete_total_pct) ? [] : $base_count.order_complete_total_pct])}}</span>
+                                                </p>
                                             </div>
                                             <div class="item am-flex am-flex-col am-flex-items-end">
                                                 <span class="am-color-999">{{:MyLang('index.base_item_today_title')}}</span>
-                                                <span class="animation-count-to am-font-weight am-text-sm" data-to="{{$order_complete_money.today_count}}" data-speed="1500" data-decimals="2">0.00</span>
+                                                <span><span class="am-font-weight am-text-sm">{{$order_complete_money.today_count}}</span>{{if isset($order_complete_money.today_pct)}}{{:ModuleInclude('index/stats_period_pct', ['stats_pct' => $order_complete_money.today_pct])}}{{/if}}</span>
                                             </div>
                                         </div>
-                                        <div class="am-flex am-flex-row am-gap-24 am-margin-bottom-xs">
-                                            <div class="item">
-                                                <span>{{:MyLang('index.base_item_yesterday_title')}}</span>
-                                                <span class="animation-count-to" data-to="{{$order_complete_money.yesterday_count}}" data-speed="1500" data-decimals="2">0.00</span>
-                                            </div>
+                                        <div class="am-flex am-flex-row am-gap-1-half am-margin-bottom-xs">
+                                            <span>{{:MyLang('index.base_item_yesterday_title')}}</span>
+                                            <span><span>{{$order_complete_money.yesterday_count}}</span>{{if isset($order_complete_money.yesterday_pct)}}{{:ModuleInclude('index/stats_period_pct', ['stats_pct' => $order_complete_money.yesterday_pct])}}{{/if}}</span>
                                         </div>
                                         <div class="li-content-foot am-flex am-flex-row am-flex-justify-between">
-                                            <div class="am-flex am-flex-row am-flex-justify-right am-gap-1">
+                                            <div class="am-flex am-flex-row am-flex-justify-right am-gap-1-half">
                                                 <span>{{:MyLang('index.base_item_last_month_title')}}</span>
-                                                <span class="animation-count-to" data-to="{{$order_complete_money.last_month_count}}" data-speed="1500" data-decimals="2">0.00</span>
+                                                <span><span>{{$order_complete_money.last_month_count}}</span>{{if isset($order_complete_money.last_month_pct)}}{{:ModuleInclude('index/stats_period_pct', ['stats_pct' => $order_complete_money.last_month_pct])}}{{/if}}</span>
                                             </div>
-                                            <div class="am-flex am-flex-row am-flex-justify-right am-gap-1">
+                                            <div class="am-flex am-flex-row am-flex-justify-right am-gap-1-half">
                                                 <span>{{:MyLang('index.base_item_same_month_title')}}</span>
-                                                <span class="animation-count-to" data-to="{{$order_complete_money.same_month_count}}" data-speed="1500" data-decimals="2">0.00</span>
+                                                <span><span>{{$order_complete_money.same_month_count}}</span>{{if isset($order_complete_money.same_month_pct)}}{{:ModuleInclude('index/stats_period_pct', ['stats_pct' => $order_complete_money.same_month_pct])}}{{/if}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -696,30 +702,30 @@
 					<dl class="dl-content">
 						<dt class="am-text-truncate">{{:MyLang('index.development_team_website_title')}}</dt>
 						<dd>
-							<a href="http://zongzhige.com/" target="_blank">{{:MyLang('index.development_team_website_value')}}</a>
+							<a href="http://zongzhige.com/" target="_blank" rel="noopener noreferrer">{{:MyLang('index.development_team_website_value')}}</a>
 						</dd>
 
 						<dt class="am-text-truncate">{{:MyLang('index.development_team_support_title')}}</dt>
 						<dd>
-							<a href="http://shopxo.net/" target="_blank">{{:MyLang('index.development_team_support_value')}}</a>
+							<a href="http://shopxo.net/" target="_blank" rel="noopener noreferrer">{{:MyLang('index.development_team_support_value')}}</a>
 						</dd>
 
 						{{if !empty($site_store_links) and !empty($site_store_links['community_website'])}}
 							<dt class="am-text-truncate">{{:MyLang('index.development_team_ask_title')}}</dt>
 							<dd>
-								<a href="{{$site_store_links.community_website}}" target="_blank">{{:MyLang('index.development_team_ask_value')}}</a>
+								<a href="{{$site_store_links.community_website}}" target="_blank" rel="noopener noreferrer">{{:MyLang('index.development_team_ask_value')}}</a>
 							</dd>
 						{{/if}}
 
 						<dt class="am-text-truncate">{{:MyLang('index.development_team_agreement_title')}}</dt>
 						<dd>
-							<a href="{{if !empty($site_store_links) and !empty($site_store_links['source_license'])}}{{$site_store_links.source_license}}{{else /}}https://opensource.org/licenses/mit-license.php{{/if}}" target="_blank">{{:MyLang('index.development_team_agreement_value')}}</a>
+							<a href="{{if !empty($site_store_links) and !empty($site_store_links['source_license'])}}{{$site_store_links.source_license}}{{else /}}https://opensource.org/licenses/mit-license.php{{/if}}" target="_blank" rel="noopener noreferrer">{{:MyLang('index.development_team_agreement_value')}}</a>
 						</dd>
 
 						{{if !empty($site_store_links) and !empty($site_store_links['system_update_log'])}}
 							<dt class="am-text-truncate">{{:MyLang('index.development_team_update_log_title')}}</dt>
 							<dd>
-								<a href="{{$site_store_links.system_update_log}}" target="_blank">{{:MyLang('index.development_team_update_log_value')}}</a>
+								<a href="{{$site_store_links.system_update_log}}" target="_blank" rel="noopener noreferrer">{{:MyLang('index.development_team_update_log_value')}}</a>
 							</dd>
 						{{/if}}
 
@@ -727,7 +733,7 @@
 							<dt class="am-text-truncate">{{:MyLang('index.development_team_members_title')}}</dt>
 							<dd>
 								{{foreach :MyLang('index.development_team_members_value') as $v}}
-									<a href="{{$v.url}}" target="_blank" class="am-margin-right-sm">{{$v.name}}</a>
+									<a href="{{$v.url}}" target="_blank" rel="noopener noreferrer" class="am-margin-right-sm">{{$v.name}}</a>
 								{{/foreach}}
 							</dd>
 						{{/if}}
@@ -764,7 +770,7 @@
             <form class="am-form am-form-popup-fixed">
             	<div class="upgrade-content"></div>
                 <div class="am-form-popup-submit">
-                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-lg" data-am-modal-close>
+                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs" data-am-modal-close>
                         <i class="am-icon-paint-brush"></i>
                         <span>{{:MyLang('cancel_title')}}</span>
                     </button>

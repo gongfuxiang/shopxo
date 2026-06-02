@@ -5,7 +5,7 @@
 {{block name="form_operate_top"}}
     <!-- 是否有添加编辑页面权限 -->
     {{if AdminIsPower('customview', 'saveinfo')}}
-        <a href="{{:MyUrl('admin/customview/saveinfo')}}" class="am-btn am-btn-primary am-radius am-btn-xs" target="_blank">
+        <a href="{{:MyUrl('admin/customview/saveinfo')}}" class="am-btn am-btn-primary am-radius am-btn-xs" target="_blank" rel="noopener noreferrer">
             <i class="iconfont icon-add am-show-sm-only"></i>
             <span>{{:MyLang('add_title')}}</span>
         </a>

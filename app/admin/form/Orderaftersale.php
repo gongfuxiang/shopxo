@@ -175,12 +175,13 @@ class OrderAftersale
                     ],
                 ],
                 [
-                    'label'         => $lang['status'],
-                    'view_type'     => 'field',
-                    'view_key'      => 'status_name',
-                    'width'         => 130,
-                    'is_sort'       => 1,
-                    'search_config' => [
+                    'label'              => $lang['status'],
+                    'view_type'          => 'field',
+                    'view_key'           => 'status_name',
+                    'width'              => 130,
+                    'is_sort'            => 1,
+                    'params_where_name'  => 'status',
+                    'search_config'      => [
                         'form_type'         => 'select',
                         'form_name'         => 'status',
                         'where_type'        => 'in',
@@ -384,6 +385,9 @@ class OrderAftersale
                 'data_params'       => [
                     'is_public' => 0,
                     'user_type' => 'admin',
+                ],
+                'detail_params'     => [
+                    'is_status_history' => 1,
                 ],
                 'is_page_stats'     => 1,
                 'page_stats_data'   => [

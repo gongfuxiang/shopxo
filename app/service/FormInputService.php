@@ -29,9 +29,6 @@ use app\service\FormInputDataService;
  */
 class FormInputService
 {
-    // 排除的文件后缀
-    private static $exclude_ext = ['php'];
-
     /**
      * forminput数据
      * @author  Devil
@@ -628,7 +625,12 @@ class FormInputService
             return DataReturn($error, -1);
         }
 
-        // 文件格式化校验
+        // 校验上传文件扩展名为 .zip、MIME 类型
+        $orig_name = isset($_FILES['file']['name']) ? $_FILES['file']['name'] : '';
+        if(!preg_match('/\.zip$/i', $orig_name))
+        {
+            return DataReturn(MyLang('form_upload_zip_message'), -2);
+        }
         $type = ResourcesService::ZipExtTypeList();
         if(!in_array($_FILES['file']['type'], $type))
         {
@@ -658,6 +660,11 @@ class FormInputService
             return DataReturn(MyLang('common_service.forminput.upload_dir_no_power_tips').'['.$app_upload_dir.']', -3);
         }
 
+        if(!ZipPackageFileIsReadablePkMagic($package_file))
+        {
+            return DataReturn(MyLang('form_open_zip_message').'[-12]', -11);
+        }
+
         // 开始解压文件
         $zip = new \ZipArchive();
         $resource = $zip->open($package_file);
@@ -675,6 +682,11 @@ class FormInputService
             $file = $zip->getNameIndex($i);
             if(stripos($file, 'config.json') !== false)
             {
+                if(ZipArchiveEntryRelativePathUnsafe($file))
+                {
+                    $zip->close();
+                    return DataReturn(MyLang('common_service.forminput.upload_config_file_handle_fail_tips'), -1);
+                }
                 // 打开文件资源
                 $stream = $zip->getStream($file);
                 if($stream === false)
@@ -685,6 +697,7 @@ class FormInputService
 
                 // 获取配置信息并解析
                 $file_content = stream_get_contents($stream);
+                fclose($stream);
                 $config = empty($file_content) ? [] : json_decode($file_content, true);
                 if(empty($config) || empty($config['data_id']) || empty($config['name']) || empty($config['md5_key']))
                 {
@@ -751,33 +764,58 @@ class FormInputService
             // 排除临时文件和临时目录
             if(strpos($file, '/.') === false && strpos($file, '__') === false)
             {
+                if(ZipArchiveEntryRelativePathUnsafe($file))
+                {
+                    continue;
+                }
                 // 排除后缀文件
                 $pos = strripos($file, '.');
                 if($pos !== false)
                 {
                     $info = pathinfo($file);
-                    if(isset($info['extension']) && in_array(strtolower($info['extension']), self::$exclude_ext))
+                    if(isset($info['extension']) && ZipPublicDirExtensionIsForbidden($info['extension']))
                     {
                         continue;
                     }
                 }
 
                 // 去除第一个目录（为原始数据的id）
-                $temp_file = substr($file, strpos($file, '/')+1);
+                $slash_pos = strpos($file, '/');
+                if($slash_pos === false)
+                {
+                    continue;
+                }
+                $temp_file = substr($file, $slash_pos + 1);
+                if(ZipArchiveEntryRelativePathUnsafe($temp_file))
+                {
+                    continue;
+                }
                 if(empty($temp_file) || in_array($temp_file, ['static/', 'static/upload/', 'config.json']))
                 {
                     continue;
                 }
 
-                // 截取文件路径
-                $new_file = ROOT.'public'.DS.str_replace($config['data_id'], $data_id, $temp_file);
-                $file_path = substr($new_file, 0, strrpos($new_file, '/'));
+                // 拼接到 public 目录下并校验完整路径仍位于 public 内
+                $inner = str_replace($config['data_id'], $data_id, str_replace('\\', '/', $temp_file));
+                $inner = ltrim(str_replace(['/', '\\'], DS, $inner), DS);
+                if(strpos($inner, ':') !== false)
+                {
+                    continue;
+                }
+                $pub = rtrim(str_replace(['/', '\\'], DS, ROOT.'public'), DS).DS;
+                $new_file = $pub.$inner;
+                $nf = str_replace(['/', '\\'], DS, $new_file);
+                if(strncmp($nf, $pub, strlen($pub)) !== 0)
+                {
+                    continue;
+                }
+                $file_path = dirname($nf);
 
                 // 路径不存在则创建
                 \base\FileUtil::CreateDir($file_path);
 
                 // 如果不是目录则写入文件
-                if(!is_dir($new_file))
+                if(!is_dir($nf))
                 {
                     // 读取这个文件
                     $stream = $zip->getStream($file);
@@ -786,7 +824,7 @@ class FormInputService
                         $file_content = stream_get_contents($stream);
                         if($file_content !== false)
                         {
-                            if(!file_put_contents($new_file, $file_content))
+                            if(!file_put_contents($nf, $file_content))
                             {
                                 $error++;
                             }

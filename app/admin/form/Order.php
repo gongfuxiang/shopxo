@@ -105,6 +105,41 @@ class Order
                     ],
                 ],
                 [
+                    'label'         => $lang['user_id'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'user_id',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['user_username'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'user_username',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['user_nickname'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'user_nickname',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['user_mobile'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'user_mobile',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
+                    'label'         => $lang['user_email'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'user_email',
+                    'is_list'       => 0,
+                    'is_detail'     => 0,
+                ],
+                [
                     'label'         => $lang['user'],
                     'view_type'     => 'module',
                     'view_key'      => 'lib/module/user',
@@ -129,6 +164,7 @@ class Order
                     'bottom_text_tips_data'         => MyLang('user_delete_operate_tips'),
                     'bottom_text_tips_style'        => 'warning',
                     'is_sort'                       => 1,
+                    'params_where_name'             => 'status',
                     'search_config'                 => [
                         'form_type'         => 'select',
                         'form_name'         => 'status',
@@ -428,7 +464,7 @@ class Order
                     'label'         => $lang['extension'],
                     'view_type'     => 'module',
                     'view_key'      => 'order/module/extension',
-                    'grid_size'     => 'sm',
+                    'grid_size'     => 'lg',
                     'search_config' => [
                         'form_type'         => 'input',
                         'form_name'         => 'extension_data',
@@ -557,6 +593,9 @@ class Order
                     'is_operate'=> 1,
                     'user_type' => 'admin',
                 ],
+                'detail_params'     => [
+                    'is_status_history' => 1,
+                ],
                 'is_field_level_merge'          => 1,
                 'handle_field_level_merge_data' => [
                     'currency_name'                    => 'currency_data.currency_name',
@@ -568,6 +607,10 @@ class Order
                     'address_extraction_contact_name'  => 'address_data.extraction_contact_name',
                     'address_extraction_contact_tel'   => 'address_data.extraction_contact_tel',
                     'address_info'                     => ['address_data.province_name', 'address_data.city_name', 'address_data.county_name', 'address_data.address'],
+                    'user_username'                    => 'user.username',
+                    'user_nickname'                    => 'user.nickname',
+                    'user_mobile'                      => 'user.mobile',
+                    'user_email'                       => 'user.email',
                 ],
             ],
             // 详情列表字段数据定义

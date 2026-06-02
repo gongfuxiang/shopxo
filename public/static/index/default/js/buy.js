@@ -209,4 +209,23 @@ $(function()
             }
         });
     }
+
+    // 订单扩展说明展开/收起（文案在 data-fold-expand / data-fold-collapse）
+    $(document).on('click', '.buy-extension-data-wrap .buy-extension-fold-toggle', function(e)
+    {
+        var $toggle = $(this);
+        var expand_text = $toggle.attr('data-fold-expand') || '';
+        var collapse_text = $toggle.attr('data-fold-collapse') || '';
+        var $wrap = $toggle.closest('.buy-extension-data-wrap');
+        var total = $wrap.find('.buy-extension-data > li').length;
+        var expanded = $wrap.hasClass('is-expanded');
+        if(expanded)
+        {
+            $wrap.removeClass('is-expanded');
+            $toggle.html(expand_text + '(' + total + ')<i class="iconfont icon-angle-down am-vertical-align-middle am-margin-left-xs"></i>');
+        } else {
+            $wrap.addClass('is-expanded');
+            $toggle.html(collapse_text + '<i class="iconfont icon-angle-up am-vertical-align-middle am-margin-left-xs"></i>');
+        }
+    });
 }); 

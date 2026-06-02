@@ -64,8 +64,7 @@ class Plugins extends Common
             {
                 return ApiService::ApiDataReturn(DataReturn($ret, -5000));
             } else {
-                MyViewAssign('msg', $ret);
-                return MyView('public/tips_error');
+                return MyView('public/tips_error', ['msg'=>$ret]);
             }
         }
 
@@ -97,8 +96,7 @@ class Plugins extends Common
         }
 
         // 调用失败
-        MyViewAssign('msg', $ret['msg']);
-        return MyView('public/tips_error');
+        return response(MyView('public/tips_error', ['msg'=>$ret['msg']]), 404);
     }
 
     /**

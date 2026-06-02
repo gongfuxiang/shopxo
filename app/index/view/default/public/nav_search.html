@@ -41,13 +41,13 @@
                     <div class="search-group am-radius am-nbfc">
                         <input id="search-input" name="wd" type="text" placeholder="{{:MyLang('common.search_input_placeholder')}}" value="{{if !empty($params['wd'])}}{{$params.wd}}{{/if}}" autocomplete="off" data-is-clearout="0" />
                         <button type="submit" id="ai-topsearch" class="submit am-btn-primary">
-                            <span>{{:MyLang('common.search_button_text')}}</span>
+                            <span>{{:MyLang('search_title')}}</span>
                         </button>
                     </div>
                     {{if !empty($home_search_keywords)}}
                         <ul class="search-hot-keywords">
                             {{foreach $home_search_keywords as $v}}
-                                <li><a href="{{:MyUrl('index/search/index', ['wd'=>StrToAscii($v)])}}" target="_blank">{{$v}}</a></li>
+                                <li><a href="{{:MyUrl('index/search/index', ['wd'=>StrToAscii($v)])}}" target="_blank" rel="noopener noreferrer">{{$v}}</a></li>
                             {{/foreach}}
                         </ul>
                     {{/if}}

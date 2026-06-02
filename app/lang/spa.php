@@ -362,6 +362,8 @@ return [
     'store_title'                                           => 'Tienda',
     'system_title'                                          => 'Sistema',
     'operate_title'                                         => 'Operación',
+    'expand_title'                                          => 'Expandir',
+    'retract_title'                                         => 'Contraer',
     'all_title'                                             => 'Todo',
     'select_all_title'                                      => 'Selección completa',
     'reverse_select_title'                                  => 'Anti - Elección',
@@ -471,12 +473,14 @@ return [
     'revoke_audit_title'                                    => 'Retirada del juicio',
     'reverse_audit_title'                                   => 'Contra el juicio',
     'submit_audit_title'                                    => 'Juicio',
+    'submit_audit_confirm_tips'                             => 'Se enviará para revisión de la plataforma. ¿Continuar?',
     'audit_title'                                           => 'Revisión',
     'retrial_audit_title'                                   => 'Revisión',
     'signin_title'                                          => 'Firmar',
     'refuse_title'                                          => 'Rechazar',
     'pass_title'                                            => 'Através',
     'agree_title'                                           => 'De acuerdo',
+    'batch_title'                                           => 'Lote',
     'expire_title'                                          => 'Caducado',
     'order_title'                                           => 'Pedidos',
     'install_title'                                         => 'Instalación',
@@ -564,6 +568,10 @@ return [
     'password_title'                                        => 'Contraseña',
     'safety_title'                                          => 'Seguridad',
     'extend_title'                                          => 'Expansión',
+    'attachment_config_title'                               => 'Adjuntos',
+    'verify_config_title'                                   => 'Código de verificación',
+    'cache_config_title'                                    => 'Caché',
+    'session_config_title'                                  => 'Sesión',
     'import_title'                                          => 'Importar',
     'export_title'                                          => 'Exportar',
     'content_title'                                         => 'Contenido',
@@ -594,6 +602,7 @@ return [
     'log_title'                                             => 'Diario',
     'plugins_title'                                         => 'Plugins',
     'valid_title'                                           => 'Efectivo',
+    'lock_title'                                            => 'Bloqueado',
     'suspend_title'                                         => 'Suspensión',
     'end_title'                                             => 'Fin',
     'callback_title'                                        => 'Devolución de llamada',
@@ -784,6 +793,9 @@ return [
     'form_sort_tips'                                        => 'De pequeño a grande',
     'form_sort_message'                                     => 'Valores entre 0 y 255 en el orden',
     'form_platform_title'                                   => 'Plataforma a la que pertenece',
+    'form_phone_brand_title'                                => 'Marca del teléfono',
+    'form_phone_brand_empty'                                => 'Cualquiera (todas las marcas)',
+    'form_phone_brand_invalid_tips'                         => 'Marca de teléfono no válida',
     'form_platform_message'                                 => 'Por favor, elija su plataforma',
     'form_event_type_title'                                 => 'Tipo de evento',
     'form_event_type_message'                               => 'Por favor, elija el tipo de evento',
@@ -1080,9 +1092,14 @@ return [
     'common_message_type_list' => [
         0 => 'Predeterminado',
     ],
+    // 用户积分 - 积分类型
+    'common_integral_log_integral_type_list' => [
+        0 => 'Válido',
+        1 => 'Bloqueado',
+    ],
     // 用户积分 - 操作类型
-    'common_integral_log_type_list' => [
-        0 => 'Reducción',
+    'common_integral_log_operation_type_list' => [
+        0 => 'Reducir',
         1 => 'Aumentar',
     ],
     // 是否上架/下架
@@ -2117,7 +2134,6 @@ return [
             'form_spec_thead_barcode_title'         => 'Código de barras',
             'form_spec_thead_barcode_message'       => 'El Código de barras tiene un máximo de 60 caracteres',
             'form_spec_row_add_title'               => 'Añadir una línea',
-            'form_spec_images_tips'                 => 'El nombre de la especificación es consistente con el valor de la especificación, se puede agregar el mismo nombre de la especificación una vez, y si se repite, se cubre el frente detrás, y el orden no afecta el efecto de visualización frontal.',
             'form_spec_images_title'                => 'Imagen de las especificaciones del producto',
             'form_spec_images_add_title'            => 'Añadir imagen de especificación',
             'form_spec_images_add_auto_first'       => 'No.',
@@ -2196,6 +2212,9 @@ return [
                 ],
                 'spec_images' => [
                     'name' => 'Imágenes de Especificaciones',
+                    'tips' => [
+                        'El nombre de la especificación es consistente con el valor de la especificación, se puede agregar el mismo nombre de la especificación una vez, y si se repite, se cubre el frente detrás, y el orden no afecta el efecto de visualización frontal.',
+                    ],
                 ],
                 'parameters' => [
                     'name' => 'Parámetros del Producto',
@@ -3881,6 +3900,11 @@ return [
             'desc' => 'Predeterminado No',
             'tips' => 'Por favor, elija activar el pago por lotes de pedidos',
         ],
+        'common_is_order_show_goods_snapshot'  => [
+            'name' => 'Mostrar instantánea del producto en pedidos',
+            'desc' => 'Predeterminado No',
+            'tips' => 'Elija si se muestran los datos de instantánea del producto en los pedidos',
+        ],
         'common_session_is_use_cache'  => [
             'name' => 'Sesión con caché',
             'desc' => 'Predeterminado No',
@@ -4761,10 +4785,40 @@ return [
             'desc' => 'El sistema de instalación predeterminado se ha generado automáticamente y se puede modificar',
             'tips' => 'Por favor, rellene la clave secreta de cifrado de datos',
         ],
+        'common_is_sensitive_data_masking'  => [
+            'name' => 'Enmascaramiento de datos sensibles',
+            'desc' => 'Si está activado, el teléfono, correo y QQ de atención al cliente no aparecen en texto plano en el HTML (p. ej. como imágenes)',
+            'tips' => 'Seleccione si desea activar el enmascaramiento de datos sensibles',
+        ],
         'common_cookie_domain'  => [
             'name' => 'Nombre de dominio válido de la Cookie',
             'desc' => 'El vacío predeterminado es válido para el nombre de dominio de acceso actual.',
             'tips' => 'Por favor, rellene el nombre de dominio válido de la cookie.',
+        ],
+        'common_cookie_expire'  => [
+            'name' => 'Caducidad de Cookie',
+            'desc' => 'Segundos; vacío equivale a 0 en la configuración (cookie de sesión hasta cerrar el navegador)',
+            'tips' => 'Duración en segundos; vacío para 0',
+        ],
+        'common_session_expire'  => [
+            'name' => 'Caducidad de sesión',
+            'desc' => 'Duración de la sesión en el servidor en segundos; vacío usa el valor por defecto 43200 (12 h)',
+            'tips' => 'Duración en segundos; vacío para 43200 por defecto',
+        ],
+        'common_cookie_secure'  => [
+            'name' => 'Cookie Secure',
+            'desc' => 'Desactivado por defecto; si está activado, solo HTTPS',
+            'tips' => 'Seleccione si habilitar Secure',
+        ],
+        'common_cookie_httponly'  => [
+            'name' => 'Cookie HttpOnly',
+            'desc' => 'Desactivado por defecto; si está activado, JS no puede leer cookies',
+            'tips' => 'Seleccione si habilitar HttpOnly',
+        ],
+        'common_cookie_samesite'  => [
+            'name' => 'Cookie SameSite',
+            'desc' => 'Sin establecer por defecto; Strict / Lax',
+            'tips' => 'Seleccione la política SameSite',
         ],
         'common_token_created_rules'  => [
             'name' => 'Token genera reglas',

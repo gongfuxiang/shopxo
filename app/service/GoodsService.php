@@ -729,12 +729,12 @@ class GoodsService
             ]);
 
             // 错误处理
-            if(!empty($data) & is_array($data))
+            if(!empty($data) && is_array($data))
             {
                 foreach($data as &$gv)
                 {
                     // 数据主键id
-                    $data_id = isset($v[$data_key_field]) ? $v[$data_key_field] : 0;
+                    $data_id = isset($gv[$data_key_field]) ? $gv[$data_key_field] : 0;
 
                     // 错误处理
                     if(!isset($gv['is_error']) || $gv['is_error'] == 0)
@@ -1230,6 +1230,33 @@ class GoodsService
     }
 
     /**
+     * 规格值组合
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-16
+     * @desc    description
+     * @param   [string]         $spec_str   [规格字符串，英文逗号分割]
+     * @param   [array]          $spec_title [规格类型名称]
+     */
+    public static function GoodsSpecMuster($spec_str, $spec_title)
+    {
+        $result = [];
+        $arr = explode(self::$goods_spec_to_string_separator, $spec_str);
+        if(count($arr) == count($spec_title))
+        {
+            foreach($arr as $k=>$v)
+            {
+                $result[] = [
+                    'type'  => $spec_title[$k],
+                    'value' => $v,
+                ];
+            }
+        }
+        return $result;
+    }
+
+    /**
      * 商品访问统计加1
      * @author   Devil
      * @blog    http://gong.gg/
@@ -1476,6 +1503,12 @@ class GoodsService
 
         // 商品参数
         $parameter = GoodsParamsService::GoodsParamsTemplateSaveHandle($params);
+        // 商品参数模板、是否必填验证，未开启自定义模式则需要按照模板验证
+        $parameter_template_check = GoodsParamsService::GoodsParamsTemplateSaveCheck(['category_ids'=>$category_ids, 'parameter_value'=>$parameter['data']]);
+        if($parameter_template_check['code'] != 0)
+        {
+            return $parameter_template_check;
+        }
 
         // 相册
         $photo = self::GetFormGoodsPhotoParams($params);
@@ -3233,7 +3266,7 @@ class GoodsService
 
         // 按钮列表
         // color 颜色类型[main主, second次]（默认 main）
-        // type 类型[show展示, buy购买, cart加入购物车, other其他值]
+        // type 类型[show|tel展示, buy购买, cart加入购物车, copy复制, url|link链接跳转, other其他值]
         // name 名称
         // title 元素title说明（可选）
         // value 数据值（可选）
@@ -3367,6 +3400,36 @@ class GoodsService
             'is_cart'   => in_array('cart', $types) ? 1 : 0,
             'is_show'   => in_array('show', $types) ? 1 : 0,
         ];
+    }
+
+    /**
+     * 商品购买指向链接数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-03-09
+     * @desc    description
+     * @param   [array]          $goods  [商品信息]
+     */
+    public static function GoodsBuyToLinkData($goods)
+    {
+        $data = [
+            // 购买
+            'buy'   => MyUrl('index/buy/index'),
+            // 加入购物车
+            'cart'  => MyUrl('index/cart/save'),
+        ];
+
+        // 商品购买指向link地址钩子
+        $hook_name = 'plugins_service_goods_buy_to_link_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'goods'         => $goods,
+            'data'          => &$data,
+        ]);
+
+        return $data;
     }
 
     /**
@@ -4258,6 +4321,7 @@ class GoodsService
             // 商品参数
             $temp_parameter = empty($data['parameter']) ? [] : array_map(function($item)
             {
+                unset($item['md5_key']);
                 return implode(';', $item);
             }, array_values($data['parameter']));
             $parameter = Db::name('GoodsParams')->where(['goods_id'=>$goods_id])->order('id asc')->field('scope,data_type,name,value')->select()->toArray();

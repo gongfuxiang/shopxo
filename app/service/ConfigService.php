@@ -178,6 +178,13 @@ class ConfigService
 
         // cookie有效域名
         'common_cookie_domain',
+        'common_cookie_expire',
+        'common_cookie_secure',
+        'common_cookie_httponly',
+        'common_cookie_samesite',
+
+        // session有效域名
+        'common_session_expire',
 
         // 多语言可选列表和默认值
         'common_multilingual_choose_list',
