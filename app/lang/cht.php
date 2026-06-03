@@ -4449,6 +4449,11 @@ return [
             'desc' => '組織分鐘，默認30分鐘',
             'tips' => '請填寫支付日誌訂單關閉腳本時長',
         ],
+        'common_order_delivery_sync_weixin_limit_time'  => [
+            'name' => '微信發貨同步腳本時長',
+            'desc' => '單位 秒，默認30秒，入隊超過該時長後腳本才同步微信',
+            'tips' => '請填寫微信發貨同步腳本時長',
+        ],
         'common_show_goods_category_level'  => [
             'name' => '分類展示層級',
             'desc' => '默認分類+商品',

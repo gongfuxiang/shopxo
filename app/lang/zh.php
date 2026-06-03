@@ -4481,6 +4481,11 @@ return [
             'desc' => '单位 分钟，默认30分钟',
             'tips' => '请填写支付日志订单关闭脚本时长',
         ],
+        'common_order_delivery_sync_weixin_limit_time'  => [
+            'name' => '微信发货同步脚本时长',
+            'desc' => '单位 秒，默认30秒，入队超过该时长后脚本才同步微信',
+            'tips' => '请填写微信发货同步脚本时长',
+        ],
         'common_show_goods_category_level'  => [
             'name' => '分类展示层级',
             'desc' => '默认 分类+商品',

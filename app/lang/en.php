@@ -4479,6 +4479,11 @@ return [
             'desc' => 'Unit minute, 30 minutes by default',
             'tips' => 'Please fill in the payment log order closing script duration',
         ],
+        'common_order_delivery_sync_weixin_limit_time'  => [
+            'name' => 'WeChat delivery sync script duration',
+            'desc' => 'Unit second, 30 seconds by default; sync runs after queue age exceeds this',
+            'tips' => 'Please fill in the WeChat delivery sync script duration',
+        ],
         'common_show_goods_category_level'  => [
             'name' => 'Classification display level',
             'desc' => 'Default Category+Goods',
