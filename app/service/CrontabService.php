@@ -15,6 +15,7 @@ use app\service\OrderService;
 use app\service\BuyService;
 use app\service\MessageService;
 use app\service\IntegralService;
+use app\service\OtherHandleService;
 
 /**
  * 定时任务服务层
@@ -254,6 +255,58 @@ class CrontabService
                 // 事务回滚
                 Db::rollback();
                 $fail++;
+            }
+        }
+        return DataReturn(MyLang('operate_success'), 0, ['sucs'=>$sucs, 'fail'=>$fail]);
+    }
+
+    /**
+     * 微信发货同步队列处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-05-26
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function OrderDeliverySyncWeixin($params = [])
+    {
+        $limit = empty($params['limit']) ? 100 : intval($params['limit']);
+        $time = time()-intval(MyC('common_order_delivery_sync_weixin_limit_time', 30, true));
+        $data = Db::name('OrderDeliverySyncWeixin')->where(function($query) use ($time)
+        {
+            $query->where([
+                ['status', '=', 0],
+                ['add_time', '<=', $time],
+            ])->whereOr([
+                ['status', '=', 2],
+            ]);
+        })->order('id asc')->limit($limit)->select()->toArray();
+
+        $sucs = 0;
+        $fail = 0;
+        if(!empty($data))
+        {
+            foreach($data as $v)
+            {
+                $handle_params = OtherHandleService::OrderDeliverySyncWeixinQueueParams($v);
+                $ret = OtherHandleService::OrderDeliverySyncWeixinHandle($handle_params);
+                if(isset($ret['code']) && $ret['code'] == 0)
+                {
+                    Db::name('OrderDeliverySyncWeixin')->where(['id'=>$v['id']])->update([
+                        'status'      => 1,
+                        'fail_reason' => '',
+                        'upd_time'    => time(),
+                    ]);
+                    $sucs++;
+                } else {
+                    Db::name('OrderDeliverySyncWeixin')->where(['id'=>$v['id']])->update([
+                        'status'      => 2,
+                        'fail_reason' => empty($ret['msg']) ? MyLang('handle_fail') : $ret['msg'],
+                        'upd_time'    => time(),
+                    ]);
+                    $fail++;
+                }
             }
         }
         return DataReturn(MyLang('operate_success'), 0, ['sucs'=>$sucs, 'fail'=>$fail]);

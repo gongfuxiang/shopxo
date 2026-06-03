@@ -77,6 +77,7 @@ class SystemBaseService
             'common_order_close_limit_time'                      => (int) MyC('common_order_close_limit_time', 30, true),
             'common_order_success_limit_time'                    => (int) MyC('common_order_success_limit_time', 21600, true),
             'common_pay_log_order_close_limit_time'              => (int) MyC('common_pay_log_order_close_limit_time', 30, true),
+            'common_order_delivery_sync_weixin_limit_time'       => (int) MyC('common_order_delivery_sync_weixin_limit_time', 30, true),
             
             // 验证码
             'common_verify_expire_time'                          => (int) MyC('common_verify_expire_time', 600, true),

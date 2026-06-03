@@ -4450,6 +4450,11 @@ return [
             'desc' => 'Minutos unitarios, 30 minutos por defecto',
             'tips' => 'Por favor, rellene la duración del guión de cierre del pedido de registro de pagos.',
         ],
+        'common_order_delivery_sync_weixin_limit_time'  => [
+            'name' => 'Duración del script de sincronización de envío WeChat',
+            'desc' => 'Segundos; 30 por defecto; la sincronización se ejecuta tras superar este tiempo en cola',
+            'tips' => 'Indique la duración del script de sincronización de envío WeChat',
+        ],
         'common_show_goods_category_level'  => [
             'name' => 'Nivel de exhibición clasificado',
             'desc' => 'Clasificación predeterminada + mercancía',

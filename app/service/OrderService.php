@@ -2873,8 +2873,8 @@ class OrderService
             $express_id = isset($params['express_id']) ? intval($params['express_id']) : 0;
             $express_number = isset($params['express_number']) ? $params['express_number'] : '';
 
-            // 调用微信发货同步处理
-            return OtherHandleService::OrderDeliverySyncWeixinHandle([
+            // 微信发货同步加入队列（定时脚本处理）
+            return OtherHandleService::OrderDeliverySyncWeixinQueueAdd([
                 'business_id'     => $order['id'],
                 'business_type'   => self::BusinessTypeName(),
                 'order_model'     => $order['order_model'],

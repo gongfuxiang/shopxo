@@ -76,5 +76,18 @@ class Crontab extends Common
         }
         return $ret['msg'];
     }
+
+    /**
+     * 微信发货同步
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @datetime 2026-05-26
+     */
+    public function OrderDeliverySyncWeixin()
+    {
+        $ret = CrontabService::OrderDeliverySyncWeixin();
+        return 'sucs:'.$ret['data']['sucs'].', fail:'.$ret['data']['fail'];
+    }
 }
 ?>

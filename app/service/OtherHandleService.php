@@ -98,5 +98,133 @@ class OtherHandleService
         }
         return DataReturn(MyLang('handle_noneed'), 0);
     }
+
+    /**
+     * 微信发货同步加入队列（支付成功/发货后调用，由定时脚本同步微信）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-05-26
+     * @desc    description
+     * @param   [array]          $params [同 OrderDeliverySyncWeixinHandle]
+     */
+    public static function OrderDeliverySyncWeixinQueueAdd($params = [])
+    {
+        if(!isset($params['order_model']) || !isset($params['business_id']) || !isset($params['business_type']) || empty($params['goods_title']))
+        {
+            return DataReturn(MyLang('handle_noneed'), 0);
+        }
+
+        $goods_title = $params['goods_title'];
+        if(is_array($goods_title))
+        {
+            $goods_title = json_encode($goods_title, JSON_UNESCAPED_UNICODE);
+        }
+
+        $express_data = '';
+        if(!empty($params['express_data']))
+        {
+            $express_data = is_array($params['express_data']) ? json_encode($params['express_data'], JSON_UNESCAPED_UNICODE) : $params['express_data'];
+        }
+        $service_data = '';
+        if(!empty($params['service_data']))
+        {
+            $service_data = is_array($params['service_data']) ? json_encode($params['service_data'], JSON_UNESCAPED_UNICODE) : $params['service_data'];
+        }
+
+        $data = [
+            'business_id'     => intval($params['business_id']),
+            'business_type'   => $params['business_type'],
+            'order_model'     => intval($params['order_model']),
+            'goods_title'     => $goods_title,
+            'express_id'      => isset($params['express_id']) ? intval($params['express_id']) : 0,
+            'express_number'  => isset($params['express_number']) ? $params['express_number'] : '',
+            'receiver_tel'    => isset($params['receiver_tel']) ? $params['receiver_tel'] : '',
+            'express_data'    => $express_data,
+            'service_data'    => $service_data,
+            'status'          => 0,
+            'fail_reason'     => '',
+            'upd_time'        => time(),
+        ];
+
+        $where = [
+            ['business_id', '=', $data['business_id']],
+            ['business_type', '=', $data['business_type']],
+        ];
+
+        // 待处理记录已存在则不再重复加入
+        $pending = Db::name('OrderDeliverySyncWeixin')->where(array_merge($where, [['status', '=', 0]]))->find();
+        if(!empty($pending))
+        {
+            return DataReturn(MyLang('handle_success'), 0);
+        }
+
+        // 失败记录则更新为待处理并覆盖参数
+        $failed = Db::name('OrderDeliverySyncWeixin')->where(array_merge($where, [['status', '=', 2]]))->find();
+        if(!empty($failed))
+        {
+            if(Db::name('OrderDeliverySyncWeixin')->where(['id'=>$failed['id']])->update($data))
+            {
+                return DataReturn(MyLang('handle_success'), 0);
+            }
+            return DataReturn(MyLang('handle_fail'), -1);
+        }
+
+        $data['add_time'] = time();
+        if(Db::name('OrderDeliverySyncWeixin')->insertGetId($data) > 0)
+        {
+            return DataReturn(MyLang('handle_success'), 0);
+        }
+        return DataReturn(MyLang('handle_fail'), -1);
+    }
+
+    /**
+     * 微信发货同步队列参数还原
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-05-26
+     * @desc    description
+     * @param   [array]          $data [队列记录]
+     */
+    public static function OrderDeliverySyncWeixinQueueParams($data)
+    {
+        $goods_title = $data['goods_title'];
+        if(!empty($goods_title) && is_string($goods_title))
+        {
+            $temp = json_decode($goods_title, true);
+            if(json_last_error() === JSON_ERROR_NONE && is_array($temp))
+            {
+                $goods_title = $temp;
+            }
+        }
+
+        $params = [
+            'business_id'     => $data['business_id'],
+            'business_type'   => $data['business_type'],
+            'order_model'     => $data['order_model'],
+            'goods_title'     => $goods_title,
+            'express_id'      => $data['express_id'],
+            'express_number'  => $data['express_number'],
+            'receiver_tel'    => $data['receiver_tel'],
+        ];
+        if(!empty($data['express_data']))
+        {
+            $temp = json_decode($data['express_data'], true);
+            if(json_last_error() === JSON_ERROR_NONE)
+            {
+                $params['express_data'] = $temp;
+            }
+        }
+        if(!empty($data['service_data']))
+        {
+            $temp = json_decode($data['service_data'], true);
+            if(json_last_error() === JSON_ERROR_NONE)
+            {
+                $params['service_data'] = $temp;
+            }
+        }
+        return $params;
+    }
 }
 ?>
