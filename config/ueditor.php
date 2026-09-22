@@ -12,8 +12,10 @@
 // +----------------------------------------------------------------------
 // | 百度编辑器配置信息
 // +----------------------------------------------------------------------
-// path_type指定的路径值
-$config_path_type = PathToParams('path_type', 'other');
+// path_type指定的路径值（SanitizeAttachmentPathType 防 ../ 穿越）
+$config_path_type = function_exists('SanitizeAttachmentPathType')
+    ? SanitizeAttachmentPathType(PathToParams('path_type', 'other'))
+    : PathToParams('path_type', 'other');
 
 // 上传指定路径值 - 符号换成目录分隔符
 $upload_path = str_replace('-', '/', $config_path_type);

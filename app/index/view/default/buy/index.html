@@ -196,7 +196,7 @@
                                                                 <span>{{$address.county_name}}</span>
                                                                 <span>{{$address.address}}</span>
                                                                 {{if isset($address['lng']) and isset($address['lat']) and $address['lng'] neq 0 and $address['lat'] neq 0}}
-                                                                    <a href="javascript:;" class="am-badge am-radius am-icon-map-marker am-margin-left-main submit-map-popup am-background-white am-text-xs" data-lng="{{$address.lng}}" data-lat="{{$address.lat}}"> {{:MyLang('view_map_title')}}</a>
+                                                                    <a href="javascript:;" class="am-badge am-radius am-icon-map-marker am-margin-left-main submit-map-popup am-background-white am-text-xs" data-lng="{{$address.lng}}" data-lat="{{$address.lat}}" data-title="{{:MyLang('map_title')}}" data-full-max="1" data-full-max-size="xs"> {{:MyLang('view_map_title')}}</a>
                                                                 {{/if}}
                                                             </p>
                                                         </div>
@@ -354,7 +354,7 @@
                                                         <!-- 地理位置 -->
                                                         {{if isset($v['lng']) and isset($v['lat']) and $v['lng'] neq 0 and $v['lat'] neq 0}}
                                                             <div class="am-margin-left-sm">
-                                                                <a href="javascript:;" class="am-radius am-icon-map-marker submit-map-popup am-background-white am-color-grey am-font-weight-400 am-text-xs am-margin-left-sm" data-lng="{{$v.lng}}" data-lat="{{$v.lat}}" data-title="{{:MyLang('map_title')}}"> {{:MyLang('view_map_title')}}</a>
+                                                                <a href="javascript:;" class="am-radius am-icon-map-marker submit-map-popup am-background-white am-color-grey am-font-weight-400 am-text-xs am-margin-left-sm" data-lng="{{$v.lng}}" data-lat="{{$v.lat}}" data-title="{{:MyLang('map_title')}}" data-full-max="1" data-full-max-size="xs"> {{:MyLang('view_map_title')}}</a>
                                                             </div>
                                                         {{/if}}
 
@@ -435,12 +435,21 @@
                                                                 <a href="{{$goods.goods_url}}" target="_blank" rel="noopener noreferrer" class="goods-title am-text-truncate-2">{{$goods.title}}</a>
                                                                 {{if !empty($goods.spec)}}
                                                                     <ul class="goods-attr">
-                                                                        {{foreach $goods.spec as $kspeck=>$spec}}
-                                                                            <li>
-                                                                                {{$spec.type}}:{{$spec.value}}
-                                                                                {{if count($goods.spec) neq $kspeck+1}}，{{/if}}
-                                                                            </li>
-                                                                        {{/foreach}}
+                                                                        {{if !empty($goods['spec_show'])}}
+                                                                            {{foreach $goods.spec_show as $kspeck=>$spec}}
+                                                                                <li>
+                                                                                    {{$spec.type}}:{{$spec.value}}
+                                                                                    {{if count($goods.spec_show) neq $kspeck+1}}，{{/if}}
+                                                                                </li>
+                                                                            {{/foreach}}
+                                                                        {{else /}}
+                                                                            {{foreach $goods.spec as $kspeck=>$spec}}
+                                                                                <li>
+                                                                                    {{$spec.type}}:{{$spec.value}}
+                                                                                    {{if count($goods.spec) neq $kspeck+1}}，{{/if}}
+                                                                                </li>
+                                                                            {{/foreach}}
+                                                                        {{/if}}
                                                                     </ul>
                                                                 {{/if}}
                                                             </div>
@@ -778,7 +787,7 @@
                         {{/if}}
                         <!-- 订单确认页面支付方式顶部钩子-结束 -->
                         {{if !empty($payment_list)}}
-                            <div class="business-list business-list-nbfc payment friendpay-self-payment-panel am-margin-top-sm" data-field="payment_id">
+                            <div class="business-list business-list-nbfc payment friendpay-self-payment-panel am-margin-top-xs am-padding-top-xs" data-field="payment_id">
                                 <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 payment-list" data-is-required="1">
                                     {{foreach $payment_list as $payment}}
                                         <li data-value="{{$payment.id}}" class="am-padding-sm am-padding-left-main am-padding-right-main am-text-center {{if isset($params['payment_id']) and $params['payment_id'] eq $payment['id']}}selected{{/if}}">

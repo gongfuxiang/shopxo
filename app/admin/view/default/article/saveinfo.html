@@ -13,11 +13,11 @@
         <!-- nav end -->
 
         <!-- form start -->
-        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/article/save')}}" method="POST" request-type="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}ajax-url{{else /}}ajax-reload{{/if}}" request-value="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}{{:MyUrl('admin/article/index', $params)}}{{else /}}parent{{/if}}">
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/article/save')}}" method="POST" data-i18n-table="article" data-i18n-id="{{if !empty($data['id'])}}{{$data.id}}{{else /}}0{{/if}}" request-type="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}ajax-url{{else /}}ajax-reload{{/if}}" request-value="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}{{:MyUrl('admin/article/index', $params)}}{{else /}}parent{{/if}}">
             <div class="am-form-group">
                 <label>{{:MyLang('common_service.article.form_item_title')}}<span class="am-form-group-label-tips-must">*</span></label>
                 <div class="am-input-group am-input-group-sm am-flex am-gap-1-half am-flex-items-center">
-                    <input type="text" name="title" placeholder="{{:MyLang('common_service.article.form_item_title_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('common_service.article.form_item_title_message')}}" class="am-form-field am-radius" {{if !empty($data['title'])}} value="{{$data.title}}" {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} required />
+                    <input type="text" name="title" data-i18n="1" placeholder="{{:MyLang('common_service.article.form_item_title_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('common_service.article.form_item_title_message')}}" class="am-form-field am-radius" {{if !empty($data['title'])}} value="{{$data.title}}" {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} required />
                     <div class="colorpicker-container colorpicker-simple">
                         <input type="hidden" name="title_color" value="{{if !empty($data['title_color'])}}{{$data.title_color}}{{/if}}" />
                         <div class="colorpicker-submit" data-color="{{if !empty($data['title_color'])}}{{$data.title_color}}{{/if}}" data-input-tag="input[name='title']" data-color-tag="input[name='title_color']"></div>
@@ -67,12 +67,12 @@
 
             <div class="am-form-group">
                 <label>{{:MyLang('common_service.article.form_item_describe')}}</label>
-                <textarea class="am-radius" name="describe" rows="4" maxlength="230" placeholder="{{:MyLang('common_service.article.form_item_describe_message')}}" data-validation-message="{{:MyLang('common_service.article.form_item_describe_message')}}">{{if !empty($data['describe'])}}{{$data.describe}}{{/if}}</textarea>
+                <textarea class="am-radius" name="describe" data-i18n="1" rows="4" maxlength="230" placeholder="{{:MyLang('common_service.article.form_item_describe_message')}}" data-validation-message="{{:MyLang('common_service.article.form_item_describe_message')}}">{{if !empty($data['describe'])}}{{$data.describe}}{{/if}}</textarea>
             </div>
 
             <div class="am-form-group">
                 <label>{{:MyLang('common_service.article.form_item_content_title')}}<span class="am-form-group-label-tips-must">*</span></label>
-                <textarea class="am-radius am-validate" name="content" rows="5" minlength="10" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>'article'])}}" placeholder="{{:MyLang('common_service.article.form_item_content_message')}}" {{else /}} placeholder="{{:MyLang('common_service.article.form_item_content_placeholder')}}" {{/if}} data-validation-message="{{:MyLang('common_service.article.form_item_content_message')}}" required>{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
+                <textarea class="am-radius am-validate" name="content" data-i18n="1" data-i18n-type="editor" rows="5" minlength="10" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>'article'])}}" placeholder="{{:MyLang('common_service.article.form_item_content_message')}}" {{else /}} placeholder="{{:MyLang('common_service.article.form_item_content_placeholder')}}" {{/if}} data-validation-message="{{:MyLang('common_service.article.form_item_content_message')}}" required>{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
             </div>
 
             <!-- 插件扩展数据 start -->

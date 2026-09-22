@@ -67,12 +67,24 @@
                                     </a>
                                     <div class="goods-base">
                                         <a href="{{$goods.goods_url}}" target="_blank" rel="noopener noreferrer" class="goods-title">{{$goods.title}}</a>
-                                        {{if !empty($goods.spec)}}
-                                            <ul class="goods-attr">
-                                                {{foreach $goods.spec as $spec}}
-                                                    <li>{{$spec.type}}：{{$spec.value}}</li>
-                                                {{/foreach}}
-                                            </ul>
+                                        {{if !empty($goods['spec_show'])}}
+                                            <div class="goods-attr cart-goods-spec-edit" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}">
+                                                <ul>
+                                                    {{foreach $goods.spec_show as $spec}}
+                                                        <li>{{$spec.type}}：{{$spec.value}}</li>
+                                                    {{/foreach}}
+                                                </ul>
+                                                <i class="iconfont icon-edit am-margin-left-sm am-text-xs"></i>
+                                            </div>
+                                        {{elseif !empty($goods.spec) /}}
+                                            <div class="goods-attr cart-goods-spec-edit" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}">
+                                                <ul>
+                                                    {{foreach $goods.spec as $spec}}
+                                                        <li>{{$spec.type}}：{{$spec.value}}</li>
+                                                    {{/foreach}}
+                                                </ul>
+                                                <i class="iconfont icon-edit am-margin-left-sm am-text-xs"></i>
+                                            </div>
                                         {{/if}}
                                     </div>
                                 </div>
@@ -428,6 +440,7 @@
 {{:ModuleInclude('public/footer')}}
 
 <script type="text/javascript">
+    var lang_cart_change_spec_title = '{{:MyLang("cart.change_spec_title")}}';
     // 返回处理
     function ViewDeleteBack (e) {
         if (e.code == 0) {

@@ -12,7 +12,7 @@ namespace app\admin\controller;
 
 use app\admin\controller\Base;
 use app\service\ApiService;
-use app\service\SlideService;
+use app\service\SliderService;
 use app\service\ResourcesService;
 
 /**
@@ -22,7 +22,7 @@ use app\service\ResourcesService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Slide extends Base
+class Slider extends Base
 {
     /**
      * 列表
@@ -62,7 +62,7 @@ class Slide extends Base
             // 当前数据
             'data'                  => $this->data_detail,
             // 编辑器文件存放地址
-            'editor_path_type'      => ResourcesService::EditorPathTypeValue('slide'),
+            'editor_path_type'      => ResourcesService::EditorPathTypeValue('slider'),
         ];
 
         // 参数
@@ -85,7 +85,7 @@ class Slide extends Base
     public function Save()
     {
         $params = $this->data_request;
-        return ApiService::ApiDataReturn(SlideService::SlideSave($params));
+        return ApiService::ApiDataReturn(SliderService::SliderSave($params));
     }
 
     /**
@@ -98,7 +98,7 @@ class Slide extends Base
     public function Delete()
     {
         $params = $this->data_request;
-        return ApiService::ApiDataReturn(SlideService::SlideDelete($params));
+        return ApiService::ApiDataReturn(SliderService::SliderDelete($params));
     }
 
     /**
@@ -111,7 +111,7 @@ class Slide extends Base
     public function StatusUpdate()
     {
         $params = $this->data_request;
-        return ApiService::ApiDataReturn(SlideService::SlideStatusUpdate($params));
+        return ApiService::ApiDataReturn(SliderService::SliderStatusUpdate($params));
     }
 }
 ?>

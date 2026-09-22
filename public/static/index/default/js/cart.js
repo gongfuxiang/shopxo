@@ -234,4 +234,22 @@ $(function()
             return false;
         }
     });
+
+    // 修改规格
+    $(document).on('click', '.cart-goods-spec-edit', function()
+    {
+        var goods_id = $(this).attr('data-goods-id') || null;
+        var cart_id = $(this).attr('data-id') || null;
+        if(goods_id == null || cart_id == null)
+        {
+            return false;
+        }
+        if(typeof __goods_cart_info_url__ == 'undefined' || !__goods_cart_info_url__)
+        {
+            return false;
+        }
+        var url = UrlFieldReplace('id', goods_id, __goods_cart_info_url__);
+        url = UrlFieldReplace('cart_id', cart_id, url);
+        ModalLoad(url, (window['lang_cart_change_spec_title'] || '修改规格'), 'common-goods-cart-popup');
+    });
 });

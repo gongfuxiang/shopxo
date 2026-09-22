@@ -117,6 +117,7 @@ class FileUpload
         // 存储
         if(move_uploaded_file($temp_file, $dir.$filename))
         {
+            $need_hash = !isset($params['is_hash']) || intval($params['is_hash']) == 1;
             $data = [
                 'title' => $original_name,
                 'url'   => $this->config['path'].$filename,
@@ -125,8 +126,8 @@ class FileUpload
                 'ext'   => $ext,
                 'size'  => $size,
                 'type'  => $type,
-                'hash'  => hash_file('sha256', $dir.$filename, false),
-                'md5'   => md5_file($dir.$filename),
+                'hash'  => $need_hash ? hash_file('sha256', $dir.$filename, false) : '',
+                'md5'   => $need_hash ? md5_file($dir.$filename) : '',
             ];
             return DataReturn(MyLang('upload_success'), 0, $data);
         }

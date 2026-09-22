@@ -36,11 +36,25 @@ class Agreement extends Base
     {
         // 导航
         $type = empty($this->data_request['type']) ? 'register' : $this->data_request['type'];
+
+        // 当前导航名称
+        $nav_name = '';
+        foreach(MyLang('agreement.base_nav_list') as $v)
+        {
+            if(isset($v['type']) && $v['type'] == $type)
+            {
+                $nav_name = isset($v['name']) ? $v['name'] : '';
+                break;
+            }
+        }
+
         $assign = [
             // 配置信息
             'data'              => ConfigService::ConfigList(),
             // 管理导航
             'nav_data'          => MyLang('agreement.base_nav_list'),
+            // 当前导航名称
+            'nav_name'          => $nav_name,
             // 编辑器文件存放地址
             'editor_path_type'  => ResourcesService::EditorPathTypeValue('agreement'),
             // 页面导航

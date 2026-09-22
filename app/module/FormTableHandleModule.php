@@ -2063,11 +2063,11 @@ class FormTableHandleModule
             // 确认框信息 标题/描述
             if(empty($this->form_data['base']['confirm_title']))
             {
-                $this->form_data['base']['confirm_title'] = '温馨提示';
+                $this->form_data['base']['confirm_title'] = MyLang('reminder_title');
             }
             if(empty($this->form_data['base']['confirm_msg']))
             {
-                $this->form_data['base']['confirm_msg'] = '删除后不可恢复、确认操作吗？';
+                $this->form_data['base']['confirm_msg'] = MyLang('delete_confirm_tips');
             }
         }
     }

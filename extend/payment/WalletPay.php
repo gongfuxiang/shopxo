@@ -20,6 +20,7 @@ use app\plugins\scanpay\service\PayService as ScanpayPayService;
 use app\plugins\vip\service\PayService as LevelPayService;
 use app\plugins\givegift\service\PayService as GiftPayService;
 use app\plugins\presale\service\PayService as PresalePayService;
+use app\plugins\doc\service\PayService as DocPayService;
 
 /**
  * 钱包支付
@@ -186,6 +187,11 @@ class WalletPay
                 case 'plugins-presale' :
                     $order_list = Db::name('PluginsPresaleOrder')->where(['id'=>$pay_log_value, 'status'=>0])->select()->toArray();
                     break;
+
+                // 文档付费查看
+                case 'plugins-doc' :
+                    $order_list = Db::name('PluginsDocContentOrder')->where(['id'=>$pay_log_value, 'status'=>0])->select()->toArray();
+                    break;
             }
             if(empty($order_list))
             {
@@ -273,6 +279,16 @@ class WalletPay
                         if($ret['code'] == 0)
                         {
                             $ret = DataReturn('支付成功', 0, PluginsHomeUrl('presale', 'buy', 'respond', ['appoint_status'=>0]));
+                        }
+                        break;
+
+                    // 文档付费查看
+                    case 'plugins-doc' :
+                        $parameter['order'] = $parameter['order'][0];
+                        $ret = DocPayService::PayHandle($parameter);
+                        if($ret['code'] == 0)
+                        {
+                            $ret = DataReturn('支付成功', 0, PluginsHomeUrl('doc', 'buy', 'respond', ['appoint_status'=>0]));
                         }
                         break;
 

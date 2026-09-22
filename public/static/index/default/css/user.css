@@ -7,18 +7,26 @@
 
 /**
  * 登录页面窗口高度固定
+ * 底部入口勿用绝对定位：英文等长文案时表单变高，会与登录按钮重叠
  */
 .user-login-content-container {
     min-height: 43rem;
+    display: flex;
+    flex-direction: column;
 }
 .user-login-content-container.not-login-verify {
     min-height: 39rem;
 }
+.user-login-content-container > .am-tabs-bd {
+    flex: 1 1 auto;
+}
 .user-login-content-container .bottom-container {
-    position: absolute;
-    left: 0;
-    bottom: 0;
+    position: relative;
+    left: auto;
+    bottom: auto;
     width: 100%;
+    margin-top: auto;
+    flex-shrink: 0;
 }
 
 

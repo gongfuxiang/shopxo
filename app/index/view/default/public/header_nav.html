@@ -27,6 +27,20 @@
                 </div>
             </a>
 
+            <!-- 中间导航搜索前面 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_common_header_nav_search_before</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_common_header_nav_search_before_data) and is_array($plugins_view_common_header_nav_search_before_data)}}
+                {{foreach $plugins_view_common_header_nav_search_before_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+
             <!-- 手机端搜索 -->
             <form class="am-topbar-form am-topbar-left am-form-inline am-show-sm-only navigation-search" role="search" action="{{:MyUrl('index/search/index')}}" method="POST">
                 <div class="am-input-group am-input-group-sm">
@@ -52,6 +66,20 @@
                     {{/foreach}}
                 {{/if}}
             </form>
+
+            <!-- 中间导航搜索后面 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_common_header_nav_search_later</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_common_header_nav_search_later_data) and is_array($plugins_view_common_header_nav_search_later_data)}}
+                {{foreach $plugins_view_common_header_nav_search_later_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
 
             <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
                 <!-- 中间导航内容内部顶部 -->

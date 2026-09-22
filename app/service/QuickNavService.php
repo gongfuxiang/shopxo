@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\I18nService;
 use app\service\SystemService;
 use app\service\ResourcesService;
 
@@ -98,8 +99,14 @@ class QuickNavService
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            if(Db::name('QuickNav')->insertGetId($data) > 0)
+            $data_id = Db::name('QuickNav')->insertGetId($data);
+            if($data_id > 0)
             {
+                $i18n_data = I18nService::RequestData($params);
+                if($i18n_data !== null)
+                {
+                    I18nService::SaveData('quick_nav', $data_id, $i18n_data);
+                }
                 return DataReturn(MyLang('insert_success'), 0);
             }
             return DataReturn(MyLang('insert_fail'), -100);
@@ -107,6 +114,11 @@ class QuickNavService
             $data['upd_time'] = time();
             if(Db::name('QuickNav')->where(['id'=>intval($params['id'])])->update($data))
             {
+                $i18n_data = I18nService::RequestData($params);
+                if($i18n_data !== null)
+                {
+                    I18nService::SaveData('quick_nav', intval($params['id']), $i18n_data);
+                }
                 return DataReturn(MyLang('edit_success'), 0);
             }
             return DataReturn(MyLang('edit_fail'), -100); 
@@ -138,6 +150,7 @@ class QuickNavService
         // 删除操作
         if(Db::name('QuickNav')->where(['id'=>$params['ids']])->delete())
         {
+            I18nService::DeleteData('quick_nav', $params['ids']);
             return DataReturn(MyLang('delete_success'), 0);
         }
 
@@ -199,7 +212,7 @@ class QuickNavService
     public static function QuickNav($params = [])
     {
         // 缓存
-        $key = SystemService::CacheKey('shopxo.cache_quick_navigation_key').APPLICATION_CLIENT_TYPE;
+        $key = SystemService::CacheKey('shopxo.cache_quick_navigation_key').APPLICATION_CLIENT_TYPE.'_'.I18nService::CacheLangKey();
         $data = MyCache($key);
         if($data === null || MyEnv('app_debug') || MyC('common_data_is_use_cache') != 1)
         {
@@ -261,6 +274,10 @@ class QuickNavService
             // 存储缓存
             MyCache($key, $data, 180);
         }
+
+        // 多语言数据替换
+        I18nService::DataHandle($data, 'quick_nav');
+
         return $data;
     }
 }

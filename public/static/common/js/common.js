@@ -173,7 +173,16 @@ function GetFormVal (element, is_json) {
  */
 function IsExitsFunction (fun_name) {
     try {
-        if (typeof (eval(fun_name)) == "function") return true;
+        // CSP-safe: no eval. Resolve global function by name path (a or a.b).
+        var parts = String(fun_name || '').split('.');
+        var cur = (typeof window !== 'undefined') ? window : this;
+        for (var i = 0; i < parts.length; i++) {
+            if (!parts[i] || cur == null) {
+                return false;
+            }
+            cur = cur[parts[i]];
+        }
+        if (typeof (cur) == "function") return true;
     } catch (e) { }
     return false;
 }
@@ -3028,7 +3037,21 @@ function CursorPos (e) {
  */
 function JsonStringToJsonObject (value) {
     if ((value || null) != null && typeof (value) == 'string') {
-        value = eval('(' + value + ')');
+        // CSP-safe: no eval. Support strict JSON and loose object literals
+        // like {trigger: 'hover'} / {justify: '#id'} used in data-am-dropdown.
+        try {
+            value = JSON.parse(value);
+        } catch (e1) {
+            try {
+                var str = value.replace(/'([^'\\]|\\.)*'/g, function (m) {
+                    return '"' + m.slice(1, -1)
+                        .replace(/\\'/g, "'")
+                        .replace(/\\/g, '\\\\')
+                        .replace(/"/g, '\\"') + '"';
+                }).replace(/([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*:/g, '$1"$2":');
+                value = JSON.parse(str);
+            } catch (e2) { }
+        }
     }
     return value;
 }
@@ -3309,12 +3332,25 @@ function ColorPickerInit () {
                 // 颜色格式
                 var color_format = $self.attr('data-color-format') || 'hex';
                 // 初始化颜色
-                var init_color = $self.attr('data-color') || '';
+                var init_color = $self.attr('data-color') || $($self.data('color-tag')).val() || '';
                 // css样式
                 var color_style = $self.attr('data-color-style') || 'color';
                 var color_style_arr = color_style.split('|');
                 // 语言
                 var lang = (window['lang_multilingual_default_code'] || 'zh-cn') == 'en' ? 'en' : 'cn';
+                // 清空颜色（仅「清除」按钮调用；取消只关面板不改颜色）
+                var ClearColorValue = function () {
+                    var style_value = {};
+                    for (var i in color_style_arr) {
+                        style_value[color_style_arr[i]] = '';
+                    }
+                    $($self.data('color-tag')).val('');
+                    $($self.data('input-tag')).css(style_value);
+                    $($self.data('color-tag')).trigger('change');
+                    $self.css('background', '');
+                    $self.find('.fcolorpicker-curbox').css('background', '');
+                    $self.attr('data-color', '');
+                };
                 // xncolorpicker：show:true 时构造过程里 this.show 仍为 false，init() 内 setPosition() 会因 !this.show 直接 return，
                 // 面板保留默认 left/top；第二次点击走 changeShow 才置 show 并定位。此处补一次 show + setPosition。
                 var color_picker_ins = new XNColorPicker({
@@ -3335,25 +3371,7 @@ function ColorPickerInit () {
                     autoConfirm: true, //改变颜色时自动确认
                     onError: function (e) { },
                     onCancel: function (color) {
-                        var style_value = {};
-                        if (color.colorType === 'linear-gradient' || color.colorType === 'radial-gradient') {
-                            // 只适用于背景色
-                            for (var i in color_style_arr) {
-                                style_value[color_style_arr[i]] = '';
-                            }
-                        } else {
-                            for (var i in color_style_arr) {
-                                style_value[color_style_arr[i]] = '';
-                            }
-                        }
-                        // input 赋值
-                        $($self.data('color-tag')).val('');
-                        // 其他dom赋值
-                        $($self.data('input-tag')).css(style_value);
-                        $($self.data('color-tag')).trigger('change');
-                        // 清除当前自身按钮背景色
-                        $self.css('background', '');
-                        $self.find('.fcolorpicker-curbox').css('background', '');
+                        // 取消仅关闭面板，不改动已选颜色（autoConfirm=true 时组件本身也不会回调这里）
                     },
                     onChange: function (color) {
                         var style_value = {};
@@ -3364,7 +3382,8 @@ function ColorPickerInit () {
                             }
                             // input 赋值
                             $($self.data('color-tag')).val(color.color.str);
-                            // 清除当前自身按钮背景色
+                            $self.attr('data-color', color.color.str);
+                            // 当前自身按钮背景色
                             $self.css('background', color.color.str);
                         } else {
                             for (var i in color_style_arr) {
@@ -3372,7 +3391,8 @@ function ColorPickerInit () {
                             }
                             // input 赋值
                             $($self.data('color-tag')).val(color.color[color_format]);
-                            // 清除当前自身按钮背景色
+                            $self.attr('data-color', color.color[color_format]);
+                            // 当前自身按钮背景色
                             $self.css('background', color.color[color_format]);
                         }
                         // 其他dom赋值
@@ -3388,7 +3408,8 @@ function ColorPickerInit () {
                             }
                             // input 赋值
                             $($self.data('color-tag')).val(color.color.str);
-                            // 清除当前自身按钮背景色
+                            $self.attr('data-color', color.color.str);
+                            // 当前自身按钮背景色
                             $self.css('background', color.color.str);
                         } else {
                             for (var i in color_style_arr) {
@@ -3396,7 +3417,8 @@ function ColorPickerInit () {
                             }
                             // input 赋值
                             $($self.data('color-tag')).val(color.color[color_format]);
-                            // 清除当前自身按钮背景色
+                            $self.attr('data-color', color.color[color_format]);
+                            // 当前自身按钮背景色
                             $self.css('background', color.color[color_format]);
                         }
                         // 其他dom赋值
@@ -3404,11 +3426,54 @@ function ColorPickerInit () {
                         $($self.data('color-tag')).trigger('change');
                     }
                 });
-                if (color_picker_ins && color_picker_ins.dom) {
-                    color_picker_ins.show = true;
-                    requestAnimationFrame(function () {
-                        color_picker_ins.setPosition();
-                    });
+                // 面板追加独立「清除」按钮；并将「取消」改为「关闭」（autoConfirm 下取消仅关面板）
+                var EnsureColorPickerExtraBtns = function () {
+                    if (!color_picker_ins || !color_picker_ins.dom) {
+                        return;
+                    }
+                    var $group = $(color_picker_ins.dom).find('.color-btn-group');
+                    if ($group.length <= 0) {
+                        return;
+                    }
+                    // 取消 -> 关闭
+                    var close_text = lang == 'en' ? 'Close' : '关闭';
+                    $group.find('.cancel-color').text(close_text);
+                    // 独立清除按钮
+                    if ($group.find('.colorpicker-clear-color').length <= 0) {
+                        var clear_text = lang == 'en' ? 'Clear' : '清除';
+                        var $clear_btn = $('<a href="javascript:;" class="colorpicker-clear-color">' + clear_text + '</a>');
+                        $clear_btn.on('click', function (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            ClearColorValue();
+                            color_picker_ins.option.color = '';
+                            color_picker_ins.lastColor = '';
+                            color_picker_ins.changeShow(true);
+                        });
+                        $group.prepend($clear_btn);
+                    }
+                };
+                if (color_picker_ins) {
+                    // 面板重建时按钮文案也用关闭
+                    color_picker_ins.btns = {
+                        cn: ['关闭', '确定'],
+                        en: ['Close', 'OK']
+                    };
+                    var origin_change_show = color_picker_ins.changeShow.bind(color_picker_ins);
+                    color_picker_ins.changeShow = function (hide) {
+                        origin_change_show(hide);
+                        // 打开面板后注入清除按钮、校正关闭文案
+                        if (!hide && color_picker_ins.dom) {
+                            EnsureColorPickerExtraBtns();
+                        }
+                    };
+                    if (color_picker_ins.dom) {
+                        EnsureColorPickerExtraBtns();
+                        color_picker_ins.show = true;
+                        requestAnimationFrame(function () {
+                            color_picker_ins.setPosition();
+                        });
+                    }
                 }
             }
         });
@@ -3435,7 +3500,7 @@ function CommonGoodsChoiceSpecDetail () {
     // 获取规格值
     var spec = [];
     $spec.find('.sku-items li.selected').each(function (k, v) {
-        spec.push({ "type": $(this).data('type-value'), "value": $(this).data('value') })
+        spec.push({ "key": $(this).data('key') || '' })
     });
 
     // ajax请求
@@ -3479,7 +3544,7 @@ function CommonGoodsChoiceSpecType () {
     // 获取规格值
     var spec = [];
     $spec.find('.sku-items li.selected').each(function (k, v) {
-        spec.push({ "type": $(this).data('type-value'), "value": $(this).data('value') })
+        spec.push({ "key": $(this).data('key') || '' })
     });
 
     // ajax请求
@@ -3498,7 +3563,7 @@ function CommonGoodsChoiceSpecType () {
                 if (index < sku_count) {
                     $spec.find('.sku-items').eq(index).find('li').each(function (k, v) {
                         $(this).removeClass('sku-dont-choose');
-                        var value = $(this).data('value').toString();
+                        var value = String($(this).attr('data-key') || '');
                         if (result.data.spec_type.indexOf(value) == -1) {
                             $(this).addClass('sku-items-disabled');
                         } else {
@@ -4390,11 +4455,11 @@ function GoodsParametersItemHtmlCustom ()
     html += '</select>';
     html += '</td>';
     html += '<td class="am-text-middle">';
-    html += '<input type="text" name="parameters_name[' + index + ']" placeholder="' + $parameters_table_custom.data('params-name') + '" value="" data-validation-message="' + $parameters_table_custom.data('params-message') + '" maxlength="160" class="am-radius" data-is-clearout="0" required />';
+    html += '<input type="text" name="parameters_name[' + index + ']" data-i18n="1" placeholder="' + $parameters_table_custom.data('params-name') + '" value="" data-validation-message="' + $parameters_table_custom.data('params-message') + '" maxlength="160" class="am-radius" data-is-clearout="0" required />';
     html += '</td>';
     html += '<td class="am-text-middle">';
     html += '<input type="hidden" name="parameters_data_type[' + index + ']" value="0" />';
-    html += '<input type="text" name="parameters_value[' + index + ']" placeholder="' + $parameters_table_custom.data('value-message') + '" value="" maxlength="200" data-validation-message="' + $parameters_table_custom.data('value-message') + '" class="am-radius" data-is-clearout="0" />';
+    html += '<input type="text" name="parameters_value[' + index + ']" data-i18n="1" placeholder="' + $parameters_table_custom.data('value-message') + '" value="" maxlength="200" data-validation-message="' + $parameters_table_custom.data('value-message') + '" class="am-radius" data-is-clearout="0" />';
     html += '</td>';
     html += '<td class="am-text-middle am-text-left">';
     html += '<a href="javascript:;" class="am-text-xs am-color-blue am-margin-right-sm line-move" data-type="top">' + $parameters_table_custom.data('move-top-name') + '</a> ';
@@ -4440,7 +4505,7 @@ function GoodsParametersItemHtmlCreated (scope = 0, name = '', required = 0, dat
                     </label>
                 </td>`;
         html += `<td>
-                    <input type="text" name="parameters_name[`+index+`]" placeholder="` + $parameters_table.data('params-name') + `" value="` + (name || '') + `" data-validation-message="` + $parameters_table.data('params-message') + `" maxlength="160" class="am-radius" data-is-clearout="0" />
+                    <input type="text" name="parameters_name[`+index+`]" data-i18n="1" placeholder="` + $parameters_table.data('params-name') + `" value="` + (name || '') + `" data-validation-message="` + $parameters_table.data('params-message') + `" maxlength="160" class="am-radius" data-is-clearout="0" />
                 </td>`;
         html += `<td class="am-text-left">
                     <input type="checkbox" name="parameters_required[`+index+`]" value="1" data-am-switch `+(required == 1 ? 'checked' : '')+` />
@@ -4458,7 +4523,7 @@ function GoodsParametersItemHtmlCreated (scope = 0, name = '', required = 0, dat
                 </td>`;
         html += `<td class="parameters-value-content">`;
         if(data_type == 0) {
-            html += `<input type="text" name="parameters_value[`+index+`]" placeholder="` + $parameters_table.data('value-name') + `" value="` + (value || '') + `" maxlength="200" data-validation-message="` + $parameters_table.data('value-message') + `" class="am-radius" data-is-clearout="0" />`;
+            html += `<input type="text" name="parameters_value[`+index+`]" data-i18n="1" placeholder="` + $parameters_table.data('value-name') + `" value="` + (value || '') + `" maxlength="200" data-validation-message="` + $parameters_table.data('value-message') + `" class="am-radius" data-is-clearout="0" />`;
         } else {
             html += `<textarea row="8" name="parameters_value[`+index+`]" placeholder="` + $parameters_table.data('value-many-name') + `" maxlength="3000" data-validation-message="` + $parameters_table.data('value-message') + `" class="am-radius" data-is-clearout="0">` + (value || '') + `</textarea>`;
         }
@@ -6126,18 +6191,31 @@ $(function () {
         AlertLoad({url: url, title: title}, config, on_open, on_close);
     });
 
-    // 地图弹窗
+    // 地图弹窗（兼容 data-lng/data-lat，或 data-value=map://名称|地址|经度|纬度）
     $(document).on('click', '.submit-map-popup', function () {
         // 参数
         var lng = $(this).data('lng') || null;
         var lat = $(this).data('lat') || null;
+        var title = $(this).data('title') || '';
+        // 对齐 url_open 地图协议
+        if ((lng == null || lat == null)) {
+            var map_value = $(this).attr('data-value') || '';
+            if (map_value.indexOf('map://') === 0) {
+                var map_arr = map_value.substr(6).split('|');
+                if (map_arr.length == 4) {
+                    // 优先用地址作弹窗标题，其次名称
+                    title = map_arr[1] || map_arr[0] || title;
+                    lng = map_arr[2] || null;
+                    lat = map_arr[3] || null;
+                }
+            }
+        }
         if (lng == null || lat == null) {
             Prompt(window['lang_map_coordinate_tips'] || '坐标有误');
             return false;
         }
 
         // 基础参数
-        var title = $(this).data('title') || '';
         var class_tag = $(this).data('class') || '';
         var full = parseInt($(this).data('full')) || 0;
         var full_max = parseInt($(this).data('full-max')) || 0;
@@ -6146,6 +6224,27 @@ $(function () {
         // 调用弹窗方法
         var url = UrlFieldReplace('lat', lat, UrlFieldReplace('lng', lng, __map_view_url__));
         ModalLoad(url, title, class_tag, full, full_max, full_max_size);
+    });
+
+    // 商品购买导航 - 提示
+    $(document).on('click', '.buy-nav-tips-submit', function () {
+        var value = $(this).attr('data-value') || '';
+        if (value == '') {
+            return false;
+        }
+        Prompt(value, 'warning');
+        return false;
+    });
+
+    // 商品购买导航 - 弹窗
+    $(document).on('click', '.buy-nav-popup-submit', function () {
+        var id = $(this).attr('data-popup-id') || '';
+        if (id == '' || $('#' + id).length <= 0) {
+            Prompt(window['lang_operate_params_error'] || '弹窗内容有误');
+            return false;
+        }
+        $('#' + id).modal();
+        return false;
     });
 
     // 弹窗拖拽
@@ -6792,6 +6891,8 @@ $(function () {
         $(this).addClass('am-active').siblings().removeClass('am-active');
         var key = $(this).data('key');
         $("[data-key='" + key + "']").addClass('am-active').siblings('.item').removeClass('am-active');
+        // tabs 内 chosen 初次在 display:none 下初始化时占位宽度会错，切出后重算
+        $("[data-key='" + key + "'].item.am-active select.chosen-select").trigger('chosen:updated');
     });
 
     // 顶级提示信息
@@ -6817,6 +6918,7 @@ $(function () {
         $(this).addClass('am-active').siblings().removeClass('am-active');
         var key = $(this).data('key');
         $("[data-key='" + key + "']").addClass('am-active').siblings('.item').removeClass('am-active');
+        $("[data-key='" + key + "'].item.am-active select.chosen-select").trigger('chosen:updated');
     });
 
     // 表单标题向上推显示效果
@@ -7002,7 +7104,7 @@ $(function () {
         var html = '<tr>';
         html += '<td class="am-text-middle">';
         html += '<div class="am-flex am-flex-items-center am-gap-1">';
-        html += '<input type="text" name="spec_base_title_' + index + '" placeholder="' + ($spec_table.data('spec-type-name') || '规格名') + '" class="am-radius" />';
+        html += '<input type="text" name="spec_base_title_' + index + '" data-i18n="1" data-i18n-name="spec_name" placeholder="' + ($spec_table.data('spec-type-name') || '规格名') + '" class="am-radius" />';
         html += '<i class="am-close quick-title-remove iconfont icon-delete am-color-blue"></i>';
         html += '</div>';
         html += '</td>';
@@ -7023,7 +7125,7 @@ $(function () {
         var index = $(this).data('index');
         var html = '<div class="am-fl value-item">';
         html += '<div class="am-flex am-flex-items-center am-gap-1">'
-        html += '<input type="text" class="am-fl am-radius" name="spec_base_value_' + index + '[]" placeholder="' + ($spec_table.data('spec-value-name') || '规格值') + '" />';
+        html += '<input type="text" class="am-fl am-radius" name="spec_base_value_' + index + '[]" data-i18n="1" data-i18n-name="spec_value" placeholder="' + ($spec_table.data('spec-value-name') || '规格值') + '" />';
         html += '<i class="am-close quick-value-remove iconfont icon-delete am-color-blue"></i>';
         html += '</div>';
         html += '</div>';
@@ -7085,7 +7187,7 @@ $(function () {
                     // title
                     html = '<th class="table-title table-title-' + index + '">';
                     html += '<div class="am-flex am-flex-items-center am-gap-1">';
-                    html += '<input type="text" name="specifications_name_' + index + '" value="' + spec[i]['title'] + '" placeholder="' + ($spec_table.data('spec-type-name') || '规格名') + '" class="am-radius" data-validation-message="' + ($spec_table.data('spec-type-message') || '请填写规格名') + '" required />';
+                    html += '<input type="text" name="specifications_name_' + index + '" data-i18n="1" data-i18n-name="spec_name" value="' + spec[i]['title'] + '" placeholder="' + ($spec_table.data('spec-type-name') || '规格名') + '" class="am-radius" data-validation-message="' + ($spec_table.data('spec-type-message') || '请填写规格名') + '" required />';
                     html += '<i class="am-close title-nav-remove iconfont icon-delete am-text-primary" data-index="' + index + '"></i>';
                     html += '</div>';
                     html += '</th>';
@@ -7093,7 +7195,7 @@ $(function () {
 
                     // value
                     html = '<td class="table-value table-value-' + index + '">';
-                    html += '<input type="text" name="specifications_value_' + index + '[]" value="' + (spec[i]['value'][0] || "") + '" placeholder="' + ($spec_table.data('spec-value-name') || '规格值') + '" class="am-radius" data-validation-message="' + ($spec_table.data('spec-value-name') || '请填写规格值') + '" required />';
+                    html += '<input type="text" name="specifications_value_' + index + '[]" data-i18n="1" data-i18n-name="spec_value" value="' + (spec[i]['value'][0] || "") + '" placeholder="' + ($spec_table.data('spec-value-name') || '规格值') + '" class="am-radius" data-validation-message="' + ($spec_table.data('spec-value-name') || '请填写规格值') + '" required />';
                     html += '</td>';
                     $('.value-start').before(html);
                 }
@@ -7182,7 +7284,7 @@ $(function () {
         var index = parseInt(Math.random()*1000001);
         html = '<th class="table-title table-title-'+index+'">';
         html += '<div class="am-flex am-flex-items-center am-gap-1">';
-        html += '<input type="text" name="specifications_name_'+index+'" placeholder="'+($spec_table.data('spec-type-name') || '规格名')+'" class="am-radius" data-validation-message="'+($spec_table.data('spec-type-message') || '请填写规格名')+'" required />';
+        html += '<input type="text" name="specifications_name_'+index+'" data-i18n="1" data-i18n-name="spec_name" placeholder="'+($spec_table.data('spec-type-name') || '规格名')+'" class="am-radius" data-validation-message="'+($spec_table.data('spec-type-message') || '请填写规格名')+'" required />';
         html += '<i class="title-nav-remove iconfont icon-delete am-color-blue" data-index="'+index+'"></i>';
         html += '</div>';
         html += '</th>';
@@ -7190,7 +7292,7 @@ $(function () {
 
         // value
         html = '<td class="table-value table-value-'+index+'">';
-        html += '<input type="text" name="specifications_value_'+index+'[]" placeholder="'+($spec_table.data('spec-value-name') || '规格值')+'" class="am-radius" data-validation-message="'+($spec_table.data('spec-value-message') || '请填写规格值')+'" required />';
+        html += '<input type="text" name="specifications_value_'+index+'[]" data-i18n="1" data-i18n-name="spec_value" placeholder="'+($spec_table.data('spec-value-name') || '规格值')+'" class="am-radius" data-validation-message="'+($spec_table.data('spec-value-message') || '请填写规格值')+'" required />';
         html += '</td>';
         $('.value-start').before(html);
     });

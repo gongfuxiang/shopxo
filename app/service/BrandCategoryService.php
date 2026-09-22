@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\facade\Db;
 use app\service\ResourcesService;
+use app\service\I18nService;
 
 /**
  * 品牌分类服务层
@@ -52,6 +53,9 @@ class BrandCategoryService
     {
         if(!empty($data) && is_array($data))
         {
+            // 多语言数据替换
+            I18nService::DataHandle($data, 'brand_category');
+
             foreach($data as &$v)
             {
                 if(is_array($v))
@@ -153,6 +157,13 @@ class BrandCategoryService
                 $data['id'] = $params['id'];
             }
         }
+
+        // 多语言数据保存（隐藏域未提交则不处理）
+        $i18n_data = I18nService::RequestData($params);
+        if($i18n_data !== null)
+        {
+            I18nService::SaveData('brand_category', $data['id'], $i18n_data);
+        }
         return DataReturn(MyLang('operate_success'), 0, $data);
     }
 
@@ -188,6 +199,9 @@ class BrandCategoryService
         // 开始删除
         if(Db::name('BrandCategory')->where(['id'=>intval($params['id'])])->delete())
         {
+            // 多语言数据删除
+            I18nService::DeleteData('brand_category', intval($params['id']));
+
             return DataReturn(MyLang('delete_success'), 0);
         }
         return DataReturn(MyLang('delete_fail'), -100);

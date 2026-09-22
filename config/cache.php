@@ -26,8 +26,8 @@ return [
             'path'       => '',
             // 缓存前缀
             'prefix'     => 'shopxo',
-            // 缓存有效期 0表示永久缓存
-            'expire'     => 0,
+            // 缓存有效期 0表示永久缓存（单位秒，仅文件缓存）
+            'expire'     => intval(MyFileConfig('common_cache_data_file_expire', '', 0, true)),
             // 缓存标签前缀
             'tag_prefix' => 'tag:',
             // 序列化机制 例如 ['serialize', 'unserialize']

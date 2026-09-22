@@ -15,6 +15,7 @@ use app\service\ApiService;
 use app\service\AppMiniService;
 use app\service\ConfigService;
 use app\service\StoreService;
+use app\service\AppService;
 
 /**
  * 小程序管理
@@ -52,6 +53,26 @@ class Appmini extends Base
 		// 小导航
 		$this->view_type = input('view_type', 'index');
 	}
+
+    /**
+     * 权限校验（pages 方法免权限，供内部页面地址弹窗使用）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-21
+     * @desc    description
+     * @param   [string]          $controller     [控制器（默认读取当前）]
+     * @param   [string]          $action         [方法（默认读取当前）]
+     * @param   [array]           $unwanted_power [不校验权限的方法（默认空）]
+     */
+    protected function IsPower($controller = null, $action = null, $unwanted_power = [])
+    {
+        if(empty($unwanted_power))
+        {
+            $unwanted_power = ['getnodeson', 'node', 'pages'];
+        }
+        parent::IsPower($controller, $action, $unwanted_power);
+    }
 
 	/**
      * 列表
@@ -257,5 +278,22 @@ class Appmini extends Base
 	{
 		return ApiService::ApiDataReturn(AppMiniService::Delete($this->params));
 	}
+
+    /**
+     * 内部页面地址（事件值配置弹窗，免权限）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-21
+     * @desc    description
+     */
+    public function Pages()
+    {
+        MyViewAssign([
+            'app_pages_list'    => AppService::PagesList(),
+            'is_app_pages_use'  => isset($this->data_request['is_use']) ? intval($this->data_request['is_use']) : 0,
+        ]);
+        return MyView();
+    }
 }
 ?>

@@ -13,6 +13,7 @@ namespace app\service;
 use think\facade\Db;
 use app\service\SystemService;
 use app\service\ResourcesService;
+use app\service\RegionService;
 
 /**
  * 配置服务层
@@ -36,6 +37,11 @@ class ConfigService
         'common_agreement_userprivacy',
         'common_agreement_userlogout',
         'common_email_currency_template',
+        'admin_email_login_template',
+        'home_email_login_template',
+        'home_email_user_reg_template',
+        'home_email_user_forget_pwd_template',
+        'home_email_user_email_binding_template',
         'home_footer_info',
         'home_email_user_reg_template',
         'home_email_user_forget_pwd_template',
@@ -101,8 +107,6 @@ class ConfigService
         'common_app_user_base_popup_pages',
         'common_app_user_base_popup_client',
         'common_token_created_rules',
-        'common_buy_datetime_info',
-        'common_buy_extraction_contact_info',
         'common_goods_close_buy_button',
         'common_goods_detail_base_fields_show',
     ];
@@ -155,6 +159,7 @@ class ConfigService
         'common_cache_data_redis_password',
         'common_cache_data_redis_expire',
         'common_cache_data_redis_prefix',
+        'common_cache_data_file_expire',
 
         // session是否开启redis缓存
         'common_session_is_use_cache',
@@ -217,6 +222,12 @@ class ConfigService
                     {
                         $v['value'] = (!isset($v['value']) || $v['value'] == '' || is_array($v['value'])) ? [] : explode(',', $v['value']);
                     }
+                }
+
+                // 下单指定时间/联系信息：三态单选（0关闭、1选择或填写、2必选或必填）
+                if(in_array($k, ['common_buy_datetime_info', 'common_buy_extraction_contact_info']))
+                {
+                    $v['value'] = ResourcesService::BuyChoiceModeFromConfig(isset($v['value']) ? $v['value'] : 0);
                 }
 
                 // 字符串多行转数组
@@ -299,6 +310,48 @@ class ConfigService
     }
 
     /**
+     * 配置不存在则新增
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-08-23
+     * @desc    description
+     * @param   [string]         $only_tag [唯一标记]
+     * @param   [mixed]          $value    [默认值]
+     * @param   [string]         $type     [类型]
+     */
+    public static function ConfigEnsure($only_tag, $value = '0', $type = 'common')
+    {
+        $only_tag = trim(strval($only_tag));
+        if($only_tag === '')
+        {
+            return;
+        }
+        $exists = Db::name('Config')->where(['only_tag'=>$only_tag])->value('id');
+        if(!empty($exists))
+        {
+            return;
+        }
+        $lang_all = MyLang('common_config');
+        $lang = (!empty($lang_all) && is_array($lang_all) && !empty($lang_all[$only_tag]) && is_array($lang_all[$only_tag])) ? $lang_all[$only_tag] : [];
+        $name = (!empty($lang) && is_array($lang) && !empty($lang['name'])) ? $lang['name'] : $only_tag;
+        $describe = (!empty($lang) && is_array($lang) && !empty($lang['desc'])) ? $lang['desc'] : '';
+        $tips = (!empty($lang) && is_array($lang) && !empty($lang['tips'])) ? $lang['tips'] : '';
+        Db::name('Config')->insert([
+            'value'      => is_array($value) ? json_encode($value, JSON_UNESCAPED_UNICODE) : strval($value),
+            'name'       => $name,
+            'describe'   => $describe,
+            'error_tips' => $tips,
+            'type'       => $type,
+            'only_tag'   => $only_tag,
+            'upd_time'   => time(),
+        ]);
+        MyCache($only_tag, null);
+        MyCache($only_tag.'_row_data', null);
+        MyCache(SystemService::CacheKey('shopxo.cache_common_my_config_key'), null);
+    }
+
+    /**
      * 配置数据保存
      * @author   Devil
      * @blog     http://gong.gg/
@@ -337,6 +390,12 @@ class ConfigService
         // 开始更新数据
         foreach($params as $k=>$v)
         {
+            // 多语言数据不参与配置更新（保存成功后统一处理）
+            if($k === 'i18n_data')
+            {
+                continue;
+            }
+
             // 数据是数组则转为json字符串
             if(is_array($v))
             {
@@ -354,10 +413,21 @@ class ConfigService
             {
                 $success++;
 
-                // 单条配置缓存删除
+                // 单条配置缓存删除（含多语言槽位）
                 MyCache($k, null);
-                MyCache($k.'_row_data', null);
+                $cache_langs = array_merge([I18nService::DefaultLang()], array_column(I18nService::AdminLanguageList(), 'code'));
+                foreach($cache_langs as $lk)
+                {
+                    MyCache($k.'_row_data_'.$lk, null);
+                }
             }
+        }
+
+        // 多语言数据保存（隐藏域未提交则不处理、config以only_tag为字段键）
+        $i18n_data = I18nService::RequestData($params);
+        if($i18n_data !== null)
+        {
+            I18nService::SaveData('config', 0, $i18n_data);
         }
         if($success > 0)
         {
@@ -421,6 +491,15 @@ class ConfigService
                         if(isset($data[$fv]))
                         {
                             $data[$fv] = ($data[$fv] == '') ? [] : explode(',', $data[$fv]);
+                        }
+                    }
+
+                    // 下单指定时间/联系信息：三态单选（0关闭、1选择或填写、2必选或必填）
+                    foreach(['common_buy_datetime_info', 'common_buy_extraction_contact_info'] as $fv)
+                    {
+                        if(array_key_exists($fv, $data))
+                        {
+                            $data[$fv] = ResourcesService::BuyChoiceModeFromConfig($data[$fv]);
                         }
                     }
 
@@ -722,7 +801,8 @@ class ConfigService
      */
     public static function ConfigContentRow($key)
     {
-        $cache_key = $key.'_row_data';
+        // 多语言缓存隔离（后台使用默认语言槽位）
+        $cache_key = $key.'_row_data_'.I18nService::CacheLangKey();
         $data = MyCache($cache_key);
         if($data === null)
         {
@@ -735,6 +815,9 @@ class ConfigService
                     $data['value'] = ResourcesService::ContentStaticReplace($data['value'], 'get');
                 }
                 $data['upd_time_time'] = empty($data['upd_time']) ? null : date('Y-m-d H:i:s', $data['upd_time']);
+
+                // 多语言配置文案替换（前台非默认语言）
+                $data['value'] = I18nService::ConfigValueHandle($key, $data['value']);
             } else {
                 $data = [];
             }
@@ -773,12 +856,19 @@ class ConfigService
         }
         if(!empty($data))
         {
+            // 省市区名称（多语言）
+            $region_ids = array_unique(array_filter(array_merge(array_column($data, 'province'), array_column($data, 'city'), array_column($data, 'county'))));
+            $region = empty($region_ids) ? [] : RegionService::RegionName($region_ids);
+
             foreach($data as &$v)
             {
                 if(array_key_exists('logo', $v))
                 {
                     $v['logo'] = ResourcesService::AttachmentPathViewHandle($v['logo']);
                 }
+                $v['province_name'] = (isset($v['province']) && !empty($region) && array_key_exists($v['province'], $region)) ? $region[$v['province']] : '';
+                $v['city_name'] = (isset($v['city']) && !empty($region) && array_key_exists($v['city'], $region)) ? $region[$v['city']] : '';
+                $v['county_name'] = (isset($v['county']) && !empty($region) && array_key_exists($v['county'], $region)) ? $region[$v['county']] : '';
             }
         }
 

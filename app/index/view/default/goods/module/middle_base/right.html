@@ -82,12 +82,14 @@
                 <!-- 基础面板模块 -->
                 {{:ModuleInclude('goods/module/middle_base/right/panel_base', ['goods'=>$module_data['goods']])}}
 
-                <!-- 公共面板数据 -->
+                <!-- 公共面板数据（样式对齐优购返现提示：灰字说明） -->
                 {{if !empty($module_data['goods']['plugins_view_panel_data']) and is_array($module_data['goods']['plugins_view_panel_data'])}}
-                    <div class="goods-plugins-view-panel-container am-text-danger am-margin-top-sm">
+                    <div class="goods-plugins-view-panel-container am-margin-top-sm">
                         {{foreach $module_data.goods.plugins_view_panel_data as $v}}
                             {{if is_string($v) or is_int($v)}}
-                                <p>{{$v}}</p>
+                                <p class="am-flex-row am-flex-items-center am-gap-1">
+                                    <span class="am-text-sm am-color-grey">{{$v}}</span>
+                                </p>
                             {{/if}}
                         {{/foreach}}
                     </div>

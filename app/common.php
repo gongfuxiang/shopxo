@@ -18,6 +18,7 @@ use app\service\ConstService;
 use app\service\AdminService;
 use app\service\AdminPowerService;
 use app\service\MultilingualService;
+use app\service\I18nService;
 use app\service\UserService;
 use app\service\SystemService;
 use app\service\ConfigService;
@@ -695,12 +696,13 @@ function MyLang($key, $vars = [], $lang = '', $plugins = '')
                 if(!empty($lang_file_data[$md5_key]) && is_array($lang_file_data[$md5_key]))
                 {
                     $temp_lang_file_data = $lang_file_data[$md5_key];
-                    // 仅一级则直接读取
+                    // 仅一级则直接读取（插件语言包已 unshift 到最前，命中即停，避免同名顶层 key 被模块/公共语言覆盖，如 aichat.region 被 admin.region 数组盖掉）
                     if(count($key_arr) == 1)
                     {
                         if(array_key_exists($key, $temp_lang_file_data))
                         {
                             $value = $temp_lang_file_data[$key];
+                            break;
                         }
                     } else {
                         // 默认先读取第一级
@@ -886,19 +888,32 @@ function MyCache($name = null, $value = '', $options = null, $tag = null)
  * @blog    http://gong.gg/
  * @version 1.0.0
  * @date    2026-06-10
- * @desc    通用缓存封装：缓存不存在时执行回调获取数据并写入缓存，适用于商品详情、首页、插件钩子等任意场景
+ * @desc    通用缓存封装：缓存key自动拼接多语言标识（后台模块统一默认语言）、缓存不存在且存在回调时执行回调获取数据并写入缓存，适用于商品详情、首页、插件钩子等任意场景
  * @param   [string]          $cache_key [缓存key]
- * @param   [callable]        $callback  [无缓存时数据获取回调]
+ * @param   [callable|null]   $callback  [无缓存时数据获取回调（可选、不传则仅读取缓存）]
  * @param   [int]             $expire    [过期时间秒]
  * @return  [mixed]
  */
-function MyCacheRemember($cache_key, $callback, $expire = 120)
+function MyCacheRemember($cache_key, $callback = null, $expire = 120)
 {
-    $data = MyCache($cache_key);
+    // 缓存key拼接多语言标识（含多语言数据或文案的缓存按语言隔离、避免跨语言串数据）
+    $cache_key .= '_'.I18nService::CacheLangKey();
+
+    // 开发模式或关闭数据缓存时不读不写，与商品楼层/文章等页面一致
+    $use_cache = (!MyEnv('app_debug') && MyC('common_data_is_use_cache') == 1);
+    $data = $use_cache ? MyCache($cache_key) : null;
     if($data === null)
     {
+        // 无回调则仅读取
+        if($callback === null)
+        {
+            return null;
+        }
         $data = call_user_func($callback);
-        MyCache($cache_key, $data, $expire);
+        if($use_cache)
+        {
+            MyCache($cache_key, $data, $expire);
+        }
     }
     return $data;
 }
@@ -1116,7 +1131,14 @@ function RequestModule()
     static $request_module = null;
     if($request_module === null)
     {
-        $request_module = strtolower(app('http')->getName());
+        $temp = strtolower(app('http')->getName());
+        // 应用名未解析时（调度前调用）不缓存、避免空值钉死整个请求
+        if($temp !== '')
+        {
+            $request_module = $temp;
+        } else {
+            return '';
+        }
     }
     return $request_module;
 }
@@ -1134,7 +1156,14 @@ function RequestController()
     static $request_controller = null;
     if($request_controller === null)
     {
-        $request_controller = strtolower(request()->controller());
+        $temp = strtolower(request()->controller());
+        // 控制器未解析时（调度前调用）不缓存、避免空值钉死整个请求
+        if($temp !== '')
+        {
+            $request_controller = $temp;
+        } else {
+            return '';
+        }
     }
     return $request_controller;
 }
@@ -3575,7 +3604,8 @@ function MyC($key, $default = '', $mandatory = false)
         return $default;
     }
 
-    return $cache_config_data[$key];
+    // 多语言配置文案替换（注册过的配置键、前台非默认语言）
+    return I18nService::ConfigValueHandle($key, $cache_config_data[$key]);
 }
 
 /**
@@ -3745,6 +3775,219 @@ function RequestGetStreamWrapperReject($value)
         }
     }
     return false;
+}
+
+/**
+ * 附件 path_type 规范化（防目录穿越）
+ * @author  Devil
+ * @version 1.0.0
+ * @date    2026-09-13
+ * @param   [string]          $path_type [分类路径标识]
+ * @return  [string]
+ */
+function SanitizeAttachmentPathType($path_type)
+{
+    $path_type = str_replace('\\', '/', trim(strval($path_type)));
+    if($path_type === '')
+    {
+        return 'other';
+    }
+    // 仅允许字母数字、下划线、短横线、斜杠（分类层级）
+    if(preg_match('/[^a-zA-Z0-9_\-\/]/', $path_type))
+    {
+        return 'other';
+    }
+    $parts = [];
+    foreach(explode('/', $path_type) as $seg)
+    {
+        $seg = trim($seg);
+        if($seg === '' || $seg === '.' || $seg === '..')
+        {
+            continue;
+        }
+        $parts[] = $seg;
+    }
+    if(empty($parts))
+    {
+        return 'other';
+    }
+    return implode('/', $parts);
+}
+
+/**
+ * 是否禁止远程抓取的 IP（私网/保留/回环/链路本地等）
+ * @author  Devil
+ * @version 1.0.0
+ * @date    2026-09-13
+ * @param   [string]          $ip [IP]
+ * @return  [bool]            true=不安全
+ */
+function IsUnsafeRemoteFetchIp($ip)
+{
+    if(empty($ip) || !is_string($ip))
+    {
+        return true;
+    }
+    if(!filter_var($ip, FILTER_VALIDATE_IP))
+    {
+        return true;
+    }
+    // NO_PRIV_RANGE：RFC1918；NO_RES_RANGE：127/8、169.254/16、云元数据等保留段
+    if(!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE))
+    {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * 是否禁止远程抓取的 URL（协议/主机/解析 IP）
+ * @author  Devil
+ * @version 1.0.0
+ * @date    2026-09-13
+ * @param   [string]          $url [URL]
+ * @return  [bool]            true=不安全
+ */
+function IsUnsafeRemoteFetchUrl($url)
+{
+    if(empty($url) || !is_string($url))
+    {
+        return true;
+    }
+    if(RequestGetStreamWrapperReject($url))
+    {
+        return true;
+    }
+    if(!preg_match('#^https?://#i', $url))
+    {
+        return true;
+    }
+    $parts = parse_url($url);
+    if(empty($parts['host']))
+    {
+        return true;
+    }
+    $host = strtolower($parts['host']);
+    // 去掉 IPv6 方括号
+    if(strlen($host) >= 2 && $host[0] === '[' && substr($host, -1) === ']')
+    {
+        $host = substr($host, 1, -1);
+    }
+    if($host === 'localhost' || $host === 'metadata.google.internal')
+    {
+        return true;
+    }
+    // 主机本身是 IP
+    if(filter_var($host, FILTER_VALIDATE_IP))
+    {
+        return IsUnsafeRemoteFetchIp($host);
+    }
+    // DNS 解析后校验（防止解析到内网）
+    $ip = gethostbyname($host);
+    if($ip === $host)
+    {
+        return true;
+    }
+    return IsUnsafeRemoteFetchIp($ip);
+}
+
+/**
+ * 解析重定向 Location 为绝对 URL
+ * @author  Devil
+ * @version 1.0.0
+ * @date    2026-09-13
+ * @param   [string]          $base     [当前 URL]
+ * @param   [string]          $location [Location 头]
+ * @return  [string]
+ */
+function ResolveHttpRedirectUrl($base, $location)
+{
+    $location = trim(strval($location));
+    if($location === '')
+    {
+        return '';
+    }
+    if(preg_match('#^https?://#i', $location))
+    {
+        return $location;
+    }
+    $parts = parse_url($base);
+    if(empty($parts['scheme']) || empty($parts['host']))
+    {
+        return '';
+    }
+    $scheme = $parts['scheme'];
+    $host = $parts['host'];
+    $port = empty($parts['port']) ? '' : (':'.$parts['port']);
+    if(isset($location[0]) && $location[0] === '/')
+    {
+        return $scheme.'://'.$host.$port.$location;
+    }
+    $path = empty($parts['path']) ? '/' : $parts['path'];
+    $dir = preg_replace('#/[^/]*$#', '/', $path);
+    return $scheme.'://'.$host.$port.$dir.$location;
+}
+
+/**
+ * 安全远程 GET（关闭自动跟随；每跳校验目标 IP，防 SSRF）
+ * @author  Devil
+ * @version 1.0.0
+ * @date    2026-09-13
+ * @param   [string]          $url            [URL]
+ * @param   [int]             $timeout        [超时秒]
+ * @param   [int]             $max_redirects  [最大重定向次数]
+ * @return  [string]
+ */
+function CurlGetSafeRemote($url, $timeout = 10, $max_redirects = 5)
+{
+    if(!function_exists('curl_init'))
+    {
+        return '';
+    }
+    $current = strval($url);
+    $max_redirects = max(0, intval($max_redirects));
+    for($i = 0; $i <= $max_redirects; $i++)
+    {
+        if(IsUnsafeRemoteFetchUrl($current))
+        {
+            return '';
+        }
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, intval($timeout));
+        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_URL, $current);
+        $resp = curl_exec($ch);
+        $code = intval(curl_getinfo($ch, CURLINFO_HTTP_CODE));
+        $header_size = intval(curl_getinfo($ch, CURLINFO_HEADER_SIZE));
+        curl_close($ch);
+        if($resp === false || $header_size <= 0)
+        {
+            return '';
+        }
+        $headers = substr($resp, 0, $header_size);
+        $body = substr($resp, $header_size);
+        if($code >= 300 && $code < 400)
+        {
+            if(!preg_match('/^Location:\s*(.+)$/im', $headers, $m))
+            {
+                return '';
+            }
+            $next = ResolveHttpRedirectUrl($current, trim($m[1]));
+            if($next === '' || $next === $current)
+            {
+                return '';
+            }
+            $current = $next;
+            continue;
+        }
+        return ($body === false) ? '' : $body;
+    }
+    return '';
 }
 
 /**

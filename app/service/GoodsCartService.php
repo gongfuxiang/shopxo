@@ -14,6 +14,7 @@ use think\facade\Db;
 use app\service\UserService;
 use app\service\BuyService;
 use app\service\GoodsService;
+use app\service\I18nService;
 use app\service\ResourcesService;
 
 /**
@@ -87,10 +88,23 @@ class GoodsCartService
 
                 // 规格
                 $v['spec'] = empty($v['spec']) ? null : json_decode($v['spec'], true);
+
+                // key模式反解为基础规格（存储语言无关、匹配统一默认语言）
+                if(!empty($v['spec']) && is_array($v['spec']))
+                {
+                    $cart_spec_keys = array_column($v['spec'], 'key');
+                    if(count(array_filter($cart_spec_keys)) == count($cart_spec_keys))
+                    {
+                        $v['spec'] = I18nService::SpecBaseSpecResolve($v['goods_id'], $v['spec']);
+                    }
+                }
+                // 规格快照文本（默认语言）
                 $v['spec_text'] = empty($v['spec']) ? '' : implode('，', array_filter(array_map(function($spec)
                         {
                             return (isset($spec['type']) && isset($spec['value'])) ? $spec['type'].':'.$spec['value'] : '';
                         }, $v['spec'])));
+                // 当前语言展示规格（不落库、仅页面/接口显示）
+                $v['spec_show'] = empty($v['spec']) ? [] : I18nService::SpecShowData($v['goods_id'], $v['spec']);
 
                 // 获取商品基础信息、如果有请求参数指定数量则使用指定的数量
                 $spec_params = array_merge($params, [
@@ -352,6 +366,16 @@ class GoodsCartService
         // 规格处理
         $spec = BuyService::GoodsSpecificationsHandle($params);
 
+        // key模式反解为默认语言基础规格（存储与匹配统一语言无关、与购买流程一致）
+        if(!empty($spec) && is_array($spec))
+        {
+            $cart_add_spec_keys = array_column($spec, 'key');
+            if(count(array_filter($cart_add_spec_keys)) == count($cart_add_spec_keys))
+            {
+                $spec = I18nService::SpecBaseSpecResolve($goods_id, $spec);
+            }
+        }
+
         // 获取商品基础信息
         $spec_params = array_merge($params, [
             'id'    => $goods_id,
@@ -543,6 +567,203 @@ class GoodsCartService
             return DataReturn(MyLang('update_success'), 0, $data);
         }
         return DataReturn(MyLang('update_fail'), -100);
+    }
+
+    /**
+     * 购物车规格修改（按购物车行 id 替换规格，已存在同规格则合并）
+     * @author  Devil
+     * @version 1.0.0
+     * @date    2026-09-21
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function GoodsCartSpecUpdate($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => MyLang('data_id_error_tips'),
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'goods_id',
+                'error_msg'         => MyLang('goods_id_error_tips'),
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'user',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 查询用户状态是否正常
+        $ret = UserService::UserStatusCheck($params['user']['id']);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 当前购物车行
+        $cart_id = intval($params['id']);
+        $goods_id = intval($params['goods_id']);
+        $cart = Db::name('Cart')->where([
+            'id'        => $cart_id,
+            'user_id'   => $params['user']['id'],
+            'goods_id'  => $goods_id,
+        ])->find();
+        if(empty($cart))
+        {
+            return DataReturn(MyLang('common_service.goodscart.save_stock_update_data_empty_tips'), -1);
+        }
+
+        // 商品是否有效
+        $goods = Db::name('Goods')->where(['id'=>$goods_id, 'is_shelves'=>1, 'is_delete_time'=>0])->find();
+        if(empty($goods))
+        {
+            return DataReturn(MyLang('goods_no_exist_or_delete_error_tips'), -2);
+        }
+        if(empty($goods['images']))
+        {
+            $goods['images'] = ResourcesService::AttachmentPathHandle(GoodsService::GoodsImagesCoverHandle($goods_id));
+        }
+
+        // 是否支持购物车操作
+        $ret = GoodsService::IsGoodsSiteTypeConsistent($goods_id, $goods['site_type']);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 规格处理
+        $spec = BuyService::GoodsSpecificationsHandle($params);
+        if(empty($spec) || !is_array($spec))
+        {
+            return DataReturn(MyLang('common_service.goodscart.spec_empty_tips'), -1);
+        }
+        $cart_add_spec_keys = array_column($spec, 'key');
+        if(count(array_filter($cart_add_spec_keys)) == count($cart_add_spec_keys))
+        {
+            $spec = I18nService::SpecBaseSpecResolve($goods_id, $spec);
+        }
+
+        // 规格详情（价库存）
+        $spec_params = array_merge($params, [
+            'id'    => $goods_id,
+            'spec'  => $spec,
+        ]);
+        $goods_base = GoodsService::GoodsSpecDetail($spec_params);
+        if($goods_base['code'] != 0)
+        {
+            return $goods_base;
+        }
+        $goods['inventory'] = $goods_base['data']['spec_base']['inventory'];
+        $goods['buy_max_number'] = $goods_base['data']['spec_base']['buy_max_number'];
+        $images = BuyService::BuyGoodsSpecImages($goods_id, $spec);
+        if(!empty($images))
+        {
+            $goods['images'] = $images;
+        }
+
+        // 数量：优先入参，否则沿用原行数量
+        $stock = isset($params['stock']) ? intval($params['stock']) : intval($cart['stock']);
+        if($stock < 1)
+        {
+            $stock = 1;
+        }
+        if($goods['buy_max_number'] > 0 && $stock > $goods['buy_max_number'])
+        {
+            $stock = $goods['buy_max_number'];
+        }
+        if($stock > $goods['inventory'])
+        {
+            return DataReturn(MyLang('common_service.goodscart.save_inventory_not_enough_tips'), -1);
+        }
+
+        $spec_json = json_encode($spec, JSON_UNESCAPED_UNICODE);
+        $upd_data = [
+            'title'          => $goods['title'],
+            'images'         => $goods['images'],
+            'original_price' => $goods_base['data']['spec_base']['original_price'],
+            'price'          => $goods_base['data']['spec_base']['price'],
+            'stock'          => $stock,
+            'spec'           => $spec_json,
+            'upd_time'       => time(),
+        ];
+
+        // 是否已有同规格其它行 → 合并后删当前行
+        $exist = Db::name('Cart')->where([
+            'user_id'   => $params['user']['id'],
+            'goods_id'  => $goods_id,
+            'spec'      => $spec_json,
+        ])->where('id', '<>', $cart_id)->find();
+        if(!empty($exist))
+        {
+            $merge_stock = intval($exist['stock']) + $stock;
+            if($goods['buy_max_number'] > 0 && $merge_stock > $goods['buy_max_number'])
+            {
+                $merge_stock = $goods['buy_max_number'];
+            }
+            if($merge_stock > $goods['inventory'])
+            {
+                $merge_stock = $goods['inventory'];
+            }
+            $merge_data = [
+                'title'          => $upd_data['title'],
+                'images'         => $upd_data['images'],
+                'original_price' => $upd_data['original_price'],
+                'price'          => $upd_data['price'],
+                'stock'          => $merge_stock,
+                'upd_time'       => time(),
+            ];
+            if(Db::name('Cart')->where(['id'=>$exist['id']])->update($merge_data) === false)
+            {
+                return DataReturn(MyLang('update_fail'), -100);
+            }
+            Db::name('Cart')->where(['id'=>$cart_id])->delete();
+            $row_id = intval($exist['id']);
+            $row_stock = $merge_stock;
+        } else {
+            if(Db::name('Cart')->where(['id'=>$cart_id])->update($upd_data) === false)
+            {
+                return DataReturn(MyLang('update_fail'), -100);
+            }
+            $row_id = $cart_id;
+            $row_stock = $stock;
+        }
+
+        $data = [
+            'id'            => $row_id,
+            'goods_id'      => $goods_id,
+            'stock'         => $row_stock,
+            'price'         => $upd_data['price'],
+            'original_price'=> $upd_data['original_price'],
+            'images'        => $upd_data['images'],
+            'spec'          => $spec,
+            'total_price'   => PriceNumberFormat($row_stock * floatval($upd_data['price'])),
+        ];
+
+        // 钩子
+        $hook_name = 'plugins_service_cart_update_success';
+        $ret = EventReturnHandle(MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => $params,
+            'data'          => &$data,
+            'goods_id'      => $goods_id,
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        return DataReturn(MyLang('update_success'), 0, $data);
     }
 
     /**

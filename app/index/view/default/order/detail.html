@@ -690,7 +690,9 @@
                                                 <img src="{{$goods.images}}" alt="{{$goods.title}}" />
                                             </div>
                                             <div class="am-list-item-text richtext virtually-right am-padding-left-xl">
-                                                {{if !empty($goods['spec_text'])}}
+                                                {{if !empty($goods['spec_show'])}}
+                                                        <strong>{{:implode('，', array_map(function($sp){ return $sp['type'].':'.$sp['value']; }, $goods['spec_show']))}}</strong>
+                                                {{elseif !empty($goods['spec_text']) /}}
                                                     <p>
                                                         <strong>{{$goods.spec_text}}</strong>
                                                     </p>
@@ -945,7 +947,9 @@
                                                         </a>
                                                     </div>
                                                 {{/if}}
-                                                {{if !empty($goods.spec_text)}}
+                                                {{if !empty($goods['spec_show'])}}
+                                                    <div class="am-margin-top-xs am-color-grey am-text-xs">{{:implode('，', array_map(function($sp){ return $sp['type'].':'.$sp['value']; }, $goods['spec_show']))}}</div>
+                                                {{elseif !empty($goods.spec_text) /}}
                                                     <div class="am-margin-top-xs am-color-grey am-text-xs">{{$goods.spec_text}}</div>
                                                 {{/if}}
 

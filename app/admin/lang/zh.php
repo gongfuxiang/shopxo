@@ -163,13 +163,15 @@ return [
         ],
         // 网站设置导航
         'siteset_nav_list'                      => [
-            ['name' => '首页', 'type' => 'index'],
+            ['name' => '基础配置', 'type' => 'index'],
+            ['name' => '首页', 'type' => 'home'],
             ['name' => '搜索', 'type' => 'search'],
-            ['name' => '订单', 'type' => 'order'],
             ['name' => '商品', 'type' => 'goods'],
             ['name' => '商品分类', 'type' => 'goodscategory'],
             ['name' => '购物车', 'type' => 'cart'],
-            ['name' => '扩展', 'type' => 'extends'],
+            ['name' => '订单', 'type' => 'order'],
+            ['name' => '用户地址', 'type' => 'useraddress'],
+            ['name' => '快捷导航', 'type' => 'quicknav'],
         ],
         // 页面基础
         'base_item_site_status_title'           => '站点状态',
@@ -632,9 +634,9 @@ return [
         'base_nav_title'                        => '商品分类',
     ],
 
-    // 商品评论
+    // 商品评价
     'goodscomments'         => [
-        'base_nav_title'                        => '商品评论',
+        'base_nav_title'                        => '商品评价',
         // 动态表格
         'form_table'                            => [
             'user'               => '用户信息',
@@ -642,8 +644,8 @@ return [
             'goods'              => '基础信息',
             'goods_placeholder'  => '请输入商品名称/型号',
             'business_type'      => '业务类型',
-            'content'            => '评论内容',
-            'images'             => '评论图片',
+            'content'            => '评价内容',
+            'images'             => '评价图片',
             'rating'             => '评分',
             'reply'              => '回复内容',
             'is_show'            => '是否显示',
@@ -880,7 +882,7 @@ return [
             'express'                          => '快递信息',
             'express_placeholder'              => '请输入快递单号',
             'aftersale'                        => '最新售后',
-            'is_comments'                      => '用户是否评论',
+            'is_comments'                      => '用户是否评价',
             'confirm_time'                     => '确认时间',
             'pay_time'                         => '支付时间',
             'delivery_time'                    => '发货时间',
@@ -1377,7 +1379,7 @@ return [
     ],
 
     // 首页轮播
-    'slide'                 => [
+    'slider'                => [
         'base_nav_title'                        => '轮播',
         // 动态表格
         'form_table'                            => [
@@ -1608,7 +1610,7 @@ return [
         'remove_cache_title'                       => '清除缓存',
         'nav_pending_todo_order_delivery'          => '订单待发货',
         'nav_pending_todo_order_aftersale_audit'   => '订单售后待确认/待审核',
-        'nav_pending_todo_goods_comments_reply'    => '商品评论待回复',
+        'nav_pending_todo_goods_comments_reply'    => '商品评价待回复',
         'nav_pending_todo_user_audit'              => '用户待审核',
         'nav_pending_todo_empty'                   => '暂无待处理事项',
         // 商品参数
@@ -1736,13 +1738,13 @@ return [
                 'goodsspectemplate_saveinfo'        => '商品规格添加/编辑页面',
                 'goodsspectemplate_save'            => '商品规格添加/编辑',
                 'goodsspectemplate_detail'          => '商品规格详情',
-                'goodscomments_detail'              => '商品评论详情',
-                'goodscomments_index'               => '商品评论',
-                'goodscomments_reply'               => '商品评论回复',
-                'goodscomments_delete'              => '商品评论删除',
-                'goodscomments_statusupdate'        => '商品评论状态更新',
-                'goodscomments_saveinfo'            => '商品评论添加/编辑页面',
-                'goodscomments_save'                => '商品评论添加/编辑',
+                'goodscomments_detail'              => '商品评价详情',
+                'goodscomments_index'               => '商品评价',
+                'goodscomments_reply'               => '商品评价回复',
+                'goodscomments_delete'              => '商品评价删除',
+                'goodscomments_statusupdate'        => '商品评价状态更新',
+                'goodscomments_saveinfo'            => '商品评价添加/编辑页面',
+                'goodscomments_save'                => '商品评价添加/编辑',
                 'goodsbrowse_index'                 => '商品浏览',
                 'goodsbrowse_delete'                => '商品浏览删除',
                 'goodsbrowse_detail'                => '商品浏览详情',
@@ -1812,12 +1814,12 @@ return [
                 'themedata_detail'                 => '主题数据详情',
                 'themedata_goodssearch'            => '主题数据商品搜索',
                 'themedata_articlesearch'          => '主题数据文章搜索',
-                'slide_index'                      => '首页轮播',
-                'slide_saveinfo'                   => '轮播添加/编辑页面',
-                'slide_save'                       => '轮播添加/编辑',
-                'slide_statusupdate'               => '轮播状态更新',
-                'slide_delete'                     => '轮播删除',
-                'slide_detail'                     => '轮播详情',
+                'slider_index'                      => '首页轮播',
+                'slider_saveinfo'                   => '轮播添加/编辑页面',
+                'slider_save'                       => '轮播添加/编辑',
+                'slider_statusupdate'               => '轮播状态更新',
+                'slider_delete'                     => '轮播删除',
+                'slider_detail'                     => '轮播详情',
                 'screeningprice_index'             => '筛选价格',
                 'screeningprice_save'              => '筛选价格添加/编辑',
                 'screeningprice_delete'            => '筛选价格删除',
@@ -2068,5 +2070,14 @@ return [
             ]
         ],
     ],
+    // 后台菜单搜索
+    'admin_menu_search' => [
+        'title'         => '搜索功能',
+        'placeholder'   => '搜索菜单或功能',
+        'input_tips'    => '输入关键字，搜索菜单、功能、配置和插件',
+        'empty_tips'    => '暂无匹配的页面',
+    ],
+    // 系统使用教程
+    'system_use_tutorial_title' => '系统使用教程',
 ];
 ?>

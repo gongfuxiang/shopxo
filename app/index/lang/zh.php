@@ -93,6 +93,7 @@ return [
         'base_nav_title'                        => '商品搜索',
         'filter_out_first_text'                 => '筛选出',
         'filter_out_last_data_text'             => '条数据',
+        'advanced_filter_title'                 => '高级筛选',
     ],
 
     // 商品分类
@@ -123,6 +124,7 @@ return [
         'no_cart_data_tips'                     => '您的购物车还是空的，您可以',
         'no_cart_data_my_favor_name'            => '我的收藏夹',
         'no_cart_data_my_order_name'            => '我的订单',
+        'change_spec_title'                     => '修改规格',
     ],
 
     // 订单确认
@@ -210,12 +212,12 @@ return [
         'detail_shipping_address_title'         => '收货地址',
         'detail_service_title'                  => '服务信息',
         'detail_trace_source_title'             => '追溯信息',
-        'comments_base_nav_title'               => '订单评论',
+        'comments_base_nav_title'               => '订单评价',
         'batch_payment_name'                    => '批量支付',
         'comments_goods_list_thead_base'        => '商品信息',
         'comments_goods_list_thead_price'       => '单价',
-        'comments_goods_list_thead_content'     => '评论内容',
-        'form_you_have_commented_tips'          => '你已进行过评论',
+        'comments_goods_list_thead_content'     => '评价内容',
+        'form_you_have_commented_tips'          => '你已进行过评价',
         'form_payment_title'                    => '支付',
         'form_payment_no_data_tips'             => '没有支付方式',
         'order_base_title'                      => '订单信息',

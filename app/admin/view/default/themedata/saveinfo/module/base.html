@@ -36,6 +36,6 @@
 </div>
 <div class="am-form-group">
     <label>{{:MyLang('common_service.themedata.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-    <input type="text" name="name" placeholder="{{:MyLang('common_service.themedata.form_item_name_message')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('common_service.themedata.form_item_name_message')}}" class="am-radius" {{if !empty($module_data['data']) and !empty($module_data['data']['name'])}} value="{{$module_data.data.name}}"{{/if}} required />
+    <input type="text" name="name" data-i18n="1" data-i18n-business-id="{{if !empty($module_data['data']['id'])}}{{$module_data.data.id}}{{/if}}" placeholder="{{:MyLang('common_service.themedata.form_item_name_message')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('common_service.themedata.form_item_name_message')}}" class="am-radius" {{if !empty($module_data['data']) and !empty($module_data['data']['name'])}} value="{{$module_data.data.name}}"{{/if}} required />
 </div>
 {{:ModuleInclude('lib/is_enable')}}

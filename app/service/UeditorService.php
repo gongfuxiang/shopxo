@@ -49,6 +49,10 @@ class UeditorService
         {
             self::$path_type = self::CategoryIdPathType();
         }
+        // 规范化 path_type，禁止 ../ 等穿越
+        self::$path_type = function_exists('SanitizeAttachmentPathType')
+            ? SanitizeAttachmentPathType(self::$path_type)
+            : self::$path_type;
         self::$category_id = self::PathTypeCategoryId();
 
         // action
@@ -233,7 +237,39 @@ class UeditorService
      */
     public static function DeleteFile()
     {
-        $ret = AttachmentService::AttachmentDelete(input());
+        $params = input();
+        // 删除鉴权：仅后台已授权调用，或扫码上传会话内删除自己刚传的附件
+        $allow_delete = false;
+        if(defined('APPLICATION') && APPLICATION === 'admin')
+        {
+            $allow_delete = true;
+            $params['is_power_delete'] = 1;
+        } elseif(
+            !empty(self::$params['upload_source'])
+            && self::$params['upload_source'] == 'scanupload'
+            && !empty(self::$params['key'])
+            && !empty(self::$params['id'])
+        )
+        {
+            $cache_key = self::ScanCacheKey(self::$params['key']);
+            $cache_data = MyCache($cache_key);
+            if(!empty($cache_data) && is_array($cache_data))
+            {
+                $ids = array_column($cache_data, 'id');
+                if(in_array(self::$params['id'], $ids) || in_array(intval(self::$params['id']), array_map('intval', $ids)))
+                {
+                    $allow_delete = true;
+                    $params['is_power_delete'] = 1;
+                    $params['ids'] = self::$params['id'];
+                }
+            }
+        }
+        if(!$allow_delete)
+        {
+            return DataReturn(MyLang('no_power_tips'), -1);
+        }
+
+        $ret = AttachmentService::AttachmentDelete($params);
         if($ret['code'] == 0 && !empty(self::$params['id']))
         {
             // 是否扫码来源-删除操作

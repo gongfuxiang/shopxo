@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\I18nService;
 use app\service\SystemService;
 
 /**
@@ -59,6 +60,10 @@ class RegionService
         if(!empty($temp_region_ids))
         {
             $data = Db::name('Region')->where(['id'=>$temp_region_ids])->column('name', 'id');
+
+            // 多语言名称替换（id => name；后台/前台均按当前语言，缓存外即时替换）
+            self::RegionNameMapI18nHandle($data);
+
             if(!empty($data))
             {
                 foreach($data as $rid=>$rv)
@@ -230,6 +235,11 @@ class RegionService
                 $data['id'] = $params['id'];
             }
         }
+        $i18n_data = I18nService::RequestData($params);
+        if($i18n_data !== null)
+        {
+            I18nService::SaveData('region', $data['id'], $i18n_data);
+        }
         return DataReturn(MyLang('operate_success'), 0, $data);
     }
 
@@ -318,6 +328,7 @@ class RegionService
         // 开始删除
         if(Db::name('Region')->where(['id'=>$ids])->delete())
         {
+            I18nService::DeleteData('region', $params['ids']);
             return DataReturn(MyLang('delete_success'), 0);
         }
         return DataReturn(MyLang('delete_fail'), -100);
@@ -422,11 +433,127 @@ class RegionService
                     $data[$k]['items'] = array_key_exists($v['id'], $two_group) ? $two_group[$v['id']] : [];
                 }
 
-                // 存储缓存
+                // 存储缓存（原文，不含多语言替换）
                 MyCache($key, $data, 60);
             }
         }
+
+        // 多语言名称替换（缓存存原文，按当前语言即时替换，避免污染缓存）
+        return self::RegionTreeI18nNameHandle($data);
+    }
+
+    /**
+     * 地区名称键值对多语言替换（当前语言非默认时生效，后台/前台均可用）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-04
+     * @desc    description
+     * @param   [array]          $data [id => name]
+     */
+    public static function RegionNameMapI18nHandle(&$data)
+    {
+        $lang = I18nService::CurrentLang();
+        if(empty($data) || !is_array($data) || empty($lang) || $lang == I18nService::DefaultLang())
+        {
+            return;
+        }
+        $values = I18nService::ValuesBatch('region', array_keys($data));
+        foreach($data as $id=>&$name)
+        {
+            if(!empty($values[$id]['name'][$lang]))
+            {
+                $name = $values[$id]['name'][$lang];
+            }
+        }
+    }
+
+    /**
+     * 地区树多语言名称替换
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-04
+     * @desc    深拷贝后替换，避免改写缓存原文
+     * @param   [array]          $data [地区树]
+     * @return  [array]
+     */
+    public static function RegionTreeI18nNameHandle($data)
+    {
+        $lang = I18nService::CurrentLang();
+        if(empty($data) || !is_array($data) || empty($lang) || $lang == I18nService::DefaultLang())
+        {
+            return $data;
+        }
+
+        // 深拷贝，避免污染 MyCache 中的原文
+        $data = unserialize(serialize($data));
+        $ids = [];
+        self::RegionTreeCollectIds($data, $ids);
+        if(empty($ids))
+        {
+            return $data;
+        }
+        $values = I18nService::ValuesBatch('region', array_values(array_unique($ids)));
+        self::RegionTreeApplyNames($data, $values, $lang);
         return $data;
+    }
+
+    /**
+     * 收集地区树全部 id
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-04
+     * @param   [array]          $data [地区树]
+     * @param   [array]          $ids  [id 容器]
+     */
+    private static function RegionTreeCollectIds($data, &$ids)
+    {
+        if(empty($data) || !is_array($data))
+        {
+            return;
+        }
+        foreach($data as $v)
+        {
+            if(!empty($v['id']))
+            {
+                $ids[] = $v['id'];
+            }
+            if(!empty($v['items']) && is_array($v['items']))
+            {
+                self::RegionTreeCollectIds($v['items'], $ids);
+            }
+        }
+    }
+
+    /**
+     * 地区树应用多语言名称
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-04
+     * @param   [array]          $data   [地区树]
+     * @param   [array]          $values [i18n 值]
+     * @param   [string]         $lang   [语言]
+     */
+    private static function RegionTreeApplyNames(&$data, $values, $lang)
+    {
+        if(empty($data) || !is_array($data))
+        {
+            return;
+        }
+        foreach($data as &$v)
+        {
+            if(!empty($v['id']) && !empty($values[$v['id']]['name'][$lang]))
+            {
+                $v['name'] = $values[$v['id']]['name'][$lang];
+            }
+            if(!empty($v['items']) && is_array($v['items']))
+            {
+                self::RegionTreeApplyNames($v['items'], $values, $lang);
+            }
+        }
     }
 
     /**

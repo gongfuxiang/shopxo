@@ -1,0 +1,67 @@
+<!-- 多语言数据弹窗（公共壳，字段区由 i18n.js 动态填充） -->
+{{if !empty($i18n_view_config) and isset($is_load_i18n) and $is_load_i18n eq 1}}
+    <div class="am-modal am-modal-no-btn i18n-modal" id="common-i18n-modal" tabindex="-1">
+        <div class="am-modal-dialog am-form">
+            <div class="am-modal-hd">
+                <span>{{:MyLang('common_service.i18n.popup_title')}}</span>
+                <a href="javascript:void(0)" class="am-close am-close-spin i18n-close">&times;</a>
+            </div>
+            <div class="am-modal-bd">
+                <!-- 弹窗内容顶部钩子 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_index_i18n_popup_top</span>
+                    </div>
+                {{/if}}
+                {{php}}
+                    $hook_name = 'plugins_view_index_i18n_popup_top';
+                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false]);
+                    if(!empty($hook_data) && is_array($hook_data))
+                    {
+                        foreach($hook_data as $hook)
+                        {
+                            if(is_string($hook) || is_int($hook))
+                            {
+                                echo htmlspecialchars_decode($hook);
+                            }
+                        }
+                    }
+                {{/php}}
+
+                <div class="i18n-field-info am-text-sm">
+                    <span class="i18n-field-label am-color-red"></span>
+                    <span class="i18n-field-value"></span>
+                </div>
+                <div class="i18n-body"></div>
+
+                <!-- 弹窗内容底部钩子 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_index_i18n_popup_bottom</span>
+                    </div>
+                {{/if}}
+                {{php}}
+                    $hook_name = 'plugins_view_index_i18n_popup_bottom';
+                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false]);
+                    if(!empty($hook_data) && is_array($hook_data))
+                    {
+                        foreach($hook_data as $hook)
+                        {
+                            if(is_string($hook) || is_int($hook))
+                            {
+                                echo htmlspecialchars_decode($hook);
+                            }
+                        }
+                    }
+                {{/php}}
+            </div>
+            <div class="i18n-modal-footer">
+                <span class="i18n-save-tips am-text-xs">{{:MyLang('common_service.i18n.save_tips')}}</span>
+                <span>
+                    <button type="button" class="am-btn am-btn-default am-btn-xs am-radius i18n-cancel">{{:MyLang('cancel_title')}}</button>
+                    <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius i18n-confirm">{{:MyLang('confirm_title')}}</button>
+                </span>
+            </div>
+        </div>
+    </div>
+{{/if}}

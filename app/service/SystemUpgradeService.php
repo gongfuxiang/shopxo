@@ -91,14 +91,14 @@ class SystemUpgradeService
     public static function UpgradeHandle($params = [])
     {
         // 系统包
-        $system_url = MySession(self::$package_system_dir_key);
+        $system_url = MyCache(self::$package_system_dir_key);
         if(empty($system_url) || !file_exists($system_url))
         {
             return DataReturn(MyLang('common_service.systemupgrade.system_package_no_exist_tips'), -1);
         }
 
         // 升级包
-        $upgrade_url = MySession(self::$package_upgrade_dir_key);
+        $upgrade_url = MyCache(self::$package_upgrade_dir_key);
         if(empty($upgrade_url) || !file_exists($upgrade_url))
         {
             return DataReturn(MyLang('common_service.systemupgrade.update_package_no_exist_tips'), -1);
@@ -119,9 +119,9 @@ class SystemUpgradeService
         }
 
         // 移除session
-        MySession(self::$package_url_key, null);
-        MySession(self::$package_system_dir_key, null);
-        MySession(self::$package_upgrade_dir_key, null);
+        MyCache(self::$package_url_key, null);
+        MyCache(self::$package_system_dir_key, null);
+        MyCache(self::$package_upgrade_dir_key, null);
 
         // 删除本地文件
         \base\FileUtil::UnlinkFile($system_url);
@@ -256,7 +256,7 @@ class SystemUpgradeService
     public static function DownloadHandle($params = [])
     {
         // 获取下载地址
-        $data = MySession(self::$package_url_key);
+        $data = MyCache(self::$package_url_key);
         if(empty($data) || !is_array($data) || empty($data[$params['opt']]))
         {
             return DataReturn('下载地址为空', -1);
@@ -274,7 +274,7 @@ class SystemUpgradeService
         if(@file_put_contents($res['url'], RequestGet($url, 300000)) !== false)
         {
             // 存储已下载文件地址session
-            MySession(self::SaveDirPathUrl($params['opt']), $res['url']);
+            MyCache(self::SaveDirPathUrl($params['opt']), $res['url']);
             return DataReturn('success', 0);
         }
         return DataReturn(MyLang('common_service.systemupgrade.package_download_fail_tips'), -1);
@@ -320,7 +320,7 @@ class SystemUpgradeService
         $ret = StoreService::RemoteStoreData($user['accounts'], $user['password'], MyConfig('shopxo.store_system_upgrade_url'), $params);
         if(!empty($ret) && isset($ret['code']) && $ret['code'] == 0)
         {
-            MySession(self::$package_url_key, $ret['data']);
+            MyCache(self::$package_url_key, $ret['data']);
             return DataReturn(MyLang('get_success'), 0);
         }
         return $ret;

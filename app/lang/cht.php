@@ -201,8 +201,8 @@ return [
     'register_success'                                      => '注册成功',
     'login_fail'                                            => '登入失敗',
     'login_success'                                         => '登入成功',
-    'comments_fail'                                         => '評論失敗',
-    'comments_success'                                      => '評論成功',
+    'comments_fail'                                         => '評價失敗',
+    'comments_success'                                      => '評價成功',
     'favor_fail'                                            => '收藏失敗',
     'favor_success'                                         => '收藏成功',
     'refund_fail'                                           => '退款失敗',
@@ -401,6 +401,7 @@ return [
     'view_tap_title'                                        => '點擊查看',
     'view_detail_title'                                     => '查看詳情',
     'view_all_title'                                        => '查看全部',
+    'view_more_title'                                       => '查看更多',
     'base_title'                                            => '基礎',
     'data_title'                                            => '數據',
     'data_operate_title'                                    => '數據操作',
@@ -439,7 +440,7 @@ return [
     'favor_title'                                           => '收藏',
     'already_favor_title'                                   => '已收藏',
     'miniapp_title'                                         => '小程式',
-    'comment_title'                                         => '評估',
+    'comment_title'                                         => '評價',
     'go_comment_title'                                      => '去評價',
     'default_title'                                         => '默認',
     'setup_default_title'                                   => '設為默認',
@@ -884,7 +885,7 @@ return [
                 '2.例如：/pages/user/user',
                 '3.支持帶參數？ x=xx',
             ],
-            'tips'  => '小程式頁面地址配置說明',
+            'tips'  => '查看內部頁面地址',
         ],
         [
             'type'  => 'map',
@@ -894,6 +895,59 @@ return [
                 '2.例如：ShopXO|上海浦東新區張江高科技園區XXX號|121.626444|31.20843',
             ]
         ]
+    ],
+    // 手機端內部頁面地址（後台事件值彈窗，與 DIY 獨立）
+    'app_pages'                         => [
+        'popup_title'                   => '內部頁面地址',
+        'nav_title'                     => '手機端頁面地址',
+        'search_placeholder'            => '搜索標題、名稱或地址',
+        'copy_title'                    => '複製',
+        'use_title'                     => '使用',
+        'empty_tips'                    => '暫無匹配的頁面',
+        'plugins_empty_tips'            => '暫無插件頁面',
+        'plugins_hook_tips'             => '插件可通過鉤子 plugins_service_app_pages_list 擴展',
+        'group_base'                    => '基礎頁面',
+        'group_user'                    => '用戶中心',
+        'group_params'                  => '需拼接參數',
+        'group_plugins'                 => '插件頁面',
+        'page_index'                    => '商城首頁',
+        'page_goods_category'           => '商品分類',
+        'page_goods_search_start'       => '商品搜索開始',
+        'page_goods_search'             => '商品搜索',
+        'page_cart'                     => '購物車',
+        'page_cart_page'                => '購物車單頁',
+        'page_login'                    => '登錄頁面',
+        'page_article_category'         => '文章列表',
+        'page_setup'                    => '設置中心',
+        'page_about'                    => '關於我們',
+        'page_user'                     => '用戶中心',
+        'page_user_order'               => '訂單列表',
+        'page_user_orderaftersale'      => '訂單售後',
+        'page_user_favor'               => '商品收藏',
+        'page_user_goods_comments'      => '商品評論',
+        'page_user_address'             => '我的地址',
+        'page_user_integral'            => '我的積分',
+        'page_message'                  => '我的消息',
+        'page_user_goods_browse'        => '我的足跡',
+        'page_personal'                 => '個人資料',
+        'page_goods_detail'             => '商品詳情',
+        'page_article_detail'           => '文章詳情',
+        'page_diy'                      => 'DIY頁面',
+        'page_design'                   => '頁面設計',
+        'page_customview'               => '自定義頁面',
+        'page_goods_comment'            => '商品評論頁',
+        'page_user_order_detail'        => '訂單詳情',
+        'page_web_view'                 => '內置瀏覽器',
+        'tips_goods_search'             => '可拼接參數，如 ?keywords=關鍵詞&category_id=分類ID&brand=品牌ID',
+        'tips_goods_category'           => '可拼接參數，如 ?id=分類ID',
+        'tips_goods_detail'             => '請自行拼接參數，如 ?id=商品ID',
+        'tips_article_detail'           => '請自行拼接參數，如 ?id=文章ID',
+        'tips_diy'                      => '請自行拼接參數，如 ?id=DIY頁面ID',
+        'tips_design'                   => '請自行拼接參數，如 ?id=頁面設計ID',
+        'tips_customview'               => '請自行拼接參數，如 ?id=自定義頁面ID',
+        'tips_goods_comment'            => '請自行拼接參數，如 ?goods_id=商品ID',
+        'tips_user_order_detail'        => '請自行拼接參數，如 ?id=訂單ID',
+        'tips_web_view'                 => '請自行拼接參數，如 ?url=編碼後的http地址',
     ],
     // 自定义跳转地址提示说明
     'custom_to_value_tips'              => [
@@ -1085,6 +1139,12 @@ return [
         0 => '訂單支付',
         1 => '訂單收貨',
     ],
+    // 商品詳情規格內頁展示
+    'common_goods_detail_spec_page_show_list' => [
+        0 => '默認不內嵌',
+        1 => '一層規格',
+        2 => '多層規格',
+    ],
     // 是否已读
     'common_is_read_list' => [
         0 => '未讀',
@@ -1164,13 +1224,15 @@ return [
     ],
     // 下单指定时间
     'common_buy_datetime_config_list' => [
-        0 => '可選擇',
-        1 => '強制選擇',
+        0 => '關閉',
+        1 => '選擇',
+        2 => '必選',
     ],
     // 下单联系信息
     'common_buy_extraction_contact_config_list' => [
-        0 => '可填寫',
-        1 => '強制填寫',
+        0 => '關閉',
+        1 => '填寫',
+        2 => '必填',
     ],
     // 订单售后类型
     'common_order_aftersale_type_list' => [
@@ -1201,7 +1263,7 @@ return [
         4 => '4分',
         5 => '5分',
     ],
-    // 商品评论业务类型
+    // 商品评价业务类型
     'common_goods_comments_business_type_list' => [
         'order' => '訂單',
     ],
@@ -1490,12 +1552,12 @@ return [
         'quick_nav'       => '快捷導航',
         'shortcutmenu'    => '快捷選單',
         'app_nav'         => '首頁導航',
-        'slide'           => '輪播',
+        'slider'          => '輪播',
         'article'         => '文章',
         'user'            => '用戶',
         'design'          => '頁面設計',
         'plugins'         => '挿件',
-        'order_comments'  => '訂單商品評論',
+        'order_comments'  => '訂單商品評價',
         'theme_data'      => '主題數據',
         'agreement'       => '協定',
         'warehouse'       => '倉庫',
@@ -1552,6 +1614,16 @@ return [
         // 基础
         'base'                => [
             'key_error_tips'                    => '數據key值有誤',
+        ],
+        // 多语言数据
+        'i18n'                => [
+            'popup_title'                       => '多語言數據',
+            'default_tips'                      => '默認語言',
+            'load_fail_tips'                    => '多語言數據加載失敗',
+            'table_not_support_tips'            => '業務表不支持多語言',
+            'save_tips'                      => '確認後暫存、隨表單保存按鈕一起提交生效',
+            'editor_tips'                     => '富文本內容請參考主表單原始內容',
+            'loading_tips'                    => '正在獲取中…',
         ],
         // 系统
         'system'            => [
@@ -1977,8 +2049,9 @@ return [
             'save_stock_update_data_empty_tips'     => '請先加入購物車',
             'save_buy_max_error_tips'               => '超過商品限購數量',
             'save_inventory_not_enough_tips'        => '商品庫存不足',
+            'spec_empty_tips'                       => '請選擇商品規格',
         ],
-        // 商品评论
+        // 商品评价
         'goodscomments'     => [
             // 表单
             'form_item_goods_info_title'            => '商品資訊',
@@ -1989,9 +2062,9 @@ return [
             'form_item_rating'                      => '評分',
             'form_item_rating_placeholder'          => '未評分',
             'form_item_rating_message'              => '評分有誤',
-            'form_item_content'                     => '評論內容',
+            'form_item_content'                     => '評價內容',
             'form_item_content_placeholder'         => '寶貝滿足你的期待嗎？ 說說它的優點和美中不足的地方吧',
-            'form_item_content_message'             => '評論內容6~230個字之間',
+            'form_item_content_message'             => '評價內容6~230個字之間',
             'form_item_reply'                       => '回復內容',
             'form_item_reply_message'               => '回復內容最多230個字',
             'form_item_reply_content_message'       => '回復內容1~230個字之間',
@@ -2000,12 +2073,12 @@ return [
             'form_item_is_reply'                    => '是否已回復',
             'form_item_is_anonymous'                => '是否匿名',
             'form_item_images_message'              => '最多上傳3張圖片',
-            'form_item_anonymous_tips'              => '開啟後你寫的評論會以匿名的形式展現',
+            'form_item_anonymous_tips'              => '開啟後你寫的評價會以匿名的形式展現',
             // 保存
             'save_rating_empty_tips'                => '評級不能為空',
-            'save_content_empty_tips'               => '評論內容不能為空',
-            'save_order_already_comments_tips'      => '該訂單你已進行過評論',
-            'save_comments_add_fail_tips'           => '評論內容添加失敗',
+            'save_content_empty_tips'               => '評價內容不能為空',
+            'save_order_already_comments_tips'      => '該訂單你已進行過評價',
+            'save_comments_add_fail_tips'           => '評價內容添加失敗',
             'save_order_comments_update_tail_tips'  => '訂單更新失敗',
             // 基础
             'comments_username_default'             => '匿名',
@@ -2392,7 +2465,7 @@ return [
                 'order'             => '訂單管理',
                 'orderaftersale'    => '訂單售後',
                 'goodsfavor'        => '商品收藏',
-                'goodscomments'     => '商品評論',
+                'goodscomments'     => '商品評價',
                 'property'          => '財產中心',
                 'integral'          => '我的積分',
                 'base'              => '資料管理',
@@ -2833,7 +2906,7 @@ return [
             'redis_connect_fail_tips'               => 'redis連接失敗',
         ],
         // 轮播
-        'slide'                     => [
+        'slider'                    => [
             // 表单
             'form_item_name'                        => '名稱',
             'form_item_name_message'                => '名稱格式2~60個字',
@@ -2956,8 +3029,8 @@ return [
             'form_item_article_order_by_rule_message'  => '請選擇文章排序規則',
             'form_item_please_enter_text'              => '請輸入',
             'form_item_index_text'                     => '第{index}條',
-            'form_item_custom_data_name_text'          => '數據名稱',
-            'form_item_custom_data_value_text'         => '數據值',
+            'form_item_custom_data_name_text'          => '自定義數據名稱',
+            'form_item_custom_data_value_text'         => '自定義數據值',
             //服務層
             'save_type_error_tips'                     => '資料類型範圍值有誤',
             'save_goods_data_type_error_tips'          => '商品資料類型範圍值有誤',
@@ -4395,9 +4468,19 @@ return [
             'tips' => '請選擇網站類型',
         ],
         'common_is_exhibition_mode_btn_text'  => [
-            'name' => '展示型操作名稱',
+            'name' => '展示模式商品按鈕名稱',
             'desc' => '默認立即諮詢，展示模式下商品頁面的【立即購買】按鈕占位名稱',
-            'tips' => '請填寫展示型操作名稱',
+            'tips' => '請填寫展示模式商品按鈕名稱',
+        ],
+        'common_exhibition_mode_hide_price'  => [
+            'name' => '展示模式隱藏價格',
+            'desc' => '開啟後，在展示型（網站類型或商品類型為展示）下不展示真實售價和原價，覆蓋網站設置中「顯示商品售價」「顯示商品原價」開關',
+            'tips' => '請選擇是否展示模式隱藏價格',
+        ],
+        'common_exhibition_mode_hide_price_text'  => [
+            'name' => '展示模式隱藏價格替換文字',
+            'desc' => '開啟隱藏價格後，價格行仍顯示，金額替換為該文字，如聯絡客服；留空則不顯示價格行',
+            'tips' => '請填寫展示模式隱藏價格替換文字',
         ],
         'common_site_fictitious_title'  => [
             'name' => '虛擬資訊標題',
@@ -4426,10 +4509,12 @@ return [
         ],
         'common_goods_sales_price_status'  => [
             'name' => '顯示商品售價',
+            'desc' => '若開啟【展示模式隱藏價格】且當前為展示型，則優先隱藏售價，本開關不生效',
             'tips' => '請選擇是否顯示商品售價',
         ],
         'common_goods_original_price_status'  => [
             'name' => '顯示商品原價',
+            'desc' => '若開啟【展示模式隱藏價格】且當前為展示型，則優先隱藏原價，本開關不生效',
             'tips' => '請選擇是否顯示商品原價',
         ],
         'common_goods_sales_price_unit_status'  => [
@@ -4536,8 +4621,13 @@ return [
         ],
         'common_cache_data_redis_expire'  => [
             'name' => '有效時間',
-            'desc' => '默認0表示永久',
+            'desc' => '單位秒，默認0表示永久，僅Redis緩存生效',
             'tips' => '請填寫有效時間',
+        ],
+        'common_cache_data_file_expire'  => [
+            'name' => '文件緩存有效時間',
+            'desc' => '單位秒，默認0表示永久，僅文件緩存生效',
+            'tips' => '請填寫文件緩存有效時間',
         ],
         'common_cache_data_redis_prefix'  => [
             'name' => '首碼',
@@ -4775,6 +4865,11 @@ return [
         'common_is_goods_detail_show_left_more'  => [
             'name' => '商品詳情頁左側更多（手機端）',
             'tips' => '請選擇是否商品詳情頁左側更多',
+        ],
+        'common_goods_detail_spec_page_show'  => [
+            'name' => '商品詳情規格內頁展示',
+            'desc' => '默認不內嵌（彈層選擇）；一層規格僅單層商品頁內卡片直選；多層規格則多層也在詳情頁內選擇',
+            'tips' => '請選擇商品詳情規格內頁展示方式',
         ],
         'common_goods_cover_size_type'  => [
             'name' => '商品封面高度拉伸（手機端）',

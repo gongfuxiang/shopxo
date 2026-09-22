@@ -11,7 +11,7 @@
         ])}}
         <!-- table nav end -->
         <!-- form start -->
-        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/appconfig/save', ['nav_type'=>$nav_type])}}" method="POST" request-type="ajax-view">
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/appconfig/save', ['nav_type'=>$nav_type])}}" method="POST" data-i18n-table="config" request-type="ajax-view">
             <div class="am-form-group">
                 <label>{{$data.common_app_h5_url.name}}<span class="am-form-group-label-tips">{{$data.common_app_h5_url.describe}}</span></label>
                 <input type="text" name="{{$data.common_app_h5_url.only_tag}}" placeholder="{{$data.common_app_h5_url.name}}" data-validation-message="{{$data.common_app_h5_url.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_h5_url.value}}"{{/if}} />
@@ -29,11 +29,11 @@
 
             <div class="am-form-group">
                 <label>{{$data.common_shop_notice.name}}<span class="am-form-group-label-tips">{{$data.common_shop_notice.describe}}</span></label>
-                <textarea rows="3" name="{{$data.common_shop_notice.only_tag}}" class="am-radius" placeholder="{{$data.common_shop_notice.name}}" data-validation-message="{{$data.common_shop_notice.error_tips}}">{{if !empty($data)}}{{$data.common_shop_notice.value}}{{/if}}</textarea>
+                <textarea rows="3" name="{{$data.common_shop_notice.only_tag}}" data-i18n="1" class="am-radius" placeholder="{{$data.common_shop_notice.name}}" data-validation-message="{{$data.common_shop_notice.error_tips}}">{{if !empty($data)}}{{$data.common_shop_notice.value}}{{/if}}</textarea>
             </div>
             <div class="am-form-group">
                 <label>{{$data.common_user_center_notice.name}}<span class="am-form-group-label-tips">{{$data.common_user_center_notice.describe}}</span></label>
-                <textarea rows="4" name="{{$data.common_user_center_notice.only_tag}}" class="am-radius" placeholder="{{$data.common_user_center_notice.name}}" data-validation-message="{{$data.common_user_center_notice.error_tips}}">{{if !empty($data)}}{{$data.common_user_center_notice.value}}{{/if}}</textarea>
+                <textarea rows="4" name="{{$data.common_user_center_notice.only_tag}}" data-i18n="1" class="am-radius" placeholder="{{$data.common_user_center_notice.name}}" data-validation-message="{{$data.common_user_center_notice.error_tips}}">{{if !empty($data)}}{{$data.common_user_center_notice.value}}{{/if}}</textarea>
             </div>
             
             <div class="am-form-popup-submit">

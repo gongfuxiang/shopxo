@@ -328,16 +328,14 @@ class Uploader
         preg_match('/^https*:\/\/(.+)/', $host_with_protocol, $matches);
         $host_without_protocol = count($matches) > 1 ? $matches[1] : '';
 
-        // 此时提取出来的可能是 ip 也有可能是域名，先获取 ip
-        $ip = gethostbyname($host_without_protocol);
-        // 判断是否是私有 ip
-        if(!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE)) {
+        // 初始 URL 主机/IP 校验（含保留段 127/8、169.254/16 等）
+        if(function_exists('IsUnsafeRemoteFetchUrl') && IsUnsafeRemoteFetchUrl($remoteUrl)) {
             $this->stateInfo = $this->getStateErrorInfo('invalid_ip');
             return;
         }
 
-        //打开输出缓冲区并获取远程文件
-        $reponse = RequestGet($remoteUrl);
+        // 安全拉取：关闭自动 302 跟随，每跳复检目标 IP，防 SSRF 绕过
+        $reponse = function_exists('CurlGetSafeRemote') ? CurlGetSafeRemote($remoteUrl) : '';
         if(empty($reponse)) {
             $this->stateInfo = $this->getStateErrorInfo('error_dead_link');
             return;
@@ -487,6 +485,41 @@ class Uploader
 
         if (substr($fullname, 0, 1) != '/') {
             $fullname = '/' . $fullname;
+        }
+
+        // 规范化并限制必须落在 static/upload 下，防止 path_type 穿越写任意目录
+        $fullname = str_replace('\\', '/', $fullname);
+        $parts = [];
+        foreach(explode('/', $fullname) as $seg)
+        {
+            if($seg === '' || $seg === '.')
+            {
+                continue;
+            }
+            if($seg === '..')
+            {
+                if(!empty($parts))
+                {
+                    array_pop($parts);
+                }
+                continue;
+            }
+            $parts[] = $seg;
+        }
+        $fullname = '/'.implode('/', $parts);
+        $upload_prefix = '/static/upload/';
+        $pos = strpos($fullname, $upload_prefix);
+        if($pos === false)
+        {
+            // 非预期结构时强制回落到 other
+            $fullname = $upload_prefix.'images/other/'.ltrim(str_replace($upload_prefix, '', $fullname), '/');
+            if(strpos($fullname, $upload_prefix) !== 0)
+            {
+                $fullname = $upload_prefix.'images/other/'.basename($fullname);
+            }
+        } else {
+            // 去掉 upload 根之前的 ../ 逃逸段，仅保留 upload 及之后路径
+            $fullname = substr($fullname, $pos);
         }
 
         return $rootPath . $fullname;

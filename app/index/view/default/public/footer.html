@@ -375,6 +375,12 @@
 <!-- 项目公共 -->
 <script type='text/javascript' src="{{$public_host}}static/common/js/common.js?v={{$static_cache_version}}"></script>
 <script type='text/javascript' src="{{$public_host}}static/common/js/forminput.js?v={{$static_cache_version}}"></script>
+<!-- 多语言数据组件（is_load_i18n开关控制、用户端默认不引入、需要的页面自行开启、css在header引入） -->
+{{if !empty($i18n_view_config) and isset($is_load_i18n) and $is_load_i18n eq 1}}
+    {{:ModuleInclude('public/i18n_popup')}}
+    <script type='text/javascript'>window.$I18nConfig = {{$i18n_view_config|raw}};</script>
+    <script type='text/javascript' src="{{$public_host}}static/common/js/i18n.js?v={{$static_cache_version}}"></script>
+{{/if}}
 {{if !empty($static_path_data['common_js'])}}
     <script type='text/javascript' src="{{$public_host}}static/{{$static_path_data.common_js}}?v={{$static_cache_version}}"></script>
 {{/if}}

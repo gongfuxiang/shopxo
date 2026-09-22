@@ -774,5 +774,1234 @@ class AdminPowerService
         }
         return DataReturn(MyLang('no_data'), -1);
     }
+
+    /**
+     * 后台菜单搜索数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-21
+     * @desc    已授权左侧菜单，并反推不在权限表中的页面切换导航
+     * @param   [array]          $menu [左侧菜单]
+     */
+    public static function MenuSearchList($menu = [])
+    {
+        $result = [];
+        if(empty($menu) || !is_array($menu))
+        {
+            return $result;
+        }
+        $nav_map = self::MenuSearchPageNavMap();
+        foreach($menu as $v)
+        {
+            self::MenuSearchItemHandle($result, $v, [], $nav_map);
+        }
+        self::MenuSearchConfigHandle($result);
+        self::MenuSearchPluginsHandle($result);
+        self::MenuSearchPaymentHandle($result);
+        self::MenuSearchThemeHandle($result);
+        self::MenuSearchDiyHandle($result);
+        self::MenuSearchDesignHandle($result);
+        return $result;
+    }
+
+    /**
+     * 页面切换导航（不在权限表，挂在已授权父页面上）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-21
+     * @desc    description
+     */
+    public static function MenuSearchPageNavMap()
+    {
+        $map = [
+            'exact'     => [
+                'appconfig_index'   => [
+                    ['param' => 'type', 'data' => MyLang('appconfig.base_nav_list')],
+                ],
+                'agreement_index'   => [
+                    ['param' => 'type', 'data' => MyLang('agreement.base_nav_list')],
+                ],
+                'sms_index'         => [
+                    ['param' => 'type', 'data' => MyLang('sms.base_nav_list')],
+                ],
+                'email_index'       => [
+                    ['param' => 'type', 'data' => MyLang('email.base_nav_list')],
+                ],
+                'navigation_index'  => [
+                    ['param' => 'type', 'data' => MyLang('navigation.base_nav_list')],
+                ],
+                'payment_index'     => [
+                    ['param' => 'type', 'data' => MyLang('payment.base_nav_list')],
+                ],
+                'site_index_siteset'=> [
+                    ['param' => 'view_type', 'data' => MyLang('site.siteset_nav_list')],
+                ],
+            ],
+            'prefix'    => [
+                'appmini_config_'   => [
+                    ['param' => 'view_type', 'data' => MyLang('appmini.base_nav_list')],
+                ],
+            ],
+        ];
+
+        // 插件可追加页面切换导航
+        $hook_name = 'plugins_service_admin_menu_search_nav';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data'          => &$map,
+        ]);
+        return $map;
+    }
+
+    /**
+     * 递归生成搜索项
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-21
+     * @desc    description
+     * @param   [array]          $result   [结果]
+     * @param   [array]          $item     [菜单项]
+     * @param   [array]          $parents  [上级名称]
+     * @param   [array]          $nav_map  [页面切换导航]
+     */
+    private static function MenuSearchItemHandle(&$result, $item, $parents, $nav_map)
+    {
+        if(empty($item) || !is_array($item))
+        {
+            return;
+        }
+        $name = isset($item['name']) ? trim($item['name']) : '';
+        $url = empty($item['url']) ? '' : $item['url'];
+        $key = '';
+        if(isset($item['key']) && $item['key'] !== '')
+        {
+            $key = $item['key'];
+        } elseif(isset($item['id']))
+        {
+            $key = $item['id'];
+        }
+        $key = (string) $key;
+        $has_children = !empty($item['items']) && is_array($item['items']);
+        if($name !== '' && $url !== '' && !$has_children)
+        {
+            $path = array_merge($parents, [$name]);
+            $menu_id = isset($item['id']) ? (string) $item['id'] : '';
+            $result[] = [
+                'name'      => $name,
+                'path'      => implode(' / ', $path),
+                'url'       => $url,
+                'key'       => $key,
+                'menu_id'   => $menu_id,
+                'keywords'  => implode(' ', $path),
+            ];
+            self::MenuSearchPageNavHandle($result, $key, $url, $path, $nav_map, $menu_id);
+        }
+        if($has_children)
+        {
+            $next_parents = ($name === '') ? $parents : array_merge($parents, [$name]);
+            foreach($item['items'] as $child)
+            {
+                self::MenuSearchItemHandle($result, $child, $next_parents, $nav_map);
+            }
+        }
+    }
+
+    /**
+     * 追加页面内切换导航
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-21
+     * @desc    description
+     * @param   [array]          $result   [结果]
+     * @param   [string]         $key      [父菜单key]
+     * @param   [string]         $url      [父页面地址]
+     * @param   [array]          $path     [父级路径]
+     * @param   [array]          $nav_map  [页面切换导航]
+     * @param   [string]         $menu_id  [左侧菜单选中id]
+     */
+    private static function MenuSearchPageNavHandle(&$result, $key, $url, $path, $nav_map, $menu_id = '')
+    {
+        $groups = [];
+        if(!empty($nav_map['exact'][$key]) && is_array($nav_map['exact'][$key]))
+        {
+            $groups = $nav_map['exact'][$key];
+        } elseif(!empty($nav_map['prefix']) && is_array($nav_map['prefix']))
+        {
+            foreach($nav_map['prefix'] as $prefix=>$prefix_groups)
+            {
+                if($prefix !== '' && strpos($key, $prefix) === 0 && is_array($prefix_groups))
+                {
+                    $groups = $prefix_groups;
+                    break;
+                }
+            }
+        }
+        if(empty($groups))
+        {
+            return;
+        }
+        foreach($groups as $group)
+        {
+            if(empty($group['param']) || empty($group['data']) || !is_array($group['data']))
+            {
+                continue;
+            }
+            foreach($group['data'] as $nav)
+            {
+                if(empty($nav['name']) || !isset($nav['type']) || $nav['type'] === '')
+                {
+                    continue;
+                }
+                $nav_path = array_merge($path, [$nav['name']]);
+                $parsed = self::MenuSearchUrlParse($url);
+                $params = empty($parsed['params']) ? [] : $parsed['params'];
+                $params[$group['param']] = $nav['type'];
+                $nav_url = ($parsed['control'] === '') ? self::MenuSearchUrlAppend($url, [$group['param'] => $nav['type']]) : MyUrl('admin/'.$parsed['control'].'/'.$parsed['action'], $params);
+                $result[] = [
+                    'name'      => $nav['name'],
+                    'path'      => implode(' / ', $nav_path),
+                    'url'       => $nav_url,
+                    'key'       => ($menu_id === '') ? $key.'_'.$nav['type'] : $menu_id,
+                    'menu_id'   => $menu_id,
+                    'keywords'  => implode(' ', $nav_path),
+                ];
+            }
+        }
+    }
+
+    /**
+     * 地址追加参数
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-21
+     * @desc    description
+     * @param   [string]         $url     [地址]
+     * @param   [array]          $params  [参数]
+     */
+    public static function MenuSearchUrlAppend($url, $params = [])
+    {
+        if(empty($url) || empty($params) || !is_array($params))
+        {
+            return $url;
+        }
+        $fragment = '';
+        if(strpos($url, '#') !== false)
+        {
+            $fragment = strstr($url, '#');
+            $url = strstr($url, '#', true);
+        }
+        $join = (strpos($url, '?') === false) ? '?' : '&';
+        return $url.$join.http_build_query($params).$fragment;
+    }
+
+    /**
+     * 配置项加入搜索（名称在语言包，页面在视图里）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-21
+     * @desc    description
+     * @param   [array]          $result [菜单搜索结果]
+     */
+    private static function MenuSearchConfigHandle(&$result)
+    {
+        $fields = self::MenuSearchConfigFieldList();
+        if(empty($fields) || empty($result))
+        {
+            return;
+        }
+        $indexed = [];
+        foreach($result as $item)
+        {
+            if(empty($item['url']))
+            {
+                continue;
+            }
+            $indexed[] = [
+                'item'      => $item,
+                'parsed'    => self::MenuSearchUrlParse($item['url']),
+            ];
+        }
+        $exists = [];
+        foreach($fields as $field)
+        {
+            $best = null;
+            $best_score = -1;
+            $best_extra = 999;
+            foreach($indexed as $row)
+            {
+                if($row['parsed']['control'] !== $field['control'] || $row['parsed']['action'] !== $field['action'])
+                {
+                    continue;
+                }
+                $cmp = self::MenuSearchParamMatch($row['parsed']['params'], $field['params'], $field['control']);
+                if($cmp === null)
+                {
+                    continue;
+                }
+                if($cmp['score'] > $best_score || ($cmp['score'] == $best_score && $cmp['extra'] < $best_extra))
+                {
+                    $best = $row;
+                    $best_score = $cmp['score'];
+                    $best_extra = $cmp['extra'];
+                }
+            }
+            if(empty($best))
+            {
+                continue;
+            }
+            $parent = $best['item'];
+            $key = $parent['key'].'_cfg_'.$field['tag'];
+            if(isset($exists[$key]))
+            {
+                continue;
+            }
+            $exists[$key] = 1;
+            $url = MyUrl('admin/'.$field['control'].'/'.$field['action'], $field['params']);
+            $result[] = [
+                'name'      => $field['name'],
+                'path'      => $parent['path'].' / '.$field['name'],
+                'url'       => $url,
+                'key'       => empty($parent['menu_id']) ? $key : $parent['menu_id'],
+                'menu_id'   => empty($parent['menu_id']) ? '' : $parent['menu_id'],
+                'keywords'  => $parent['path'].' '.$field['name'].' '.$field['desc'].' '.$field['tag'],
+            ];
+        }
+    }
+
+    /**
+     * 已安装插件加入搜索（插件表有记录即已安装，未挂到左侧菜单也收录）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-22
+     * @desc    description
+     * @param   [array]          $result [菜单搜索结果]
+     */
+    private static function MenuSearchPluginsHandle(&$result)
+    {
+        $admin = AdminService::LoginInfo();
+        if(empty($admin['id']))
+        {
+            return;
+        }
+        $admin_id = intval($admin['id']);
+        $role_id = empty($admin['role_id']) ? 0 : intval($admin['role_id']);
+        $is_super = ($admin_id == 1 || $role_id == 1);
+        $role_power = [];
+        if(!$is_super)
+        {
+            $rows = Db::name('RolePlugins')->where(['role_id'=>$role_id])->column('power', 'plugins');
+            if(!empty($rows) && is_array($rows))
+            {
+                foreach($rows as $plugins=>$power)
+                {
+                    if(!is_array($power))
+                    {
+                        $power = empty($power) ? [] : json_decode($power, true);
+                    }
+                    $role_power[$plugins] = empty($power) || !is_array($power) ? [] : $power;
+                }
+            }
+        }
+
+        $installed = Db::name('Plugins')->column('plugins');
+        if(empty($installed) || !is_array($installed))
+        {
+            return;
+        }
+        $exists = [];
+        $menu_path = [];
+        foreach($result as $item)
+        {
+            $mark = (isset($item['url']) ? $item['url'] : '').'|'.(isset($item['name']) ? $item['name'] : '');
+            $exists[$mark] = 1;
+            $menu_key = '';
+            if(!empty($item['menu_id']))
+            {
+                $menu_key = (string) $item['menu_id'];
+            } elseif(isset($item['key']))
+            {
+                $menu_key = (string) $item['key'];
+            }
+            if($menu_key !== '' && strpos($menu_key, 'plugins-') === 0 && !isset($menu_path[$menu_key]))
+            {
+                $menu_path[$menu_key] = isset($item['path']) ? $item['path'] : '';
+            }
+        }
+
+        $group_name = MyLang('admin_power_menu_list.store_index.name');
+        if($group_name === '' || $group_name === 'admin_power_menu_list.store_index.name')
+        {
+            $group_name = '';
+        }
+        foreach($installed as $plugins)
+        {
+            if($plugins === '' || (!$is_super && !array_key_exists($plugins, $role_power)))
+            {
+                continue;
+            }
+            $info = self::MenuSearchPluginName($plugins);
+            if($info['name'] === '')
+            {
+                continue;
+            }
+            $menu_id = isset($menu_path['plugins-'.$plugins]) ? 'plugins-'.$plugins : '';
+            $base_path = ($menu_id !== '') ? $menu_path[$menu_id] : (($group_name === '') ? $info['name'] : $group_name.' / '.$info['name']);
+            $power_keys = self::MenuSearchPluginPowerKeys($plugins);
+            $pages = [
+                [
+                    'name'      => $info['name'],
+                    'control'   => 'admin',
+                    'action'    => 'index',
+                    'is_root'   => 1,
+                ],
+            ];
+            foreach(self::MenuSearchPluginNavData($plugins) as $nav)
+            {
+                if(empty($nav['name']) || empty($nav['control']) || empty($nav['action']) || !is_string($nav['name']))
+                {
+                    continue;
+                }
+                $pages[] = [
+                    'name'      => $nav['name'],
+                    'control'   => $nav['control'],
+                    'action'    => $nav['action'],
+                    'is_root'   => 0,
+                ];
+            }
+            foreach($pages as $page)
+            {
+                if(empty($page['is_root']) && !self::MenuSearchPluginPageAllow($plugins, $page['control'], $page['action'], $is_super, $role_power, $power_keys))
+                {
+                    continue;
+                }
+                $url = PluginsAdminUrl($plugins, $page['control'], $page['action']);
+                $mark = $url.'|'.$page['name'];
+                if(isset($exists[$mark]))
+                {
+                    continue;
+                }
+                $exists[$mark] = 1;
+                $path = !empty($page['is_root']) ? $base_path : $base_path.' / '.$page['name'];
+                $result[] = [
+                    'name'      => $page['name'],
+                    'path'      => $path,
+                    'url'       => $url,
+                    'key'       => ($menu_id === '') ? 'plugins-'.$plugins : $menu_id,
+                    'menu_id'   => $menu_id,
+                    'keywords'  => $path.' '.$info['name'].' '.$info['config_name'].' '.$info['desc'].' '.$plugins,
+                ];
+            }
+        }
+    }
+
+    /**
+     * 支付方式加入搜索（已安装/未安装分别跳转）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-22
+     * @desc    description
+     * @param   [array]          $result [菜单搜索结果]
+     */
+    private static function MenuSearchPaymentHandle(&$result)
+    {
+        if(!AdminIsPower('payment', 'index', null))
+        {
+            return;
+        }
+        $ret = PaymentService::PluginsPaymentList(null);
+        if(empty($ret['data']) || !is_array($ret['data']))
+        {
+            return;
+        }
+        $parent = self::MenuSearchParentByControl($result, 'payment');
+        $nav = MyLang('payment.base_nav_list');
+        $nav_map = [];
+        if(!empty($nav) && is_array($nav))
+        {
+            foreach($nav as $v)
+            {
+                if(isset($v['type']) && isset($v['name']))
+                {
+                    $nav_map[intval($v['type'])] = $v['name'];
+                }
+            }
+        }
+        $exists = [];
+        foreach($result as $item)
+        {
+            $exists[(isset($item['url']) ? $item['url'] : '').'|'.(isset($item['name']) ? $item['name'] : '')] = 1;
+        }
+        foreach($ret['data'] as $row)
+        {
+            $name = empty($row['name']) ? '' : trim($row['name']);
+            $payment = empty($row['payment']) ? '' : trim($row['payment']);
+            if($name === '')
+            {
+                continue;
+            }
+            $type = (isset($row['is_install']) && $row['is_install'] == 1) ? 0 : 1;
+            $url = MyUrl('admin/payment/index', ['type'=>$type]);
+            $mark = $url.'|'.$name;
+            if(isset($exists[$mark]))
+            {
+                continue;
+            }
+            $exists[$mark] = 1;
+            $tab = isset($nav_map[$type]) ? $nav_map[$type] : '';
+            $base = empty($parent['path']) ? (MyLang('payment.base_nav_title') ?: '支付方式') : $parent['path'];
+            $path = ($tab === '') ? $base.' / '.$name : $base.' / '.$tab.' / '.$name;
+            $result[] = [
+                'name'      => $name,
+                'path'      => $path,
+                'url'       => $url,
+                'key'       => empty($parent['menu_id']) ? 'payment_index' : $parent['menu_id'],
+                'menu_id'   => empty($parent['menu_id']) ? '' : $parent['menu_id'],
+                'keywords'  => $path.' '.$name.' '.$payment,
+            ];
+        }
+    }
+
+    /**
+     * 主题加入搜索（统一进主题管理）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-22
+     * @desc    description
+     * @param   [array]          $result [菜单搜索结果]
+     */
+    private static function MenuSearchThemeHandle(&$result)
+    {
+        if(!AdminIsPower('themeadmin', 'index', null))
+        {
+            return;
+        }
+        $list = ThemeAdminService::ThemeAdminList();
+        if(empty($list) || !is_array($list))
+        {
+            return;
+        }
+        $parent = self::MenuSearchParentByControl($result, 'themeadmin');
+        $url = MyUrl('admin/themeadmin/index');
+        $exists = [];
+        foreach($result as $item)
+        {
+            $exists[(isset($item['url']) ? $item['url'] : '').'|'.(isset($item['name']) ? $item['name'] : '')] = 1;
+        }
+        $base = empty($parent['path']) ? (MyLang('admin_power_menu_list.websiteadmin_index.item.themeadmin_index') ?: '主题管理') : $parent['path'];
+        foreach($list as $row)
+        {
+            $name = empty($row['name']) ? '' : trim(html_entity_decode($row['name'], ENT_QUOTES, 'UTF-8'));
+            $theme = empty($row['theme']) ? '' : trim($row['theme']);
+            if($name === '')
+            {
+                continue;
+            }
+            $mark = $url.'|'.$name;
+            if(isset($exists[$mark]))
+            {
+                continue;
+            }
+            $exists[$mark] = 1;
+            $path = $base.' / '.$name;
+            $result[] = [
+                'name'      => $name,
+                'path'      => $path,
+                'url'       => $url,
+                'key'       => empty($parent['menu_id']) ? 'themeadmin_index' : $parent['menu_id'],
+                'menu_id'   => empty($parent['menu_id']) ? '' : $parent['menu_id'],
+                'keywords'  => $path.' '.$name.' '.$theme,
+            ];
+        }
+    }
+
+    /**
+     * DIY 装修数据加入搜索
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-22
+     * @desc    description
+     * @param   [array]          $result [菜单搜索结果]
+     */
+    private static function MenuSearchDiyHandle(&$result)
+    {
+        if(!AdminIsPower('diy', 'index', null))
+        {
+            return;
+        }
+        $list = Db::name('Diy')->field('id,name')->order('id desc')->select()->toArray();
+        if(empty($list) || !is_array($list))
+        {
+            return;
+        }
+        $can_edit = AdminIsPower('diy', 'saveinfo', null);
+        $parent = self::MenuSearchParentByControl($result, 'diy');
+        $base = empty($parent['path']) ? (MyLang('admin_power_menu_list.app_index.item.diy_index') ?: 'DIY装修') : $parent['path'];
+        $exists = [];
+        foreach($result as $item)
+        {
+            $exists[(isset($item['url']) ? $item['url'] : '').'|'.(isset($item['name']) ? $item['name'] : '')] = 1;
+        }
+        foreach($list as $row)
+        {
+            $name = empty($row['name']) ? '' : trim($row['name']);
+            $id = empty($row['id']) ? 0 : intval($row['id']);
+            if($name === '' || $id <= 0)
+            {
+                continue;
+            }
+            $url = $can_edit ? MyUrl('admin/diy/saveinfo', ['id'=>$id]) : MyUrl('admin/diy/index');
+            $mark = $url.'|'.$name;
+            if(isset($exists[$mark]))
+            {
+                continue;
+            }
+            $exists[$mark] = 1;
+            $path = $base.' / '.$name;
+            $result[] = [
+                'name'      => $name,
+                'path'      => $path,
+                'url'       => $url,
+                'key'       => empty($parent['menu_id']) ? 'diy_'.$id : $parent['menu_id'],
+                'menu_id'   => empty($parent['menu_id']) ? '' : $parent['menu_id'],
+                'keywords'  => $path.' '.$name.' diy '.$id,
+                'is_blank'  => $can_edit ? 1 : 0,
+            ];
+        }
+    }
+
+    /**
+     * 页面设计数据加入搜索
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-22
+     * @desc    description
+     * @param   [array]          $result [菜单搜索结果]
+     */
+    private static function MenuSearchDesignHandle(&$result)
+    {
+        if(!AdminIsPower('design', 'index', null))
+        {
+            return;
+        }
+        $list = Db::name('Design')->field('id,name')->order('id desc')->select()->toArray();
+        if(empty($list) || !is_array($list))
+        {
+            return;
+        }
+        $can_edit = AdminIsPower('design', 'saveinfo', null);
+        $parent = self::MenuSearchParentByControl($result, 'design');
+        $base = empty($parent['path']) ? (MyLang('admin_power_menu_list.websiteadmin_index.item.design_index') ?: '页面设计') : $parent['path'];
+        $exists = [];
+        foreach($result as $item)
+        {
+            $exists[(isset($item['url']) ? $item['url'] : '').'|'.(isset($item['name']) ? $item['name'] : '')] = 1;
+        }
+        foreach($list as $row)
+        {
+            $name = empty($row['name']) ? '' : trim($row['name']);
+            $id = empty($row['id']) ? 0 : intval($row['id']);
+            if($name === '' || $id <= 0)
+            {
+                continue;
+            }
+            $url = $can_edit ? MyUrl('admin/design/saveinfo', ['id'=>$id]) : MyUrl('admin/design/index');
+            $mark = $url.'|'.$name;
+            if(isset($exists[$mark]))
+            {
+                continue;
+            }
+            $exists[$mark] = 1;
+            $path = $base.' / '.$name;
+            $result[] = [
+                'name'      => $name,
+                'path'      => $path,
+                'url'       => $url,
+                'key'       => empty($parent['menu_id']) ? 'design_'.$id : $parent['menu_id'],
+                'menu_id'   => empty($parent['menu_id']) ? '' : $parent['menu_id'],
+                'keywords'  => $path.' '.$name.' design '.$id,
+                'is_blank'  => $can_edit ? 1 : 0,
+            ];
+        }
+    }
+
+    /**
+     * 按控制器从已有搜索结果中找父菜单 path / menu_id
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-22
+     * @desc    description
+     * @param   [array]          $result  [菜单搜索结果]
+     * @param   [string]         $control [控制器]
+     */
+    private static function MenuSearchParentByControl($result, $control)
+    {
+        $out = ['path'=>'', 'menu_id'=>''];
+        if(empty($result) || !is_array($result) || $control === '')
+        {
+            return $out;
+        }
+        $control = strtolower($control);
+        foreach($result as $item)
+        {
+            if(empty($item['url']))
+            {
+                continue;
+            }
+            $parsed = self::MenuSearchUrlParse($item['url']);
+            if($parsed['control'] !== $control || $parsed['action'] !== 'index')
+            {
+                continue;
+            }
+            // 优先无额外 query 的列表页
+            if(!empty($parsed['params']))
+            {
+                continue;
+            }
+            $out['path'] = empty($item['path']) ? '' : $item['path'];
+            $out['menu_id'] = empty($item['menu_id']) ? (empty($item['key']) ? '' : (string) $item['key']) : (string) $item['menu_id'];
+            return $out;
+        }
+        // 退化为任意同控制器 index
+        foreach($result as $item)
+        {
+            if(empty($item['url']))
+            {
+                continue;
+            }
+            $parsed = self::MenuSearchUrlParse($item['url']);
+            if($parsed['control'] !== $control || $parsed['action'] !== 'index')
+            {
+                continue;
+            }
+            $out['path'] = empty($item['path']) ? '' : $item['path'];
+            $out['menu_id'] = empty($item['menu_id']) ? (empty($item['key']) ? '' : (string) $item['key']) : (string) $item['menu_id'];
+            break;
+        }
+        return $out;
+    }
+
+    /**
+     * 插件显示名称
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-22
+     * @desc    description
+     * @param   [string]         $plugins [插件标识]
+     */
+    private static function MenuSearchPluginName($plugins)
+    {
+        $name = MyLang('plugin_name', null, null, $plugins);
+        if($name === '' || $name === 'plugin_name')
+        {
+            $name = '';
+        }
+        $config = PluginsAdminService::GetPluginsConfig($plugins);
+        $config_name = (!empty($config['base']['name']) && is_string($config['base']['name'])) ? $config['base']['name'] : '';
+        $desc = (!empty($config['base']['desc']) && is_string($config['base']['desc'])) ? $config['base']['desc'] : '';
+        if($name === '')
+        {
+            $name = ($config_name === '') ? $plugins : $config_name;
+        }
+        return [
+            'name'          => $name,
+            'config_name'   => $config_name,
+            'desc'          => $desc,
+        ];
+    }
+
+    /**
+     * 插件后台导航
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-22
+     * @desc    description
+     * @param   [string]         $plugins [插件标识]
+     */
+    private static function MenuSearchPluginNavData($plugins)
+    {
+        $class = 'app\\plugins\\'.$plugins.'\\service\\BaseService';
+        if(!class_exists($class))
+        {
+            return [];
+        }
+        $list = [];
+        if(method_exists($class, 'AdminNavMenuList'))
+        {
+            $ref = new \ReflectionMethod($class, 'AdminNavMenuList');
+            if($ref->isPublic() && $ref->getNumberOfRequiredParameters() == 0)
+            {
+                try
+                {
+                    $list = $class::AdminNavMenuList();
+                } catch(\Throwable $e) {
+                    $list = [];
+                }
+            }
+        }
+        if(empty($list) && method_exists($class, 'AdminPowerMenu'))
+        {
+            $ref = new \ReflectionMethod($class, 'AdminPowerMenu');
+            if($ref->isPublic() && $ref->getNumberOfRequiredParameters() == 0)
+            {
+                try
+                {
+                    $list = $class::AdminPowerMenu();
+                } catch(\Throwable $e) {
+                    $list = [];
+                }
+            }
+        }
+        return (empty($list) || !is_array($list)) ? [] : $list;
+    }
+
+    /**
+     * 插件权限菜单标识
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-22
+     * @desc    description
+     * @param   [string]         $plugins [插件标识]
+     */
+    private static function MenuSearchPluginPowerKeys($plugins)
+    {
+        $keys = [];
+        $menu = PluginsService::PluginsAdminPowerMenu($plugins);
+        if(empty($menu) || !is_array($menu))
+        {
+            return $keys;
+        }
+        foreach($menu as $row)
+        {
+            if(empty($row['control']))
+            {
+                continue;
+            }
+            if(!empty($row['action']))
+            {
+                $keys[] = strtolower($row['control'].'-'.$row['action']);
+            }
+            if(!empty($row['item']) && is_array($row['item']))
+            {
+                foreach($row['item'] as $child)
+                {
+                    if(empty($child['action']))
+                    {
+                        continue;
+                    }
+                    $control = empty($child['control']) ? $row['control'] : $child['control'];
+                    $keys[] = strtolower($control.'-'.$child['action']);
+                }
+            }
+        }
+        return $keys;
+    }
+
+    /**
+     * 当前管理员是否可打开该插件页面
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-22
+     * @desc    description
+     * @param   [string]         $plugins    [插件标识]
+     * @param   [string]         $control    [控制器]
+     * @param   [string]         $action     [方法]
+     * @param   [boolean]        $is_super   [是否超级管理员]
+     * @param   [array]          $role_power [角色插件权限]
+     * @param   [array]          $all_keys   [插件全部权限标识]
+     */
+    private static function MenuSearchPluginPageAllow($plugins, $control, $action, $is_super, $role_power, $all_keys)
+    {
+        if($is_super)
+        {
+            return true;
+        }
+        if(!array_key_exists($plugins, $role_power))
+        {
+            return false;
+        }
+        $power = $role_power[$plugins];
+        if(empty($power) || !is_array($power))
+        {
+            return true;
+        }
+        $key = strtolower($control.'-'.$action);
+        $power = array_map('strtolower', $power);
+        if(in_array($key, $power, true))
+        {
+            return true;
+        }
+        return !in_array($key, $all_keys, true);
+    }
+
+    /**
+     * 从配置页视图提取配置项
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-21
+     * @desc    description
+     */
+    private static function MenuSearchConfigFieldList()
+    {
+        static $fields = null;
+        if($fields !== null)
+        {
+            return $fields;
+        }
+        $fields = [];
+        $lang = MyLang('common_config');
+        if(empty($lang) || !is_array($lang))
+        {
+            return $fields;
+        }
+        $root = APP_PATH.'admin'.DS.'view'.DS.'default'.DS;
+        $dirs = ['site', 'appconfig', 'appmini', 'config', 'sms', 'email', 'agreement', 'seo'];
+        foreach($dirs as $dir)
+        {
+            $path = $root.$dir;
+            if(!is_dir($path))
+            {
+                continue;
+            }
+            $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS));
+            foreach($iterator as $file)
+            {
+                if(!$file->isFile() || strtolower($file->getExtension()) !== 'html')
+                {
+                    continue;
+                }
+                $relative = str_replace('\\', '/', substr($file->getPathname(), strlen($root)));
+                $route = self::MenuSearchViewRoute($relative);
+                if(empty($route))
+                {
+                    continue;
+                }
+                $content = file_get_contents($file->getPathname());
+                if($content === false || $content === '')
+                {
+                    continue;
+                }
+                $case = '';
+                $panel_switch = '';
+                $lines = preg_split("/\r\n|\n|\r/", $content);
+                foreach($lines as $line)
+                {
+                    if(preg_match('/\{\{\s*case\s+([^}]+)\}\}/', $line, $case_match))
+                    {
+                        $case = trim($case_match[1]);
+                    } elseif(strpos($line, '{{/case}}') !== false || strpos($line, '{{ /case }}') !== false)
+                    {
+                        $case = '';
+                    }
+                    // nav-content 内二级 tabs 面板（data-key，排除纯数字楼层等非 tab）
+                    if(preg_match('/\bitem\b/', $line) && preg_match('/data-key=["\']([^"\']+)["\']/', $line, $key_match))
+                    {
+                        $panel_key = trim($key_match[1]);
+                        if($panel_key !== '' && strpos($panel_key, '{{') === false && preg_match('/[a-zA-Z]/', $panel_key))
+                        {
+                            $panel_switch = $panel_key;
+                        }
+                    }
+                    if(!preg_match_all('/\$data\.([a-zA-Z0-9_]+)/', $line, $tags))
+                    {
+                        continue;
+                    }
+                    foreach($tags[1] as $tag)
+                    {
+                        if(empty($lang[$tag]['name']))
+                        {
+                            continue;
+                        }
+                        $params = $route['params'];
+                        $cases = ($case === '') ? [''] : preg_split('/\s*\|\s*/', $case);
+                        foreach($cases as $case_value)
+                        {
+                            $item_params = $params;
+                            if($case_value !== '' && !empty($route['switch_param']))
+                            {
+                                $item_params[$route['switch_param']] = $case_value;
+                            } elseif($panel_switch !== '' && empty($route['switch_param']))
+                            {
+                                $item_params['switch'] = $panel_switch;
+                            }
+                            $unique = $route['control'].'|'.$route['action'].'|'.$tag.'|'.json_encode($item_params);
+                            if(isset($fields[$unique]))
+                            {
+                                continue;
+                            }
+                            $fields[$unique] = [
+                                'tag'       => $tag,
+                                'name'      => $lang[$tag]['name'],
+                                'desc'      => empty($lang[$tag]['desc']) ? '' : $lang[$tag]['desc'],
+                                'control'   => $route['control'],
+                                'action'    => $route['action'],
+                                'params'    => $item_params,
+                            ];
+                        }
+                    }
+                }
+                // 二级 tabs（nav_switch_btn）名称加入搜索
+                foreach(self::MenuSearchNavSwitchTabList($content) as $tab)
+                {
+                    $item_params = $route['params'];
+                    $item_params['switch'] = $tab['key'];
+                    $tag = 'nav_tab_'.$tab['key'];
+                    $unique = $route['control'].'|'.$route['action'].'|'.$tag.'|'.json_encode($item_params);
+                    if(isset($fields[$unique]))
+                    {
+                        continue;
+                    }
+                    $fields[$unique] = [
+                        'tag'       => $tag,
+                        'name'      => $tab['name'],
+                        'desc'      => '',
+                        'control'   => $route['control'],
+                        'action'    => $route['action'],
+                        'params'    => $item_params,
+                    ];
+                }
+            }
+        }
+        $fields = array_values($fields);
+        return $fields;
+    }
+
+    /**
+     * 解析视图中 nav_switch_btn 的 tabs（名称 + key）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-22
+     * @desc    description
+     * @param   [string]         $content [视图内容]
+     */
+    private static function MenuSearchNavSwitchTabList($content)
+    {
+        $result = [];
+        if($content === '' || strpos($content, 'nav_switch_btn') === false)
+        {
+            return $result;
+        }
+        $matches = [];
+        if(!preg_match_all("/'name'\s*=>\s*MyLang\(\s*'([^']+)'[^)]*\)\s*,\s*'key'\s*=>\s*'([^']+)'/s", $content, $matches, PREG_SET_ORDER))
+        {
+            preg_match_all("/'key'\s*=>\s*'([^']+)'\s*,\s*'name'\s*=>\s*MyLang\(\s*'([^']+)'[^)]*\)/s", $content, $matches, PREG_SET_ORDER);
+            foreach($matches as &$row)
+            {
+                // 统一为 [lang_key, key]
+                $tmp = $row[1];
+                $row[1] = $row[2];
+                $row[2] = $tmp;
+            }
+            unset($row);
+        }
+        $exists = [];
+        foreach($matches as $row)
+        {
+            $lang_key = isset($row[1]) ? trim($row[1]) : '';
+            $key = isset($row[2]) ? trim($row[2]) : '';
+            if($lang_key === '' || $key === '' || isset($exists[$key]) || !preg_match('/[a-zA-Z]/', $key))
+            {
+                continue;
+            }
+            $name = MyLang($lang_key);
+            if($name === '' || $name === $lang_key)
+            {
+                continue;
+            }
+            $exists[$key] = 1;
+            $result[] = [
+                'key'   => $key,
+                'name'  => $name,
+            ];
+        }
+        return $result;
+    }
+
+    /**
+     * 配置视图对应后台地址
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-21
+     * @desc    description
+     * @param   [string]         $relative [相对视图路径]
+     */
+    private static function MenuSearchViewRoute($relative)
+    {
+        if(preg_match('#^site/([^/]+)/([^/]+)\.html$#', $relative, $match))
+        {
+            return [
+                'control'   => 'site',
+                'action'    => 'index',
+                'params'    => ['nav_type'=>$match[1], 'view_type'=>$match[2]],
+            ];
+        }
+        if(preg_match('#^appconfig/([^/]+)\.html$#', $relative, $match))
+        {
+            return [
+                'control'   => 'appconfig',
+                'action'    => 'index',
+                'params'    => ['type'=>$match[1]],
+            ];
+        }
+        if(preg_match('#^(sms|email|agreement)/([^/]+)\.html$#', $relative, $match))
+        {
+            return [
+                'control'   => $match[1],
+                'action'    => 'index',
+                'params'    => ['type'=>$match[2]],
+            ];
+        }
+        if($relative === 'config/index.html')
+        {
+            return ['control'=>'config', 'action'=>'index', 'params'=>[]];
+        }
+        if($relative === 'config/store.html')
+        {
+            return ['control'=>'config', 'action'=>'store', 'params'=>[]];
+        }
+        if($relative === 'seo/index.html')
+        {
+            return ['control'=>'seo', 'action'=>'index', 'params'=>[]];
+        }
+        if($relative === 'appmini/config.html')
+        {
+            return [
+                'control'       => 'appmini',
+                'action'        => 'config',
+                'params'        => [],
+                'switch_param'  => 'nav_type',
+            ];
+        }
+        return null;
+    }
+
+    /**
+     * 解析后台地址中的控制器、方法和参数
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-21
+     * @desc    description
+     * @param   [string]         $url [地址]
+     */
+    private static function MenuSearchUrlParse($url)
+    {
+        $result = ['control'=>'', 'action'=>'', 'params'=>[]];
+        if(empty($url))
+        {
+            return $result;
+        }
+        $parts = parse_url($url);
+        $query = [];
+        if(!empty($parts['query']))
+        {
+            parse_str($parts['query'], $query);
+        }
+        $path = '';
+        if(!empty($query['s']))
+        {
+            $path = $query['s'];
+            unset($query['s']);
+        } elseif(!empty($parts['path']))
+        {
+            $path = $parts['path'];
+        }
+        $path = preg_replace('/\.html$/', '', $path);
+        $path = preg_replace('#^.*/admin\.php/?#', '', $path);
+        $seg = array_values(array_filter(explode('/', $path), 'strlen'));
+        if(!empty($seg) && $seg[0] === 'admin')
+        {
+            array_shift($seg);
+        }
+        $result['control'] = isset($seg[0]) ? strtolower($seg[0]) : '';
+        $result['action'] = isset($seg[1]) ? strtolower($seg[1]) : 'index';
+        $params = [];
+        for($i = 2; $i + 1 < count($seg); $i += 2)
+        {
+            $params[$seg[$i]] = $seg[$i + 1];
+        }
+        foreach($query as $key=>$value)
+        {
+            if(is_array($value))
+            {
+                continue;
+            }
+            $params[$key] = $value;
+        }
+        $result['params'] = $params;
+        return $result;
+    }
+
+    /**
+     * 菜单参数是否覆盖配置页参数
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-21
+     * @desc    description
+     * @param   [array]          $item_params  [菜单参数]
+     * @param   [array]          $need_params  [配置页参数]
+     * @param   [string]         $control      [控制器]
+     */
+    private static function MenuSearchParamMatch($item_params, $need_params, $control)
+    {
+        $defaults = [
+            'site'          => ['nav_type'=>'base', 'view_type'=>'index'],
+            'appconfig'     => ['type'=>'index'],
+            'sms'           => ['type'=>'index'],
+            'email'         => ['type'=>'index'],
+            'agreement'     => ['type'=>'register'],
+        ];
+        $control_default = empty($defaults[$control]) ? [] : $defaults[$control];
+        $score = 0;
+        // switch 为页内二级 tabs，不在左侧菜单 url 上，仅用于打开时定位面板
+        $skip_keys = ['switch'=>1];
+        foreach($need_params as $key=>$value)
+        {
+            if(isset($skip_keys[$key]))
+            {
+                continue;
+            }
+            if(array_key_exists($key, $item_params))
+            {
+                if((string) $item_params[$key] !== (string) $value)
+                {
+                    return null;
+                }
+                $score++;
+            } elseif(!isset($control_default[$key]) || (string) $control_default[$key] !== (string) $value)
+            {
+                return null;
+            }
+        }
+        $extra = 0;
+        foreach($item_params as $key=>$value)
+        {
+            if(!array_key_exists($key, $need_params))
+            {
+                $extra++;
+            }
+        }
+        return ['score'=>$score, 'extra'=>$extra];
+    }
 }
 ?>

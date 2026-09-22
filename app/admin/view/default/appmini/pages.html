@@ -1,0 +1,389 @@
+{{:ModuleInclude('public/header')}}
+<style type="text/css">
+.common-app-pages-top {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #fff;
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 0.1rem solid #eee;
+}
+.common-app-pages-anchor {
+    max-height: 7.2rem;
+    overflow-y: auto;
+}
+a.common-app-pages-anchor-item {
+    border: 0.1rem solid #dcdcdc;
+    background: #f8f8f8;
+    color: #666;
+}
+a.common-app-pages-anchor-item:hover,
+a.common-app-pages-anchor-item:focus {
+    color: #666 !important;
+    background: #eee;
+    border-color: #ccc;
+    text-decoration: none;
+}
+a.common-app-pages-anchor-item.am-active,
+a.common-app-pages-anchor-item.am-active:hover,
+a.common-app-pages-anchor-item.am-active:focus {
+    border-color: transparent;
+    background-color: var(--color-main);
+    color: #fff !important;
+}
+a.common-app-pages-copy.am-badge-success {
+    border: 0.1rem solid #5eb95e;
+}
+a.common-app-pages-copy:before,
+a.common-app-pages-use:before {
+    margin-right: 0.3rem;
+}
+</style>
+
+<div class="am-padding-left am-padding-right am-padding-bottom">
+    <div class="common-app-pages-top">
+        <div class="am-input-group am-input-group-sm am-margin-bottom-sm">
+            <input type="search" class="am-form-field am-radius common-app-pages-search" placeholder="{{:MyLang('app_pages.search_placeholder')}}" />
+            <span class="am-input-group-btn">
+                <button type="button" class="am-btn am-btn-default am-radius am-icon-search common-app-pages-search-submit"></button>
+            </span>
+        </div>
+        {{if !empty($app_pages_list)}}
+            <div class="common-app-pages-anchor">
+                {{foreach $app_pages_list as $group}}
+                    <a href="javascript:;" class="am-badge am-radius am-margin-right-xs am-margin-bottom-xs common-app-pages-anchor-item{{if $group.type eq 'base'}} am-active{{/if}}" data-target="app-pages-group-{{$group.type}}">{{$group.name}}</a>
+                    {{if isset($group['type']) and $group.type eq 'plugins' and !empty($group['data'])}}
+                        {{foreach $group.data as $plugin}}
+                            <a href="javascript:;" class="am-badge am-radius am-margin-right-xs am-margin-bottom-xs common-app-pages-anchor-item" data-target="app-pages-plugin-{{if isset($plugin['type'])}}{{$plugin.type}}{{else /}}{{$plugin.name}}{{/if}}">{{$plugin.name}}</a>
+                        {{/foreach}}
+                    {{/if}}
+                {{/foreach}}
+            </div>
+        {{/if}}
+    </div>
+    <div class="common-app-pages-list">
+        {{if !empty($app_pages_list)}}
+            {{foreach $app_pages_list as $group}}
+                <div class="common-app-pages-group" id="app-pages-group-{{$group.type}}" data-group="{{$group.type}}" data-title="{{$group.name}}">
+                    <p class="am-text-sm am-text-primary am-margin-bottom-xs am-margin-top-lg">
+                        <strong>{{$group.name}}</strong>
+                    </p>
+                    {{if isset($group['type']) and $group.type eq 'plugins'}}
+                        {{if !empty($group['data'])}}
+                            {{foreach $group.data as $plugin}}
+                                <div class="common-app-pages-plugin" id="app-pages-plugin-{{if isset($plugin['type'])}}{{$plugin.type}}{{else /}}{{$plugin.name}}{{/if}}" data-plugin="{{if isset($plugin['type'])}}{{$plugin.type}}{{/if}}" data-title="{{$plugin.name}}">
+                                    <p class="am-text-sm am-margin-bottom-xs am-margin-top">
+                                        <strong>{{$plugin.name}}</strong>
+                                    </p>
+                                    {{if !empty($plugin['data'])}}
+                                        <ul class="am-list am-margin-0">
+                                            {{foreach $plugin.data as $item}}
+                                                <li class="common-app-pages-item am-cf am-padding-vertical-xs" data-name="{{$item.name}}" data-page="{{$item.page}}">
+                                                    <div class="am-fl" style="max-width:68%;">
+                                                        <p class="am-margin-bottom-0"><span>{{$item.name}}</span></p>
+                                                        <p class="am-text-sm am-margin-bottom-0">{{$item.page}}</p>
+                                                        {{if !empty($item['tips'])}}
+                                                            <p class="am-color-grey am-text-xs am-margin-top-xs am-margin-bottom-0">{{$item.tips}}</p>
+                                                        {{/if}}
+                                                    </div>
+                                                    <div class="am-fr">
+                                                        <a href="javascript:;" class="am-badge am-badge-success am-radius am-margin-left-xs am-icon-copy common-app-pages-copy" data-value="{{$item.page}}">{{:MyLang('app_pages.copy_title')}}</a>
+                                                        {{if !empty($is_app_pages_use)}}
+                                                            <a href="javascript:;" class="am-badge am-badge-primary am-radius am-margin-left-xs am-icon-check common-app-pages-use" data-value="{{$item.page}}">{{:MyLang('app_pages.use_title')}}</a>
+                                                        {{/if}}
+                                                    </div>
+                                                </li>
+                                            {{/foreach}}
+                                        </ul>
+                                    {{/if}}
+                                </div>
+                            {{/foreach}}
+                        {{else /}}
+                            <p class="am-text-grey am-text-sm">{{:MyLang('app_pages.plugins_empty_tips')}}</p>
+                        {{/if}}
+                        <p class="am-color-grey am-text-xs am-margin-top-sm">{{:MyLang('app_pages.plugins_hook_tips')}}</p>
+                    {{elseif !empty($group['data']) /}}
+                        <ul class="am-list am-margin-0">
+                            {{foreach $group.data as $item}}
+                                <li class="common-app-pages-item am-cf am-padding-vertical-xs" data-name="{{$item.name}}" data-page="{{$item.page}}">
+                                    <div class="am-fl" style="max-width:68%;">
+                                        <p class="am-margin-bottom-0"><span>{{$item.name}}</span></p>
+                                        <p class="am-text-sm am-margin-bottom-0">{{$item.page}}</p>
+                                        {{if !empty($item['tips'])}}
+                                            <p class="am-color-grey am-text-xs am-margin-top-xs am-margin-bottom-0">{{$item.tips}}</p>
+                                        {{/if}}
+                                    </div>
+                                    <div class="am-fr">
+                                        <a href="javascript:;" class="am-badge am-badge-success am-radius am-margin-left-xs am-icon-copy common-app-pages-copy" data-value="{{$item.page}}">{{:MyLang('app_pages.copy_title')}}</a>
+                                        {{if !empty($is_app_pages_use)}}
+                                            <a href="javascript:;" class="am-badge am-badge-primary am-radius am-margin-left-xs am-icon-check common-app-pages-use" data-value="{{$item.page}}">{{:MyLang('app_pages.use_title')}}</a>
+                                        {{/if}}
+                                    </div>
+                                </li>
+                            {{/foreach}}
+                        </ul>
+                    {{/if}}
+                </div>
+            {{/foreach}}
+        {{else /}}
+            <p class="am-text-center am-text-grey">{{:MyLang('app_pages.empty_tips')}}</p>
+        {{/if}}
+        <p class="common-app-pages-empty am-text-center am-text-grey am-margin-top-xl am-padding-top-xl am-hide">{{:MyLang('app_pages.empty_tips')}}</p>
+    </div>
+</div>
+
+{{:ModuleInclude('public/footer')}}
+<script type="text/javascript">
+(function()
+{
+    var $box = $('.common-app-pages-list');
+    var $top = $('.common-app-pages-top');
+    var is_anchor_click = false;
+
+    // 设置锚点选中
+    function CommonAppPagesAnchorActive(target)
+    {
+        $('.common-app-pages-anchor-item').removeClass('am-active');
+        if(target != '')
+        {
+            $('.common-app-pages-anchor-item[data-target="'+target+'"]').addClass('am-active');
+        }
+    }
+
+    // 顶部占位高度
+    function CommonAppPagesTopHeight()
+    {
+        return ($top.length == 0) ? 0 : ($top.outerHeight() || 0);
+    }
+
+    // 根据滚动位置更新选中锚点
+    function CommonAppPagesAnchorScrollHandle()
+    {
+        if(is_anchor_click)
+        {
+            return;
+        }
+        var offset = CommonAppPagesTopHeight() + 20;
+        var current = '';
+        $('.common-app-pages-anchor-item').not('.am-hide').each(function()
+        {
+            var target = $(this).attr('data-target') || '';
+            var $el = target == '' ? $() : $('#' + target);
+            if($el.length > 0 && !$el.hasClass('am-hide') && ($el.offset().top - $(window).scrollTop()) <= offset)
+            {
+                current = target;
+            }
+        });
+        if(current != '')
+        {
+            CommonAppPagesAnchorActive(current);
+        }
+    }
+
+    // 锚点跳转
+    $(document).on('click', '.common-app-pages-anchor-item', function()
+    {
+        var target = $(this).attr('data-target') || '';
+        if(target == '')
+        {
+            return false;
+        }
+        var $el = $('#' + target);
+        if($el.length == 0 || $el.hasClass('am-hide'))
+        {
+            return false;
+        }
+        CommonAppPagesAnchorActive(target);
+        is_anchor_click = true;
+        var top = $el.offset().top - CommonAppPagesTopHeight() - 8;
+        $('html, body').stop(true).animate({scrollTop: top < 0 ? 0 : top}, 300, function()
+        {
+            is_anchor_click = false;
+        });
+        return false;
+    });
+
+    // 滚动联动选中
+    $(window).on('scroll', function()
+    {
+        CommonAppPagesAnchorScrollHandle();
+    });
+
+    // 搜索处理
+    function CommonAppPagesSearchHandle()
+    {
+        var keywords = $.trim($('.common-app-pages-search').val() || '').toLowerCase();
+        var visible = 0;
+        $box.find('.common-app-pages-group').each(function()
+        {
+            var group_visible = 0;
+            var $group = $(this);
+            var group_title = String($group.attr('data-title') || '').toLowerCase();
+            var group_match = keywords != '' && group_title.indexOf(keywords) != -1;
+            // 插件分组：先按插件块筛选
+            $group.find('.common-app-pages-plugin').each(function()
+            {
+                var plugin_visible = 0;
+                var plugin_title = String($(this).attr('data-title') || '').toLowerCase();
+                var plugin_match = keywords != '' && plugin_title.indexOf(keywords) != -1;
+                $(this).find('.common-app-pages-item').each(function()
+                {
+                    var name = String($(this).attr('data-name') || '').toLowerCase();
+                    var page = String($(this).attr('data-page') || '').toLowerCase();
+                    var tips = $.trim($(this).find('.am-color-grey').text() || '').toLowerCase();
+                    if(keywords == '' || group_match || plugin_match || name.indexOf(keywords) != -1 || page.indexOf(keywords) != -1 || tips.indexOf(keywords) != -1)
+                    {
+                        $(this).removeClass('am-hide');
+                        plugin_visible++;
+                        group_visible++;
+                        visible++;
+                    } else {
+                        $(this).addClass('am-hide');
+                    }
+                });
+                if(plugin_visible > 0 || plugin_match || group_match || (keywords == '' && $(this).find('.common-app-pages-item').length == 0))
+                {
+                    $(this).removeClass('am-hide');
+                    if(plugin_visible == 0 && (plugin_match || group_match))
+                    {
+                        group_visible++;
+                        visible++;
+                    }
+                } else {
+                    $(this).addClass('am-hide');
+                }
+            });
+            // 非插件分组：直接筛条目
+            $group.children('ul').find('.common-app-pages-item').each(function()
+            {
+                var name = String($(this).attr('data-name') || '').toLowerCase();
+                var page = String($(this).attr('data-page') || '').toLowerCase();
+                var tips = $.trim($(this).find('.am-color-grey').text() || '').toLowerCase();
+                if(keywords == '' || group_match || name.indexOf(keywords) != -1 || page.indexOf(keywords) != -1 || tips.indexOf(keywords) != -1)
+                {
+                    $(this).removeClass('am-hide');
+                    group_visible++;
+                    visible++;
+                } else {
+                    $(this).addClass('am-hide');
+                }
+            });
+            if(group_visible > 0 || group_match || ($group.find('.common-app-pages-item').length == 0 && keywords == '') || ($group.data('group') == 'plugins' && keywords == ''))
+            {
+                $group.removeClass('am-hide');
+            } else {
+                $group.addClass('am-hide');
+            }
+        });
+        if(visible == 0 && keywords != '')
+        {
+            $box.find('.common-app-pages-empty').removeClass('am-hide');
+        } else {
+            $box.find('.common-app-pages-empty').addClass('am-hide');
+        }
+        // 同步锚点显隐
+        $('.common-app-pages-anchor-item').each(function()
+        {
+            var target = $(this).attr('data-target') || '';
+            var $el = target == '' ? $() : $('#' + target);
+            if($el.length > 0 && !$el.hasClass('am-hide'))
+            {
+                $(this).removeClass('am-hide');
+            } else {
+                $(this).addClass('am-hide');
+            }
+        });
+        CommonAppPagesAnchorScrollHandle();
+    }
+
+    // 输入/清除/变更
+    $(document).on('input change search', '.common-app-pages-search', function()
+    {
+        CommonAppPagesSearchHandle();
+    });
+
+    // 点击搜索按钮
+    $(document).on('click', '.common-app-pages-search-submit', function()
+    {
+        CommonAppPagesSearchHandle();
+    });
+
+    // 回车搜索
+    $(document).on('keydown', '.common-app-pages-search', function(e)
+    {
+        if(e.keyCode == 13)
+        {
+            CommonAppPagesSearchHandle();
+            return false;
+        }
+    });
+
+    // 复制
+    $(document).on('click', '.common-app-pages-copy', function()
+    {
+        var value = $(this).attr('data-value') || '';
+        if(value == '')
+        {
+            return false;
+        }
+        if(navigator.clipboard && navigator.clipboard.writeText)
+        {
+            navigator.clipboard.writeText(value).then(function()
+            {
+                Prompt(window['lang_copy_success'] || '复制成功', 'success');
+            }).catch(function()
+            {
+                CommonAppPagesFallbackCopy(value);
+            });
+        } else {
+            CommonAppPagesFallbackCopy(value);
+        }
+    });
+
+    // 使用：写入父页事件值并关闭弹窗
+    $(document).on('click', '.common-app-pages-use', function()
+    {
+        var value = $(this).attr('data-value') || '';
+        if(value == '' || !window.parent)
+        {
+            return false;
+        }
+        try {
+            var $parent = window.parent.$;
+            if(typeof $parent == 'function')
+            {
+                var $input = $parent('input[name="event_value"]').filter(':visible').last();
+                if($input.length == 0)
+                {
+                    $input = $parent('input[name="event_value"]').last();
+                }
+                if($input.length > 0)
+                {
+                    $input.val(value).trigger('change').focus();
+                }
+                $parent('.popup-iframe').modal('close');
+            }
+        } catch(e) {}
+    });
+
+    function CommonAppPagesFallbackCopy(value)
+    {
+        var $temp = $('<textarea readonly></textarea>').css({
+            position: 'absolute',
+            left: '-9999px',
+            top: '0'
+        }).val(value);
+        $('body').append($temp);
+        $temp[0].select();
+        try {
+            document.execCommand('copy');
+            Prompt(window['lang_copy_success'] || '复制成功', 'success');
+        } catch (e) {
+            Prompt(window['lang_copy_fail'] || '复制失败');
+        }
+        $temp.remove();
+    }
+})();
+</script>

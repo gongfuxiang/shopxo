@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\I18nService;
 use app\service\ResourcesService;
 
 /**
@@ -38,6 +39,10 @@ class ScreeningPriceService
         // 获取数据
         $field = 'id,name,sort,is_enable,min_price,max_price';
         $data = Db::name('ScreeningPrice')->field($field)->where(['pid'=>$id])->order('sort asc')->select()->toArray();
+
+        // 多语言数据替换
+        I18nService::DataHandle($data, 'screening_price');
+
         if(!empty($data))
         {
             foreach($data as &$v)
@@ -103,6 +108,11 @@ class ScreeningPriceService
                 $data['id'] = $params['id'];
             }
         }
+        $i18n_data = I18nService::RequestData($params);
+        if($i18n_data !== null)
+        {
+            I18nService::SaveData('screening_price', $data['id'], $i18n_data);
+        }
         return DataReturn(MyLang('operate_success'), 0, $data);
     }
 
@@ -138,6 +148,7 @@ class ScreeningPriceService
         // 开始删除
         if(Db::name('ScreeningPrice')->where(['id'=>intval($params['id'])])->delete())
         {
+            I18nService::DeleteData('screening_price', $params['ids']);
             return DataReturn(MyLang('delete_success'), 0);
         }
         return DataReturn(MyLang('delete_fail'), -100);

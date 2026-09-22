@@ -227,6 +227,13 @@ header .admin-header-right-list .admin-nav-pending-todo-panel .admin-nav-pending
 }
 
 /**
+ * 框架覆盖
+ */
+.am-ucheck-icons {
+    line-height: 1.8rem;
+}
+
+/**
  * 两行、超出字符省略
  */
 .am-text-truncate-2,

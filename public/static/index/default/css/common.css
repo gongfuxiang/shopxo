@@ -3321,10 +3321,6 @@ header.am-topbar a {
 }
 
 @media only screen and (min-width: 641px) {
-    .items-nav-title {
-        background: var(--body-bg-color);
-    }
-
     .items-nav-title .floor-title {
         border: none;
         font-size: 1.8rem;

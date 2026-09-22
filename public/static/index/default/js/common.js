@@ -577,7 +577,7 @@ $(function()
             for(var t in spec[i]['value'])
             {
               var temp = spec[i]['value'][t];
-                html += `<li class="am-radius sku-line `+((temp['images'] || null) != null ? ' sku-line-images' : '')+` `+((i > 0) ? ' sku-dont-choose' : '')+` `+((parseInt(temp['is_only_level_one'] || 0) == 1 && parseInt(temp['inventory'] || 0) <= 0) ? ' sku-items-disabled' : '')+`" data-type-value="`+spec[i]['name']+`" data-value="`+temp['name']+`" data-type-images="`+((temp['images'] || null) != null ? temp['images'] : '')+`">`;
+                html += `<li class="am-radius sku-line `+((temp['images'] || null) != null ? ' sku-line-images' : '')+` `+((i > 0) ? ' sku-dont-choose' : '')+` `+((parseInt(temp['is_only_level_one'] || 0) == 1 && parseInt(temp['inventory'] || 0) <= 0) ? ' sku-items-disabled' : '')+`" data-key="`+(temp['key'] || '')+`" data-type-images="`+((temp['images'] || null) != null ? temp['images'] : '')+`">`;
                         if((temp['images'] || null) != null)
                         {
                           html += `<img src="`+temp['images']+`" class="am-radius am-margin-right-xs" />`;
@@ -689,8 +689,8 @@ $(function()
         var value = [];
         $('.sku-items li.selected').each(function(k, v)
         {
-            spec.push({"type": $(this).data('type-value'), "value": $(this).data('value')});
-            value.push($(this).data('value'));
+            spec.push({"key": $(this).data('key') || ''});
+            value.push($.trim($(this).text()));
         });
 
         // 属性赋值

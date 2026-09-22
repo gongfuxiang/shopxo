@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\I18nService;
 use app\module\LayoutModule;
 use app\service\ResourcesService;
 use app\service\AttachmentService;
@@ -63,6 +64,9 @@ class DesignService
     {
         if(!empty($data))
         {
+            // 多语言数据替换（名称+SEO、仅前台非默认语言生效）
+            I18nService::DataHandle($data, 'design');
+
             foreach($data as &$v)
             {
                 // logo
@@ -129,6 +133,12 @@ class DesignService
             {
                 return DataReturn(MyLang('update_fail'), -1);
             }
+        }
+        // 多语言数据保存（隐藏域未提交则不处理）
+        $i18n_data = I18nService::RequestData($params);
+        if($i18n_data !== null)
+        {
+            I18nService::SaveData('design', $data_id, $i18n_data);
         }
         return DataReturn(MyLang('operate_success'), 0, $data_id);
     }
@@ -216,6 +226,9 @@ class DesignService
             {
                 AttachmentService::AttachmentPathTypeDelete(self::AttachmentPathTypeValue($v));
             }
+            // 多语言数据删除
+            I18nService::DeleteData('design', $params['ids']);
+
             return DataReturn(MyLang('delete_success'), 0);
         }
         return DataReturn(MyLang('delete_fail'), -100);

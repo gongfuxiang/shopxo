@@ -55,7 +55,7 @@
         {{if !empty($buy_button) and !empty($buy_button['count']) and !empty($buy_button['data']) and is_array($buy_button['data'])}}
             <!-- 购买按钮列表 -->
             <div class="buy-submit-container buy-submit-container-number-{{$buy_button.count}}">
-                {{foreach $buy_button.data as $v}}
+                {{foreach $buy_button.data as $bk=>$v}}
                     {{if !empty($v['type']) and !empty($v['name'])}}
                         {{switch $v.type}}
                             {{case show|tel}}
@@ -63,7 +63,22 @@
                                 class="am-radius am-btn am-btn-primary {{if !empty($v['class'])}}{{$v.class}}{{/if}}" 
                                 data-type="{{$v.type}}" 
                                 data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}" 
-                                data-business="{{if isset($v['business'])}}{{$v.business}}{{/if}}">
+                                data-business="{{if isset($v['business'])}}{{$v.business}}{{/if}}"
+                                {{if !empty($v['document'])}}{{$v.document|raw}}{{/if}}>
+                                    {{if !empty($v['icon'])}}
+                                        <i class="{{$v.icon}}"></i>
+                                    {{/if}}
+                                    {{$v.name}}
+                                </a>
+                            {{/case}}
+                            {{case chat}}
+                                <a href="javascript:;" 
+                                class="am-radius am-btn am-btn-{{if !empty($v['color']) and $v['color'] eq 'second'}}secondary{{else /}}primary{{/if}} plugins-chat-entry-event {{if !empty($v['class'])}}{{$v.class}}{{/if}}" 
+                                data-type="{{$v.type}}" 
+                                data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}" 
+                                data-chat-url="{{if isset($v['value'])}}{{$v.value}}{{/if}}" 
+                                data-is-open-new-win="{{if isset($v['is_new_open'])}}{{$v.is_new_open}}{{else /}}0{{/if}}" 
+                                {{if !empty($v['document'])}}{{$v.document|raw}}{{/if}}>
                                     {{if !empty($v['icon'])}}
                                         <i class="{{$v.icon}}"></i>
                                     {{/if}}
@@ -90,12 +105,63 @@
                                     {{$v.name}}
                                 </button>
                             {{/case}}
+                            {{case tips}}
+                                <button type="button"
+                                class="am-radius am-btn am-btn-{{if !empty($v['color']) and $v['color'] eq 'second'}}secondary{{else /}}primary{{/if}} buy-nav-tips-submit {{if !empty($v['class'])}}{{$v.class}}{{/if}}"
+                                data-type="{{$v.type}}"
+                                data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}"
+                                data-business="{{if isset($v['business'])}}{{$v.business}}{{/if}}"
+                                {{if !empty($v['document'])}}{{$v.document|raw}}{{/if}}>
+                                    {{if !empty($v['icon'])}}
+                                        <i class="{{$v.icon}}"></i>
+                                    {{/if}}
+                                    {{$v.name}}
+                                </button>
+                            {{/case}}
+                            {{case popup}}
+                                <button type="button"
+                                class="am-radius am-btn am-btn-{{if !empty($v['color']) and $v['color'] eq 'second'}}secondary{{else /}}primary{{/if}} buy-nav-popup-submit {{if !empty($v['class'])}}{{$v.class}}{{/if}}"
+                                data-type="{{$v.type}}"
+                                data-popup-id="goods-buy-nav-popup-{{$bk}}"
+                                data-business="{{if isset($v['business'])}}{{$v.business}}{{/if}}"
+                                {{if !empty($v['document'])}}{{$v.document|raw}}{{/if}}>
+                                    {{if !empty($v['icon'])}}
+                                        <i class="{{$v.icon}}"></i>
+                                    {{/if}}
+                                    {{$v.name}}
+                                </button>
+                                <div class="am-popup am-radius" id="goods-buy-nav-popup-{{$bk}}">
+                                    <div class="am-popup-inner">
+                                        <div class="am-popup-hd">
+                                            <h4 class="am-popup-title">{{if !empty($v['title'])}}{{$v.title}}{{else /}}{{$v.name}}{{/if}}</h4>
+                                            <span data-am-modal-close class="am-close">&times;</span>
+                                        </div>
+                                        <div class="am-popup-bd am-scrollable-vertical buy-nav-popup-body">
+                                            {{if !empty($v['value'])}}{{$v.value|raw}}{{/if}}
+                                        </div>
+                                    </div>
+                                </div>
+                            {{/case}}
+                            {{case map}}
+                                <button type="button"
+                                class="am-radius am-btn am-btn-{{if !empty($v['color']) and $v['color'] eq 'second'}}secondary{{else /}}primary{{/if}} submit-map-popup {{if !empty($v['class'])}}{{$v.class}}{{/if}}"
+                                data-type="{{$v.type}}"
+                                data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}"
+                                data-business="{{if isset($v['business'])}}{{$v.business}}{{/if}}"
+                                {{if !empty($v['document'])}}{{$v.document|raw}}{{/if}}>
+                                    {{if !empty($v['icon'])}}
+                                        <i class="{{$v.icon}}"></i>
+                                    {{/if}}
+                                    {{$v.name}}
+                                </button>
+                            {{/case}}
                             {{default /}}
                                 <button type="button" 
                                 class="am-radius am-btn am-btn-{{if !empty($v['color']) and $v['color'] eq 'second'}}secondary{{else /}}primary{{/if}} {{$v.type}}-submit {{if !empty($v['class'])}}{{$v.class}} {{/if}}" 
                                 data-type="{{$v.type}}" 
                                 data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}" 
-                                data-business="{{if isset($v['business'])}}{{$v.business}}{{/if}}">
+                                data-business="{{if isset($v['business'])}}{{$v.business}}{{/if}}"
+                                {{if !empty($v['document'])}}{{$v.document|raw}}{{/if}}>
                                     {{if !empty($v['icon'])}}
                                         <i class="{{$v.icon}}"></i>
                                     {{/if}}

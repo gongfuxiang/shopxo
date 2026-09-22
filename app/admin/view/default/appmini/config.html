@@ -39,7 +39,7 @@
         </div>
 
         <!-- form start -->
-        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/appmini/save', ['nav_type'=>$nav_type])}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appmini/config', ['nav_type'=>$nav_type])}}">
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/appmini/save', ['nav_type'=>$nav_type])}}" method="POST" data-i18n-table="config" request-type="ajax-url" request-value="{{:MyUrl('admin/appmini/config', ['nav_type'=>$nav_type])}}">
             {{switch $nav_type}}
                 {{case weixin}}
                     <!-- 微信 -->
@@ -53,11 +53,11 @@
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_app_mini_weixin_title.name}}</label>
-                        <input type="text" name="{{$data.common_app_mini_weixin_title.only_tag}}" placeholder="{{$data.common_app_mini_weixin_title.name}}" data-validation-message="{{$data.common_app_mini_weixin_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_weixin_title.value}}"{{/if}} />
+                        <input type="text" name="{{$data.common_app_mini_weixin_title.only_tag}}" data-i18n="1" placeholder="{{$data.common_app_mini_weixin_title.name}}" data-validation-message="{{$data.common_app_mini_weixin_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_weixin_title.value}}"{{/if}} />
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_app_mini_weixin_describe.name}}</label>
-                        <input type="text" name="{{$data.common_app_mini_weixin_describe.only_tag}}" placeholder="{{$data.common_app_mini_weixin_describe.name}}" data-validation-message="{{$data.common_app_mini_weixin_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_weixin_describe.value}}"{{/if}} />
+                        <input type="text" name="{{$data.common_app_mini_weixin_describe.only_tag}}" data-i18n="1" placeholder="{{$data.common_app_mini_weixin_describe.name}}" data-validation-message="{{$data.common_app_mini_weixin_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_weixin_describe.value}}"{{/if}} />
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_app_mini_weixin_share_original_id.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_weixin_share_original_id.describe}}</span></label>
@@ -75,7 +75,7 @@
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_app_mini_weixin_privacy_content.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_weixin_privacy_content.describe}}</span></label>
-                        <textarea rows="4" name="{{$data.common_app_mini_weixin_privacy_content.only_tag}}" class="am-radius" placeholder="{{$data.common_app_mini_weixin_privacy_content.name}}" data-validation-message="{{$data.common_app_mini_weixin_privacy_content.error_tips}}">{{if !empty($data)}}{{$data.common_app_mini_weixin_privacy_content.value}}{{/if}}</textarea>
+                        <textarea rows="4" name="{{$data.common_app_mini_weixin_privacy_content.only_tag}}" data-i18n="1" class="am-radius" placeholder="{{$data.common_app_mini_weixin_privacy_content.name}}" data-validation-message="{{$data.common_app_mini_weixin_privacy_content.error_tips}}">{{if !empty($data)}}{{$data.common_app_mini_weixin_privacy_content.value}}{{/if}}</textarea>
                     </div>
                 {{/case}}
                 {{case alipay}}
@@ -112,11 +112,11 @@
                             </div>
                             <div class="am-form-group">
                                 <label>{{$data.common_app_mini_alipay_title.name}}</label>
-                                <input type="text" name="{{$data.common_app_mini_alipay_title.only_tag}}" placeholder="{{$data.common_app_mini_alipay_title.name}}" data-validation-message="{{$data.common_app_mini_alipay_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_title.value}}"{{/if}} />
+                                <input type="text" name="{{$data.common_app_mini_alipay_title.only_tag}}" data-i18n="1" placeholder="{{$data.common_app_mini_alipay_title.name}}" data-validation-message="{{$data.common_app_mini_alipay_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_title.value}}"{{/if}} />
                             </div>
                             <div class="am-form-group">
                                 <label>{{$data.common_app_mini_alipay_describe.name}}</label>
-                                <input type="text" name="{{$data.common_app_mini_alipay_describe.only_tag}}" placeholder="{{$data.common_app_mini_alipay_describe.name}}" data-validation-message="{{$data.common_app_mini_alipay_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_describe.value}}"{{/if}} />
+                                <input type="text" name="{{$data.common_app_mini_alipay_describe.only_tag}}" data-i18n="1" placeholder="{{$data.common_app_mini_alipay_describe.name}}" data-validation-message="{{$data.common_app_mini_alipay_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_alipay_describe.value}}"{{/if}} />
                             </div>
                         </div>
                         <div class="item" data-key="form-alipay-extend">
@@ -156,11 +156,11 @@
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_app_mini_baidu_title.name}}</label>
-                        <input type="text" name="{{$data.common_app_mini_baidu_title.only_tag}}" placeholder="{{$data.common_app_mini_baidu_title.name}}" data-validation-message="{{$data.common_app_mini_baidu_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_baidu_title.value}}"{{/if}} />
+                        <input type="text" name="{{$data.common_app_mini_baidu_title.only_tag}}" data-i18n="1" placeholder="{{$data.common_app_mini_baidu_title.name}}" data-validation-message="{{$data.common_app_mini_baidu_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_baidu_title.value}}"{{/if}} />
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_app_mini_baidu_describe.name}}</label>
-                        <input type="text" name="{{$data.common_app_mini_baidu_describe.only_tag}}" placeholder="{{$data.common_app_mini_baidu_describe.name}}" data-validation-message="{{$data.common_app_mini_baidu_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_baidu_describe.value}}"{{/if}} />
+                        <input type="text" name="{{$data.common_app_mini_baidu_describe.only_tag}}" data-i18n="1" placeholder="{{$data.common_app_mini_baidu_describe.name}}" data-validation-message="{{$data.common_app_mini_baidu_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_baidu_describe.value}}"{{/if}} />
                     </div>
                 {{/case}}
                 {{case toutiao}}
@@ -175,11 +175,11 @@
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_app_mini_toutiao_title.name}}</label>
-                        <input type="text" name="{{$data.common_app_mini_toutiao_title.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_title.name}}" data-validation-message="{{$data.common_app_mini_toutiao_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_title.value}}"{{/if}} />
+                        <input type="text" name="{{$data.common_app_mini_toutiao_title.only_tag}}" data-i18n="1" placeholder="{{$data.common_app_mini_toutiao_title.name}}" data-validation-message="{{$data.common_app_mini_toutiao_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_title.value}}"{{/if}} />
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_app_mini_toutiao_describe.name}}</label>
-                        <input type="text" name="{{$data.common_app_mini_toutiao_describe.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_describe.name}}" data-validation-message="{{$data.common_app_mini_toutiao_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_describe.value}}"{{/if}} />
+                        <input type="text" name="{{$data.common_app_mini_toutiao_describe.only_tag}}" data-i18n="1" placeholder="{{$data.common_app_mini_toutiao_describe.name}}" data-validation-message="{{$data.common_app_mini_toutiao_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_describe.value}}"{{/if}} />
                     </div>
                 {{/case}}
                 {{case qq}}
@@ -198,11 +198,11 @@
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_app_mini_qq_title.name}}</label>
-                        <input type="text" name="{{$data.common_app_mini_qq_title.only_tag}}" placeholder="{{$data.common_app_mini_qq_title.name}}" data-validation-message="{{$data.common_app_mini_qq_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_qq_title.value}}"{{/if}} />
+                        <input type="text" name="{{$data.common_app_mini_qq_title.only_tag}}" data-i18n="1" placeholder="{{$data.common_app_mini_qq_title.name}}" data-validation-message="{{$data.common_app_mini_qq_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_qq_title.value}}"{{/if}} />
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_app_mini_qq_describe.name}}</label>
-                        <input type="text" name="{{$data.common_app_mini_qq_describe.only_tag}}" placeholder="{{$data.common_app_mini_qq_describe.name}}" data-validation-message="{{$data.common_app_mini_qq_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_qq_describe.value}}"{{/if}} />
+                        <input type="text" name="{{$data.common_app_mini_qq_describe.only_tag}}" data-i18n="1" placeholder="{{$data.common_app_mini_qq_describe.name}}" data-validation-message="{{$data.common_app_mini_qq_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_qq_describe.value}}"{{/if}} />
                     </div>
                 {{/case}}
                 {{case kuaishou}}
@@ -217,11 +217,11 @@
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_app_mini_kuaishou_title.name}}</label>
-                        <input type="text" name="{{$data.common_app_mini_kuaishou_title.only_tag}}" placeholder="{{$data.common_app_mini_kuaishou_title.name}}" data-validation-message="{{$data.common_app_mini_kuaishou_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_kuaishou_title.value}}"{{/if}} />
+                        <input type="text" name="{{$data.common_app_mini_kuaishou_title.only_tag}}" data-i18n="1" placeholder="{{$data.common_app_mini_kuaishou_title.name}}" data-validation-message="{{$data.common_app_mini_kuaishou_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_kuaishou_title.value}}"{{/if}} />
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_app_mini_kuaishou_describe.name}}</label>
-                        <input type="text" name="{{$data.common_app_mini_kuaishou_describe.only_tag}}" placeholder="{{$data.common_app_mini_kuaishou_describe.name}}" data-validation-message="{{$data.common_app_mini_kuaishou_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_kuaishou_describe.value}}"{{/if}} />
+                        <input type="text" name="{{$data.common_app_mini_kuaishou_describe.only_tag}}" data-i18n="1" placeholder="{{$data.common_app_mini_kuaishou_describe.name}}" data-validation-message="{{$data.common_app_mini_kuaishou_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_kuaishou_describe.value}}"{{/if}} />
                     </div>
                 {{/case}}
                 {{default /}}

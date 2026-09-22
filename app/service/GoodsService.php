@@ -22,6 +22,7 @@ use app\service\WarehouseGoodsService;
 use app\service\GoodsCategoryService;
 use app\service\GoodsSpecService;
 use app\service\GoodsParamsService;
+use app\service\I18nService;
 use app\service\GoodsCommentsService;
 
 /**
@@ -64,10 +65,8 @@ class GoodsService
         $is_spec = (!isset($params['is_spec']) || $params['is_spec'] == 1) ? 1 : 0;
         $is_cart = (!isset($params['is_cart']) || $params['is_cart'] == 1) ? 1 : 0;
 
-        // 缓存
-        $key = SystemService::CacheKey('shopxo.cache_goods_floor_list_key');
-        $data = MyCache($key);
-        if($data === null || MyEnv('app_debug') || MyC('common_data_is_use_cache') != 1)
+        // 缓存（多语言缓存key由MyCacheRemember内部拼接）
+        $data = MyCacheRemember(SystemService::CacheKey('shopxo.cache_goods_floor_list_key'), function() use($params, $is_spec, $is_cart)
         {
             // 商品大分类
             $data = GoodsCategoryService::GoodsCategoryList(['where'=>[
@@ -194,10 +193,8 @@ class GoodsService
             } else {
                 $data = [];
             }
-
-            // 存储缓存
-            MyCache($key, $data, 180);
-        }
+            return $data;
+        }, 180);
 
         // 商品读取、商品信息需要实时读取
         if(!empty($data) && is_array($data))
@@ -384,6 +381,12 @@ class GoodsService
     {
         if(!empty($data))
         {
+            // 多语言数据替换（仅前台非默认语言；管理端/商家中心列表与编辑传 is_i18n=0 保留库内原文）
+            if(!isset($params['is_i18n']) || intval($params['is_i18n']) == 1)
+            {
+                I18nService::DataHandle($data, 'goods');
+            }
+
             // 商品列表钩子-前面
             $hook_name = 'plugins_service_goods_list_handle_begin';
             MyEventTrigger($hook_name, [
@@ -411,6 +414,30 @@ class GoodsService
             $common_goods_original_price_unit_status = MyC('common_goods_original_price_unit_status', 0, true);
             $common_goods_sales_number_status = MyC('common_goods_sales_number_status', 0, true);
             $common_goods_inventory_status = MyC('common_goods_inventory_status', 0, true);
+            $exhibition_hide_price = (MyC('common_exhibition_mode_hide_price', 0, true) == 1);
+            if($exhibition_hide_price)
+            {
+                $fill_site_type_ids = [];
+                foreach($data as $tmp)
+                {
+                    if(!is_array($tmp))
+                    {
+                        continue;
+                    }
+                    if(!array_key_exists('site_type', $tmp) || $tmp['site_type'] === '' || $tmp['site_type'] === null)
+                    {
+                        $tid = isset($tmp[$data_key_field]) ? intval($tmp[$data_key_field]) : 0;
+                        if($tid > 0)
+                        {
+                            $fill_site_type_ids[] = $tid;
+                        }
+                    }
+                }
+                if(!empty($fill_site_type_ids))
+                {
+                    SystemBaseService::GoodsSiteTypeCacheFill($fill_site_type_ids);
+                }
+            }
 
             // 字段列表
             $keys = ArrayKeys($data);
@@ -486,6 +513,12 @@ class GoodsService
                 $v['show_price_unit'] = $common_goods_sales_price_unit_status == 1 ? $inventory_unit : '';
                 // 是否展示售价(否0, 是1)
                 $v['show_field_price_status'] = $common_goods_sales_price_status;
+
+                // 展示型开启隐藏价格时，隐藏或替换为指定文字
+                if($exhibition_hide_price)
+                {
+                    SystemBaseService::ApplyExhibitionHidePriceDisplay($v);
+                }
 
                 // 是否展示销量和库存
                 $v['show_sales_number_status'] = $common_goods_sales_number_status;
@@ -769,6 +802,11 @@ class GoodsService
                             $gv['error_msg'] = $ret['msg'];
                         }
                     }
+                    // 展示型隐藏价格：插件处理后再次覆盖售价/原价显示
+                    if($exhibition_hide_price)
+                    {
+                        SystemBaseService::ApplyExhibitionHidePriceDisplay($gv);
+                    }
                 }
             }
         }
@@ -989,6 +1027,12 @@ class GoodsService
             }
         }
 
+        // 商品手机详情多语言替换（商家中心编辑传 is_i18n=0 跳过）
+        if(!isset($params['is_i18n']) || intval($params['is_i18n']) == 1)
+        {
+            I18nService::GoodsContentAppHandle($data);
+        }
+
         // 商品手机详情钩子
         $hook_name = 'plugins_service_goods_content_app_data';
         MyEventTrigger($hook_name, [
@@ -1028,6 +1072,13 @@ class GoodsService
         {
             $temp_group = [];
             $data = Db::name('GoodsSpecType')->where(['goods_id'=>$temp_goods_ids])->order('id asc')->select()->toArray();
+
+            // 规格名称多语言替换（商家中心编辑传 is_i18n=0 跳过）
+            if(!isset($params['is_i18n']) || intval($params['is_i18n']) == 1)
+            {
+                I18nService::GoodsSpecNameHandle($data);
+            }
+
             if(!empty($data))
             {
                 // 分组
@@ -1072,13 +1123,42 @@ class GoodsService
                                 {
                                     $temp_spec['is_only_level_one'] = 1;
                                     $temp_spec['inventory'] = $temp['data']['spec_base']['inventory'];
+                                    $temp_spec['price'] = $temp['data']['spec_base']['price'];
+                                    $temp_spec['original_price'] = empty($temp['data']['spec_base']['original_price']) ? 0 : $temp['data']['spec_base']['original_price'];
+                                    $temp_spec['inventory_unit'] = empty($temp['data']['spec_base']['inventory_unit']) ? '' : $temp['data']['spec_base']['inventory_unit'];
                                 }
                             }
                         }
                     }
+                    // 规格值多语言处理（附加key基础值md5、显示值替换：商品级 -> 模板级；商家中心编辑传 is_i18n=0 仅补 key）
+                    $temp_spec_handle = [$gid => &$gv];
+                    if(!isset($params['is_i18n']) || intval($params['is_i18n']) == 1)
+                    {
+                        I18nService::GoodsSpecValueHandle($temp_spec_handle);
+                    } else {
+                        // 不翻译时仍输出 key，供下单匹配
+                        foreach($gv['choose'] as &$type)
+                        {
+                            if(!empty($type['value']) && is_array($type['value']))
+                            {
+                                foreach($type['value'] as &$item)
+                                {
+                                    if(isset($item['name']))
+                                    {
+                                        $item['key'] = I18nService::ContentKey($item['name']);
+                                    }
+                                }
+                                unset($item);
+                            }
+                        }
+                        unset($type);
+                    }
+                    unset($temp_spec_handle);
+
                     $goods_spec_group_static_data[$gid] = $gv;
                 }
             }
+
             // 空数据记录、避免重复查询
             foreach($temp_goods_ids as $gid)
             {
@@ -1127,6 +1207,13 @@ class GoodsService
     {
         $data = [];
         $list = Db::name('GoodsParams')->where(['goods_id'=>$goods_ids])->order('id asc')->select()->toArray();
+
+        // 商品参数多语言替换（分组前按全局顺序索引、scope=0会同时进base和detail；商家中心编辑传 is_i18n=0 跳过）
+        if(!isset($params['is_i18n']) || intval($params['is_i18n']) == 1)
+        {
+            I18nService::GoodsParamsHandle($list);
+        }
+
         if(!empty($list))
         {
             // 分组
@@ -1525,19 +1612,26 @@ class GoodsService
         }
 
         // 其它附件
-        $attachment = ResourcesService::AttachmentParams($params, ['images', 'video', 'share_images']);
+        $attachment = ResourcesService::AttachmentParams($params, ['images', 'video', 'share_images'], [
+            'images'       => 'cover',
+            'share_images' => 'cover',
+        ]);
         if($attachment['code'] != 0)
         {
             return $attachment;
         }
 
         // 编辑器内容
-        $content_web = empty($params['content_web']) ? '' : str_replace("\n", '', ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['content_web']), 'add'));
+        $content_web = empty($params['content_web']) ? '' : str_replace("\n", '', ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['content_web']), 'add', ['image_scene'=>'detail']));
         $fictitious_goods_value = empty($params['fictitious_goods_value']) ? '' : str_replace("\n", '', ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['fictitious_goods_value']), 'add'));
         $use_guide = empty($params['use_guide']) ? '' : str_replace("\n", '', ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['use_guide']), 'add'));
 
         // 封面图片、默认相册第一张
         $images = empty($attachment['data']['images']) ? (isset($photo['data'][0]) ? $photo['data'][0] : '') : $attachment['data']['images'];
+        if(empty($attachment['data']['images']) && !empty($images))
+        {
+            $images = ResourcesService::AttachmentPathHandle($images, 'url', ['image_scene'=>'cover']);
+        }
 
         // 基础数据
         $data = [
@@ -1667,6 +1761,13 @@ class GoodsService
             if($ret['code'] != 0)
             {
                 throw new \Exception($ret['msg']);
+            }
+
+            // 多语言数据：仅保存本商品确认的翻译（按 goods_id），规格模板翻译不写入商品行（展示时再回退模板）
+            $i18n_data = I18nService::RequestData($params);
+            if(!empty($i18n_data))
+            {
+                I18nService::SaveData('goods', $goods_id, $i18n_data);
             }
 
             // 商品参数
@@ -2027,7 +2128,7 @@ class GoodsService
             return DataReturn(MyLang('common_service.goods.save_photo_empty_tips'), -1);
         }
 
-        $result = ResourcesService::AttachmentPathHandle($params['photo']);
+        $result = ResourcesService::AttachmentPathHandle($params['photo'], 'url', ['image_scene'=>'album']);
         return DataReturn('success', 0, $result);
     }
 
@@ -2055,7 +2156,7 @@ class GoodsService
                     $result[$key[1]][$key[0]] = $v;
                     if($key[0] == 'images')
                     {
-                        $result[$key[1]][$key[0]] = ResourcesService::AttachmentPathHandle($v);
+                        $result[$key[1]][$key[0]] = ResourcesService::AttachmentPathHandle($v, 'url', ['image_scene'=>'detail']);
                     }
                 }
             }
@@ -2367,6 +2468,9 @@ class GoodsService
      */
     public static function GoodsDeleteHandle($goods_ids, $params = [])
     {
+        // 多语言数据删除
+        I18nService::DeleteData('goods', $goods_ids);
+
         // 是否删除附件
         $del_attachment_data = [];
         $is_del_images = isset($params['is_del_images']) && $params['is_del_images'] == 1;
@@ -2792,9 +2896,18 @@ class GoodsService
             $spec = array_column($params['spec'], 'value');
         }
 
+        // 匹配模式：优先key（规格值基础值md5）、无key回退值串（spec可能为空、单规格商品场景）
+        $spec_keys = (isset($params['spec']) && is_array($params['spec'])) ? array_column($params['spec'], 'key') : [];
+        $is_key_mode = !empty($spec_keys) && count(array_filter($spec_keys)) == count($spec_keys);
+        if($is_key_mode && empty($spec))
+        {
+            // key-only提交（无value键）、array_column值为空数组、以key集合为准
+            $spec = $spec_keys;
+        }
+
         // 规格基础静态临时存储
         static $goods_service_goods_spec_base_static_data = [];
-        $key = $goods_id.(empty($spec) ? '' : md5(json_encode($spec, JSON_UNESCAPED_UNICODE)));
+        $key = $goods_id.(empty($spec) ? '' : md5(json_encode($is_key_mode ? $spec_keys : $spec, JSON_UNESCAPED_UNICODE)));
         if(array_key_exists($key, $goods_service_goods_spec_base_static_data))
         {
             $base = Db::name('GoodsSpecBase')->find($goods_service_goods_spec_base_static_data[$key]);
@@ -2825,13 +2938,18 @@ class GoodsService
                     return DataReturn('【'.$info['title'].'】'.MyLang('common_service.goods.base_spec_empty_tips'), -1);
                 }
 
-                // 获取规格值基础值id
-                $where['value'] = $spec;
+                // 获取规格值基础值id（key模式按md5_key匹配）
+                if($is_key_mode)
+                {
+                    $where[] = ['md5_key', 'in', $spec_keys];
+                } else {
+                    $where['value'] = $spec;
+                }
                 $ids = Db::name('GoodsSpecValue')->where($where)->column('goods_spec_base_id');
                 if(!empty($ids))
                 {
                     // 根据基础值id获取规格值列表
-                    $temp_data = Db::name('GoodsSpecValue')->where(['goods_spec_base_id'=>$ids])->field('goods_spec_base_id,value')->order('id asc')->select()->toArray();
+                    $temp_data = Db::name('GoodsSpecValue')->where(['goods_spec_base_id'=>$ids])->field('goods_spec_base_id,value,md5_key')->order('id asc')->select()->toArray();
                     if(!empty($temp_data))
                     {
                         // 根据基础值id分组
@@ -2841,12 +2959,13 @@ class GoodsService
                             $data[$v['goods_spec_base_id']][] = $v;
                         }
 
-                        // 从条件中匹配对应的规格值得到最终的基础值id
+                        // 从条件中匹配对应的规格值得到最终的基础值id（key模式key串、值模式值串）
                         $base_id = 0;
-                        $spec_str = implode('', array_column($params['spec'], 'value'));
+                        $match_field = $is_key_mode ? 'md5_key' : 'value';
+                        $spec_str = implode('', $is_key_mode ? $spec_keys : array_column($params['spec'], 'value'));
                         foreach($data as $value_v)
                         {
-                            $temp_str = implode('', array_column($value_v, 'value'));
+                            $temp_str = implode('', array_column($value_v, $match_field));
                             if($temp_str == $spec_str)
                             {
                                 $base_id = $value_v[0]['goods_spec_base_id'];
@@ -2897,6 +3016,18 @@ class GoodsService
                 return $ret;
             }
 
+            // 展示型隐藏价格：规格切换也不回显真实金额
+            $site_type = Db::name('Goods')->where(['id'=>$goods_id])->value('site_type');
+            if(SystemBaseService::IsExhibitionModeHidePrice($site_type))
+            {
+                $hide_text = SystemBaseService::ExhibitionHidePriceText();
+                if($hide_text !== '')
+                {
+                    $data['spec_base']['price'] = $hide_text;
+                    $data['spec_base']['original_price'] = 0;
+                }
+            }
+
             return DataReturn(MyLang('operate_success'), 0, $data);
         }
         return DataReturn(MyLang('common_service.goods.base_spec_empty_tips'), -100);
@@ -2943,14 +3074,23 @@ class GoodsService
         {
             $params['spec'] = json_decode(htmlspecialchars_decode($params['spec']), true);
         }
-        $where['value'] = array_column($params['spec'], 'value');
+
+        // 匹配模式：优先key（规格值基础值md5、多语言下显示值会变key不变）、无key回退值串兼容旧版
+        $spec_keys = is_array($params['spec']) ? array_column($params['spec'], 'key') : [];
+        $is_key_mode = !empty($spec_keys) && count(array_filter($spec_keys)) == count($spec_keys);
+        if($is_key_mode)
+        {
+            $where[] = ['md5_key', 'in', $spec_keys];
+        } else {
+            $where['value'] = array_column($params['spec'], 'value');
+        }
 
         // 获取规格值基础值id
         $ids = Db::name('GoodsSpecValue')->where($where)->column('goods_spec_base_id');
         if(!empty($ids))
         {
             // 根据基础值id获取规格值列表
-            $temp_data = Db::name('GoodsSpecValue')->where(['goods_spec_base_id'=>$ids])->field('goods_spec_base_id,value')->order('id asc')->select()->toArray();
+            $temp_data = Db::name('GoodsSpecValue')->where(['goods_spec_base_id'=>$ids])->field('goods_spec_base_id,value,md5_key')->order('id asc')->select()->toArray();
             if(!empty($temp_data))
             {
                 // 根据基础值id分组
@@ -2960,20 +3100,88 @@ class GoodsService
                     $group[$v['goods_spec_base_id']][] = $v;
                 }
 
-                // 获取当前操作元素索引
+                // 获取当前操作元素索引（key模式用key串匹配、值模式用值串匹配）
                 $index = count($params['spec'])-1;
-                $spec_str = implode('', array_column($params['spec'], 'value'));
+                $spec_str = implode('', $is_key_mode ? $spec_keys : array_column($params['spec'], 'value'));
+                $match_field = $is_key_mode ? 'md5_key' : 'value';
+                // 下一层是否为最后一层：最后一层可直接带价格（页内卡片与单层一致）
+                $spec_type_count = (int) Db::name('GoodsSpecType')->where(['goods_id'=>$goods_id])->count();
+                $is_last_next = ($index + 2) >= $spec_type_count;
                 $spec_type = [];
+                $spec_option_base = [];
+                $next_base_ids = [];
                 foreach($group as $v)
                 {
-                    $temp_str = implode('', array_column($v, 'value'));
+                    $temp_str = implode('', array_column($v, $match_field));
                     if(isset($v[$index+1]) && stripos($temp_str, $spec_str) !== false)
                     {
-                        // 判断是否还有库存
-                        $inventory = Db::name('GoodsSpecBase')->where(['id'=>$v[$index+1]['goods_spec_base_id']])->value('inventory');
+                        $next_base_ids[$v[$index+1]['goods_spec_base_id']] = $v[$index+1]['goods_spec_base_id'];
+                    }
+                }
+                $base_map = [];
+                if(!empty($next_base_ids))
+                {
+                    $base_rows = Db::name('GoodsSpecBase')->where(['id'=>array_values($next_base_ids)])->column('price,original_price,inventory', 'id');
+                    $base_map = empty($base_rows) ? [] : $base_rows;
+                }
+                foreach($group as $v)
+                {
+                    $temp_str = implode('', array_column($v, $match_field));
+                    if(isset($v[$index+1]) && stripos($temp_str, $spec_str) !== false)
+                    {
+                        $next_item = $v[$index+1];
+                        $base_id = $next_item['goods_spec_base_id'];
+                        $inventory = isset($base_map[$base_id]['inventory']) ? intval($base_map[$base_id]['inventory']) : 0;
+                        $opt_key = $is_key_mode ? $next_item['md5_key'] : $next_item['value'];
+                        // 最后一层：给每个可选值带上价格，供页内卡片直显
+                        if($is_last_next && !isset($spec_option_base[$opt_key]) && !empty($base_map[$base_id]))
+                        {
+                            $spec_option_base[$opt_key] = [
+                                'price'             => $base_map[$base_id]['price'],
+                                'original_price'    => empty($base_map[$base_id]['original_price']) ? 0 : $base_map[$base_id]['original_price'],
+                                'inventory'         => $inventory,
+                            ];
+                        }
                         if($inventory > 0)
                         {
-                            $spec_type[$v[$index+1]['value']] = $v[$index+1]['value'];
+                            // key模式返回key（前端按data-key匹配）、值模式返回值（兼容旧客户端）
+                            $spec_type[$opt_key] = $opt_key;
+                        }
+                    }
+                }
+
+                // 输出（key模式无需处理、值模式转当前语言显示值供旧客户端比对）
+                $spec_type = array_values($spec_type);
+                if(!$is_key_mode)
+                {
+                    $translate_map = I18nService::SpecValueTranslateMap($goods_id, $spec_type);
+                    if(!empty($translate_map))
+                    {
+                        foreach($spec_type as &$sv)
+                        {
+                            if(isset($translate_map[$sv]))
+                            {
+                                $sv = $translate_map[$sv];
+                            }
+                        }
+                    }
+                }
+
+                // 展示型隐藏价格
+                if(!empty($spec_option_base))
+                {
+                    $site_type = Db::name('Goods')->where(['id'=>$goods_id])->value('site_type');
+                    if(SystemBaseService::IsExhibitionModeHidePrice($site_type))
+                    {
+                        $hide_text = SystemBaseService::ExhibitionHidePriceText();
+                        if($hide_text !== '')
+                        {
+                            foreach($spec_option_base as &$opt_base)
+                            {
+                                $opt_base['price'] = $hide_text;
+                                $opt_base['original_price'] = 0;
+                            }
+                            unset($opt_base);
                         }
                     }
                 }
@@ -2983,6 +3191,7 @@ class GoodsService
                 // extends_element下包含多个元素 ['element'=>'', 'content'=>'']
                 $data = [
                     'spec_type'         => array_values($spec_type),
+                    'spec_option_base'  => $spec_option_base,
                     'extends_element'   => [],
                 ];
 
@@ -3268,12 +3477,13 @@ class GoodsService
 
         // 按钮列表
         // color 颜色类型[main主, second次]（默认 main）
-        // type 类型[show|tel展示, buy购买, cart加入购物车, copy复制, url|link链接跳转, other其他值]
+        // type 类型[show|tel展示/电话, buy购买, cart加入购物车, copy复制, url|link链接跳转, tips提示, popup弹窗, map地图, chat客服, other其他值]
         // name 名称
         // title 元素title说明（可选）
-        // value 数据值（可选）
+        // value 数据值（可选；map 使用 map://名称|地址|经度|纬度；popup 为 HTML 内容）
         // icon icon类名称（可选）
         // class 自定义类名称（可选）
+        // document 额外html属性（可选）
         // business 业务
         $data = [];
         if(empty($error))
@@ -3445,10 +3655,8 @@ class GoodsService
      */
     public static function GoodsDetailMiddleTabsNavList($goods)
     {
-        // 从缓存获取
-        $key = SystemService::CacheKey('shopxo.cache_goods_detail_middle_tabs_key').APPLICATION.$goods['id'];
-        $data = MyCache($key);
-        if($data === null || MyEnv('app_debug') || MyC('common_data_is_use_cache') != 1)
+        // 从缓存获取（多语言缓存key由MyCacheRemember内部拼接）
+        $data = MyCacheRemember(SystemService::CacheKey('shopxo.cache_goods_detail_middle_tabs_key').APPLICATION.$goods['id'], function() use($goods)
         {
             // 是否展示商品评价
             $is_comments = MyC('common_is_goods_detail_show_comments', 1);
@@ -3531,10 +3739,8 @@ class GoodsService
                 'nav'   => $data,
                 'type'  => array_column($data, 'type'),
             ];
-
-            // 存储缓存
-            MyCache($key, $data, 180);
-        }
+            return $data;
+        }, 180);
         return $data;
     }
 

@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\I18nService;
 use app\service\SystemService;
 use app\service\GoodsService;
 
@@ -83,6 +84,9 @@ class LinkService
      */
     public static function LinkListHandle($data, $params = [])
     {
+        // 多语言数据替换（仅前台非默认语言生效）
+        I18nService::DataHandle($data, 'link');
+
         if(!empty($data))
         {
             foreach($data as &$v)
@@ -170,8 +174,14 @@ class LinkService
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            if(Db::name('Link')->insertGetId($data) > 0)
+            $data_id = Db::name('Link')->insertGetId($data);
+            if($data_id > 0)
             {
+                $i18n_data = I18nService::RequestData($params);
+                if($i18n_data !== null)
+                {
+                    I18nService::SaveData('link', $data_id, $i18n_data);
+                }
                 return DataReturn(MyLang('insert_success'), 0);
             }
             return DataReturn(MyLang('insert_fail'), -100);
@@ -179,6 +189,11 @@ class LinkService
             $data['upd_time'] = time();
             if(Db::name('Link')->where(['id'=>intval($params['id'])])->update($data))
             {
+                $i18n_data = I18nService::RequestData($params);
+                if($i18n_data !== null)
+                {
+                    I18nService::SaveData('link', intval($params['id']), $i18n_data);
+                }
                 return DataReturn(MyLang('edit_success'), 0);
             }
             return DataReturn(MyLang('edit_fail'), -100); 
@@ -210,6 +225,7 @@ class LinkService
         // 删除操作
         if(Db::name('Link')->where(['id'=>$params['ids']])->delete())
         {
+            I18nService::DeleteData('link', $params['ids']);
             return DataReturn(MyLang('delete_success'), 0);
         }
         return DataReturn(MyLang('delete_fail'), -100);

@@ -37,7 +37,7 @@
 {{:ModuleInclude('public/footer')}}
 <script type="text/javascript">
 // 基础数据保存回调处理
-function FormBackSaveinfoEdit(e)
+window.FormBackSaveinfoEdit = function (e)
 {
     var $form = $('form.form-validation');
     if(parseInt($form.attr('data-opt-type') || 0) == 1)
@@ -55,13 +55,13 @@ function FormBackSaveinfoEdit(e)
         }, 1500);
     } else {
         // logo
-        $('.page-top-nav-logo').attr('src', e.logo || "{{:StaticAttachmentUrl('default-images-mini.png')}}");
+        $('.page-top-nav-logo').attr('src', e.logo || "{:StaticAttachmentUrl('default-images-mini.png')}");
         // 名称
-        $('.page-top-nav-title span').text(e.name || '{{:MyLang("common_service.customview.create_name_default")}}');
+        $('.page-top-nav-title span').text(e.name || "{:MyLang('common_service.customview.create_name_default')}");
         // 关闭弹窗
         $('#popup-saveinfo').modal('close');
     }
-}
+};
 
 // 代码编辑器初始化
 var dom = require('ace/lib/dom');

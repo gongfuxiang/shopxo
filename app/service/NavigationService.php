@@ -12,6 +12,8 @@ namespace app\service;
 
 use think\facade\Db;
 use app\service\SystemService;
+use app\service\I18nService;
+use app\service\MultilingualService;
 use app\service\GoodsCartService;
 use app\service\MessageService;
 use app\service\OrderService;
@@ -42,8 +44,8 @@ class NavigationService
     public static function Nav($params = [])
     {
         // 读取缓存数据
-        $header = MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_header_key'));
-        $footer = MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_footer_key'));
+        $header = MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_header_key').'_'.I18nService::CacheLangKey());
+        $footer = MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_footer_key').'_'.I18nService::CacheLangKey());
 
         // 是否需要重新读取
         $is_query = MyEnv('app_debug') || MyInput('lang') || MyC('common_data_is_use_cache') != 1;
@@ -190,7 +192,7 @@ class NavigationService
         }
 
         // 缓存
-        MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_'.$nav_type.'_key'), $data, 180);
+        MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_'.$nav_type.'_key').'_'.I18nService::CacheLangKey(), $data, 180);
         return $data;
     }
 
@@ -205,6 +207,9 @@ class NavigationService
      */
     public static function NavDataDealWith($data)
     {
+        // 多语言数据替换（仅前台非默认语言生效）
+        I18nService::DataHandle($data, 'navigation');
+
         if(!empty($data) && is_array($data))
         {
             foreach($data as $k=>$v)
@@ -536,11 +541,18 @@ class NavigationService
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            if(Db::name('Navigation')->insertGetId($data) > 0)
+            $data_id = Db::name('Navigation')->insertGetId($data);
+            if($data_id > 0)
             {
                 // 清除缓存
                 MyCache($cache_key, null);
-                
+
+                // 多语言数据保存（隐藏域未提交则不处理）
+                $i18n_data = I18nService::RequestData($params);
+                if($i18n_data !== null)
+                {
+                    I18nService::SaveData('navigation', $data_id, $i18n_data);
+                }
                 return DataReturn(MyLang('insert_success'), 0);
             } else {
                 return DataReturn(MyLang('insert_fail'), -100);
@@ -552,6 +564,12 @@ class NavigationService
                 // 清除缓存
                 MyCache($cache_key, null);
 
+                // 多语言数据保存（隐藏域未提交则不处理）
+                $i18n_data = I18nService::RequestData($params);
+                if($i18n_data !== null)
+                {
+                    I18nService::SaveData('navigation', intval($params['id']), $i18n_data);
+                }
                 return DataReturn(MyLang('edit_success'), 0);
             } else {
                 return DataReturn(MyLang('edit_fail'), -100);
@@ -590,9 +608,16 @@ class NavigationService
             // 提交事务
             Db::commit();
 
-            // 清除缓存
-            MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_header_key'), null);
-            MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_footer_key'), null);
+            // 清除缓存（含多语言缓存key）
+            $nav_cache_lang_list = array_merge([I18nService::DefaultLang()], array_column(MultilingualService::MultilingualCanChooseList(), 'code'));
+            foreach($nav_cache_lang_list as $nav_cache_lang)
+            {
+                MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_header_key').'_'.$nav_cache_lang, null);
+                MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_footer_key').'_'.$nav_cache_lang, null);
+            }
+
+            // 多语言数据删除（含子级）
+            I18nService::DeleteData('navigation', $params['ids']);
 
             return DataReturn(MyLang('delete_success'), 0);
         }

@@ -1,0 +1,200 @@
+/* ----------------------------
+    多语言数据组件（字段按钮）
+---------------------------- */
+.i18n-field-btn {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.1rem;
+    height: 3.1rem;
+    border: 1px solid #dcdcdc;
+    border-radius: 0.4rem;
+    background: #fff;
+    color: #999;
+    cursor: pointer;
+}
+
+.i18n-field-btn > .am-icon-language {
+    font-size: 1.4rem;
+}
+
+.i18n-field-btn:hover {
+    color: #fff;
+    background: var(--color-blue, #0e90d2);
+    border-color: var(--color-blue, #0e90d2);
+}
+
+@media only screen and (max-width: 640px) {
+    .i18n-field-btn {
+        width: 3.2rem;
+        height: 3.2rem;
+    }
+}
+
+/* ----------------------------
+    多语言数据组件
+---------------------------- */
+/* 独立输入框：包裹flex容器、按钮在输入框右侧外部 */
+/* 横排表单（am-form-group.row）中wrap占满label之后的剩余宽度、与原输入框行为一致 */
+.i18n-field-wrap {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.i18n-field-wrap > input,
+.i18n-field-wrap > textarea {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
+}
+
+.i18n-field-wrap > .am-input-group {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+/* 标签输入容器同样占满剩余宽度、避免各行随内容长短不齐 */
+.i18n-field-wrap > .am-tagsinput {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
+}
+
+/* 编辑器字段：按钮在所属表单组右上角 */
+.am-form-group.i18n-editor-group {
+    position: relative;
+    padding-right: 3.2rem;
+}
+
+.i18n-editor-group > .i18n-field-btn {
+    position: absolute;
+    right: 0;
+    top: -1rem;
+}
+
+.i18n-modal .am-modal-dialog {
+    width: 52rem;
+    max-width: 94%;
+}
+
+.i18n-modal.i18n-modal-lg .am-modal-dialog {
+    width: 78rem;
+}
+
+.i18n-modal .am-modal-bd {
+    padding: 1rem 2rem 2rem;
+    max-height: 62vh;
+    overflow-y: auto;
+    text-align: left;
+}
+
+.i18n-modal .i18n-field-info {
+    margin: 0 0 1rem 0;
+    max-height: 4.2rem;
+    word-break: break-all;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.i18n-modal .i18n-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 1rem 1.6rem;
+    border-top: 1px solid #eee;
+}
+
+.i18n-modal .i18n-save-tips {
+    color: #999;
+    margin-right: 2rem;
+}
+
+.i18n-modal .i18n-modal-footer .i18n-cancel {
+    margin-right: 2rem;
+}
+
+.i18n-modal .i18n-body {
+    border-top: 1px solid #eee;
+    padding-top: 1rem;
+}
+
+.i18n-modal .i18n-popup-hook-top {
+    margin-bottom: 1rem;
+}
+
+.i18n-modal .i18n-popup-hook-bottom {
+    margin-top: 1rem;
+}
+
+/* 普通字段：所有语言直接铺开成行 */
+.i18n-modal .i18n-lang-row {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0.8rem;
+}
+
+.i18n-modal .i18n-lang-name {
+    flex: 0 0 96px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.4rem;
+    padding: 0.5rem 0.8rem 0 0;
+    color: #666;
+    font-size: 1.3rem;
+    white-space: nowrap;
+}
+
+.i18n-modal .i18n-lang-icon {
+    flex: 0 0 auto;
+    object-fit: cover;
+}
+
+.i18n-modal .i18n-lang-tabs a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.i18n-modal .i18n-lang-input {
+    flex: 1;
+    min-width: 0;
+}
+
+.i18n-modal .i18n-lang-input textarea,
+.i18n-modal .i18n-lang-input input {
+    width: 100%;
+}
+
+.i18n-modal .i18n-lang-input textarea {
+    resize: vertical;
+}
+
+/* 编辑器字段：顶部语言切换 */
+.i18n-modal .i18n-editor-layout .i18n-lang-tabs {
+    margin-bottom: 0.8rem;
+}
+
+.i18n-modal .i18n-editor-content {
+    width: 100%;
+}
+
+@media only screen and (max-width: 640px) {
+    .i18n-modal .am-modal-dialog,
+    .i18n-modal.i18n-modal-lg .am-modal-dialog {
+        width: 94%;
+    }
+
+    .i18n-modal .i18n-lang-name {
+        flex: 0 0 76px;
+    }
+
+    .i18n-editor-group > .i18n-field-btn {
+        top: -0.4rem;
+        right: -0.2rem;
+    }
+}

@@ -151,6 +151,7 @@ class ConstService
                 '6.8.0' => ['value' => '6.8.0', 'name' => 'v6.8.0'],
                 '6.9.0' => ['value' => '6.9.0', 'name' => 'v6.9.0'],
                 '6.9.1' => ['value' => '6.9.1', 'name' => 'v6.9.1'],
+                '6.9.2' => ['value' => '6.9.2', 'name' => 'v6.9.2'],
             ],
 
             // 搜索排序方式
@@ -272,6 +273,12 @@ class ConstService
                 0 => ['id' => 0, 'name' => MyLang('common_sales_count_inc_rules_list.0')],
                 1 => ['id' => 1, 'name' => MyLang('common_sales_count_inc_rules_list.1')],
             ],
+            // 商品详情规格内页展示
+            'common_goods_detail_spec_page_show_list' => [
+                0 => ['id' => 0, 'name' => MyLang('common_goods_detail_spec_page_show_list.0'), 'checked' => true],
+                1 => ['id' => 1, 'name' => MyLang('common_goods_detail_spec_page_show_list.1')],
+                2 => ['id' => 2, 'name' => MyLang('common_goods_detail_spec_page_show_list.2')],
+            ],
             // 是否已读
             'common_is_read_list' => [
                 0 => ['id' => 0, 'name' => MyLang('common_is_read_list.0'), 'checked' => true],
@@ -331,15 +338,17 @@ class ConstService
                 3 => ['value' => 3, 'name' => MyLang('common_app_event_type.3')],
                 4 => ['value' => 4, 'name' => MyLang('common_app_event_type.4')],
             ],
-            // 下单指定时间
+            // 下单指定时间（0关闭, 1选择, 2必选）
             'common_buy_datetime_config_list' => [
-                0 => ['value' => 0, 'name' => MyLang('common_buy_datetime_config_list.0')],
+                0 => ['value' => 0, 'name' => MyLang('common_buy_datetime_config_list.0'), 'checked' => true],
                 1 => ['value' => 1, 'name' => MyLang('common_buy_datetime_config_list.1')],
+                2 => ['value' => 2, 'name' => MyLang('common_buy_datetime_config_list.2')],
             ],
-            // 下单联系信息
+            // 下单联系信息（0关闭, 1填写, 2必填）
             'common_buy_extraction_contact_config_list' => [
-                0 => ['value' => 0, 'name' => MyLang('common_buy_extraction_contact_config_list.0')],
+                0 => ['value' => 0, 'name' => MyLang('common_buy_extraction_contact_config_list.0'), 'checked' => true],
                 1 => ['value' => 1, 'name' => MyLang('common_buy_extraction_contact_config_list.1')],
+                2 => ['value' => 2, 'name' => MyLang('common_buy_extraction_contact_config_list.2')],
             ],
             // 订单售后类型
             'common_order_aftersale_type_list' => [
@@ -744,7 +753,7 @@ class ConstService
                 'quick_nav'       => MyLang('common_attachment_category_path_name_list.quick_nav'),
                 'shortcutmenu'    => MyLang('common_attachment_category_path_name_list.shortcutmenu'),
                 'app_nav'         => MyLang('common_attachment_category_path_name_list.app_nav'),
-                'slide'           => MyLang('common_attachment_category_path_name_list.slide'),
+                'slider'          => MyLang('common_attachment_category_path_name_list.slider'),
                 'article'         => MyLang('common_attachment_category_path_name_list.article'),
                 'user'            => MyLang('common_attachment_category_path_name_list.user'),
                 'design'          => MyLang('common_attachment_category_path_name_list.design'),

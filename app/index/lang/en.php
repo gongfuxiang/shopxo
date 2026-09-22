@@ -93,6 +93,7 @@ return [
         'base_nav_title'                        => 'Goods Search',
         'filter_out_first_text'                 => 'Filter Out',
         'filter_out_last_data_text'             => 'Data',
+        'advanced_filter_title'                 => 'Advanced Filter',
     ],
 
     // 商品分类
@@ -123,6 +124,7 @@ return [
         'no_cart_data_tips'                     => 'Your shopping cart is still empty. You can',
         'no_cart_data_my_favor_name'            => 'My Favor',
         'no_cart_data_my_order_name'            => 'My Order',
+        'change_spec_title'                     => 'Change Spec',
     ],
 
     // 订单确认
@@ -210,12 +212,12 @@ return [
         'detail_shipping_address_title'         => 'Address',
         'detail_service_title'                  => 'Service Information',
         'detail_trace_source_title'             => 'traceability information',
-        'comments_base_nav_title'               => 'Order Comments',
+        'comments_base_nav_title'               => 'Order Reviews',
         'batch_payment_name'                    => 'Batch Payment',
         'comments_goods_list_thead_base'        => 'Goods Info',
         'comments_goods_list_thead_price'       => 'Price',
-        'comments_goods_list_thead_content'     => 'Comment Content',
-        'form_you_have_commented_tips'          => 'You have commented',
+        'comments_goods_list_thead_content'     => 'Review Content',
+        'form_you_have_commented_tips'          => 'You have already reviewed',
         'form_payment_title'                    => 'Payment',
         'form_payment_no_data_tips'             => 'No payment method',
         'order_base_title'                      => 'Order information',

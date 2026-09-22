@@ -929,9 +929,7 @@ class DiyService
     {
         if(RequestModule() == 'admin')
         {
-            $key = 'diy_legal_check_'.$md5_key;
-            $ret = MyCache($key);
-            if(empty($ret))
+            $ret = MyCacheRemember('diy_legal_check_'.$md5_key, function() use($data, $md5_key)
             {
                 if(!is_array($data) && !empty($data))
                 {
@@ -946,9 +944,8 @@ class DiyService
                     'config'    => $data,
                     'plugins'   => $md5_key,
                 ];
-                $ret = StoreService::PluginsLegalCheck($check_params);
-                MyCache($key, $ret, 3600);
-            }
+                return StoreService::PluginsLegalCheck($check_params);
+            }, 3600);
             if(!in_array($ret['code'], [0, -9999]))
             {
                 return $ret;

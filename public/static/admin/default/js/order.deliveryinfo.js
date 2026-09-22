@@ -2,6 +2,45 @@
 FromInit('form.form-validation-express');
 
 /**
+ * 快递备注多语言字段键（与 PHP I18nService::OrderExpressNoteField 一致）
+ */
+function OrderExpressNoteI18nField(express_id, express_number)
+{
+    var eid = parseInt(express_id || 0) || 0;
+    var num = String(express_number === null || express_number === undefined ? '' : express_number).replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim();
+    if(eid <= 0 || num === '')
+    {
+        return '';
+    }
+    var hash = (typeof hex_md5 === 'function') ? hex_md5(num) : num;
+    return 'note_' + eid + '_' + hash;
+}
+
+/**
+ * 同步备注 input 的 data-i18n-field（按当前快递公司+单号隔离，避免弹窗复用串数据）
+ */
+function OrderExpressNoteI18nSync($form)
+{
+    $form = ($form && $form.length) ? $form : $('form.form-validation-express');
+    var $note = $form.find('input[name="note"][data-i18n]');
+    if($note.length <= 0)
+    {
+        return '';
+    }
+    var field = OrderExpressNoteI18nField($form.find('[name="express_id"]').val(), $form.find('[name="express_number"]').val());
+    $note.attr('data-i18n-field', field || 'note');
+    return field;
+}
+
+/**
+ * 快递弹窗确认回调（表单 request-value）
+ */
+function ViewExpressModalBack(data)
+{
+    ExpressModalHandle(data);
+}
+
+/**
  * 快递返回处理
  * @author  Devil
  * @blog    http://gong.gg/
@@ -73,6 +112,31 @@ $(function()
 {
     // 弹层
     var $popup_express = $('#popup-express-win');
+    var $express_form = $('form.form-validation-express');
+
+    // 快递公司/单号变化时同步备注多语言字段键
+    $express_form.on('change keyup', '[name="express_id"], [name="express_number"]', function()
+    {
+        OrderExpressNoteI18nSync($express_form);
+    });
+
+    // 打开备注多语言前校验并同步字段键（捕获阶段，先于 i18n 弹窗）
+    document.addEventListener('click', function(e)
+    {
+        var btn = e.target.closest ? e.target.closest('form.form-validation-express .i18n-field-btn') : null;
+        if(!btn)
+        {
+            return;
+        }
+        var $form = $(btn).closest('form');
+        var field = OrderExpressNoteI18nSync($form);
+        if(!field)
+        {
+            e.preventDefault();
+            e.stopPropagation();
+            Prompt(window['lang_not_fill_in_error'] || '请先选择快递并填写单号');
+        }
+    }, true);
 
     // 快递添加开启
     $('.express-submit-add').on('click', function()
@@ -82,6 +146,7 @@ $(function()
 
         // 清空数据
         FormDataFill({"express_id":0, "express_number":"", "note":""}, 'form.form-validation-express');
+        OrderExpressNoteI18nSync($express_form);
     });
 
     // 快递移除
@@ -121,6 +186,7 @@ $(function()
 
         // 数据填充
         FormDataFill(value[index], 'form.form-validation-express');
+        OrderExpressNoteI18nSync($express_form);
 
         // 基础数据
         $popup_express.modal({width: 360, closeViaDimmer: false});

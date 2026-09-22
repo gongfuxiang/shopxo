@@ -163,13 +163,15 @@ return [
         ],
         // 网站设置导航
         'siteset_nav_list'                      => [
-            ['name' => 'Página de inicio', 'type' => 'index'],
+            ['name' => 'Configuración básica', 'type' => 'index'],
+            ['name' => 'Inicio', 'type' => 'home'],
             ['name' => 'Buscar', 'type' => 'search'],
-            ['name' => 'Pedidos', 'type' => 'order'],
-            ['name' => 'Productos Básicos', 'type' => 'goods'],
-            ['name' => 'Clasificación de productos', 'type' => 'goodscategory'],
-            ['name' => 'Carrito de compras', 'type' => 'cart'],
-            ['name' => 'Expansión', 'type' => 'extends'],
+            ['name' => 'Productos', 'type' => 'goods'],
+            ['name' => 'Categorías', 'type' => 'goodscategory'],
+            ['name' => 'Carrito', 'type' => 'cart'],
+            ['name' => 'Pedido', 'type' => 'order'],
+            ['name' => 'Dirección de usuario', 'type' => 'useraddress'],
+            ['name' => 'Navegación rápida', 'type' => 'quicknav'],
         ],
         // 页面基础
         'base_item_site_status_title'           => 'Estado del sitio',
@@ -632,9 +634,9 @@ return [
         'base_nav_title'                        => 'Clasificación de mercancías',
     ],
 
-    // 商品评论
+    // 商品评价
     'goodscomments'         => [
-        'base_nav_title'                        => 'Comentarios sobre productos básicos',
+        'base_nav_title'                        => 'Evaluación de productos',
         // 动态表格
         'form_table'                            => [
             'user'               => 'Información del usuario',
@@ -642,8 +644,8 @@ return [
             'goods'              => 'Información básica',
             'goods_placeholder'  => 'Por favor, introduzca el nombre / modelo del producto.',
             'business_type'      => 'Tipo de negocio',
-            'content'            => 'Contenido del comentario',
-            'images'             => 'Imágenes de comentarios',
+            'content'            => 'Contenido de la evaluación',
+            'images'             => 'Imágenes de evaluación',
             'rating'             => 'Puntuación',
             'reply'              => 'Contenido de la respuesta',
             'is_show'            => 'Si se muestra',
@@ -880,7 +882,7 @@ return [
             'express'                          => 'Información de mensajería',
             'express_placeholder'              => 'Introduzca su Número de la lista de mensajería',
             'aftersale'                        => 'Último post - venta',
-            'is_comments'                      => 'Si el usuario comenta',
+            'is_comments'                      => 'Si el usuario evaluó',
             'confirm_time'                     => 'Tiempo de confirmación',
             'pay_time'                         => 'Tiempo de pago',
             'delivery_time'                    => 'Tiempo de envío',
@@ -1377,7 +1379,7 @@ return [
     ],
 
     // 首页轮播
-    'slide'                 => [
+    'slider'                => [
         'base_nav_title'                        => 'Rotación',
         // 动态表格
         'form_table'                            => [
@@ -1608,7 +1610,7 @@ return [
         'remove_cache_title'                       => 'Borrar caché',
         'nav_pending_todo_order_delivery'          => 'Pedidos por enviar',
         'nav_pending_todo_order_aftersale_audit'   => 'Posventa pendiente de confirmación / revisión',
-        'nav_pending_todo_goods_comments_reply'    => 'Comentarios de productos pendientes de respuesta',
+        'nav_pending_todo_goods_comments_reply'    => 'Evaluaciones de productos pendientes de respuesta',
         'nav_pending_todo_user_audit'              => 'Usuarios pendientes de revisión',
         'nav_pending_todo_empty'                   => 'Sin elementos pendientes',
         // 商品参数
@@ -1737,12 +1739,12 @@ return [
                 'goodsspectemplate_save'            => 'Añadir / editar especificaciones de productos',
                 'goodsspectemplate_detail'          => 'Detalles de las especificaciones del producto',
                 'goodscomments_detail'              => 'Detalles de la revisión de productos',
-                'goodscomments_index'               => 'Comentarios sobre productos básicos',
-                'goodscomments_reply'               => 'Respuesta al comentario de la mercancía',
-                'goodscomments_delete'              => 'Eliminar comentarios de productos',
-                'goodscomments_statusupdate'        => 'Actualización del Estado de comentarios de productos básicos',
-                'goodscomments_saveinfo'            => 'Comentarios de productos añadir / editar Página',
-                'goodscomments_save'                => 'Añadir / editar comentarios de productos',
+                'goodscomments_index'               => 'Evaluación de productos',
+                'goodscomments_reply'               => 'Respuesta a la evaluación del producto',
+                'goodscomments_delete'              => 'Eliminar evaluación de productos',
+                'goodscomments_statusupdate'        => 'Actualización del estado de evaluación de productos',
+                'goodscomments_saveinfo'            => 'Añadir / editar evaluación de productos',
+                'goodscomments_save'                => 'Añadir / editar evaluación de productos',
                 'goodsbrowse_index'                 => 'Navegación por productos',
                 'goodsbrowse_delete'                => 'Navegación y eliminación de productos',
                 'goodsbrowse_detail'                => 'Detalles de la navegación del producto',
@@ -1812,12 +1814,12 @@ return [
                 'themedata_detail'                 => 'Detalles de los datos temáticos',
                 'themedata_goodssearch'            => 'Búsqueda de productos de datos temáticos',
                 'themedata_articlesearch'          => 'Búsqueda de artículos de datos temáticos',
-                'slide_index'                      => 'Rotación de la página de inicio',
-                'slide_saveinfo'                   => 'Página de adición / edición de la rotación',
-                'slide_save'                       => 'Añadir / editar a la rotación',
-                'slide_statusupdate'               => 'Actualización del Estado de rotación',
-                'slide_delete'                     => 'Eliminación de la rotación',
-                'slide_detail'                     => 'Detalles de la rotación',
+                'slider_index'                      => 'Rotación de la página de inicio',
+                'slider_saveinfo'                   => 'Página de adición / edición de la rotación',
+                'slider_save'                       => 'Añadir / editar a la rotación',
+                'slider_statusupdate'               => 'Actualización del Estado de rotación',
+                'slider_delete'                     => 'Eliminación de la rotación',
+                'slider_detail'                     => 'Detalles de la rotación',
                 'screeningprice_index'             => 'Precio de selección',
                 'screeningprice_save'              => 'Filtrar precio añadir / editar',
                 'screeningprice_delete'            => 'Eliminar el precio del filtro',
@@ -2068,5 +2070,14 @@ return [
             ]
         ],
     ],
+    // Búsqueda del menú de administración
+    'admin_menu_search' => [
+        'title'         => 'Buscar',
+        'placeholder'   => 'Buscar menús o funciones',
+        'input_tips'    => 'Escriba para buscar menús, funciones, ajustes y plugins',
+        'empty_tips'    => 'No hay páginas coincidentes',
+    ],
+    // Tutorial del sistema
+    'system_use_tutorial_title' => 'Tutorial del sistema',
 ];
 ?>

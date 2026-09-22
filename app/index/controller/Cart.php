@@ -112,5 +112,21 @@ class Cart extends Common
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(GoodsCartService::GoodsCartStock($params));
     }
+
+    /**
+     * 购物车商品规格修改
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-21
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public function Spec($params = [])
+    {
+        $params = $this->data_request;
+        $params['user'] = $this->user;
+        return ApiService::ApiDataReturn(GoodsCartService::GoodsCartSpecUpdate($params));
+    }
 }
 ?>

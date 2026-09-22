@@ -201,11 +201,39 @@ i.buy-event {
     border-radius: 0.2rem;
 }
 
-.sku-line span {
+.sku-line .sku-card-main {
+    display: inline;
+}
+
+.sku-line .sku-name {
     padding: 0.3rem 1rem;
     display: inline-block;
     height: 30px;
     line-height: 22px;
+}
+
+.sku-line .sku-card-price {
+    display: none;
+    margin-left: 0.2rem;
+    color: var(--color-price);
+    font-size: 1.3rem;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.sku-line .sku-card-price .symbol,
+.sku-line .sku-card-price .price,
+.sku-line .sku-card-price .unit {
+    padding: 0;
+    height: auto;
+    line-height: inherit;
+    display: inline;
+}
+
+.sku-line .sku-card-price .unit {
+    color: #999;
+    font-size: 1.1rem;
+    font-weight: 400;
 }
 
 .theme-signin .btn {
@@ -329,7 +357,8 @@ i.buy-event {
 .theme-signin-left .cart-title {
     display: inline-block;
     width: 5.6rem;
-    height: 20px;
+    height: 2rem;
+    margin-top: 0.4rem;
     /*高度需要添加，不然文字下面会多出一些空隙*/
 }
 
@@ -341,7 +370,7 @@ i.buy-event {
 
 .theme-options ul {
     float: left;
-    margin-left: 1rem;
+    margin-left: 0.5rem;
 }
 
 /*选中样式*/
@@ -958,12 +987,6 @@ i.buy-event {
     font-size: 1.2rem !important;
 }
 
-@media only screen and (min-width: 641px) {
-    .theme-popover .am-input-group {
-        margin-left: 0.5rem;
-    }
-}
-
 @media only screen and (max-width:640px) {
     .shop-navigation {
         display: none;
@@ -1034,6 +1057,16 @@ i.buy-event {
     font-size: 1.6rem;
     text-decoration: none;
     padding: 0;
+}
+
+/* 购买导航弹窗内容 */
+.buy-nav-popup-body {
+    max-height: 70vh;
+    min-height: 120px;
+}
+.buy-nav-popup-body img {
+    max-width: 100%;
+    height: auto;
 }
 
 .goods-not-buy-tips {
@@ -1784,6 +1817,21 @@ i.buy-event {
         display: none;
     }
 
+    /* PC 宽屏不展示选项内价格，价格仍走顶部售价区 */
+    .sku-line .sku-card-price {
+        display: none !important;
+    }
+
+    .theme-options.sku-items {
+        align-items: flex-start;
+    }
+
+    /* 一层规格无标题时，规格行不再为左侧标题留空 */
+    .theme-signin-left .sku-items-only-one {
+        margin-left: -5.6rem;
+        width: calc(100% + 5.6rem);
+    }
+
     .theme-options {
         overflow: visible;
         padding: 0px 0px;
@@ -1801,7 +1849,6 @@ i.buy-event {
 
     .theme-signin-left .cart-title {
         margin-left: -4.6rem;
-        float: left;
     }
 
 
@@ -2021,6 +2068,148 @@ i.buy-event {
 
 .table-no {
     min-height: 17.7rem;
+}
+
+/**
+ * 商品详情规格页内直选（手机模式）
+ * 与 UniApp common_goods_detail_spec_page_show 配置一致：规格卡片化、不再弹层
+ */
+@media only screen and (max-width: 1024px) {
+    .goods-spec-page-inline .theme-popover {
+        display: block;
+        position: static;
+        border: none;
+        box-shadow: none;
+        width: 100%;
+        z-index: auto;
+    }
+    .goods-spec-page-inline .theme-popover-mask,
+    .goods-spec-page-inline .theme-span,
+    .goods-spec-page-inline .theme-poptit,
+    .goods-spec-page-inline .theme-signin-right,
+    .goods-spec-page-inline .buy-spec-info-container dt.buy-event,
+    .goods-spec-page-inline .btn-op {
+        display: none !important;
+    }
+    .goods-spec-page-inline .theme-signin {
+        padding: 0 !important;
+    }
+    .goods-spec-page-inline .theme-signin-left {
+        margin-bottom: 0;
+        max-height: none;
+        overflow: visible;
+    }
+    .goods-spec-page-inline .buy-spec-info-container {
+        border-bottom: 0;
+        padding: 0.5rem 0;
+    }
+    .goods-spec-page-inline .theme-options.sku-items {
+        display: flex !important;
+        flex-direction: column !important;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        overflow: visible;
+        padding: 0.4rem;
+        margin-bottom: 1rem;
+        box-sizing: border-box;
+    }
+    .goods-spec-page-inline .theme-signin-left .sku-items .cart-title {
+        float: none;
+        display: block;
+        margin: 0 0 0.6rem;
+        padding: 0;
+        width: 100%;
+        height: 1.6rem;
+        line-height: 1.4;
+        font-size: 1.3rem;
+        color: #333;
+    }
+    .goods-spec-page-inline .theme-options.sku-items ul {
+        float: none;
+        overflow: visible;
+        margin: 0;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        box-sizing: border-box;
+    }
+    .goods-spec-page-inline .theme-signin-left .sku-line {
+        float: none;
+        width: calc(50% - 0.4rem);
+        margin: 0;
+        padding: 1rem 0.8rem;
+        box-sizing: border-box;
+        border: 0.1rem solid #eee;
+        border-radius: 0.6rem;
+        background: #fff;
+        color: #333;
+        text-align: left;
+        position: relative;
+    }
+    .goods-spec-page-inline .theme-signin-left .sku-line.selected,
+    .goods-spec-page-inline .theme-signin-left .sku-line:hover {
+        background: var(--color-main-light, #fff5f2);
+        color: #333;
+        border-color: var(--color-main);
+        box-shadow: none;
+    }
+    .goods-spec-page-inline .theme-signin-left .sku-line .sku-card-main {
+        display: flex;
+        align-items: center;
+        min-height: 2rem;
+    }
+    .goods-spec-page-inline .theme-signin-left .sku-line .sku-card-main img {
+        width: 2rem;
+        height: 2rem;
+        margin-right: 0.4rem;
+        border-radius: 0.2rem;
+        flex-shrink: 0;
+    }
+    .goods-spec-page-inline .theme-signin-left .sku-line .sku-name {
+        padding: 0;
+        height: auto;
+        line-height: 1.3;
+        font-size: 1.2rem;
+        display: block;
+        word-break: break-all;
+    }
+    .goods-spec-page-inline .theme-signin-left .sku-line .sku-card-price {
+        display: block;
+        margin-top: 0.4rem;
+        margin-left: 0;
+        color: var(--color-price);
+        font-size: 1.3rem;
+        font-weight: 700;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .goods-spec-page-inline .theme-signin-left .sku-line .sku-card-price[style*="display: none"] {
+        display: none !important;
+    }
+    .goods-spec-page-inline .theme-signin-left .sku-line .sku-card-price .unit {
+        color: #999;
+        font-size: 1.1rem;
+        font-weight: 400;
+    }
+    .goods-spec-page-inline .theme-signin-left .sku-line .icon-subscript {
+        display: none;
+    }
+    .goods-spec-page-inline .theme-options:not(.sku-items) {
+        margin-top: 0.5rem;
+        padding: 0.5rem 0 0;
+        border-top: none;
+    }
+    .goods-spec-page-inline .theme-options:not(.sku-items) .cart-title {
+        float: none;
+        margin: 0 1rem 0 0;
+        min-width: auto;
+    }
+    .goods-spec-page-inline .stock-tips {
+        margin-left: 1rem;
+    }
 }
 
 @media only screen and (max-width:640px) {

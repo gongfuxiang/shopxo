@@ -41,11 +41,16 @@
             <div class="am-form-group">
                 <label>{{:MyLang('common_service.useraddress.form_item_address')}}<span class="am-form-group-label-tips-must">*</span></label>
                 {{if MyC('home_user_address_map_status') eq 1}}
-                    <input type="hidden" name="lng" id="form-lng" {{if !empty($data['lng'])}} value="{{$data.lng}}"{{/if}} />
-                    <input type="hidden" name="lat" id="form-lat" {{if !empty($data['lat'])}} value="{{$data.lat}}"{{/if}} />
-                    <div class="am-flex am-flex-items-center">
-                        <input type="text" name="address" id="form-address" placeholder="{{:MyLang('common_service.useraddress.form_item_address_message')}}" minlength="2" maxlength="80" data-validation-message="{{:MyLang('common_service.useraddress.form_item_address_message')}}" class="am-radius am-map-positioning-input" {{if !empty($data['address'])}} value="{{$data.address}}"{{/if}} data-is-clearout="0" required />
-                        <i class="iconfont icon-map-position am-map-positioning-icon" id="map-location-submit"></i>
+                    <div class="am-input-group am-input-group-sm">
+                        <input type="hidden" name="lng" id="form-lng" {{if !empty($data['lng'])}} value="{{$data.lng}}"{{/if}} />
+                        <input type="hidden" name="lat" id="form-lat" {{if !empty($data['lat'])}} value="{{$data.lat}}"{{/if}} />
+                        <input type="text" name="address" id="form-address" placeholder="{{:MyLang('common_service.useraddress.form_item_address_message')}}" minlength="2" maxlength="80" data-validation-message="{{:MyLang('common_service.useraddress.form_item_address_message')}}" class="am-form-field am-radius" {{if !empty($data['address'])}} value="{{$data.address}}"{{/if}} data-is-clearout="0" required />
+                        <span class="am-input-group-btn">
+                            <button class="am-btn am-btn-default am-radius" type="button" id="map-location-submit">
+                                <i class="am-icon-map-marker"></i>
+                                <span>{{:MyLang('location_title')}}</span>
+                            </button>
+                        </span>
                     </div>
                     <div id="map" data-level="17" class="am-margin-top-xs"></div>
                 {{else /}}

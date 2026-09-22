@@ -125,5 +125,259 @@ class AppService
 
         return $data;
     }
+
+    /**
+     * 内部页面地址列表（后台事件值配置用，与 DIY 页面链接独立）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-21
+     * @desc    系统内置分组 + 钩子扩展；插件分组 data 为插件块（name/type/data），块内条目含 name/page，可选 tips；需拼参页面放块末尾
+     * @param   [array]          $params [输入参数]
+     */
+    public static function PagesList($params = [])
+    {
+        $data = [
+            'base' => [
+                'name'  => MyLang('app_pages.group_base'),
+                'type'  => 'base',
+                'data'  => [
+                    [
+                        'name'  => MyLang('app_pages.page_index'),
+                        'page'  => '/pages/index/index',
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_goods_search_start'),
+                        'page'  => '/pages/goods-search-start/goods-search-start',
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_cart'),
+                        'page'  => '/pages/cart/cart',
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_cart_page'),
+                        'page'  => '/pages/cart-page/cart-page',
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_login'),
+                        'page'  => '/pages/login/login',
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_article_category'),
+                        'page'  => '/pages/article-category/article-category',
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_setup'),
+                        'page'  => '/pages/setup/setup',
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_about'),
+                        'page'  => '/pages/about/about',
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_goods_category'),
+                        'page'  => '/pages/goods-category/goods-category',
+                        'tips'  => MyLang('app_pages.tips_goods_category'),
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_goods_search'),
+                        'page'  => '/pages/goods-search/goods-search',
+                        'tips'  => MyLang('app_pages.tips_goods_search'),
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_goods_detail'),
+                        'page'  => '/pages/goods-detail/goods-detail',
+                        'tips'  => MyLang('app_pages.tips_goods_detail'),
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_goods_comment'),
+                        'page'  => '/pages/goods-comment/goods-comment',
+                        'tips'  => MyLang('app_pages.tips_goods_comment'),
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_article_detail'),
+                        'page'  => '/pages/article-detail/article-detail',
+                        'tips'  => MyLang('app_pages.tips_article_detail'),
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_diy'),
+                        'page'  => '/pages/diy/diy',
+                        'tips'  => MyLang('app_pages.tips_diy'),
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_design'),
+                        'page'  => '/pages/design/design',
+                        'tips'  => MyLang('app_pages.tips_design'),
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_customview'),
+                        'page'  => '/pages/customview/customview',
+                        'tips'  => MyLang('app_pages.tips_customview'),
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_web_view'),
+                        'page'  => '/pages/web-view/web-view',
+                        'tips'  => MyLang('app_pages.tips_web_view'),
+                    ],
+                ],
+            ],
+            'user' => [
+                'name'  => MyLang('app_pages.group_user'),
+                'type'  => 'user',
+                'data'  => [
+                    [
+                        'name'  => MyLang('app_pages.page_user'),
+                        'page'  => '/pages/user/user',
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_user_order'),
+                        'page'  => '/pages/user-order/user-order',
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_user_orderaftersale'),
+                        'page'  => '/pages/user-orderaftersale/user-orderaftersale',
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_user_favor'),
+                        'page'  => '/pages/user-favor/user-favor',
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_user_goods_comments'),
+                        'page'  => '/pages/user-goods-comments/user-goods-comments',
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_user_address'),
+                        'page'  => '/pages/user-address/user-address',
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_user_integral'),
+                        'page'  => '/pages/user-integral/user-integral',
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_message'),
+                        'page'  => '/pages/message/message',
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_user_goods_browse'),
+                        'page'  => '/pages/user-goods-browse/user-goods-browse',
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_personal'),
+                        'page'  => '/pages/personal/personal',
+                    ],
+                    [
+                        'name'  => MyLang('app_pages.page_user_order_detail'),
+                        'page'  => '/pages/user-order-detail/user-order-detail',
+                        'tips'  => MyLang('app_pages.tips_user_order_detail'),
+                    ],
+                ],
+            ],
+            'plugins' => [
+                'name'  => MyLang('app_pages.group_plugins'),
+                'type'  => 'plugins',
+                'data'  => [],
+            ],
+        ];
+
+        // 插件扩展钩子（向 data.plugins.data 追加插件块；块内条目含 name/page，可选 tips，需拼参放块末尾）
+        $hook_name = 'plugins_service_app_pages_list';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => $params,
+            'data'          => &$data,
+        ]);
+
+        // 基础配置里的名称（含 i18n）覆盖插件分组和已写入的文案
+        if(!empty($data['plugins']['data']) && is_array($data['plugins']['data']))
+        {
+            foreach($data['plugins']['data'] as &$plugin)
+            {
+                self::PagesListPluginConfigI18nHandle($plugin);
+            }
+            unset($plugin);
+        }
+
+        return $data;
+    }
+
+    /**
+     * 插件基础配置多语言名称应用到页面地址
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-22
+     * @desc    后台默认不替换插件配置，这里强制按当前语言覆盖
+     * @param   [array]          $plugin [插件页面块]
+     */
+    private static function PagesListPluginConfigI18nHandle(&$plugin)
+    {
+        $plugins = isset($plugin['type']) ? $plugin['type'] : '';
+        if($plugins === '' || $plugins === 'plugins')
+        {
+            return;
+        }
+        $ret = PluginsService::PluginsData($plugins);
+        $config = (empty($ret['data']) || !is_array($ret['data'])) ? [] : $ret['data'];
+        if(empty($config))
+        {
+            return;
+        }
+        $raw = $config;
+        I18nService::PluginsConfigHandle($plugins, $config, true);
+
+        $pairs = [];
+        foreach($raw as $key=>$value)
+        {
+            if(!is_string($value) || $value === '' || !isset($config[$key]) || !is_string($config[$key]) || $config[$key] === '' || $config[$key] === $value)
+            {
+                continue;
+            }
+            $pairs[] = [$value, $config[$key]];
+        }
+        if(!empty($pairs))
+        {
+            usort($pairs, function($a, $b)
+            {
+                return mb_strlen($b[0]) - mb_strlen($a[0]);
+            });
+            self::PagesListTextReplace($plugin, $pairs);
+        }
+        if(!empty($config['application_name']) && is_string($config['application_name']))
+        {
+            $plugin['name'] = $config['application_name'];
+        }
+    }
+
+    /**
+     * 替换页面名称和提示里的配置原文
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-22
+     * @desc    description
+     * @param   [array]          $node  [节点]
+     * @param   [array]          $pairs [原文与译文]
+     */
+    private static function PagesListTextReplace(&$node, $pairs)
+    {
+        if(empty($node) || !is_array($node) || empty($pairs))
+        {
+            return;
+        }
+        foreach($node as $key=>&$value)
+        {
+            if(($key === 'name' || $key === 'tips') && is_string($value) && $value !== '')
+            {
+                foreach($pairs as $pair)
+                {
+                    $value = str_replace($pair[0], $pair[1], $value);
+                }
+            } elseif(is_array($value))
+            {
+                self::PagesListTextReplace($value, $pairs);
+            }
+        }
+    }
 }
 ?>

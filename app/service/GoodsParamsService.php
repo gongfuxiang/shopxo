@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\facade\Db;
 use app\service\GoodsCategoryService;
+use app\service\I18nService;
 
 /**
  * 商品参数服务层
@@ -92,6 +93,9 @@ class GoodsParamsService
         {
             // 获取配置数据
             $res = Db::name('GoodsParamsTemplateConfig')->where(['template_id'=>array_column($data, 'id')])->field('id,template_id,scope,name,required,data_type,value')->order('id asc')->select()->toArray();
+
+            // 配置行多语言替换（按模板内行序号）
+            I18nService::ParamsTemplateConfigHandle($res);
             $config = [];
             if(!empty($res))
             {
@@ -109,6 +113,9 @@ class GoodsParamsService
 
             // 商品分类
             $category_names = GoodsCategoryService::GoodsCategoryName(array_unique(array_filter(array_column($data, 'category_id'))));
+
+            // 模板名称多语言替换
+            I18nService::DataHandle($data, 'goods_params_template');
 
             foreach($data as &$v)
             {
@@ -233,6 +240,13 @@ class GoodsParamsService
                 }
             }
 
+            // 多语言数据保存（模板名称+配置行、隐藏域未提交则不处理）
+            $i18n_data = I18nService::RequestData($params);
+            if($i18n_data !== null)
+            {
+                I18nService::SaveData('goods_params_template', $template_id, $i18n_data);
+            }
+
             // 完成
             Db::commit();
             return DataReturn(MyLang('operate_success'), 0);
@@ -280,6 +294,9 @@ class GoodsParamsService
             {
                 throw new \Exception(MyLang('common_service.goodsparamstemplate.delete_params_data_fail_tips'));
             }
+
+            // 多语言数据删除
+            I18nService::DeleteData('goods_params_template', $params['ids']);
 
             // 完成
             Db::commit();

@@ -177,8 +177,12 @@ class FormInputDataService
             $params['ids'] = explode(',', $params['ids']);
         }
 
-        // 用户类型
+        // 用户类型（仅 admin 应用可信；其它入口一律按 user，防伪造越权）
         $user_type = empty($params['user_type']) ? 'user' : $params['user_type'];
+        if($user_type == 'admin' && !(defined('APPLICATION') && APPLICATION === 'admin'))
+        {
+            $user_type = 'user';
+        }
 
         // 条件
         $where = [

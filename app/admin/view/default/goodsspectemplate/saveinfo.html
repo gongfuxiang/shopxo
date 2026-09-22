@@ -4,10 +4,10 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/goodsspectemplate/save')}}" method="POST" request-type="ajax-reload" request-value="parent">
+		<form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/goodsspectemplate/save')}}" method="POST" data-i18n-table="goods_spec_template" request-type="ajax-reload" request-value="parent">
             <div class="am-form-group row">
                 <label>{{:MyLang('common_service.goodsspectemplate.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-                <input type="text" name="name" placeholder="{{:MyLang('common_service.goodsspectemplate.form_item_name_message')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('common_service.goodsspectemplate.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+                <input type="text" name="name" data-i18n="1" data-i18n-name="spec_name" placeholder="{{:MyLang('common_service.goodsspectemplate.form_item_name_message')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('common_service.goodsspectemplate.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
             </div>
             <div class="am-form-group row">
                 <label class="am-block">
@@ -38,7 +38,7 @@
 			<div class="am-form-group row">
 				<label>{{:MyLang('common_service.goodsspectemplate.form_item_content')}}<span class="am-form-group-label-tips-must">*</span></label>
                 <div class="am-width">
-                    <input type="text" name="content" placeholder="{{:MyLang('common_service.goodsspectemplate.form_item_content_placeholder')}}" minlength="1" maxlength="1000" data-validation-message="{{:MyLang('common_service.goodsspectemplate.form_item_content_message')}}" class="am-radius" {{if !empty($data['content'])}} value="{{$data.content}}"{{/if}} required data-am-tagsinput />
+                    <input type="text" name="content" data-i18n="1" data-i18n-name="spec_value" placeholder="{{:MyLang('common_service.goodsspectemplate.form_item_content_placeholder')}}" minlength="1" maxlength="1000" data-validation-message="{{:MyLang('common_service.goodsspectemplate.form_item_content_message')}}" class="am-radius" {{if !empty($data['content'])}} value="{{$data.content}}"{{/if}} required data-am-tagsinput />
                 </div>
 			</div>
             {{:ModuleInclude('lib/is_enable', ['is_row'=>1])}}

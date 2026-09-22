@@ -21,7 +21,7 @@ function GoodsCartInfoSpecDetail()
     var spec = [];
     $('.goods-spec-content .sku-items li.selected').each(function(k, v)
     {
-        spec.push({"type": $(this).attr('data-type-value'), "value": $(this).attr('data-value')})
+        spec.push({"key": $(this).attr('data-key') || ''})
     });
     // 数量
     var stock = $cart_info_goods_spec.find('.number-operate input[type="number"]').val() || 1;
@@ -76,7 +76,7 @@ function GoodsCartInfoSpecType()
     var spec = [];
     $('.goods-spec-content .sku-items li.selected').each(function(k, v)
     {
-        spec.push({"type": $(this).attr('data-type-value'), "value": $(this).attr('data-value')})
+        spec.push({"key": $(this).attr('data-key') || ''})
     });
 
     // 开启进度条
@@ -101,7 +101,7 @@ function GoodsCartInfoSpecType()
                     $('.goods-spec-content .sku-items').eq(index).find('li').each(function(k, v)
                     {
                         $(this).removeClass('sku-dont-choose');
-                        var value = $(this).attr('data-value').toString();
+                        var value = String($(this).attr('data-key') || '');
                         if(res.data.spec_type.indexOf(value) == -1)
                         {
                             $(this).addClass('sku-items-disabled');
@@ -147,7 +147,7 @@ function GoodsNumberChange()
         // 已选规格
         $('.goods-spec-content .sku-items li.selected').each(function(k, v)
         {
-            spec.push({"type": $(this).attr('data-type-value'), "value": $(this).attr('data-value')})
+            spec.push({"key": $(this).attr('data-key') || ''})
         });
     }
 
@@ -371,7 +371,7 @@ function GoodsCartInfoSelectedSpec()
         {
             $('.sku-items li.selected').each(function(k, v)
             {
-                spec.push({"type": $(this).attr('data-type-value'), "value": $(this).attr('data-value')});
+                spec.push({"key": $(this).attr('data-key') || ''});
             });
         }
     }

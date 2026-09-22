@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\facade\Db;
 use app\service\ResourcesService;
+use app\service\I18nService;
 
 /**
  * 商品分类服务层
@@ -52,9 +53,17 @@ class GoodsCategoryService
         // id数组则直接返回
         if(is_array($category_ids))
         {
-            return empty($data) ? [] : $data;
+            $data = empty($data) ? [] : $data;
+            I18nService::NameHandle($data, 'goods_category');
+            return $data;
         }
-        return (!empty($data) && is_array($data) && array_key_exists($category_ids, $data)) ? $data[$category_ids] : null;
+        $result = (!empty($data) && is_array($data) && array_key_exists($category_ids, $data)) ? $data[$category_ids] : null;
+        if($result !== null)
+        {
+            I18nService::NameHandle($data, 'goods_category');
+            $result = $data[$category_ids];
+        }
+        return $result;
     }
 
     /**
@@ -74,6 +83,7 @@ class GoodsCategoryService
         }
         $field = empty($params['field']) ? 'id,pid,icon,icon_active,realistic_images,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended' : $params['field'];
         $data = self::GoodsCategoryDataHandle([Db::name('GoodsCategory')->field($field)->where(['is_enable'=>1, 'id'=>intval($params['id'])])->find()]);
+        I18nService::DataHandle($data, 'goods_category');
         return empty($data[0]) ? null : $data[0];
     }
 
@@ -88,21 +98,16 @@ class GoodsCategoryService
      */
     public static function GoodsCategoryAll($params = [])
     {
-        // 从缓存获取
-        $key = SystemService::CacheKey('shopxo.cache_goods_category_key');
-        $data = MyCache($key);
-        if($data === null || MyEnv('app_debug') || MyC('common_data_is_use_cache') != 1)
+        // 从缓存获取（多语言缓存key由MyCacheRemember内部拼接、后台模块统一默认语言避免污染）
+        $data = MyCacheRemember(SystemService::CacheKey('shopxo.cache_goods_category_key'), function() use($params)
         {
             // 获取分类
             $params['where'] = [
                 ['pid', '=', 0],
                 ['is_enable', '=', 1],
             ];
-            $data = self::GoodsCategory($params);
-
-            // 存储缓存
-            MyCache($key, $data, 180);
-        }
+            return self::GoodsCategory($params);
+        }, 180);
 
         // 所有商品分类数据钩子
         $hook_name = 'plugins_service_goods_category_all_data';
@@ -237,7 +242,11 @@ class GoodsCategoryService
             // 获取商品分类数据
             $goods_category_list_data[$key] = self::GoodsCategoryDataHandle(Db::name('GoodsCategory')->field($field)->where($where)->order($order_by)->limit($m, $n)->select()->toArray());
         }
-        return $goods_category_list_data[$key];
+
+        // 多语言数据替换（静态缓存后处理、避免翻译数据进入共享缓存）
+        $data = $goods_category_list_data[$key];
+        I18nService::DataHandle($data, 'goods_category');
+        return $data;
     }
 
     /**
@@ -525,8 +534,15 @@ class GoodsCategoryService
             }
         }
 
-        // 删除大分类缓存
-        MyCache(SystemService::CacheKey('shopxo.cache_goods_category_key'), null);
+        // 删除大分类缓存（含多语言缓存）
+        I18nService::GoodsCategoryCacheClear();
+
+        // 多语言数据保存（隐藏域未提交则不处理）
+        $i18n_data = I18nService::RequestData($params);
+        if($i18n_data !== null)
+        {
+            I18nService::SaveData('goods_category', $data['id'], $i18n_data);
+        }
 
         $res = self::GoodsCategoryDataHandle([$data]);
         return DataReturn(MyLang('operate_success'), 0, $res[0]);
@@ -645,8 +661,11 @@ class GoodsCategoryService
         // 开始删除
         if(Db::name('GoodsCategory')->where(['id'=>$ids])->delete())
         {
-            // 删除大分类缓存
-            MyCache(SystemService::CacheKey('shopxo.cache_goods_category_key'), null);
+            // 删除大分类缓存（含多语言缓存）
+            I18nService::GoodsCategoryCacheClear();
+
+            // 多语言数据删除
+            I18nService::DeleteData('goods_category', $ids);
 
             return DataReturn(MyLang('delete_success'), 0);
         }
@@ -711,6 +730,10 @@ class GoodsCategoryService
             if(!empty($data))
             {
                 $data = array_reverse($data);
+
+                // 多语言数据替换
+                I18nService::DataHandle($data, 'goods_category');
+
                 foreach($data as $k=>$v)
                 {
                     if($k > 0)
@@ -726,6 +749,7 @@ class GoodsCategoryService
         {
             return '';
         }
+
         // 返回组合的数据
         return ['value'=>is_array($cid) ? $cid[0] : $cid, 'text'=>$text, 'ids'=>implode(',', array_column($data, 'id'))];
     }

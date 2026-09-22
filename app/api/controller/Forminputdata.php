@@ -107,6 +107,8 @@ class FormInputData extends Common
     {
         $params = $this->data_request;
         $params['user'] = $this->user;
+        // 前台强制普通用户身份，禁止客户端伪造 user_type=admin
+        $params['user_type'] = 'user';
         return ApiService::ApiDataReturn(FormInputDataService::FormInputDataDelete($params));
     }
 }

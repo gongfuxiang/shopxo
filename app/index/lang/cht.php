@@ -93,6 +93,7 @@ return [
         'base_nav_title'                        => '商品搜索',
         'filter_out_first_text'                 => '篩選出',
         'filter_out_last_data_text'             => '條數據',
+        'advanced_filter_title'                 => '高級篩選',
     ],
 
     // 商品分类
@@ -123,6 +124,7 @@ return [
         'no_cart_data_tips'                     => '您的購物車還是空的，您可以',
         'no_cart_data_my_favor_name'            => '我的我的最愛',
         'no_cart_data_my_order_name'            => '我的訂單',
+        'change_spec_title'                     => '修改規格',
     ],
 
     // 订单确认
@@ -210,12 +212,12 @@ return [
         'detail_shipping_address_title'         => '收貨地址',
         'detail_service_title'                  => '服务信息',
         'detail_trace_source_title'             => '追溯信息',
-        'comments_base_nav_title'               => '訂單評論',
+        'comments_base_nav_title'               => '訂單評價',
         'batch_payment_name'                    => '批量支付',
         'comments_goods_list_thead_base'        => '商品資訊',
         'comments_goods_list_thead_price'       => '單價',
-        'comments_goods_list_thead_content'     => '評論內容',
-        'form_you_have_commented_tips'          => '你已進行過評論',
+        'comments_goods_list_thead_content'     => '評價內容',
+        'form_you_have_commented_tips'          => '你已進行過評價',
         'form_payment_title'                    => '支付',
         'form_payment_no_data_tips'             => '沒有支付方式',
         'order_base_title'                      => '訂單資訊',

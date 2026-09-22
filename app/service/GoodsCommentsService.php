@@ -249,6 +249,51 @@ class GoodsCommentsService
             $comments_rating_list = MyConst('common_goods_comments_rating_list');
             $comments_business_type_list = MyConst('common_goods_comments_business_type_list');
 
+            // 订单明细（规格/价格/数量）
+            $order_detail_map = [];
+            $order_ids = [];
+            $order_goods_ids = [];
+            foreach($data as $tv)
+            {
+                if(($tv['business_type'] ?? '') == 'order' && !empty($tv['order_id']) && !empty($tv['goods_id']))
+                {
+                    $order_ids[] = intval($tv['order_id']);
+                    $order_goods_ids[] = intval($tv['goods_id']);
+                }
+            }
+            if(!empty($order_ids) && !empty($order_goods_ids))
+            {
+                $detail_list = Db::name('OrderDetail')->where([
+                    ['order_id', 'in', array_unique($order_ids)],
+                    ['goods_id', 'in', array_unique($order_goods_ids)],
+                ])->field('order_id,goods_id,title,images,spec,price,buy_number')->select()->toArray();
+                foreach($detail_list as $dv)
+                {
+                    $spec_text = '';
+                    if(!empty($dv['spec']))
+                    {
+                        $spec = is_array($dv['spec']) ? $dv['spec'] : json_decode($dv['spec'], true);
+                        if(!empty($spec) && is_array($spec))
+                        {
+                            $parts = [];
+                            foreach($spec as $s)
+                            {
+                                $parts[] = (empty($s['type']) ? '' : $s['type'].'：').($s['value'] ?? '');
+                            }
+                            $spec_text = implode(' | ', $parts);
+                        }
+                    }
+                    $dk = intval($dv['order_id']).'_'.intval($dv['goods_id']);
+                    $order_detail_map[$dk] = [
+                        'title'         => $dv['title'] ?? '',
+                        'images'        => empty($dv['images']) ? '' : ResourcesService::AttachmentPathViewHandle($dv['images']),
+                        'spec_text'     => $spec_text,
+                        'price'         => $dv['price'] ?? '',
+                        'buy_number'    => intval($dv['buy_number'] ?? 0),
+                    ];
+                }
+            }
+
             // 用户默认头像
             $default_avatar = UserDefaultAvatar();
 
@@ -288,7 +333,7 @@ class GoodsCommentsService
                 // 商品信息
                 if(array_key_exists('goods_id', $v) && $is_goods == 1)
                 {
-                    $v['goods'] = isset($goods[$v['goods_id']]) ? $goods[$v['goods_id']] : null;   
+                    $v['goods'] = isset($goods[$v['goods_id']]) ? $goods[$v['goods_id']] : null;
                 }
 
                 // 业务类型
@@ -300,9 +345,38 @@ class GoodsCommentsService
                     {
                         // 订单
                         case 'order' :
-                            if(!empty($v['order_id']) && !empty($v['goods_id']) && !empty($v['user_id']))
+                            if(!empty($v['order_id']) && !empty($v['goods_id']))
                             {
-                                $msg = self::BusinessTypeOrderSpec($v['order_id'], $v['goods_id'], $v['user_id']);
+                                $dk = intval($v['order_id']).'_'.intval($v['goods_id']);
+                                if(!empty($order_detail_map[$dk]))
+                                {
+                                    $detail = $order_detail_map[$dk];
+                                    $msg = empty($detail['spec_text']) ? null : $detail['spec_text'];
+                                    if(!empty($v['goods']) && is_array($v['goods']))
+                                    {
+                                        if(!empty($detail['title']))
+                                        {
+                                            $v['goods']['title'] = $detail['title'];
+                                        }
+                                        if(!empty($detail['images']))
+                                        {
+                                            $v['goods']['images'] = $detail['images'];
+                                        }
+                                        if($detail['price'] !== '' && $detail['price'] !== null)
+                                        {
+                                            $v['goods']['price'] = $detail['price'];
+                                        }
+                                        $v['goods']['spec_text'] = $detail['spec_text'];
+                                        $v['goods']['buy_number'] = $detail['buy_number'];
+                                    }
+                                } else {
+                                    $msg = self::BusinessTypeOrderSpec($v['order_id'], $v['goods_id'], $v['user_id'] ?? 0);
+                                    if(!empty($v['goods']) && is_array($v['goods']))
+                                    {
+                                        $v['goods']['spec_text'] = empty($msg) ? '' : $msg;
+                                        $v['goods']['buy_number'] = 0;
+                                    }
+                                }
                             }
                     }
                     $v['msg'] = empty($msg) ? null : $msg;
@@ -477,8 +551,12 @@ class GoodsCommentsService
             return DataReturn($ret, -1);
         }
 
-        // 用户类型
+        // 用户类型（仅 admin 应用可信；其它入口一律按 user，防伪造越权）
         $user_type = empty($params['user_type']) ? 'user' : $params['user_type'];
+        if($user_type == 'admin' && !(defined('APPLICATION') && APPLICATION === 'admin'))
+        {
+            $user_type = 'user';
+        }
 
         // 管理员操作
         if($user_type == 'admin')
@@ -566,8 +644,12 @@ class GoodsCommentsService
             $params['ids'] = explode(',', $params['ids']);
         }
 
-        // 用户类型
+        // 用户类型（仅 admin 应用可信；其它入口一律按 user，防伪造越权）
         $user_type = empty($params['user_type']) ? 'user' : $params['user_type'];
+        if($user_type == 'admin' && !(defined('APPLICATION') && APPLICATION === 'admin'))
+        {
+            $user_type = 'user';
+        }
 
         // 更新条件
         $where = [

@@ -14,6 +14,19 @@ var $manual_mode_data_container = $('ul.manual-mode-data-container');
 var $data_type_auto_container = $('.data-type-auto-container');
 var $data_type_appoint_container = $('.data-type-appoint-container');
 
+// 主题数据多语言 business_id：新增为空，编辑为当前记录 id
+function ThemeDataI18nBusinessAttr($el)
+{
+    var $form = ($el && $el.length) ? $el.closest('form') : $('form[data-i18n-table="theme_data"]').first();
+    var business_id = (($form.attr('data-i18n-id') || $form.find('input[name="id"]').val() || '')+'').trim();
+    if(business_id === '0')
+    {
+        business_id = '';
+    }
+    return business_id ? ' data-i18n-business-id="'+business_id+'"' : '';
+}
+
+
 // url确认回调处理
 function ThemeDataUrlChoiceBackHandle(data)
 {
@@ -71,6 +84,7 @@ $(function()
     $(document).on('click', '.manytextimages-content-add-submit', function()
     {
         var $obj = $('.manytextimages-content-container');
+        var business_attr = ThemeDataI18nBusinessAttr($obj);
         var not_choice_text = $url_choice_popup.data('not-choice-text');
         var index = parseInt(Math.random() * 1000001);
         var html = `<li>
@@ -245,7 +259,7 @@ $(function()
                                 <div class="am-form-group">
                                     <label>`+$obj.data('form-item-text-title')+`</label>
                                     <div class="am-input-group am-input-group-sm">
-                                        <input type="text" name="data[`+index+`][text_title][value]" class="am-form-field am-radius" placeholder="`+$obj.data('form-item-text-title-message')+`" value="" />
+                                        <input type="text" name="data[`+index+`][text_title][value]" class="am-form-field am-radius" data-i18n="1" data-i18n-field="theme_data_text" data-i18n-content="1"`+business_attr+` placeholder="`+$obj.data('form-item-text-title-message')+`" value="" />
                                         <span class="am-input-group-label am-radius">
                                             <a href="javascript:;" class="am-text-blue url-choice-event">
                                                 <input type="hidden" name="data[`+index+`][text_title][url_data]" value="" />
@@ -257,7 +271,7 @@ $(function()
                                 <div class="am-form-group">
                                     <label>`+$obj.data('form-item-text-vice-title')+`</label>
                                     <div class="am-input-group am-input-group-sm">
-                                        <input type="text" name="data[`+index+`][text_vice_title][value]" class="am-form-field am-radius" placeholder="`+$obj.data('form-item-text-vice-title-message')+`" value="" />
+                                        <input type="text" name="data[`+index+`][text_vice_title][value]" class="am-form-field am-radius" data-i18n="1" data-i18n-field="theme_data_text" data-i18n-content="1"`+business_attr+` placeholder="`+$obj.data('form-item-text-vice-title-message')+`" value="" />
                                         <span class="am-input-group-label am-radius">
                                             <a href="javascript:;" class="am-text-blue url-choice-event">
                                                 <input type="hidden" name="data[`+index+`][text_vice_title][url_data]" value="" />
@@ -281,7 +295,7 @@ $(function()
                                 <div class="am-form-group">
                                     <label>`+$obj.data('form-item-text-more')+`</label>
                                     <div class="am-input-group am-input-group-sm">
-                                        <input type="text" name="data[`+index+`][text_more][value]" class="am-form-field am-radius" placeholder="`+$obj.data('form-item-text-more-message')+`" value="" />
+                                        <input type="text" name="data[`+index+`][text_more][value]" class="am-form-field am-radius" data-i18n="1" data-i18n-field="theme_data_text" data-i18n-content="1"`+business_attr+` placeholder="`+$obj.data('form-item-text-more-message')+`" value="" />
                                         <span class="am-input-group-label am-radius">
                                             <a href="javascript:;" class="am-text-blue url-choice-event">
                                                 <input type="hidden" name="data[`+index+`][text_more][url_data]" value="" />
@@ -293,7 +307,7 @@ $(function()
                                 <div class="am-form-group">
                                     <label>`+$obj.data('form-item-text-btn')+`</label>
                                     <div class="am-input-group am-input-group-sm">
-                                        <input type="text" name="data[`+index+`][text_btn][value]" class="am-form-field am-radius" placeholder="`+$obj.data('form-item-text-btn-message')+`" value="" />
+                                        <input type="text" name="data[`+index+`][text_btn][value]" class="am-form-field am-radius" data-i18n="1" data-i18n-field="theme_data_text" data-i18n-content="1"`+business_attr+` placeholder="`+$obj.data('form-item-text-btn-message')+`" value="" />
                                         <span class="am-input-group-label am-radius">
                                             <a href="javascript:;" class="am-text-blue url-choice-event">
                                                 <input type="hidden" name="data[`+index+`][text_btn][url_data]" value="" />
@@ -305,7 +319,7 @@ $(function()
                                 <div class="am-form-group">
                                     <label>`+$obj.data('form-item-text-describe')+`</label>
                                     <div class="am-input-group am-input-group-sm">
-                                        <input type="text" name="data[`+index+`][text_describe][value]" class="am-form-field am-radius" placeholder="`+$obj.data('form-item-text-describe-message')+`" value="" />
+                                        <input type="text" name="data[`+index+`][text_describe][value]" class="am-form-field am-radius" data-i18n="1" data-i18n-field="theme_data_text" data-i18n-content="1"`+business_attr+` placeholder="`+$obj.data('form-item-text-describe-message')+`" value="" />
                                         <span class="am-input-group-label am-radius">
                                             <a href="javascript:;" class="am-text-blue url-choice-event">
                                                 <input type="hidden" name="data[`+index+`][text_describe][url_data]" value="" />
@@ -317,7 +331,7 @@ $(function()
                                 <div class="am-form-group">
                                     <label>`+$obj.data('form-item-text-detail-describe')+`</label>
                                     <div class="am-input-group am-input-group-sm">
-                                        <textarea name="data[`+index+`][text_detail_describe][value]" class="am-form-field am-radius" rows="3" placeholder="`+$obj.data('form-item-text-detail-describe-message')+`"></textarea>
+                                        <textarea name="data[`+index+`][text_detail_describe][value]" class="am-form-field am-radius" data-i18n="1" data-i18n-field="theme_data_text" data-i18n-content="1"`+business_attr+` rows="3" placeholder="`+$obj.data('form-item-text-detail-describe-message')+`"></textarea>
                                         <span class="am-input-group-label am-radius">
                                             <a href="javascript:;" class="am-text-blue url-choice-event">
                                                 <input type="hidden" name="data[`+index+`][text_detail_describe][url_data]" value="" />
@@ -342,6 +356,11 @@ $(function()
                 </div>
             </li>`;
         $('.manytextimages-content-container').append(html);
+        // 多语言按钮初始化（新增行文本字段）
+        if(window.$I18nRescan)
+        {
+            window.$I18nRescan();
+        }
     });
     // 空则自动添加一条
     if($('.manytextimages-content-add-submit').length > 0 && $('.manytextimages-content-container').length > 0 && $('.manytextimages-content-container li').length == 0)
@@ -502,6 +521,7 @@ $(function()
     $(document).on('click', '.textimages-custom-add-submit', function()
     {
         var $obj = $('.textimages-custom-container');
+        var business_attr = ThemeDataI18nBusinessAttr($obj);
         var form_name = $obj.data('form-name');
         var index = parseInt(Math.random() * 1000001);
         var not_choice_text = $url_choice_popup.data('not-choice-text');
@@ -511,14 +531,20 @@ $(function()
                                 <i class="iconfont icon-add"></i>
                             </li>
                         </ul>
-                        <input type="text" name="`+form_name+`[`+index+`][name]" placeholder="`+($obj.data('name-text') || '数据名称')+`" class="name am-radius" />
-                        <input type="text" name="`+form_name+`[`+index+`][value]" placeholder="`+($obj.data('value-text') || '数据值')+`" class="value am-radius" />
+                        <input type="text" name="`+form_name+`[`+index+`][name]" data-i18n="1" data-i18n-field="theme_data_custom_name" data-i18n-content="1"`+business_attr+` data-i18n-label="`+($obj.data('name-text') || '自定义数据名称')+`" placeholder="`+($obj.data('name-text') || '数据名称')+`" class="name am-radius" />
+                        <input type="text" name="`+form_name+`[`+index+`][value]" data-i18n="1" data-i18n-field="theme_data_custom_value" data-i18n-content="1"`+business_attr+` data-i18n-label="`+($obj.data('value-text') || '自定义数据值')+`" placeholder="`+($obj.data('value-text') || '数据值')+`" class="value am-radius" />
                         <a href="javascript:;" class="am-text-blue am-block url-choice-event">
                             <input type="hidden" name="`+form_name+`[`+index+`][url_data]" value="" />
                             <span>`+not_choice_text+`</span>
                         </a>
                         <button type="button" class="am-close">×</button>
                     </li>`);
+
+        // 多语言按钮初始化（动态拼接的行主动重扫）
+        if(window.$I18nRescan)
+        {
+            window.$I18nRescan();
+        }
     });
 
     // 自定义数据移除
@@ -540,6 +566,7 @@ $(function()
     $(document).on('click', '.goodsgroup-content-add-submit', function()
     {
         var $obj = $('.data-goods-container');
+        var business_attr = ThemeDataI18nBusinessAttr($obj);
         var not_choice_text = $url_choice_popup.data('not-choice-text');
         var index = parseInt(Math.random() * 1000001);
         var html = `<li class="data-goods-item-container">
@@ -621,7 +648,7 @@ $(function()
                 <div class="am-form-group">
                     <label>`+$obj.data('form-item-text-title')+`</label>
                     <div class="am-input-group am-input-group-sm">
-                        <input type="text" name="data[`+index+`][text_title][value]" class="am-form-field am-radius" placeholder="`+$obj.data('form-item-text-title-message')+`" value="" />
+                        <input type="text" name="data[`+index+`][text_title][value]" class="am-form-field am-radius" data-i18n="1" data-i18n-field="theme_data_text" data-i18n-content="1"`+business_attr+` placeholder="`+$obj.data('form-item-text-title-message')+`" value="" />
                         <span class="am-input-group-label am-radius">
                             <a href="javascript:;" class="am-text-blue url-choice-event">
                                 <input type="hidden" name="data[`+index+`][text_title][url_data]" value="" />
@@ -633,7 +660,7 @@ $(function()
                 <div class="am-form-group">
                     <label>`+$obj.data('form-item-text-vice-title')+`</label>
                     <div class="am-input-group am-input-group-sm">
-                        <input type="text" name="data[`+index+`][text_vice_title][value]" class="am-form-field am-radius" placeholder="`+$obj.data('form-item-text-vice-title-message')+`" value="" />
+                        <input type="text" name="data[`+index+`][text_vice_title][value]" class="am-form-field am-radius" data-i18n="1" data-i18n-field="theme_data_text" data-i18n-content="1"`+business_attr+` placeholder="`+$obj.data('form-item-text-vice-title-message')+`" value="" />
                         <span class="am-input-group-label am-radius">
                             <a href="javascript:;" class="am-text-blue url-choice-event">
                                 <input type="hidden" name="data[`+index+`][text_vice_title][url_data]" value="" />
@@ -645,7 +672,7 @@ $(function()
                 <div class="am-form-group">
                     <label>`+$obj.data('form-item-text-more')+`</label>
                     <div class="am-input-group am-input-group-sm">
-                        <input type="text" name="data[`+index+`][text_more][value]" class="am-form-field am-radius" placeholder="`+$obj.data('form-item-text-more-message')+`" value="" />
+                        <input type="text" name="data[`+index+`][text_more][value]" class="am-form-field am-radius" data-i18n="1" data-i18n-field="theme_data_text" data-i18n-content="1"`+business_attr+` placeholder="`+$obj.data('form-item-text-more-message')+`" value="" />
                         <span class="am-input-group-label am-radius">
                             <a href="javascript:;" class="am-text-blue url-choice-event">
                                 <input type="hidden" name="data[`+index+`][text_more][url_data]" value="" />
@@ -657,7 +684,7 @@ $(function()
                 <div class="am-form-group">
                     <label>`+$obj.data('form-item-text-btn')+`</label>
                     <div class="am-input-group am-input-group-sm">
-                        <input type="text" name="data[`+index+`][text_btn][value]" class="am-form-field am-radius" placeholder="`+$obj.data('form-item-text-btn-message')+`" value="" />
+                        <input type="text" name="data[`+index+`][text_btn][value]" class="am-form-field am-radius" data-i18n="1" data-i18n-field="theme_data_text" data-i18n-content="1"`+business_attr+` placeholder="`+$obj.data('form-item-text-btn-message')+`" value="" />
                         <span class="am-input-group-label am-radius">
                             <a href="javascript:;" class="am-text-blue url-choice-event">
                                 <input type="hidden" name="data[`+index+`][text_btn][url_data]" value="" />
@@ -669,7 +696,7 @@ $(function()
                 <div class="am-form-group">
                     <label>`+$obj.data('form-item-text-describe')+`</label>
                     <div class="am-input-group am-input-group-sm">
-                        <input type="text" name="data[`+index+`][text_describe][value]" class="am-form-field am-radius" placeholder="`+$obj.data('form-item-text-describe-message')+`" value="" />
+                        <input type="text" name="data[`+index+`][text_describe][value]" class="am-form-field am-radius" data-i18n="1" data-i18n-field="theme_data_text" data-i18n-content="1"`+business_attr+` placeholder="`+$obj.data('form-item-text-describe-message')+`" value="" />
                         <span class="am-input-group-label am-radius">
                             <a href="javascript:;" class="am-text-blue url-choice-event">
                                 <input type="hidden" name="data[`+index+`][text_describe][url_data]" value="" />
@@ -822,6 +849,11 @@ $(function()
             </div>
         </li>`;
         $obj.append(html);
+        // 多语言按钮初始化（新增行文本字段）
+        if(window.$I18nRescan)
+        {
+            window.$I18nRescan();
+        }
 
         // 多选插件事件更新
         SelectChosenInit();
@@ -864,6 +896,7 @@ $(function()
     $(document).on('click', '.articlegroup-content-add-submit', function()
     {
         var $obj = $('.data-article-container');
+        var business_attr = ThemeDataI18nBusinessAttr($obj);
         var not_choice_text = $url_choice_popup.data('not-choice-text');
         var index = parseInt(Math.random() * 1000001);
         var html = `<li class="data-article-item-container">
@@ -945,7 +978,7 @@ $(function()
                 <div class="am-form-group">
                     <label>`+$obj.data('form-item-text-title')+`</label>
                     <div class="am-input-group am-input-group-sm">
-                        <input type="text" name="data[`+index+`][text_title][value]" class="am-form-field am-radius" placeholder="`+$obj.data('form-item-text-title-message')+`" value="" />
+                        <input type="text" name="data[`+index+`][text_title][value]" class="am-form-field am-radius" data-i18n="1" data-i18n-field="theme_data_text" data-i18n-content="1"`+business_attr+` placeholder="`+$obj.data('form-item-text-title-message')+`" value="" />
                         <span class="am-input-group-label am-radius">
                             <a href="javascript:;" class="am-text-blue url-choice-event">
                                 <input type="hidden" name="data[`+index+`][text_title][url_data]" value="" />
@@ -957,7 +990,7 @@ $(function()
                 <div class="am-form-group">
                     <label>`+$obj.data('form-item-text-vice-title')+`</label>
                     <div class="am-input-group am-input-group-sm">
-                        <input type="text" name="data[`+index+`][text_vice_title][value]" class="am-form-field am-radius" placeholder="`+$obj.data('form-item-text-vice-title-message')+`" value="" />
+                        <input type="text" name="data[`+index+`][text_vice_title][value]" class="am-form-field am-radius" data-i18n="1" data-i18n-field="theme_data_text" data-i18n-content="1"`+business_attr+` placeholder="`+$obj.data('form-item-text-vice-title-message')+`" value="" />
                         <span class="am-input-group-label am-radius">
                             <a href="javascript:;" class="am-text-blue url-choice-event">
                                 <input type="hidden" name="data[`+index+`][text_vice_title][url_data]" value="" />
@@ -969,7 +1002,7 @@ $(function()
                 <div class="am-form-group">
                     <label>`+$obj.data('form-item-text-more')+`</label>
                     <div class="am-input-group am-input-group-sm">
-                        <input type="text" name="data[`+index+`][text_more][value]" class="am-form-field am-radius" placeholder="`+$obj.data('form-item-text-more-message')+`" value="" />
+                        <input type="text" name="data[`+index+`][text_more][value]" class="am-form-field am-radius" data-i18n="1" data-i18n-field="theme_data_text" data-i18n-content="1"`+business_attr+` placeholder="`+$obj.data('form-item-text-more-message')+`" value="" />
                         <span class="am-input-group-label am-radius">
                             <a href="javascript:;" class="am-text-blue url-choice-event">
                                 <input type="hidden" name="data[`+index+`][text_more][url_data]" value="" />
@@ -981,7 +1014,7 @@ $(function()
                 <div class="am-form-group">
                     <label>`+$obj.data('form-item-text-btn')+`</label>
                     <div class="am-input-group am-input-group-sm">
-                        <input type="text" name="data[`+index+`][text_btn][value]" class="am-form-field am-radius" placeholder="`+$obj.data('form-item-text-btn-message')+`" value="" />
+                        <input type="text" name="data[`+index+`][text_btn][value]" class="am-form-field am-radius" data-i18n="1" data-i18n-field="theme_data_text" data-i18n-content="1"`+business_attr+` placeholder="`+$obj.data('form-item-text-btn-message')+`" value="" />
                         <span class="am-input-group-label am-radius">
                             <a href="javascript:;" class="am-text-blue url-choice-event">
                                 <input type="hidden" name="data[`+index+`][text_btn][url_data]" value="" />
@@ -993,7 +1026,7 @@ $(function()
                 <div class="am-form-group">
                     <label>`+$obj.data('form-item-text-describe')+`</label>
                     <div class="am-input-group am-input-group-sm">
-                        <input type="text" name="data[`+index+`][text_describe][value]" class="am-form-field am-radius" placeholder="`+$obj.data('form-item-text-describe-message')+`" value="" />
+                        <input type="text" name="data[`+index+`][text_describe][value]" class="am-form-field am-radius" data-i18n="1" data-i18n-field="theme_data_text" data-i18n-content="1"`+business_attr+` placeholder="`+$obj.data('form-item-text-describe-message')+`" value="" />
                         <span class="am-input-group-label am-radius">
                             <a href="javascript:;" class="am-text-blue url-choice-event">
                                 <input type="hidden" name="data[`+index+`][text_describe][url_data]" value="" />
@@ -1123,6 +1156,11 @@ $(function()
             </div>
         </li>`;
         $obj.append(html);
+        // 多语言按钮初始化（新增行文本字段）
+        if(window.$I18nRescan)
+        {
+            window.$I18nRescan();
+        }
 
         // 多选插件事件更新
         SelectChosenInit();

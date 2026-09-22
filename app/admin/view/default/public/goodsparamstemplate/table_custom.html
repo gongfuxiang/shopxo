@@ -29,7 +29,7 @@
                 <th>{{:MyLang('operate_title')}}</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody data-i18n-dynamic="1">
             {{if !empty($parameters) and is_array($parameters)}}
                 {{foreach $parameters as $pk=>$pv}}
                     <tr>
@@ -43,11 +43,11 @@
                             </select>
                         </td>
                         <td class="am-text-middle">
-                            <input type="text" name="parameters_name[{{$pk}}]" placeholder="{{:MyLang('common.form_goods_params_params_name')}}" value="{{$pv.name}}" data-validation-message="{{:MyLang('common.form_goods_params_params_message')}}" maxlength="160" class="am-radius" data-is-clearout="0" required {{if !empty($goods_params_operate_data) and isset($goods_params_operate_data['is_edit']) and $goods_params_operate_data['is_edit'] eq 0}} disabled{{/if}} />
+                            <input type="text" name="parameters_name[{{$pk}}]" data-i18n="1" placeholder="{{:MyLang('common.form_goods_params_params_name')}}" value="{{$pv.name}}" data-validation-message="{{:MyLang('common.form_goods_params_params_message')}}" maxlength="160" class="am-radius" data-is-clearout="0" required {{if !empty($goods_params_operate_data) and isset($goods_params_operate_data['is_edit']) and $goods_params_operate_data['is_edit'] eq 0}} disabled{{/if}} />
                         </td>
                         <td class="am-text-middle">
                             <input type="hidden" name="parameters_data_type[{{$pk}}]" value="0" />
-                            <input type="text" name="parameters_value[{{$pk}}]" placeholder="{{:MyLang('common.form_goods_params_value_name')}}" value="{{if is_array($pv['value'])}}{{:implode(',', $pv['value'])}}{{else /}}{{$pv.value}}{{/if}}" maxlength="160" data-validation-message="{{:MyLang('common.form_goods_params_value_message')}}" class="am-radius" data-is-clearout="0" {{if !empty($goods_params_operate_data) and isset($goods_params_operate_data['is_edit']) and $goods_params_operate_data['is_edit'] eq 0}} disabled{{/if}} />
+                            <input type="text" name="parameters_value[{{$pk}}]" data-i18n="1" placeholder="{{:MyLang('common.form_goods_params_value_name')}}" value="{{if is_array($pv['value'])}}{{:implode(',', $pv['value'])}}{{else /}}{{$pv.value}}{{/if}}" maxlength="160" data-validation-message="{{:MyLang('common.form_goods_params_value_message')}}" class="am-radius" data-is-clearout="0" {{if !empty($goods_params_operate_data) and isset($goods_params_operate_data['is_edit']) and $goods_params_operate_data['is_edit'] eq 0}} disabled{{/if}} />
                         </td>
                         <td class="am-text-middle am-text-left">
                             <a href="javascript:;" class="am-text-xs am-color-blue am-margin-right-sm line-move" data-type="top">{{:MyLang('moveup_title')}}</a>

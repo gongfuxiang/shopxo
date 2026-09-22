@@ -183,6 +183,7 @@ class SystemBaseService
             'common_is_goods_detail_show_guess_you_like'         => (int) MyC('common_is_goods_detail_show_guess_you_like', 1),
             'common_is_goods_detail_show_left_more'              => (int) MyC('common_is_goods_detail_show_left_more', 1),
             'common_is_goods_detail_content_show_photo'          => (int) MyC('common_is_goods_detail_content_show_photo', 0, true),
+            'common_goods_detail_spec_page_show'                 => (int) MyC('common_goods_detail_spec_page_show', 0, true),
             'common_is_exhibition_mode_btn_text'                 => MyC('common_is_exhibition_mode_btn_text', '立即咨询', true),
             'common_goods_cover_size_type'                       => (int) MyC('common_goods_cover_size_type', 0, true),
             'common_goods_detail_bottom_opt_cart'              => (int) MyC('common_goods_detail_bottom_opt_cart', 0, true),
@@ -323,6 +324,17 @@ class SystemBaseService
         $module_name = RequestModule();
         $controller_name = RequestController();
         $action_name = RequestAction();
+        // 插件入口则使用插件名/控制器/方法生成钩子名
+        if($controller_name == 'plugins')
+        {
+            $plugins_name = PluginsRequestName();
+            if(!empty($plugins_name))
+            {
+                $module_name = $plugins_name;
+                $controller_name = PluginsRequestController();
+                $action_name = PluginsRequestAction();
+            }
+        }
 
         // 钩子
         $hook_name = 'plugins_service_base_data_return_'.$module_name.'_'.$controller_name.'_'.$action_name;
@@ -359,6 +371,202 @@ class SystemBaseService
         ]);
 
         return $value;
+    }
+
+    /**
+     * 展示型是否隐藏价格
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-08-23
+     * @desc    开启「展示模式隐藏价格」且当前销售模式为展示型时返回 true
+     * @param   [mixed]         $site_type [商品类型，空或-1跟随站点类型]
+     */
+    public static function IsExhibitionModeHidePrice($site_type = null)
+    {
+        if(MyC('common_exhibition_mode_hide_price', 0, true) != 1)
+        {
+            return false;
+        }
+        if($site_type === null || $site_type === '')
+        {
+            $site_type = -1;
+        }
+        return intval(GoodsSalesModelType($site_type)) == 4;
+    }
+
+    // 商品类型缓存（列表缺 site_type 时补齐，避免按站点类型误判）
+    private static $goods_site_type_cache = [];
+
+    /**
+     * 批量缓存商品类型
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-08-23
+     * @desc    description
+     * @param   [array]         $goods_ids [商品id]
+     */
+    public static function GoodsSiteTypeCacheFill($goods_ids = [])
+    {
+        $goods_ids = array_unique(array_filter(array_map('intval', (array) $goods_ids)));
+        $miss = [];
+        foreach($goods_ids as $id)
+        {
+            if($id > 0 && !array_key_exists($id, self::$goods_site_type_cache))
+            {
+                $miss[] = $id;
+            }
+        }
+        if(!empty($miss))
+        {
+            $list = Db::name('Goods')->where([['id', 'in', $miss]])->column('site_type', 'id');
+            foreach($miss as $id)
+            {
+                self::$goods_site_type_cache[$id] = array_key_exists($id, $list) ? $list[$id] : -1;
+            }
+        }
+    }
+
+    /**
+     * 获取商品类型（缺字段时按商品id读取）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-08-23
+     * @desc    description
+     * @param   [array]         $goods          [商品数据]
+     * @param   [string]        $data_key_field [主键字段]
+     */
+    public static function GoodsSiteTypeValue($goods = [], $data_key_field = 'id')
+    {
+        if(is_array($goods) && array_key_exists('site_type', $goods) && $goods['site_type'] !== '' && $goods['site_type'] !== null)
+        {
+            return $goods['site_type'];
+        }
+        $gid = 0;
+        if(is_array($goods))
+        {
+            if(!empty($goods[$data_key_field]))
+            {
+                $gid = intval($goods[$data_key_field]);
+            } elseif(!empty($goods['id']))
+            {
+                $gid = intval($goods['id']);
+            } elseif(!empty($goods['goods_id']))
+            {
+                $gid = intval($goods['goods_id']);
+            }
+        }
+        if($gid > 0)
+        {
+            self::GoodsSiteTypeCacheFill([$gid]);
+            if(array_key_exists($gid, self::$goods_site_type_cache))
+            {
+                return self::$goods_site_type_cache[$gid];
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 商品是否按展示模式隐藏价格
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-08-23
+     * @desc    description
+     * @param   [array]         $goods [商品数据]
+     */
+    public static function IsGoodsExhibitionHidePrice($goods = [])
+    {
+        return self::IsExhibitionModeHidePrice(self::GoodsSiteTypeValue($goods));
+    }
+
+    /**
+     * 商品售价是否已隐藏（展示模式或售价开关）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-08-23
+     * @desc    插件输出价格 UI 前判断，避免覆盖「展示模式隐藏价格」
+     * @param   [array]         $goods [商品数据]
+     */
+    public static function IsGoodsSalesPriceHidden($goods = [])
+    {
+        if(is_array($goods) && array_key_exists('show_field_price_status', $goods) && intval($goods['show_field_price_status']) != 1)
+        {
+            return true;
+        }
+        return self::IsGoodsExhibitionHidePrice($goods);
+    }
+
+    /**
+     * 展示模式隐藏价格替换文字
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-08-23
+     * @desc    空则整行不显示价格
+     */
+    public static function ExhibitionHidePriceText()
+    {
+        if(MyC('common_exhibition_mode_hide_price', 0, true) != 1)
+        {
+            return '';
+        }
+        return trim(strval(MyC('common_exhibition_mode_hide_price_text', '', true)));
+    }
+
+    /**
+     * 展示型商品价格展示处理（隐藏或替换为指定文字）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-08-23
+     * @desc    description
+     * @param   [array]         $goods [商品数据]
+     */
+    public static function ApplyExhibitionHidePriceDisplay(&$goods)
+    {
+        if(empty($goods) || !is_array($goods) || !self::IsGoodsExhibitionHidePrice($goods))
+        {
+            return false;
+        }
+
+        $text = self::ExhibitionHidePriceText();
+        $goods['show_field_original_price_status'] = 0;
+        $goods['show_field_original_price_text'] = MyLang('goods_original_price_title');
+        $goods['show_field_price_text'] = MyLang('goods_sales_price_title');
+        $goods['show_original_price_symbol'] = '';
+        $goods['show_original_price_unit'] = '';
+        foreach(['original_price', 'min_original_price', 'max_original_price'] as $field)
+        {
+            if(array_key_exists($field, $goods))
+            {
+                $goods[$field] = 0;
+            }
+        }
+
+        if($text === '')
+        {
+            $goods['show_field_price_status'] = 0;
+            $goods['is_exhibition_hide_price'] = 0;
+            return true;
+        }
+
+        $goods['is_exhibition_hide_price'] = 1;
+        $goods['show_field_price_status'] = 1;
+        $goods['show_price_symbol'] = '';
+        $goods['show_price_unit'] = '';
+        foreach(['price', 'min_price', 'max_price'] as $field)
+        {
+            if(array_key_exists($field, $goods))
+            {
+                $goods[$field] = $text;
+            }
+        }
+        return true;
     }
 
     /**

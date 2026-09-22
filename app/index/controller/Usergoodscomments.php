@@ -98,6 +98,7 @@ class UserGoodsComments extends Center
     {
         $params = $this->data_request;
         $params['user'] = $this->user;
+        $params['user_type'] = 'user';
         return ApiService::ApiDataReturn(GoodsCommentsService::GoodsCommentsSave($params));
     }
 
@@ -113,6 +114,7 @@ class UserGoodsComments extends Center
     {
         $params = $this->data_request;
         $params['user'] = $this->user;
+        $params['user_type'] = 'user';
         return ApiService::ApiDataReturn(GoodsCommentsService::GoodsCommentsDelete($params));
     }
 }

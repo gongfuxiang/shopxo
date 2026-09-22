@@ -25,22 +25,22 @@
 			</div>
 			<div class="am-popup-bd">
                 <!-- form start -->
-                <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/link/save')}}" method="POST" request-type="ajax-reload" request-value="">
+                <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/link/save')}}" method="POST" data-i18n-table="link" request-type="ajax-reload" request-value="">
                     <div class="am-form-group row">
                         <label>{{:MyLang('common_service.link.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-                        <input type="text" placeholder="{{:MyLang('common_service.link.form_item_name_message')}}" name="name" minlength="1" maxlength="60" data-validation-message="{{:MyLang('common_service.link.form_item_name_message')}}" class="am-radius" required />
+                        <input type="text" placeholder="{{:MyLang('common_service.link.form_item_name_message')}}" name="name" data-i18n="1" minlength="1" maxlength="60" data-validation-message="{{:MyLang('common_service.link.form_item_name_message')}}" class="am-radius" required />
                     </div>
                     <div class="am-form-group row">
                         <label>{{:MyLang('common_service.link.form_item_url')}}<span class="am-form-group-label-tips-must">*</span></label>
                         <input type="url" placeholder="{{:MyLang('common_service.link.form_item_url_placeholder')}}" name="url" data-validation-message="{{:MyLang('common_service.link.form_item_url_message')}}" class="am-radius" required />
                     </div>
                     {{:ModuleInclude('lib/sort', ['is_row'=>1])}}
-                    {{:ModuleInclude('lib/is_new_window_open', ['is_row'=>1])}}
-                    {{:ModuleInclude('lib/is_enable', ['is_row'=>1])}}
                     <div class="am-form-group row am-form-success">
                         <label class="am-flex-align-self-start">{{:MyLang('common_service.link.form_item_desc')}}</label>
-                        <textarea rows="3" maxlength="60" name="describe" class="am-radius" placeholder="{{:MyLang('common_service.link.form_item_desc_message')}}" data-validation-message="{{:MyLang('common_service.link.form_item_desc_message')}}"></textarea>
+                        <textarea rows="3" maxlength="60" name="describe" data-i18n="1" class="am-radius" placeholder="{{:MyLang('common_service.link.form_item_desc_message')}}" data-validation-message="{{:MyLang('common_service.link.form_item_desc_message')}}"></textarea>
                     </div>
+                    {{:ModuleInclude('lib/is_new_window_open', ['is_row'=>1])}}
+                    {{:ModuleInclude('lib/is_enable', ['is_row'=>1])}}
                     <div class="am-form-popup-submit">
                         <input type="hidden" name="id" />
                         <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs" data-am-modal-close>

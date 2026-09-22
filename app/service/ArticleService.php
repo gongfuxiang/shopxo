@@ -13,6 +13,7 @@ namespace app\service;
 use think\facade\Db;
 use app\service\SystemService;
 use app\service\ResourcesService;
+use app\service\I18nService;
 
 /**
  * 文章服务层
@@ -34,10 +35,8 @@ class ArticleService
      */
     public static function RecommendedArticleList($params = [])
     {
-        // 从缓存获取
-        $key = SystemService::CacheKey('shopxo.cache_home_article_list_key').APPLICATION_CLIENT_TYPE;
-        $data = MyCache($key);
-        if($data === null || MyEnv('app_debug') || MyC('common_data_is_use_cache') != 1)
+        // 从缓存获取（多语言缓存key由MyCacheRemember内部拼接）
+        $data = MyCacheRemember(SystemService::CacheKey('shopxo.cache_home_article_list_key').APPLICATION_CLIENT_TYPE, function()
         {
             // 文章
             $params = [
@@ -47,11 +46,8 @@ class ArticleService
                 'n'      => 9,
             ];
             $ret = self::ArticleList($params);
-            $data = empty($ret['data']) ? [] : $ret['data'];
-
-            // 存储缓存
-            MyCache($key, $data, 180);
-        }
+            return empty($ret['data']) ? [] : $ret['data'];
+        }, 180);
         return $data;
     }
 
@@ -103,6 +99,9 @@ class ArticleService
     {
         if(!empty($data))
         {
+            // 多语言数据替换（仅前台非默认语言生效、内容字段后续统一附件地址处理）
+            I18nService::DataHandle($data, 'article');
+
             // 字段列表
             $keys = ArrayKeys($data);
 
@@ -110,6 +109,7 @@ class ArticleService
             if(in_array('article_category_id', $keys))
             {
                 $category_names = Db::name('ArticleCategory')->where(['id'=>array_column($data, 'article_category_id')])->column('name', 'id');
+                I18nService::NameHandle($category_names, 'article_category');
             }
 
             foreach($data as $k=>&$v)
@@ -319,10 +319,13 @@ class ArticleService
         }
 
         // 其它附件
-        $attachment = ResourcesService::AttachmentParams($params, ['cover', 'share_images']);
+        $attachment = ResourcesService::AttachmentParams($params, ['cover', 'share_images'], [
+            'cover'        => 'cover',
+            'share_images' => 'cover',
+        ]);
 
         // 编辑器内容
-        $content = empty($params['content']) ? '' : str_replace("\n", '', ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['content']), 'add'));
+        $content = empty($params['content']) ? '' : str_replace("\n", '', ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['content']), 'add', ['image_scene'=>'detail']));
 
         // 详情图片
         $images = ResourcesService::RichTextMatchContentAttachment($content, 'article', 'images');
@@ -384,6 +387,13 @@ class ArticleService
             }
         }
 
+        // 多语言数据保存（隐藏域未提交则不处理）
+        $i18n_data = I18nService::RequestData($params);
+        if($i18n_data !== null)
+        {
+            I18nService::SaveData('article', $article_id, $i18n_data);
+        }
+
         // 文章保存处理成功钩子
         $hook_name = 'plugins_service_article_save_success_handle';
         MyEventTrigger($hook_name, [
@@ -440,6 +450,9 @@ class ArticleService
         // 删除操作
         if(Db::name('Article')->where(['id'=>$params['ids']])->delete())
         {
+            // 多语言数据删除
+            I18nService::DeleteData('article', $params['ids']);
+
             return DataReturn(MyLang('delete_success'), 0);
         }
 

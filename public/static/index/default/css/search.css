@@ -9,7 +9,28 @@
 .map-item.am-list > li:hover {
 	background: transparent;
 }
+/* 筛选行统一 flex（品牌详情 brand-info 内再套一层 flex） */
+.map-item > .map-brand-container,
+.map-item > .map-category-container,
+.map-item > .screening-price-container,
+.map-item > .goods-place-origin-container,
+.map-item > .map-params-spec-row {
+	display: flex;
+	align-items: flex-start;
+	position: relative;
+	background: #fff;
+	box-sizing: border-box;
+	overflow: visible;
+}
+.map-item .brand-info {
+	display: flex;
+	align-items: flex-start;
+	flex: 1 1 auto;
+	min-width: 0;
+	width: 100%;
+}
 .map-item .map-left {
+	flex: 0 0 10rem;
 	width: 10rem;
 	font-weight: bold;
 	line-height: 5rem;
@@ -23,7 +44,9 @@
 	line-height: 5.6rem !important;
 }
 .map-item .map-right {
-	width: calc(100% - 10rem);
+	flex: 1 1 auto;
+	min-width: 0;
+	width: auto;
 	background: #fff;
 }
 .map-item .map-right .text-tips {
@@ -51,6 +74,83 @@
 .map-text-items {
 	padding: 1rem 10rem 0 1rem;
 	overflow-y: hidden;
+}
+.map-dropdown-items {
+	padding: 0.8rem 1rem 0.2rem 1rem;
+	min-height: 4.5rem;
+	box-sizing: border-box;
+	background: #fff;
+	overflow: visible;
+}
+/* 高级筛选：下拉展开时抬高层级，避免被裁切 */
+.map-params-spec-row {
+	position: relative;
+	z-index: 5;
+}
+.map-params-spec-row:has(.am-selected.am-active) {
+	z-index: 50;
+}
+.map-params-spec-row > .map-right {
+	overflow: visible;
+	position: relative;
+	z-index: 2;
+}
+.map-dropdown-items .search-map-select,
+.map-dropdown-items .am-selected {
+	display: inline-block;
+	margin: 0 1rem 0.8rem 0;
+	vertical-align: middle;
+	position: relative;
+	z-index: 1;
+	width: auto !important;
+	max-width: none;
+}
+.map-dropdown-items .am-selected.am-active {
+	z-index: 100;
+}
+.map-dropdown-items .am-selected .am-selected-btn {
+	display: inline-flex !important;
+	align-items: center;
+	width: auto !important;
+	height: 3rem;
+	line-height: 1;
+	padding: 0 1rem !important;
+	box-sizing: border-box;
+	border: 0.1rem solid #e5e5e5;
+	background: #fff;
+	color: #666;
+	text-align: left;
+}
+.map-dropdown-items .am-selected.is-selected .am-selected-btn {
+	color: var(--color-main) !important;
+	border-color: var(--color-main) !important;
+	font-weight: bold;
+}
+.map-dropdown-items .am-selected.is-selected .am-selected-status {
+	color: var(--color-main);
+}
+.map-dropdown-items .am-selected .am-selected-status {
+	width: auto;
+	max-width: 12rem;
+	display: block;
+	line-height: 1.2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.map-dropdown-items .am-selected .am-selected-icon {
+	margin-left: 0.6rem;
+	line-height: 1;
+	position: relative;
+	top: 0.05em;
+}
+.map-dropdown-items .am-selected .am-selected-content {
+	z-index: 110;
+	min-width: 100%;
+	width: auto;
+}
+.map-dropdown-items .input-clearout-submit {
+	display: none !important;
 }
 .map-images-text-items ul > li {
 	float: left;
@@ -104,12 +204,13 @@
 }
 .map-item .map-more-submit {
 	position: absolute;
-	top: 1.5rem;
-	right: 1rem;
+	top: 1.3rem;
+	right: 4rem;
 	height: 2rem;
 	line-height: 2rem;
 	color: #999999;
 	cursor: pointer;
+	z-index: 5;
 }
 #search-map .am-offcanvas-bar {
 	background: #FFFFFF;
@@ -121,15 +222,6 @@
 #search-map .am-offcanvas-content a {
 	padding: 0;
 	color: #333333;
-}
-.map-item .map-more-submit {
-	position: absolute;
-	top: 1.3rem;
-	right: 4rem;
-	height: 2rem;
-	line-height: 2rem;
-	color: #999999;
-	cursor: pointer;
 }
 @media only screen and (min-width: 641px) {
 	.map-images-text-items ul > li > a:hover,
@@ -145,14 +237,21 @@
 		display: block;
 		position: relative;
 		background: transparent;
-		z-index: 0;
+		z-index: 20;
+	}
+	#search-map:has(.am-selected.am-active) {
+		z-index: 80;
 	}
 	#search-map .am-offcanvas-bar {
 		position: relative;
-		overflow-y: hidden;
+		overflow: visible;
 		transition: none;
 		transform: none;
 		width: auto;
+	}
+	#search-map .am-offcanvas-content,
+	#search-map .map-item {
+		overflow: visible;
 	}
 }
 @media only screen and (max-width: 1024px) {
@@ -174,22 +273,37 @@
 		border: 0;
 		background: #f0f0f0;
 	}
+	.map-item > .map-brand-container,
+	.map-item > .map-category-container,
+	.map-item > .screening-price-container,
+	.map-item > .goods-place-origin-container,
+	.map-item > .map-params-spec-row,
+	.map-item .brand-info {
+		flex-direction: column;
+	}
 	.map-item .map-left,
 	.map-item .map-right {
-		float: none;
+		flex: none;
 		width: 100%;
 	}
 	.map-item .map-right {
 		background: #FFFFFF;
 	}
-	.map-item .map-left {
+	/* 手机标题行统一高度；品牌不再用 PC 的 5.6rem */
+	.map-item .map-left,
+	.map-brand-container .map-left {
 		line-height: 3.6rem !important;
+		text-align: left !important;
+		padding: 0 5rem 0 1rem;
+		box-sizing: border-box;
 	}
 	.map-item > li > a:first-child {
 		border-bottom: 0.2rem solid #e1e1e1;
 	}
+	/* 「更多」相对整行定位到标题行最右侧（已移出 map-right，不会被 overflow 裁切） */
 	.map-item .map-more-submit {
-		top: 0.7rem;
+		top: 0.8rem;
+		right: 1rem;
 	}
 	.map-item > li:first-child p {
 		padding: 1.5rem 0 1.5rem 0;
@@ -202,9 +316,6 @@
 	.map-images-text-items,
 	.map-text-items {
 		padding-right: 1rem;
-	}
-	.map-item .map-more-submit {
-		right: 2rem;
 	}
 	.map-item > li {
 		margin-bottom: 1rem;
@@ -387,4 +498,52 @@
 .pagination-margin-top li a {
 	border: 0.1rem solid #d9d9d9;
 	background: #FFFFFF;
+}
+
+/**
+ * 列表加载遮罩（保留原内容，盖一层加载中）
+ */
+.search-goods-panel {
+	position: relative;
+	min-height: 12rem;
+}
+.search-goods-loading-mask {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 20;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	/* 中心略白，四周渐隐到透明，避免贴边硬边框感 */
+	background: radial-gradient(
+		ellipse 85% 75% at 50% 45%,
+		rgba(255, 255, 255, 0.55) 0%,
+		rgba(255, 255, 255, 0.32) 42%,
+		rgba(255, 255, 255, 0.12) 68%,
+		rgba(255, 255, 255, 0) 100%
+	);
+}
+.search-goods-loading-mask.am-hide {
+	display: none !important;
+}
+.search-goods-loading-inner {
+	text-align: center;
+	color: #666;
+	padding: 1.2rem 1.6rem;
+	background: rgba(255, 255, 255, 0.92);
+	border: 0.1rem solid rgba(0, 0, 0, 0.06);
+	border-radius: 0.4rem;
+	box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.08);
+}
+.search-goods-loading-inner > i {
+	font-size: 2.4rem;
+	color: #666;
+}
+.search-goods-loading-inner > p {
+	margin: 0.8rem 0 0 0;
+	font-size: 1.4rem;
+	line-height: 1.4;
 }

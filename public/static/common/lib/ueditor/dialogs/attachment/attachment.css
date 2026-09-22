@@ -554,7 +554,7 @@
 #online #leftCategory .category-search-input {
     height: 22px;
     line-height: 22px;
-    width: calc(100% - 68px);
+    width: calc(100% - 75px);
     margin-left: 10px;
 }
 #online #leftCategory .category-search-submit {
@@ -863,7 +863,7 @@ i.file-preview.file-type-psd{
 }
 #search-input {
     padding: 4px 5px;
-    width: calc(100% - 76px);
+    width: calc(100% - 100px);
     margin-right: 0;
 }
 #search-input::placeholder {

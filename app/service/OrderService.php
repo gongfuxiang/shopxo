@@ -26,6 +26,7 @@ use app\service\OrderCurrencyService;
 use app\service\WarehouseService;
 use app\service\SystemService;
 use app\service\OtherHandleService;
+use app\service\I18nService;
 
 /**
  * 订单服务层
@@ -673,27 +674,43 @@ class OrderService
      */
     public static function UserOrderPayUnderLine($pay_log_no)
     {
-        // 是否开启线下支付订单状态正常进行
-        if(MyC('common_is_under_line_order_normal') == 1)
+        // 支付订单数据
+        $pay_data = self::OrderPayLogValueList($pay_log_no);
+        if($pay_data['code'] != 0)
         {
-            // 支付订单数据
-            $pay_data = self::OrderPayLogValueList($pay_log_no);
-            if($pay_data['code'] != 0)
+            return $pay_data;
+        }
+
+        // 订单支付日志已支付则直接返回
+        if($pay_data['data']['pay_log_data']['status'] == 1)
+        {
+            return DataReturn(MyLang('operate_success'), 0);
+        }
+
+        // 启动事务
+        Db::startTrans();
+
+        // 捕获异常
+        try {
+            // 判定线下支付是否直接支付成功（钩子返回 true 则订单直接支付完成）
+            $is_direct_success = false;
+            // 线下支付处理钩子（事务内触发，钩子可在此占用资源，失败回滚保证一致性）
+            $hook_name = 'plugins_service_order_user_under_line_begin_handle';
+            $ret = EventReturnHandle(MyEventTrigger($hook_name, [
+                'hook_name'          => $hook_name,
+                'is_backend'         => false,
+                'pay_log_data'       => $pay_data['data']['pay_log_data'],
+                'order_list'         => $pay_data['data']['order_list'],
+                'is_direct_success'  => &$is_direct_success,
+            ]));
+            if(isset($ret['code']) && $ret['code'] != 0)
             {
-                return $pay_data;
+                throw new \Exception($ret['msg']);
             }
 
-            // 订单支付日志已支付则直接返回
-            if($pay_data['data']['pay_log_data']['status'] == 1)
+            // 是否开启线下支付订单状态正常进行
+            if(MyC('common_is_under_line_order_normal') == 1 || $is_direct_success === true)
             {
-                return DataReturn(MyLang('operate_success'), 0);
-            }
-
-            // 启动事务
-            Db::startTrans();
-
-            // 捕获异常
-            try {
                 // 更新订单状态
                 $order_ids = array_column($pay_data['data']['order_list'], 'id');
                 $upd_data = [
@@ -705,12 +722,35 @@ class OrderService
                     throw new \Exception(MyLang('common_service.order.order_update_fail_tips'));
                 }
 
+                // 判定直接支付成功时，同步更新订单支付状态字段
+                $direct_payment_id = 0;
+                if($is_direct_success === true)
+                {
+                    $direct_payment = PaymentService::PaymentData(['where'=>['payment'=>$pay_data['data']['pay_log_data']['payment']]]);
+                    $direct_payment_id = empty($direct_payment['id']) ? 0 : intval($direct_payment['id']);
+                }
+
                 // 循环处理订单
                 foreach($pay_data['data']['order_list'] as $order)
                 {
                     if(!self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], MyLang('common_service.order.user_under_line_pay_history_desc'), 0, MyLang('system_title')))
                     {
                         throw new \Exception(MyLang('common_service.order.order_status_history_insert_fail_tips').'['.$order['id'].']');
+                    }
+                    // 支持成功的情况下更新支付相关的字段数据
+                    if($is_direct_success === true)
+                    {
+                        if(Db::name('Order')->where(['id'=>$order['id']])->update([
+                            'pay_status'    => 1,
+                            'pay_price'     => $order['total_price'],
+                            'pay_time'      => time(),
+                            'payment_id'    => $direct_payment_id,
+                            'is_under_line' => 1,
+                            'upd_time'      => time(),
+                        ]) === false)
+                        {
+                            throw new \Exception(MyLang('common_service.order.order_update_fail_tips').'['.$order['id'].']');
+                        }
                     }
                 }
 
@@ -723,10 +763,13 @@ class OrderService
                 // 完成
                 Db::commit();
                 return DataReturn(MyLang('pay_success'), 0);
-            } catch(\Exception $e) {
-                Db::rollback();
-                return DataReturn($e->getMessage(), -1);
             }
+
+            // 非直接支付成功，回滚钩子可能产生的写操作
+            Db::rollback();
+        } catch(\Exception $e) {
+            Db::rollback();
+            return DataReturn($e->getMessage(), -1);
         }
         return DataReturn(MyLang('common_service.order.order_submit_await_confirm_tips'), -8888);
     }
@@ -1893,8 +1936,9 @@ class OrderService
                     // 商品封面图片
                     $v['images'] = empty($v['images']) ? '' : ResourcesService::AttachmentPathViewHandle($v['images']);
 
-                    // 规格
+                    // 规格（spec_text快照默认语言、spec_show当前语言展示：按key翻译、商品删除或未翻译回退快照）
                     $v['spec_text'] = '';
+                    $v['spec_show'] = [];
                     if(empty($v['spec']))
                     {
                         $v['spec'] = '';
@@ -1904,8 +1948,9 @@ class OrderService
                         {
                             $v['spec_text'] = implode('，', array_map(function($spec)
                             {
-                                return $spec['type'].':'.$spec['value'];
+                                return (isset($spec['type']) ? $spec['type'] : '').':'.(isset($spec['value']) ? $spec['value'] : '');
                             }, $v['spec']));
+                            $v['spec_show'] = \app\service\I18nService::SpecShowData($v['goods_id'], $v['spec']);
                         }
                     }
 
@@ -2215,14 +2260,38 @@ class OrderService
      * @date    2019-11-26
      * @desc    description
      * @param   [array]          $order_ids    [订单id]
+     * @param   [array]          $params       [输入参数（is_i18n=1 强制按当前语言替换备注，含后台）]
      */
-    public static function OrderExpressData($order_ids)
+    public static function OrderExpressData($order_ids, $params = [])
     {
         $data = [];
         $temp = Db::name('OrderExpress')->where(['order_id'=>$order_ids])->select()->toArray();
         if(!empty($temp) && is_array($temp))
         {
-            $express_list = ExpressService::ExpressData(array_unique(array_filter(array_column($temp, 'express_id'))));
+            // 快递备注多语言（字段键 note_{快递id}_{单号md5}；business_id=订单id）
+            $is_i18n = !empty($params['is_i18n']) ? I18nService::IsHandle(true) : I18nService::IsHandle();
+            if($is_i18n)
+            {
+                $lang = I18nService::CurrentLang();
+                $i18n_values = I18nService::ValuesBatch('order_express', array_unique(array_filter(array_column($temp, 'order_id'))));
+                if(!empty($i18n_values))
+                {
+                    foreach($temp as &$tv)
+                    {
+                        if(!empty($tv['note']) && is_string($tv['note']) && !empty($tv['order_id']))
+                        {
+                            $ck = I18nService::OrderExpressNoteField($tv['express_id'] ?? 0, $tv['express_number'] ?? '');
+                            if($ck !== '' && !empty($i18n_values[$tv['order_id']][$ck][$lang]))
+                            {
+                                $tv['note'] = $i18n_values[$tv['order_id']][$ck][$lang];
+                            }
+                        }
+                    }
+                    unset($tv);
+                }
+            }
+
+            $express_list = ExpressService::ExpressData(array_unique(array_filter(array_column($temp, 'express_id'))), ['is_i18n'=>!empty($params['is_i18n']) ? 1 : 0]);
             foreach($temp as $v)
             {
                 // 快递信息处理
@@ -2593,11 +2662,64 @@ class OrderService
         $ret = self::OrderDeliveryHandle($params);
         if($ret['code'] == 0)
         {
+            // 快递备注多语言（字段键 note_{快递id}_{单号md5}、business_id=订单id）
+            $order_id = empty($params['id']) ? 0 : intval($params['id']);
+            if($order_id > 0)
+            {
+                $i18n_data = I18nService::RequestData($params);
+                if($i18n_data !== null)
+                {
+                    I18nService::SaveData('order_express', $order_id, $i18n_data);
+                }
+                // 清理已移除快递对应的备注翻译
+                self::OrderExpressNoteI18nCleanup($order_id, $params);
+            }
             Db::commit();
         } else {
             Db::rollback();
         }
         return $ret;
+    }
+
+    /**
+     * 清理订单快递备注多语言（仅保留当前快递列表对应字段键）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-09
+     * @param   [int]            $order_id [订单id]
+     * @param   [array]          $params   [含 express_data]
+     */
+    public static function OrderExpressNoteI18nCleanup($order_id, $params = [])
+    {
+        $order_id = intval($order_id);
+        if($order_id <= 0)
+        {
+            return;
+        }
+        $express_data = empty($params['express_data']) ? [] : $params['express_data'];
+        if(!is_array($express_data))
+        {
+            $express_data = json_decode(urldecode(htmlspecialchars_decode($express_data)), true);
+        }
+        $keep = [];
+        if(!empty($express_data) && is_array($express_data))
+        {
+            foreach($express_data as $ev)
+            {
+                $field = I18nService::OrderExpressNoteField($ev['express_id'] ?? 0, $ev['express_number'] ?? '');
+                if($field !== '')
+                {
+                    $keep[$field] = 1;
+                }
+            }
+        }
+        $query = Db::name('I18nValue')->where(['table_name'=>'order_express', 'business_id'=>$order_id])->whereLike('field', 'note\_%');
+        if(!empty($keep))
+        {
+            $query->where('field', 'not in', array_keys($keep));
+        }
+        $query->delete();
     }
 
     /**

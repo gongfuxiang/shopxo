@@ -81,6 +81,10 @@ class Site extends Base
         // 公共数据
         $assign = $this->CurrentViewInit();
 
+        // 缺失配置补齐（展示模式隐藏价格）
+        ConfigService::ConfigEnsure('common_exhibition_mode_hide_price', '0');
+        ConfigService::ConfigEnsure('common_exhibition_mode_hide_price_text', '联系客服');
+
         // 配置信息
         $data = ConfigService::ConfigList();
         $assign['data'] = $data;
@@ -215,6 +219,8 @@ class Site extends Base
             'common_deduction_inventory_rules_list'      => MyConst('common_deduction_inventory_rules_list'),
             // 增加销量规则
             'common_sales_count_inc_rules_list'          => MyConst('common_sales_count_inc_rules_list'),
+            // 商品详情规格内页展示
+            'common_goods_detail_spec_page_show_list'    => MyConst('common_goods_detail_spec_page_show_list'),
             // 首页商品排序规则
             'common_goods_order_by_type_list'            => MyConst('common_goods_order_by_type_list'),
             'common_data_order_by_rule_list'             => MyConst('common_data_order_by_rule_list'),
@@ -317,6 +323,8 @@ class Site extends Base
 
             // 站点类型
             case 'sitetype' :
+                ConfigService::ConfigEnsure('common_exhibition_mode_hide_price', '0');
+                ConfigService::ConfigEnsure('common_exhibition_mode_hide_price_text', '联系客服');
                 // 站点类型
                 $params['common_site_type'] = empty($params['common_site_type']) ? '' : (is_array($params['common_site_type']) ? json_encode($params['common_site_type'], JSON_UNESCAPED_UNICODE) : $params['common_site_type']);
 
@@ -360,8 +368,9 @@ class Site extends Base
 
                     // 订单
                     case 'order' :
-                        $field_list[] = 'common_buy_datetime_info';
-                        $field_list[] = 'common_buy_extraction_contact_info';
+                        // 下单指定时间/联系信息：三态单选（0关闭、1选择或填写、2必选或必填）
+                        $params['common_buy_datetime_info'] = ResourcesService::BuyChoiceModeFromConfig(isset($params['common_buy_datetime_info']) ? $params['common_buy_datetime_info'] : 0);
+                        $params['common_buy_extraction_contact_info'] = ResourcesService::BuyChoiceModeFromConfig(isset($params['common_buy_extraction_contact_info']) ? $params['common_buy_extraction_contact_info'] : 0);
                         $params['common_default_payment'] = empty($params['common_default_payment']) ? '' : json_encode($params['common_default_payment'], JSON_UNESCAPED_UNICODE);
                         // 订单追溯数据处理
                         $order_trace_source_config = [];

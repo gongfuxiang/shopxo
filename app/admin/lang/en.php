@@ -163,13 +163,15 @@ return [
         ],
         // 网站设置导航
         'siteset_nav_list'                      => [
-            ['name' => 'Home', 'type' => 'index'],
+            ['name' => 'Base Config', 'type' => 'index'],
+            ['name' => 'Home', 'type' => 'home'],
             ['name' => 'Search', 'type' => 'search'],
-            ['name' => 'Order', 'type' => 'order'],
             ['name' => 'Goods', 'type' => 'goods'],
             ['name' => 'Goods Category', 'type' => 'goodscategory'],
             ['name' => 'Cart', 'type' => 'cart'],
-            ['name' => 'Extensions', 'type' => 'extends'],
+            ['name' => 'Order', 'type' => 'order'],
+            ['name' => 'User Address', 'type' => 'useraddress'],
+            ['name' => 'Quick Nav', 'type' => 'quicknav'],
         ],
         // 页面基础
         'base_item_site_status_title'           => 'Site Status',
@@ -632,9 +634,9 @@ return [
         'base_nav_title'                        => 'GoodsCategory',
     ],
 
-    // 商品评论
+    // 商品评价
     'goodscomments'         => [
-        'base_nav_title'                        => 'GoodsComments',
+        'base_nav_title'                        => 'Goods Reviews',
         // 动态表格
         'form_table'                            => [
             'user'                       => 'User Info',
@@ -880,7 +882,7 @@ return [
             'express'                          => 'Express Info',
             'express_placeholder'              => 'Please enter Express Number',
             'aftersale'                        => 'New Aftersale',
-            'is_comments'                      => 'Whether the user comment',
+            'is_comments'                      => 'Whether the user reviewed',
             'confirm_time'                     => 'Confirm Time',
             'pay_time'                         => 'Payment Time',
             'delivery_time'                    => 'Delivery Time',
@@ -1377,8 +1379,8 @@ return [
     ],
 
     // 首页轮播
-    'slide'                 => [
-        'base_nav_title'                        => 'Slide',
+    'slider'                => [
+        'base_nav_title'                        => 'Slider',
         // 动态表格
         'form_table'                            => [
             'name'         => 'Name',
@@ -1736,13 +1738,13 @@ return [
                 'goodsspectemplate_saveinfo'        => 'Goods spec add/edit page',
                 'goodsspectemplate_save'            => 'Goods spec add/edit',
                 'goodsspectemplate_detail'          => 'Goods spec details',
-                'goodscomments_detail'              => 'Goods comment details',
-                'goodscomments_index'               => 'Goods comment',
-                'goodscomments_reply'               => 'Goods comment reply',
-                'goodscomments_delete'              => 'Goods comment delete',
-                'goodscomments_statusupdate'        => 'Goods comment status update',
-                'goodscomments_saveinfo'            => 'Goods comment add/edit page',
-                'goodscomments_save'                => 'Goods comment add/edit',
+                'goodscomments_detail'              => 'Goods review details',
+                'goodscomments_index'               => 'Goods reviews',
+                'goodscomments_reply'               => 'Goods review reply',
+                'goodscomments_delete'              => 'Goods review delete',
+                'goodscomments_statusupdate'        => 'Goods review status update',
+                'goodscomments_saveinfo'            => 'Goods review add/edit page',
+                'goodscomments_save'                => 'Goods review add/edit',
                 'goodsbrowse_index'                 => 'Goods browsing',
                 'goodsbrowse_delete'                => 'Goods browse delete',
                 'goodsbrowse_detail'                => 'Goods browsing details',
@@ -1812,12 +1814,12 @@ return [
                 'themedata_detail'                 => 'Topic Data Details',
                 'themedata_goodssearch'            => 'Theme Data Product Search',
                 'themedata_articlesearch'          => 'Topic Data Article Search',
-                'slide_index'                      => 'HomePage Slide',
-                'slide_saveinfo'                   => 'Carousel add/edit page',
-                'slide_save'                       => 'Carousel add/edit',
-                'slide_statusupdate'               => 'Rotation status update',
-                'slide_delete'                     => 'Rotation delete',
-                'slide_detail'                     => 'Rotation details',
+                'slider_index'                      => 'HomePage Slide',
+                'slider_saveinfo'                   => 'Carousel add/edit page',
+                'slider_save'                       => 'Carousel add/edit',
+                'slider_statusupdate'               => 'Rotation status update',
+                'slider_delete'                     => 'Rotation delete',
+                'slider_detail'                     => 'Rotation details',
                 'screeningprice_index'             => 'Screening price',
                 'screeningprice_save'              => 'Filter price add/edit',
                 'screeningprice_delete'            => 'Filter price delete',
@@ -2068,5 +2070,14 @@ return [
             ]
         ],
     ],
+    // Admin menu search
+    'admin_menu_search' => [
+        'title'         => 'Search',
+        'placeholder'   => 'Search menus or features',
+        'input_tips'    => 'Type a keyword to search menus, features, settings and plugins',
+        'empty_tips'    => 'No matching pages',
+    ],
+    // System tutorial
+    'system_use_tutorial_title' => 'System Tutorial',
 ];
 ?>

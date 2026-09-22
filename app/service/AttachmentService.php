@@ -342,6 +342,12 @@ class AttachmentService
      */
     public static function AttachmentDelete($params = [])
     {
+        // 必须显式授权：后台管理员会话，或 Ueditor 已校验的扫码/权限标记
+        if(empty($params['admin']) && empty($params['is_power_delete']))
+        {
+            return DataReturn(MyLang('no_power_tips'), -1);
+        }
+
         // 请求参数
         $ids = empty($params['ids']) ? (empty($params['id']) ? '' : $params['id']) : $params['ids'];
         if(empty($ids))

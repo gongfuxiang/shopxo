@@ -163,13 +163,15 @@ return [
         ],
         // 网站设置导航
         'siteset_nav_list'                      => [
-            ['name' => '首頁', 'type' => 'index'],
-            ['name' => '蒐索', 'type' => 'search'],
-            ['name' => '訂單', 'type' => 'order'],
+            ['name' => '基礎配置', 'type' => 'index'],
+            ['name' => '首頁', 'type' => 'home'],
+            ['name' => '搜索', 'type' => 'search'],
             ['name' => '商品', 'type' => 'goods'],
             ['name' => '商品分類', 'type' => 'goodscategory'],
             ['name' => '購物車', 'type' => 'cart'],
-            ['name' => '擴展', 'type' => 'extends'],
+            ['name' => '訂單', 'type' => 'order'],
+            ['name' => '用戶地址', 'type' => 'useraddress'],
+            ['name' => '快捷導航', 'type' => 'quicknav'],
         ],
         // 页面基础
         'base_item_site_status_title'           => '網站狀態',
@@ -632,9 +634,9 @@ return [
         'base_nav_title'                        => '商品分類',
     ],
 
-    // 商品评论
+    // 商品评价
     'goodscomments'         => [
-        'base_nav_title'                        => '商品評論',
+        'base_nav_title'                        => '商品評價',
         // 动态表格
         'form_table'                            => [
             'user'               => '用戶資訊',
@@ -642,8 +644,8 @@ return [
             'goods'              => '基礎資訊',
             'goods_placeholder'  => '請輸入商品名稱/型號',
             'business_type'      => '業務類型',
-            'content'            => '評論內容',
-            'images'             => '評論圖片',
+            'content'            => '評價內容',
+            'images'             => '評價圖片',
             'rating'             => '評分',
             'reply'              => '回復內容',
             'is_show'            => '是否顯示',
@@ -880,7 +882,7 @@ return [
             'express'                          => '快遞資訊',
             'express_placeholder'              => '請輸入快遞單號',
             'aftersale'                        => '最新售後',
-            'is_comments'                      => '用戶是否評論',
+            'is_comments'                      => '用戶是否評價',
             'confirm_time'                     => '確認時間',
             'pay_time'                         => '支付時間',
             'delivery_time'                    => '發貨時間',
@@ -1377,7 +1379,7 @@ return [
     ],
 
     // 首页轮播
-    'slide'                 => [
+    'slider'                => [
         'base_nav_title'                        => '輪播',
         // 动态表格
         'form_table'                            => [
@@ -1608,7 +1610,7 @@ return [
         'remove_cache_title'                       => '清除緩存',
         'nav_pending_todo_order_delivery'          => '訂單待發貨',
         'nav_pending_todo_order_aftersale_audit'   => '訂單售後待確認/待稽核',
-        'nav_pending_todo_goods_comments_reply'    => '商品評論待回覆',
+        'nav_pending_todo_goods_comments_reply'    => '商品評價待回覆',
         'nav_pending_todo_user_audit'              => '用戶待稽核',
         'nav_pending_todo_empty'                   => '暫無待處理事項',
         // 商品参数
@@ -1736,13 +1738,13 @@ return [
                 'goodsspectemplate_saveinfo'        => '商品規格添加/編輯頁面',
                 'goodsspectemplate_save'            => '商品規格添加/編輯',
                 'goodsspectemplate_detail'          => '商品規格詳情',
-                'goodscomments_detail'              => '商品評論詳情',
-                'goodscomments_index'               => '商品評論',
-                'goodscomments_reply'               => '商品評論回復',
-                'goodscomments_delete'              => '商品評論删除',
-                'goodscomments_statusupdate'        => '商品評論狀態更新',
-                'goodscomments_saveinfo'            => '商品評論添加/編輯頁面',
-                'goodscomments_save'                => '商品評論添加/編輯',
+                'goodscomments_detail'              => '商品評價詳情',
+                'goodscomments_index'               => '商品評價',
+                'goodscomments_reply'               => '商品評價回復',
+                'goodscomments_delete'              => '商品評價删除',
+                'goodscomments_statusupdate'        => '商品評價狀態更新',
+                'goodscomments_saveinfo'            => '商品評價添加/編輯頁面',
+                'goodscomments_save'                => '商品評價添加/編輯',
                 'goodsbrowse_index'                 => '商品瀏覽',
                 'goodsbrowse_delete'                => '商品瀏覽删除',
                 'goodsbrowse_detail'                => '商品瀏覽詳情',
@@ -1812,12 +1814,12 @@ return [
                 'themedata_detail'                 => '主題數據詳情',
                 'themedata_goodssearch'            => '主題數據商品搜索',
                 'themedata_articlesearch'          => '主題數據文章搜索',
-                'slide_index'                      => '首頁輪播',
-                'slide_saveinfo'                   => '輪播添加/編輯頁面',
-                'slide_save'                       => '輪播添加/編輯',
-                'slide_statusupdate'               => '輪播狀態更新',
-                'slide_delete'                     => '輪播删除',
-                'slide_detail'                     => '輪播詳情',
+                'slider_index'                      => '首頁輪播',
+                'slider_saveinfo'                   => '輪播添加/編輯頁面',
+                'slider_save'                       => '輪播添加/編輯',
+                'slider_statusupdate'               => '輪播狀態更新',
+                'slider_delete'                     => '輪播删除',
+                'slider_detail'                     => '輪播詳情',
                 'screeningprice_index'             => '篩選價格',
                 'screeningprice_save'              => '篩選價格添加/編輯',
                 'screeningprice_delete'            => '篩選價格删除',
@@ -2068,5 +2070,14 @@ return [
             ]
         ],
     ],
+    // 後台菜單搜索
+    'admin_menu_search' => [
+        'title'         => '搜索功能',
+        'placeholder'   => '搜索菜單或功能',
+        'input_tips'    => '輸入關鍵字，搜索菜單、功能、配置和插件',
+        'empty_tips'    => '暫無匹配的頁面',
+    ],
+    // 系統使用教程
+    'system_use_tutorial_title' => '系統使用教程',
 ];
 ?>

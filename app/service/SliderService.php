@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\I18nService;
 use app\service\SystemService;
 use app\service\ResourcesService;
 
@@ -21,7 +22,7 @@ use app\service\ResourcesService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class SlideService
+class SliderService
 {
     /**
      * 数据保存
@@ -32,7 +33,7 @@ class SlideService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function SlideSave($params = [])
+    public static function SliderSave($params = [])
     {
         // 请求类型
         $p = [
@@ -40,14 +41,14 @@ class SlideService
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
                 'checked_data'      => '2,60',
-                'error_msg'         => MyLang('common_service.slide.form_item_name_message'),
+                'error_msg'         => MyLang('common_service.slider.form_item_name_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'describe',
                 'checked_data'      => '230',
                 'is_checked'        => 1,
-                'error_msg'         => MyLang('common_service.slide.form_item_describe_message'),
+                'error_msg'         => MyLang('common_service.slider.form_item_describe_message'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -88,7 +89,9 @@ class SlideService
 
         // 附件
         $data_fields = ['images_url'];
-        $attachment = ResourcesService::AttachmentParams($params, $data_fields);
+        $attachment = ResourcesService::AttachmentParams($params, $data_fields, [
+            'images_url' => 'slider',
+        ]);
 
         // 数据
         $data = [
@@ -108,15 +111,26 @@ class SlideService
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            if(Db::name('Slide')->insertGetId($data) > 0)
+            $data_id = Db::name('Slider')->insertGetId($data);
+            if($data_id > 0)
             {
+                $i18n_data = I18nService::RequestData($params);
+                if($i18n_data !== null)
+                {
+                    I18nService::SaveData('slider', $data_id, $i18n_data);
+                }
                 return DataReturn(MyLang('insert_success'), 0);
             }
             return DataReturn(MyLang('insert_fail'), -100);
         } else {
             $data['upd_time'] = time();
-            if(Db::name('Slide')->where(['id'=>intval($params['id'])])->update($data))
+            if(Db::name('Slider')->where(['id'=>intval($params['id'])])->update($data))
             {
+                $i18n_data = I18nService::RequestData($params);
+                if($i18n_data !== null)
+                {
+                    I18nService::SaveData('slider', intval($params['id']), $i18n_data);
+                }
                 return DataReturn(MyLang('edit_success'), 0);
             }
             return DataReturn(MyLang('edit_fail'), -100); 
@@ -132,7 +146,7 @@ class SlideService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function SlideDelete($params = [])
+    public static function SliderDelete($params = [])
     {
         // 参数是否有误
         if(empty($params['ids']))
@@ -146,8 +160,9 @@ class SlideService
         }
 
         // 删除操作
-        if(Db::name('Slide')->where(['id'=>$params['ids']])->delete())
+        if(Db::name('Slider')->where(['id'=>$params['ids']])->delete())
         {
+            I18nService::DeleteData('slider', $params['ids']);
             return DataReturn(MyLang('delete_success'), 0);
         }
         return DataReturn(MyLang('delete_fail'), -100);
@@ -161,7 +176,7 @@ class SlideService
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function SlideStatusUpdate($params = [])
+    public static function SliderStatusUpdate($params = [])
     {
         // 请求参数
         $p = [
@@ -189,7 +204,7 @@ class SlideService
         }
 
         // 数据更新
-        if(Db::name('Slide')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
+        if(Db::name('Slider')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
            return DataReturn(MyLang('edit_success'), 0);
         }
@@ -205,21 +220,21 @@ class SlideService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function SlideList($params = [])
+    public static function SliderList($params = [])
     {
         // 缓存
-        $key = SystemService::CacheKey('shopxo.cache_banner_list_key').APPLICATION_CLIENT_TYPE;
+        $key = SystemService::CacheKey('shopxo.cache_banner_list_key').APPLICATION_CLIENT_TYPE.'_'.I18nService::CacheLangKey();
         $data = MyCache($key);
         if($data === null || MyEnv('app_debug') || MyC('common_data_is_use_cache') != 1)
         {
             // 获取banner数据
-            $field = 'name,describe,images_url,event_value,event_type,platform,bg_color';
+            $field = 'id,name,describe,images_url,event_value,event_type,platform,bg_color';
             $order_by = 'sort asc,id asc';
             $where = [
                 ['is_enable', '=', 1],
             ];
             $expire_where = '(`start_time` = 0 OR `start_time` <= '.time().') AND (`end_time` = 0 OR `end_time` >= '.time().')';
-            $list = Db::name('Slide')->field($field)->where($where)->whereRaw($expire_where)->order($order_by)->select()->toArray();
+            $list = Db::name('Slider')->field($field)->where($where)->whereRaw($expire_where)->order($order_by)->select()->toArray();
             if(!empty($list))
             {
                 $data = [];
@@ -260,6 +275,9 @@ class SlideService
             // 存储缓存
             MyCache($key, $data, 180);
         }
+        // 多语言数据替换
+        I18nService::DataHandle($data, 'slider');
+
         return $data;
     }
 }

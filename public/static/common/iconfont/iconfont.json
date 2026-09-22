@@ -6,6 +6,55 @@
   "description": "1. diy, form, 小程序仅base64, TIF，（web端也可以使用这个方式）；2. web端 Base64, WOFF2, WOFF, TEF, SVG, EOT",
   "glyphs": [
     {
+      "icon_id": "10060843",
+      "name": "解锁",
+      "font_class": "unlock",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "47433111",
+      "name": "引用",
+      "font_class": "quote",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "27285487",
+      "name": "语音说话",
+      "font_class": "speak",
+      "unicode": "e799",
+      "unicode_decimal": 59289
+    },
+    {
+      "icon_id": "11372736",
+      "name": "语音",
+      "font_class": "voice",
+      "unicode": "e8c0",
+      "unicode_decimal": 59584
+    },
+    {
+      "icon_id": "11391542",
+      "name": "音频",
+      "font_class": "audio",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
+      "icon_id": "12184891",
+      "name": "附件",
+      "font_class": "annex",
+      "unicode": "e693",
+      "unicode_decimal": 59027
+    },
+    {
+      "icon_id": "12184892",
+      "name": "表情",
+      "font_class": "emoji",
+      "unicode": "e689",
+      "unicode_decimal": 59017
+    },
+    {
       "icon_id": "11654833",
       "name": "砍价",
       "font_class": "bargain",

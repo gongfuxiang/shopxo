@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\I18nService;
 use app\service\SystemService;
 use app\service\ResourcesService;
 use app\service\StoreService;
@@ -284,6 +285,9 @@ class PaymentService
      */
     public static function DataListHandle($data)
     {
+        // 多语言数据替换（仅前台非默认语言生效）
+        I18nService::DataHandle($data, 'payment');
+
         if(!empty($data) && is_array($data))
         {
             foreach($data as &$v)
@@ -470,6 +474,12 @@ class PaymentService
         $data['upd_time'] = time();
         if(Db::name('Payment')->where(['id'=>$info['id']])->update($data))
         {
+            // 多语言数据保存（隐藏域未提交则不处理）
+            $i18n_data = I18nService::RequestData($params);
+            if($i18n_data !== null)
+            {
+                I18nService::SaveData('payment', $info['id'], $i18n_data);
+            }
             return DataReturn(MyLang('edit_success'), 0);
         }
         return DataReturn(MyLang('edit_fail'), -100); 
@@ -949,6 +959,14 @@ class PaymentService
         // 删除入口文件
         self::PaymentEntranceDelete(['payment' => $payment]);
 
+        // 多语言数据删除（按支付标识匹配的记录）
+        $payment_i18n_ids = Db::name('I18nValue')->where(['table_name'=>'payment'])->whereIn('business_id', function($query) use($payment) {
+            $query->table('sxo_payment')->where('payment', $payment)->field('id');
+        })->column('business_id');
+        if(!empty($payment_i18n_ids))
+        {
+            I18nService::DeleteData('payment', $payment_i18n_ids);
+        }
         return DataReturn(MyLang('delete_success'), 0);
     }
 
