@@ -128,8 +128,8 @@ class PackageUpgradeService
                 $ret = DataReturn(MyLang('common_service.pluginsupgrade.plugins_type_undefined_tips').'['.$params['plugins_type'].']', -1);
         }
 
-        // 移除session
-        MySession($params['key'], null);
+        // 移除缓存
+        MyCache($params['key'], null);
 
         // 删除本地文件
         \base\FileUtil::UnlinkFile($res['url']);
@@ -154,7 +154,7 @@ class PackageUpgradeService
     public static function DownloadHandle($key)
     {
         // 获取下载地址
-        $url = MySession($key);
+        $url = MyCache($key);
         if(empty($url))
         {
             return DataReturn(MyLang('common_service.pluginsupgrade.download_url_empty_tips'), -1);
@@ -197,7 +197,7 @@ class PackageUpgradeService
         if(!empty($ret) && isset($ret['code']) && $ret['code'] == 0)
         {
             $key = md5($ret['data']);
-            MySession($key, $ret['data']);
+            MyCache($key, $ret['data'], 600);
             $ret['data'] = $key;
         }
         return $ret;
