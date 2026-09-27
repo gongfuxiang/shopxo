@@ -49,7 +49,7 @@
                 <th>{{:MyLang('operate_title')}}</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody data-i18n-dynamic="1">
             {{if !empty($parameters) and is_array($parameters)}}
                 {{foreach $parameters as $pk=>$pv}}
                     <tr>
@@ -63,7 +63,7 @@
                             {{/if}}
                         </td>
                         <td>
-                            <input type="text" name="parameters_name[{{$pk}}]" placeholder="{{:MyLang('common.form_goods_params_params_name')}}" value="{{$pv.name}}" data-validation-message="{{:MyLang('common.form_goods_params_params_message')}}" maxlength="160" class="am-radius" data-is-clearout="0" required />
+                            <input type="text" name="parameters_name[{{$pk}}]" data-i18n="1" placeholder="{{:MyLang('common.form_goods_params_params_name')}}" value="{{$pv.name}}" data-validation-message="{{:MyLang('common.form_goods_params_params_message')}}" maxlength="160" class="am-radius" data-is-clearout="0" required />
                         </td>
                         <td class="am-text-left">
                             <input name="parameters_required[{{$pk}}]" value="1" type="checkbox" data-am-switch {{if (isset($pv['required']) and $pv['required'] eq 1) or !isset($pv['required'])}}checked="true"{{/if}} />
@@ -79,9 +79,9 @@
                         </td>
                         <td class="parameters-value-content">
                             {{if isset($pv['data_type']) and $pv['data_type'] eq 0}}
-                                <input type="text" name="parameters_value[{{$pk}}]" placeholder="{{:MyLang('common.form_goods_params_value_name')}}" value="{{$pv.value}}" maxlength="160" data-validation-message="{{:MyLang('common.form_goods_params_value_message')}}" class="am-radius" data-is-clearout="0" />
+                                <input type="text" name="parameters_value[{{$pk}}]" data-i18n="1" placeholder="{{:MyLang('common.form_goods_params_value_name')}}" value="{{$pv.value}}" maxlength="160" data-validation-message="{{:MyLang('common.form_goods_params_value_message')}}" class="am-radius" data-is-clearout="0" />
                             {{else /}}
-                                <textarea row="8" name="parameters_value[{{$pk}}]" placeholder="{{:MyLang('common.form_goods_params_value_many_name')}}" maxlength="3000" data-validation-message="{{:MyLang('common.form_goods_params_value_message')}}" class="am-radius" data-is-clearout="0">{{if is_array($pv['value'])}}{{:implode("\\n", $pv['value'])}}{{else /}}{{$pv.value}}{{/if}}</textarea>
+                                <textarea row="8" name="parameters_value[{{$pk}}]" data-i18n="1" placeholder="{{:MyLang('common.form_goods_params_value_many_name')}}" maxlength="3000" data-validation-message="{{:MyLang('common.form_goods_params_value_message')}}" class="am-radius" data-is-clearout="0">{{if is_array($pv['value'])}}{{:implode("\\n", $pv['value'])}}{{else /}}{{$pv.value}}{{/if}}</textarea>
                             {{/if}}
                         </td>
                         <td>

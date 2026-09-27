@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\I18nService;
 use app\service\ResourcesService;
 
 /**
@@ -103,8 +104,9 @@ class ExpressService
      * @date    2018-09-19
      * @desc    description
      * @param   [array|int]          $express_ids [快递id]
+     * @param   [array]              $params      [输入参数（is_i18n=1 强制按当前语言替换名称）]
      */
-    public static function ExpressData($express_ids = 0)
+    public static function ExpressData($express_ids = 0, $params = [])
     {
         if(empty($express_ids))
         {
@@ -118,7 +120,7 @@ class ExpressService
         }
         if(!empty($express_ids))
         {
-            $data = self::DataHandle(Db::name('Express')->where(['id'=>$express_ids])->column('id,name,website_url,icon', 'id'));
+            $data = self::DataHandle(Db::name('Express')->where(['id'=>$express_ids])->column('id,name,website_url,icon', 'id'), !empty($params['is_i18n']));
         }
 
         // id数组则直接返回
@@ -146,7 +148,7 @@ class ExpressService
             $where['is_enable'] = intval($params['is_enable']);
         }
         $data = Db::name('Express')->where($where)->field('id,icon,name,sort,is_enable')->order('sort asc')->select()->toArray();
-        return self::DataHandle($data);
+        return self::DataHandle($data, !empty($params['is_i18n']));
     }
 
     /**
@@ -156,10 +158,14 @@ class ExpressService
      * @version 1.0.0
      * @date    2018-09-06
      * @desc    description
-     * @param   [array]          $data [二维数组]
+     * @param   [array]          $data     [二维数组]
+     * @param   [boolean]        $is_force [是否强制多语言替换]
      */
-    public static function DataHandle($data)
+    public static function DataHandle($data, $is_force = false)
     {
+        // 多语言数据替换（默认仅前台非默认语言；is_force 可含后台查看场景）
+        I18nService::DataHandle($data, 'express', $is_force);
+
         if(!empty($data) && is_array($data))
         {
             foreach($data as &$v)
@@ -264,6 +270,11 @@ class ExpressService
         }
 
         $res = self::DataHandle([$data]);
+        $i18n_data = I18nService::RequestData($params);
+        if($i18n_data !== null)
+        {
+            I18nService::SaveData('express', $data['id'], $i18n_data);
+        }
         return DataReturn(MyLang('operate_success'), 0, $res[0]);
     }
 
@@ -299,6 +310,7 @@ class ExpressService
         // 开始删除
         if(Db::name('Express')->where(['id'=>intval($params['id'])])->delete())
         {
+            I18nService::DeleteData('express', $params['ids']);
             return DataReturn(MyLang('delete_success'), 0);
         }
         return DataReturn(MyLang('delete_fail'), -100);

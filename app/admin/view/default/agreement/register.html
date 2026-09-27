@@ -10,19 +10,14 @@
             'url'       => 'admin/agreement/index'
         ])}}
         <!-- form start -->
-        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/agreement/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/agreement/index', ['type'=>$type])}}">
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/agreement/save')}}" method="POST" data-i18n-table="config" request-type="ajax-view" request-value="{{:MyUrl('admin/agreement/index', ['type'=>$type])}}">
             <div class="nav-content">
                 <!-- table tips start -->
                 {{:ModuleInclude('agreement/tips')}}
                 <!-- table tips end -->
                 <div class="am-form-group">
-                    <div class="am-flex am-flex-justify-between am-flex-items-center">
-                        <label><span class="am-form-group-label-tips am-margin-left-0">{{$data.common_agreement_userregister.describe}}</span></label>
-                        <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" class="am-btn am-btn-primary-light-plain am-radius am-btn-xs am-border-0" target="_blank" rel="noopener noreferrer">
-                            <span>{{:MyLang('agreement.view_detail_name')}}</span>
-                        </a>
-                    </div>
-                    <textarea class="am-radius am-validate" name="{{$data.common_agreement_userregister.only_tag}}" id="editor-tag" data-validation-message="{{$data.common_agreement_userregister.error_tips}}">{{if !empty($data)}}{{$data.common_agreement_userregister.value|raw}}{{/if}}</textarea>
+                    <label><span class="am-form-group-label-tips am-margin-left-0">{{$data.common_agreement_userregister.describe}}</span></label>
+                    <textarea class="am-radius am-validate" name="{{$data.common_agreement_userregister.only_tag}}" data-i18n="1" data-i18n-type="editor" data-i18n-label="{{$nav_name}}" id="editor-tag" data-validation-message="{{$data.common_agreement_userregister.error_tips}}">{{if !empty($data)}}{{$data.common_agreement_userregister.value|raw}}{{/if}}</textarea>
                 </div>
             </div>
             <div class="am-form-popup-submit">
@@ -30,6 +25,10 @@
                     <i class="am-icon-save"></i>
                     <span>{{:MyLang('save_title')}}</span>
                 </button>
+                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-left-sm" target="_blank" rel="noopener noreferrer">
+                    <i class="am-icon-eye"></i>
+                    <span>{{:MyLang('agreement.view_detail_name')}}</span>
+                </a>
             </div>
         </form>
         <!-- form end -->

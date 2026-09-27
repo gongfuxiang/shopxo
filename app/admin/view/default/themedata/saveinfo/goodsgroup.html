@@ -13,7 +13,7 @@
         <!-- nav end -->
 
         <!-- form start -->
-        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/themedata/save')}}" method="POST" request-type="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}ajax-url{{else /}}ajax-reload{{/if}}" request-value="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}{{:MyUrl('admin/themedata/index', $params)}}{{else /}}parent{{/if}}">
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" data-i18n-table="theme_data" data-i18n-id="{{if !empty($data['id'])}}{{$data.id}}{{/if}}" action="{{:MyUrl('admin/themedata/save')}}" method="POST" request-type="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}ajax-url{{else /}}ajax-reload{{/if}}" request-value="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}{{:MyUrl('admin/themedata/index', $params)}}{{else /}}parent{{/if}}">
             {{:ModuleInclude('public/nav_switch_btn', [
                 'nav_data' => [
                     [

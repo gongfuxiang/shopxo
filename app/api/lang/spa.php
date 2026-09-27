@@ -24,7 +24,7 @@ return [
     ],
     // 订单管理
     'order'             => [
-        'form_you_have_commented_tips'          => 'Ya has comentado',
+        'form_you_have_commented_tips'          => 'Ya has evaluado',
     ],
 
     // 商品动态表格

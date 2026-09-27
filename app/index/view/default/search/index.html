@@ -45,12 +45,17 @@
         {{/foreach}}
     {{/if}}
 
-    <div class="search-container am-u-sm-12 am-u-md-12 am-padding-left-0 am-padding-right-0" data-category-id="{{if !empty($params['category_id'])}}{{$params.category_id}}{{/if}}" data-brand-id="{{if !empty($params['brand_id'])}}{{$params.brand_id}}{{/if}}">
+    <div class="search-container am-u-sm-12 am-u-md-12 am-padding-left-0 am-padding-right-0"
+         data-category-id="{{if !empty($params['category_id'])}}{{$params.category_id}}{{/if}}"
+         data-brand-id="{{if !empty($params['brand_id'])}}{{$params.brand_id}}{{/if}}"
+         data-ajax-url="{{:MyUrl('index/search/goodslist')}}"
+         data-map-filter-url="{{:MyUrl('index/search/mapfilter')}}"
+         data-layout="{{$list_layout_value}}">
         <!-- 手机模式下基础信息+搜索条件按钮 -->
         <div class="map-base-tips am-nbfc am-padding-horizontal-xs am-padding-vertical-sm am-show-sm">
             <p class="am-fl">
                 <span>{{:MyLang('search.filter_out_first_text')}}</span>
-                <strong class="map-result-count am-text-danger">{{$data_total}}</strong>
+                <strong class="map-result-count am-text-danger">0</strong>
                 <span>{{:MyLang('search.filter_out_last_data_text')}}</span>
             </p>
             <button class="am-btn am-btn-primary am-btn-xs am-radius am-icon-filter map-offcanvas-submit" data-am-offcanvas="{target: '#search-map'}"></button>
@@ -114,22 +119,20 @@
             {{/foreach}}
         {{/if}}
 
-        <!-- 数据列表 -->
-        {{if !empty($data_list)}}
-            {{if $list_layout_value eq 1}}
-                {{:ModuleInclude('module/goods/list/base', [
-                    'goods_list'  => $data_list,
-                    'type'        => 'search',
-                ])}}
-            {{else /}}
-                {{:ModuleInclude('module/goods/grid/base', [
-                    'goods_list'  => $data_list,
-                    'type'        => 'search',
-                ])}}
-            {{/if}}
-        {{else /}}
-            {{:ModuleInclude('public/not_data')}}
-        {{/if}}
+        <!-- 数据列表（AJAX） -->
+        <div class="search-goods-panel" id="search-goods-panel">
+            <div class="search-goods-list" id="search-goods-list">
+                <div class="table-no"><i class="am-icon-spinner am-icon-pulse"></i></div>
+            </div>
+            <!-- 分页 -->
+            <div class="am-nbfc am-margin-top-sm search-goods-page" id="search-goods-page"></div>
+            <div class="search-goods-loading-mask am-hide">
+                <div class="search-goods-loading-inner">
+                    <i class="am-icon-spinner am-icon-pulse"></i>
+                    <p>{{:MyLang('page_common.loading_tips')}}</p>
+                </div>
+            </div>
+        </div>
 
         <!-- 搜索页面数据容器底部钩子 -->
         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -144,11 +147,6 @@
                 {{/if}}
             {{/foreach}}
         {{/if}}
-
-        <!-- 分页 -->
-        <div class="am-nbfc am-margin-top-sm">
-            {{$page_html|raw}}
-        </div>
     </div>
 
     <!-- 搜索页面顶部内部结构里面钩子 -->

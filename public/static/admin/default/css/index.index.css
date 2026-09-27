@@ -488,3 +488,38 @@
         color: var(--color-main) !important;
     }
 }
+
+.admin-menu-search-panel {
+    width: 36rem;
+    max-width: calc(100vw - 2rem);
+    padding: 1rem;
+    line-height: normal;
+}
+.admin-menu-search-list {
+    max-height: 32rem;
+    overflow-y: auto;
+    margin-top: 0.6rem;
+}
+.admin-menu-search-list li {
+    border: 0;
+    padding: 0;
+}
+.admin-menu-search-list li a {
+    display: block;
+    padding: 1rem;
+    color: #333;
+}
+.admin-menu-search-list li a:hover {
+    background: rgba(0, 0, 0, 0.04);
+    color: var(--color-main);
+}
+.admin-menu-search-list .name {
+    display: block;
+    font-size: 1.4rem;
+}
+.admin-menu-search-list .path {
+    display: block;
+    margin-top: 0.2rem;
+    color: #999;
+    font-size: 1.2rem;
+}

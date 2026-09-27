@@ -138,6 +138,19 @@
                     </div>
                 </div>
 
+                {{if !empty($data['common_goods_detail_spec_page_show'])}}
+                <div class="am-form-group">
+                    <label>{{$data.common_goods_detail_spec_page_show.name}}<span class="am-form-group-label-tips">{{$data.common_goods_detail_spec_page_show.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_goods_detail_spec_page_show_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.id}}" name="{{$data.common_goods_detail_spec_page_show.only_tag}}" data-validation-message="{{$data.common_goods_detail_spec_page_show.error_tips}}" required {{if isset($data['common_goods_detail_spec_page_show']['value']) and $data['common_goods_detail_spec_page_show']['value'] eq $v['id']}}checked{{elseif !isset($data['common_goods_detail_spec_page_show']['value']) and isset($v['checked']) and $v['checked'] eq true}}checked{{/if}} data-am-ucheck /> {{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+                {{/if}}
+
                 <div class="am-form-group">
                     <label>{{$data.common_goods_cover_size_type.name}}<span class="am-form-group-label-tips">{{$data.common_goods_cover_size_type.describe}}</span></label>
                     <div class="am-radio-group">

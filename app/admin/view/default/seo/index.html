@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
         <!-- form start -->
-        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/seo/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/seo/index')}}">
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/seo/save')}}" method="POST" data-i18n-table="config" request-type="ajax-view" request-value="{{:MyUrl('admin/seo/index')}}">
             <div class="nav-content">
                 <div class="am-operate-stretch-tips">
                     <div class="title">
@@ -28,15 +28,15 @@
                 </div>
                 <div class="am-form-group">
                     <label>{{$data.home_seo_site_title.name}}<span class="am-form-group-label-tips">{{$data.home_seo_site_title.describe}}</span></label>
-                    <input type="text" name="{{$data.home_seo_site_title.only_tag}}" minlength="1" placeholder="{{$data.home_seo_site_title.name}}" data-validation-message="{{$data.home_seo_site_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_seo_site_title.value}}"{{/if}} required />
+                    <input type="text" name="{{$data.home_seo_site_title.only_tag}}" data-i18n="1" minlength="1" placeholder="{{$data.home_seo_site_title.name}}" data-validation-message="{{$data.home_seo_site_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_seo_site_title.value}}"{{/if}} required />
                 </div>
                 <div class="am-form-group">
                     <label>{{$data.home_seo_site_keywords.name}}<span class="am-form-group-label-tips">{{$data.home_seo_site_keywords.describe}}</span></label>
-                    <input type="text" name="{{$data.home_seo_site_keywords.only_tag}}" placeholder="{{$data.home_seo_site_keywords.name}}" data-validation-message="{{$data.home_seo_site_keywords.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_seo_site_keywords.value}}"{{/if}} />
+                    <input type="text" name="{{$data.home_seo_site_keywords.only_tag}}" data-i18n="1" placeholder="{{$data.home_seo_site_keywords.name}}" data-validation-message="{{$data.home_seo_site_keywords.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_seo_site_keywords.value}}"{{/if}} />
                 </div>
                 <div class="am-form-group">
                     <label>{{$data.home_seo_site_description.name}}<span class="am-form-group-label-tips">{{$data.home_seo_site_description.describe}}</span></label>
-                    <textarea rows="6" name="{{$data.home_seo_site_description.only_tag}}" class="am-radius" placeholder="{{$data.home_seo_site_description.name}}" data-validation-message="{{$data.home_seo_site_description.error_tips}}">{{if !empty($data)}}{{$data.home_seo_site_description.value}}{{/if}}</textarea>
+                    <textarea rows="6" name="{{$data.home_seo_site_description.only_tag}}" data-i18n="1" class="am-radius" placeholder="{{$data.home_seo_site_description.name}}" data-validation-message="{{$data.home_seo_site_description.error_tips}}">{{if !empty($data)}}{{$data.home_seo_site_description.value}}{{/if}}</textarea>
                 </div>
             </div>
 

@@ -35,6 +35,35 @@ class Ueditor extends Common
     {
         // 调用父类前置方法
         parent::__construct();
+
+        // 扫码上传页免登录；接口入口需用户登录（扫码上传会话除外）
+        if($this->action_name != 'scanupload' && !$this->IsAllowScanUpload())
+        {
+            IsUserLogin();
+        }
+    }
+
+    /**
+     * 是否允许扫码上传免登录
+     * @author  Devil
+     * @version 1.0.0
+     * @date    2026-09-17
+     * @return  [boolean]
+     */
+    private function IsAllowScanUpload()
+    {
+        $params = empty($this->data_request) ? input() : $this->data_request;
+        if(empty($params['upload_source']) || $params['upload_source'] != 'scanupload' || empty($params['key']))
+        {
+            return false;
+        }
+        $action = empty($params['action']) ? '' : $params['action'];
+        if(!in_array($action, ['uploadimage', 'uploadfile', 'uploadvideo', 'uploadscrawl', 'deletefile']))
+        {
+            return false;
+        }
+        $ret = UeditorService::ScanKeyIsExist($params);
+        return isset($ret['code']) && $ret['code'] == 0;
     }
 
     /**

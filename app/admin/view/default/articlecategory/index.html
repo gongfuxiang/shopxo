@@ -13,10 +13,10 @@
                     </div>
                     <div class="am-popup-bd">
                         <!-- form start -->
-                        <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/articlecategory/save')}}" method="POST" request-type="ajax-fun" request-value="CardFormSaveBack">
+                        <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/articlecategory/save')}}" method="POST" data-i18n-table="article_category" request-type="ajax-fun" request-value="CardFormSaveBack">
                             <div class="am-form-group row">
                                 <label>{{:MyLang('common_service.articlecategory.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-                                <input type="text" placeholder="{{:MyLang('common_service.articlecategory.form_item_name_message')}}" name="name" minlength="1" maxlength="60" data-validation-message="{{:MyLang('common_service.articlecategory.form_item_name_message')}}" class="am-radius" required />
+                                <input type="text" placeholder="{{:MyLang('common_service.articlecategory.form_item_name_message')}}" name="name" data-i18n="1" minlength="1" maxlength="60" data-validation-message="{{:MyLang('common_service.articlecategory.form_item_name_message')}}" class="am-radius" required />
                             </div>
                             {{:ModuleInclude('lib/sort', ['is_row'=>1])}}
                             {{:ModuleInclude('lib/is_enable', ['is_row'=>1])}}

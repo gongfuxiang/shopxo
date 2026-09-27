@@ -376,7 +376,8 @@ var utils = UE.utils = {
      * ```
      */
     makeInstance:function (obj) {
-        var noop = new Function();
+        // 避免 new Function()，兼容 CSP 禁止 unsafe-eval
+        var noop = function () {};
         noop.prototype = obj;
         obj = new noop;
         noop.prototype = null;
@@ -1322,7 +1323,8 @@ var utils = UE.utils = {
         if (window.JSON) {
             return JSON.parse(s);
         } else {
-            return (new Function("return " + utils.trim(s || '')))();
+            // 兼容旧环境且避免 new Function（CSP unsafe-eval）
+            return null;
         }
 
     },
@@ -8265,7 +8267,7 @@ UE.Editor.defaultOptions = function(editor){
                     'dataType': isJsonp ? 'jsonp':'',
                     'onsuccess':function(r){
                         try {
-                            var res = isJsonp ? r:eval("("+r.responseText+")");
+                            var res = isJsonp ? r:JSON.parse(r.responseText);
                             if(res.code == 0)
                             {
                                 utils.extend(me.options, res.data);
@@ -8328,19 +8330,22 @@ UE.Editor.defaultOptions = function(editor){
  */
 UE.ajax = function() {
 
-    //创建一个ajaxRequest对象
-    var fnStr = 'XMLHttpRequest()';
-    try {
-        new ActiveXObject("Msxml2.XMLHTTP");
-        fnStr = 'ActiveXObject(\'Msxml2.XMLHTTP\')';
-    } catch (e) {
+    //创建一个ajaxRequest对象（避免 new Function，兼容 CSP）
+    var creatAjaxRequest = function () {
         try {
-            new ActiveXObject("Microsoft.XMLHTTP");
-            fnStr = 'ActiveXObject(\'Microsoft.XMLHTTP\')'
+            return new XMLHttpRequest();
         } catch (e) {
+            try {
+                return new ActiveXObject('Msxml2.XMLHTTP');
+            } catch (e2) {
+                try {
+                    return new ActiveXObject('Microsoft.XMLHTTP');
+                } catch (e3) {
+                    return null;
+                }
+            }
         }
-    }
-    var creatAjaxRequest = new Function('return new ' + fnStr);
+    };
 
 
     /**
@@ -23435,7 +23440,7 @@ UE.plugins['catchremoteimage'] = function () {
                 //成功抓取
                 success: function (r) {
                     try {
-                        var info = ((r.status || 0) == 200 && (r.responseText || null) != null) ? eval("(" + r.responseText + ")") : null;
+                        var info = ((r.status || 0) == 200 && (r.responseText || null) != null) ? JSON.parse(r.responseText) : null;
                         if(info == null || info.code != 0)
                         {
                             return;
@@ -23553,7 +23558,7 @@ UE.plugin.register('snapscreen', function (){
 
                     function onSuccess(rs){
                         try{
-                            rs = eval("("+ rs +")");
+                            rs = JSON.parse(rs);
                             if(rs.code == 0){
                                 var opt = me.options;
                                 me.execCommand('insertimage', {
@@ -24030,7 +24035,7 @@ UE.plugin.register('autoupload', function (){
         xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         xhr.addEventListener('load', function (e) {
             try{
-                var json = (new Function("return " + utils.trim(e.target.response)))();
+                var json = JSON.parse(utils.trim(e.target.response));
                 if (json.code == 0 && json.data.url) {
                     successHandler(json.data);
                 } else {
@@ -24725,7 +24730,7 @@ UE.plugin.register('simpleupload', function (){
                         var link, json, loader,
                             body = (iframe.contentDocument || iframe.contentWindow.document).body,
                             result = body.innerText || body.textContent || '';
-                        json = (new Function("return " + result))();
+                        json = JSON.parse(result);
                         link = me.options.imageUrlPrefix + json.data.url;
                         if(json.code == 0 && json.data.url) {
                             loader = me.document.getElementById(loadingId);
@@ -29740,6 +29745,10 @@ UE.registerUI('message', function(editor) {
     });
 
     function updateHolderPos(){
+        // 实例已销毁（ready后延时的任务在destroy之后触发）、直接返回避免报错
+        if (!me.ui || !holder || !me.iframe) {
+            return;
+        }
         var toolbarbox = me.ui.getDom('toolbarbox');
         if (toolbarbox) {
             holder.style.top = toolbarbox.offsetHeight + 3 + 'px';

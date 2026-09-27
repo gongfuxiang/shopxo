@@ -25,6 +25,39 @@ class MultilingualService
     // 多语言选择缓存key
     public static $cache_key = 'multilingual_language';
 
+    // Socket/CLI 等无 HTTP 上下文时的运行时语言覆盖（优先于 cookie/session）
+    private static $runtime_lang = null;
+
+    /**
+     * 设置运行时语言（Socket 长连接按消息切换；传空则清除）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-11
+     * @param   [string|null]     $lang [语言标识，如 zh/en；null 或空字符串清除覆盖]
+     */
+    public static function SetRuntimeMultilingualValue($lang = null)
+    {
+        if($lang === null || $lang === '')
+        {
+            self::$runtime_lang = null;
+            return;
+        }
+        self::$runtime_lang = htmlspecialchars(str_replace(['.', '/'], '', strval($lang)));
+    }
+
+    /**
+     * 获取运行时语言覆盖（无则空字符串）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-11
+     */
+    public static function GetRuntimeMultilingualValue()
+    {
+        return empty(self::$runtime_lang) ? '' : self::$runtime_lang;
+    }
+
     /**
      * 获取当前默认语言信息
      * @author  Devil
@@ -174,6 +207,12 @@ class MultilingualService
      */
     public static function GetUserMultilingualValue()
     {
+        // Socket/CLI 运行时覆盖优先（且不写入下方 static，避免钉死进程）
+        if(self::$runtime_lang !== null && self::$runtime_lang !== '')
+        {
+            return self::$runtime_lang;
+        }
+
         static $user_multilingual_static_value = null;
         if(is_null($user_multilingual_static_value))
         {
@@ -245,10 +284,10 @@ class MultilingualService
                 $value = self::BrowserHttpAcceptLanguage();
             }
 
-            // 默认语言
+            // 默认语言（不缓存、早期调用session未就绪会误判为默认、后续调用重查可得到正确语言）
             if(empty($value))
             {
-                $value = MyConfig('lang.default_lang');
+                return htmlspecialchars(str_replace(['.', '/'], '', MyConfig('lang.default_lang')));
             }
             $user_multilingual_static_value = htmlspecialchars(str_replace(['.', '/'], '', $value));
         }

@@ -9,6 +9,12 @@ function GoodsBuyPoptitPcShow()
 // 规格弹窗关闭
 function GoodsBuyPoptitClose()
 {
+    // 页内直选：手机宽度下规格常显，不收起
+    if(IsGoodsSpecPageInline())
+    {
+        GoodsSpecPageInlineShow();
+        return;
+    }
     if($(window).width() < 1025)
     {
         $(document.body).css('position', 'static');
@@ -16,6 +22,17 @@ function GoodsBuyPoptitClose()
         $('.theme-popover-mask').hide();
         $('.theme-popover').slideUp(100);
     }
+}
+
+/**
+ * 页内直选规格展示（避免 resize / 关闭弹层后被 slideUp 写成 display:none）
+ */
+function GoodsSpecPageInlineShow()
+{
+    $(document.body).css('position', 'static');
+    $('.theme-signin-left').scrollTop(0);
+    $('.theme-popover-mask').hide();
+    $('.theme-popover').stop(true, true).show();
 }
 
 /**
@@ -103,7 +120,7 @@ function GoodsSelectedSpec()
         {
             $('.theme-signin-left .sku-items li.selected').each(function(k, v)
             {
-                spec.push({"type": $(this).attr('data-type-value'), "value": $(this).attr('data-value')});
+                spec.push({"key": $(this).attr('data-key') || ''});
             });
         }
     }
@@ -220,6 +237,31 @@ function BuyCartHandle(e)
         default :
             console.warn(window['lang_operate_params_error'] || '操作参数配置有误');
     }
+    return true;
+}
+
+/**
+ * 展示模式规格弹窗确认：走底部咨询按钮，不进入下单
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2026-08-23
+ * @desc    description
+ */
+function GoodsExhibitionConsultHandle()
+{
+    var $box = $('.buy-submit-container');
+    if($box.length <= 0 || $box.find('.buy-submit, .cart-submit').length > 0)
+    {
+        return false;
+    }
+    var $btn = $box.find('.plugins-chat-entry-event, [data-type="show"], [data-type="tel"], [data-type="chat"]').first();
+    if($btn.length <= 0)
+    {
+        return false;
+    }
+    GoodsBuyPoptitClose();
+    $btn.trigger('click');
     return true;
 }
 
@@ -398,7 +440,7 @@ function GoodsSpecType()
     var spec = [];
     $('.theme-signin-left .sku-items li.selected').each(function(k, v)
     {
-        spec.push({"type": $(this).attr('data-type-value'), "value": $(this).attr('data-value')})
+        spec.push({"key": $(this).attr('data-key') || ''})
     });
 
     // 开启进度条
@@ -418,17 +460,31 @@ function GoodsSpecType()
             {
                 var spec_count = spec.length;
                 var index = (spec_count > 0) ? spec_count : 0;
+                var option_base = res.data.spec_option_base || {};
                 if(index < sku_count)
                 {
                     $('.theme-signin-left .sku-items').eq(index).find('li').each(function(k, v)
                     {
                         $(this).removeClass('sku-dont-choose');
-                        var value = $(this).attr('data-value').toString();
+                        var value = String($(this).attr('data-key') || '');
                         if(res.data.spec_type.indexOf(value) == -1)
                         {
                             $(this).addClass('sku-items-disabled');
                         } else {
                             $(this).removeClass('sku-items-disabled');
+                        }
+                        // 最后一层写入卡片价格；否则清价（单层自带价保留）
+                        GoodsSpecOptionPriceFill($(this), (index == sku_count - 1) ? (option_base[value] || null) : null);
+                    });
+                    // 更后层价格清掉
+                    $('.theme-signin-left .sku-items').each(function(k, v)
+                    {
+                        if(k > index)
+                        {
+                            $(this).find('li').each(function()
+                            {
+                                GoodsSpecOptionPriceFill($(this), null);
+                            });
                         }
                     });
                 }
@@ -453,6 +509,64 @@ function GoodsSpecType()
         {
             $.AMUI.progress.done();
             Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
+        }
+    });
+}
+
+/**
+ * 是否商品详情规格页内直选
+ */
+function IsGoodsSpecPageInline()
+{
+    return parseInt($('.system-goods-detail').attr('data-spec-page-inline') || 0) == 1;
+}
+
+/**
+ * 规格选项卡片价格填充/清空（单层 data-only-level-one 不清空；仅手机页内直选展示）
+ * @param {[object]} $li   [规格 li]
+ * @param {[object]} base  [价格数据，null 表示清空]
+ */
+function GoodsSpecOptionPriceFill($li, base)
+{
+    if(($li.attr('data-only-level-one') || null) != null)
+    {
+        return;
+    }
+    var $price = $li.find('.sku-card-price');
+    if($price.length <= 0)
+    {
+        return;
+    }
+    // PC 宽屏 / 非页内直选：不写选项内价格
+    if(!IsGoodsSpecPageInline() || $(window).width() >= 1025)
+    {
+        $price.find('.price').text('');
+        $price.hide();
+        return;
+    }
+    if(base != null && (base.price || null) != null && base.price !== '')
+    {
+        $price.find('.price').text(base.price);
+        $price.show();
+    } else {
+        $price.find('.price').text('');
+        $price.hide();
+    }
+}
+
+/**
+ * 清空从某层起的规格卡片价格
+ */
+function GoodsSpecOptionPriceClearFrom(from_index)
+{
+    $('.theme-signin-left .sku-items').each(function(k, v)
+    {
+        if(k >= from_index)
+        {
+            $(this).find('li').each(function()
+            {
+                GoodsSpecOptionPriceFill($(this), null);
+            });
         }
     });
 }
@@ -715,6 +829,9 @@ $(function() {
                     }
                 });
 
+                // 后续层卡片价格清空
+                GoodsSpecOptionPriceClearFrom(index + 1);
+
                 // 数据还原
                 GoodsBaseRestore();
 
@@ -789,7 +906,13 @@ $(function() {
             // 是否登录
             if(__user_id__ != 0)
             {
-                SpecPopupShow($(this));
+                // 页内直选：规格已在详情页，直接购买/加购
+                if(IsGoodsSpecPageInline())
+                {
+                    BuyCartHandle($(this));
+                } else {
+                    SpecPopupShow($(this));
+                }
             }
         } else {
             GoodsBuyPoptitPcShow();
@@ -814,6 +937,11 @@ $(function() {
     // 确认
     $(document).on('click', '.theme-popover .confirm', function()
     {
+        // 展示模式走底部咨询按钮，不进入下单
+        if(GoodsExhibitionConsultHandle())
+        {
+            return false;
+        }
         // 是否登录
         if(__user_id__ != 0)
         {
@@ -955,7 +1083,10 @@ $(window).resize(function()
     // 规格显示/隐藏处理
     if($(window).width() < 1025)
     {
-        if(parseInt(__is_mobile__ || 0) != 1)
+        if(IsGoodsSpecPageInline())
+        {
+            GoodsSpecPageInlineShow();
+        } else if(parseInt(__is_mobile__ || 0) != 1)
         {
             GoodsBuyPoptitClose();
         }

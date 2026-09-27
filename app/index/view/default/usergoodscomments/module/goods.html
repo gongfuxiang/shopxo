@@ -7,10 +7,22 @@
                     <img src="{{$module_data.goods.images}}" alt="{{$module_data.goods.title}}" class="am-img-thumbnail am-radius am-margin-right-sm am-fl" width="35" height="35" />
                 </a>
             {{/if}}
-            <p class="am-text-truncate">
+            <p class="am-text-truncate am-margin-bottom-0">
                 <a href="{{$module_data.goods.goods_url}}" target="_blank" rel="noopener noreferrer">{{$module_data.goods.title}}</a>
             </p>
-            <p>{{$currency_symbol}}{{$module_data.goods.price}}</p>
+            <p class="am-text-grey am-text-xs am-margin-bottom-0">
+                {{if !empty($module_data['goods']['spec_text'])}}
+                    <span class="am-margin-right-sm">{{$module_data.goods.spec_text}}</span>
+                {{elseif !empty($module_data['msg']) /}}
+                    <span class="am-margin-right-sm">{{$module_data.msg}}</span>
+                {{/if}}
+                {{if isset($module_data['goods']['price']) and $module_data['goods']['price'] neq ''}}
+                    <span class="am-color-price am-margin-right-sm">{{$currency_symbol}}{{$module_data.goods.price}}</span>
+                {{/if}}
+                {{if !empty($module_data['goods']['buy_number'])}}
+                    <span>x{{$module_data.goods.buy_number}}</span>
+                {{/if}}
+            </p>
         </div>
     {{else /}}
         {{:MyLang('gods_info_abnormal_tips')}}

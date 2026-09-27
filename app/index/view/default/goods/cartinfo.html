@@ -3,7 +3,7 @@
 {{if empty($goods)}}
     {{:ModuleInclude('public/not_data')}}
 {{else /}}
-    <form class="am-form form-validation am-form-popup-fixed" method="post" action="{{:MyUrl('index/cart/save')}}" request-type="ajax-fun" request-value="GoodsCartInfoSubmitBack">
+    <form class="am-form form-validation am-form-popup-fixed" method="post" action="{{if isset($is_cart_spec) and $is_cart_spec eq 1}}{{:MyUrl('index/cart/spec')}}{{else /}}{{:MyUrl('index/cart/save')}}{{/if}}" request-type="ajax-fun" request-value="{{if isset($is_cart_spec) and $is_cart_spec eq 1}}GoodsCartSpecSubmitBack{{else /}}GoodsCartInfoSubmitBack{{/if}}">
         <div class="goods-spec-container am-padding-sm">
             <h2>
                 <img src="{{$goods.images}}" width="24" height="24" class="am-radius" />
@@ -20,7 +20,7 @@
                                         <div class="spec-title">{{$spec.name}}</div>
                                         <ul>
                                             {{foreach $spec.value as $keys=>$specs}}
-                                                <li class="am-radius sku-line {{if !empty($specs['images'])}} sku-line-images{{/if}} {{if $key gt 0}} sku-dont-choose{{/if}} {{if isset($specs['is_only_level_one']) and isset($specs['inventory']) and $specs['inventory'] elt 0}} sku-items-disabled{{/if}}" data-type-value="{{$spec.name}}" data-value="{{$specs.name}}" {{if !empty($specs['images'])}} data-type-images="{{$specs.images}}"{{/if}}>
+                                                <li class="am-radius sku-line {{if !empty($specs['images'])}} sku-line-images{{/if}} {{if $key gt 0}} sku-dont-choose{{/if}} {{if isset($specs['is_only_level_one']) and isset($specs['inventory']) and $specs['inventory'] elt 0}} sku-items-disabled{{/if}}" data-key="{{$specs.key}}" {{if !empty($specs['images'])}} data-type-images="{{$specs.images}}"{{/if}}>
                                                     {{if !empty($specs['images'])}}
                                                         <img src="{{$specs.images}}" class="am-radius" />
                                                     {{/if}}
@@ -45,7 +45,7 @@
                         <div class="spec-options am-margin-top-sm">
                             <div class="am-input-group am-input-group-sm number-operate">
                                 <span class="am-input-group-label am-radius stock-submit" data-type="min">-</span>
-                                <input type="number" name="stock" class="am-form-field am-text-center" value="{{$goods.buy_min_number}}" min="{{$goods.buy_min_number}}" max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-original-buy-min-number="{{$goods.buy_min_number}}" data-original-buy-max-number="{{$goods.buy_max_number}}" data-is-clearout="0" />
+                                <input type="number" name="stock" class="am-form-field am-text-center" value="{{if isset($is_cart_spec) and $is_cart_spec eq 1}}{{$cart.stock}}{{else /}}{{$goods.buy_min_number}}{{/if}}" min="{{$goods.buy_min_number}}" max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-original-buy-min-number="{{$goods.buy_min_number}}" data-original-buy-max-number="{{$goods.buy_max_number}}" data-is-clearout="0" />
                                 <span class="am-input-group-label am-radius stock-submit" data-type="add">+</span>
                             </div>
                             <div class="am-margin-top-xs stock-tips">
@@ -66,6 +66,9 @@
         <div class="am-form-popup-submit">
             <input type="hidden" name="goods_id" value="{{$goods.id}}" />
             <input type="hidden" name="spec" value="" />
+            {{if isset($is_cart_spec) and $is_cart_spec eq 1}}
+                <input type="hidden" name="id" value="{{$cart.id}}" />
+            {{/if}}
             <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs" data-am-modal-close>
                 <i class="am-icon-paint-brush"></i>
                 <span>{{:MyLang('cancel_title')}}</span>
@@ -76,9 +79,9 @@
                     <span>{{if empty($user)}}{{:MyLang('user_no_login_tips')}}{{else /}}{{if empty($buy_button['error'])}}{{:MyLang('goods_stop_sale_title')}}{{else /}}{{$buy_button.error}}{{/if}}{{/if}}</span>
                 </button>
             {{else /}}
-                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('goods_cart_title')}}'}">
-                    <i class="am-icon-opencart"></i>
-                    <span>{{:MyLang('goods_cart_title')}}</span>
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{if isset($is_cart_spec) and $is_cart_spec eq 1}}{{:MyLang('cart.change_spec_title')}}{{else /}}{{:MyLang('goods_cart_title')}}{{/if}}'}">
+                    <i class="am-icon-{{if isset($is_cart_spec) and $is_cart_spec eq 1}}check{{else /}}opencart{{/if}}"></i>
+                    <span>{{if isset($is_cart_spec) and $is_cart_spec eq 1}}{{:MyLang('cart.change_spec_title')}}{{else /}}{{:MyLang('goods_cart_title')}}{{/if}}</span>
                 </button>
             {{/if}}
         </div>
@@ -103,4 +106,93 @@ function GoodsCartInfoSubmitBack(e)
         $('form.form-validation').find('button[type="submit"]').button('reset');
     }
 }
+// 购物车改规格回调
+function GoodsCartSpecSubmitBack(e)
+{
+    $.AMUI.progress.done();
+    if(e.code == 0)
+    {
+        Prompt(e.msg, 'success');
+        setTimeout(function()
+        {
+            parent.window.location.reload();
+        }, 1000);
+    } else {
+        Prompt(e.msg);
+        $('form.form-validation').find('button[type="submit"]').button('reset');
+    }
+}
+{{if !empty($cart_appoint_spec)}}
+// 回显购物车已选规格
+(function()
+{
+    var appoint = {{:json_encode($cart_appoint_spec, JSON_UNESCAPED_UNICODE)}};
+    if(!appoint || appoint.length == 0)
+    {
+        return;
+    }
+    var timer = setInterval(function()
+    {
+        var $items = $('.goods-spec-content .sku-items');
+        if($items.length == 0)
+        {
+            return;
+        }
+        var level = -1;
+        $items.each(function(i)
+        {
+            if($(this).find('li.selected').length == 0)
+            {
+                var $first = $(this).find('li').first();
+                if(!$first.hasClass('sku-dont-choose'))
+                {
+                    level = i;
+                    return false;
+                }
+            }
+        });
+        if(level < 0)
+        {
+            // 已全部选中或等待下一层解锁
+            if($items.find('li.selected').length >= appoint.length)
+            {
+                clearInterval(timer);
+            }
+            return;
+        }
+        if(level >= appoint.length)
+        {
+            clearInterval(timer);
+            return;
+        }
+        var item = appoint[level] || {};
+        var key = item.key || '';
+        var value = item.value || '';
+        var $lis = $items.eq(level).find('li').not('.sku-dont-choose').not('.sku-items-disabled');
+        var $li = $();
+        if(key !== '')
+        {
+            $li = $lis.filter(function()
+            {
+                return String($(this).attr('data-key') || '') === String(key);
+            }).first();
+        }
+        if($li.length == 0 && value !== '')
+        {
+            $li = $lis.filter(function()
+            {
+                var text = $.trim($(this).find('span').text() || $(this).text());
+                return text === value;
+            }).first();
+        }
+        if($li.length > 0)
+        {
+            $li.trigger('click');
+        } else {
+            clearInterval(timer);
+        }
+    }, 180);
+    setTimeout(function(){ clearInterval(timer); }, 15000);
+})();
+{{/if}}
 </script>

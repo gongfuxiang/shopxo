@@ -271,9 +271,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  if (start != -1) {
 	    try {
-	      options = (new Function('',
-	        'var json = ' + string.substr(start) +
-	        '; return JSON.parse(JSON.stringify(json));'))();
+	      // CSP-safe: no new Function / eval. Support JSON and loose object literals
+	      // like {target:'#x', trigger: 'hover'} used in data-am-* attributes.
+	      var str = string.substr(start);
+	      try {
+	        options = JSON.parse(str);
+	      } catch (e1) {
+	        str = str.replace(/'([^'\\]|\\.)*'/g, function(m) {
+	          return '"' + m.slice(1, -1)
+	            .replace(/\\'/g, "'")
+	            .replace(/\\/g, '\\\\')
+	            .replace(/"/g, '\\"') + '"';
+	        }).replace(/([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*:/g, '$1"$2":');
+	        options = JSON.parse(str);
+	      }
 	    } catch (e) {
 	    }
 	  }
@@ -542,62 +553,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	/**
+	 * CSP-safe micro-template (no eval / new Function / dynamic script).
+	 * Compatible with AmazeUI Selected / Share templates (<% %>/<%= %>/<%- %>).
 	 * @see https://github.com/cho45/micro-template.js
-	 * (c) cho45 http://cho45.github.com/mit-license
 	 */
 	UI.template = function(id, data) {
 	  var me = UI.template;
 
 	  if (!me.cache[id]) {
-	    me.cache[id] = (function() {
-	      var name = id;
-	      var string = /^[\w\-]+$/.test(id) ?
-	        me.get(id) : (name = 'template(string)', id); // no warnings
-
-	      var line = 1;
-	      /* eslint-disable max-len, quotes */
-	      var body = ('try { ' + (me.variable ?
-	      'var ' + me.variable + ' = this.stash;' : 'with (this.stash) { ') +
-	      "this.ret += '" +
-	      string.
-	        replace(/<%/g, '\x11').replace(/%>/g, '\x13'). // if you want other tag, just edit this line
-	        replace(/'(?![^\x11\x13]+?\x13)/g, '\\x27').
-	        replace(/^\s*|\s*$/g, '').
-	        replace(/\n/g, function() {
-	          return "';\nthis.line = " + (++line) + "; this.ret += '\\n";
-	        }).
-	        replace(/\x11-(.+?)\x13/g, "' + ($1) + '").
-	        replace(/\x11=(.+?)\x13/g, "' + this.escapeHTML($1) + '").
-	        replace(/\x11(.+?)\x13/g, "'; $1; this.ret += '") +
-	      "'; " + (me.variable ? "" : "}") + "return this.ret;" +
-	      "} catch (e) { throw 'TemplateError: ' + e + ' (on " + name +
-	      "' + ' line ' + this.line + ')'; } " +
-	      "//@ sourceURL=" + name + "\n" // source map
-	      ).replace(/this\.ret \+= '';/g, '');
-	      /* eslint-enable max-len, quotes */
-	      var func = new Function(body);
-	      var map = {
-	        '&': '&amp;',
-	        '<': '&lt;',
-	        '>': '&gt;',
-	        '\x22': '&#x22;',
-	        '\x27': '&#x27;'
-	      };
-	      var escapeHTML = function(string) {
-	        return ('' + string).replace(/[&<>\'\"]/g, function(_) {
-	          return map[_];
-	        });
-	      };
-
-	      return function(stash) {
-	        return func.call(me.context = {
-	          escapeHTML: escapeHTML,
-	          line: 1,
-	          ret: '',
-	          stash: stash
-	        });
-	      };
-	    })();
+	    var string = /^[\w\-]+$/.test(id) ? me.get(id) : id;
+	    var ast = me._parse(me._tokenize(string || ''));
+	    me.cache[id] = function(stash) {
+	      var scope = Object.create(null);
+	      var key;
+	      if (stash) {
+	        for (key in stash) {
+	          if (Object.prototype.hasOwnProperty.call(stash, key)) {
+	            scope[key] = stash[key];
+	          }
+	        }
+	      }
+	      return me._render(ast, scope);
+	    };
 	  }
 
 	  return data ? me.cache[id](data) : me.cache[id];
@@ -610,6 +587,385 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var element = document.getElementById(id);
 	    return element && element.innerHTML || '';
 	  }
+	};
+
+	UI.template._escapeHTML = function(string) {
+	  var map = {
+	    '&': '&amp;',
+	    '<': '&lt;',
+	    '>': '&gt;',
+	    '\x22': '&#x22;',
+	    '\x27': '&#x27;'
+	  };
+	  return ('' + string).replace(/[&<>\'\"]/g, function(_) {
+	    return map[_];
+	  });
+	};
+
+	UI.template._tokenize = function(tpl) {
+	  var tokens = [];
+	  var re = /<%([\s\S]+?)%>/g;
+	  var last = 0;
+	  var m;
+	  while ((m = re.exec(tpl))) {
+	    if (m.index > last) {
+	      tokens.push({ type: 'text', value: tpl.slice(last, m.index) });
+	    }
+	    var code = m[1];
+	    if (code.charAt(0) === '=') {
+	      tokens.push({ type: 'escape', value: code.slice(1) });
+	    } else if (code.charAt(0) === '-') {
+	      tokens.push({ type: 'raw', value: code.slice(1) });
+	    } else {
+	      tokens.push({ type: 'code', value: code });
+	    }
+	    last = m.index + m[0].length;
+	  }
+	  if (last < tpl.length) {
+	    tokens.push({ type: 'text', value: tpl.slice(last) });
+	  }
+	  return tokens;
+	};
+
+	UI.template._parse = function(tokens) {
+	  var root = { type: 'block', body: [] };
+	  var stack = [root];
+
+	  function current() {
+	    return stack[stack.length - 1];
+	  }
+
+	  function pushNode(node) {
+	    var cur = current();
+	    if (cur.type === 'if' && cur._inElse) {
+	      cur.elseBody.push(node);
+	    } else {
+	      cur.body.push(node);
+	    }
+	  }
+
+	  for (var i = 0; i < tokens.length; i++) {
+	    var t = tokens[i];
+	    if (t.type !== 'code') {
+	      pushNode(t);
+	      continue;
+	    }
+
+	    var c = t.value.replace(/^\s+|\s+$/g, '');
+
+	    var fm = c.match(/^for\s*\(\s*var\s+(\w+)\s*=\s*([^;]+);\s*([^;]+);\s*([^)]+)\)\s*\{$/);
+	    if (fm) {
+	      var forNode = {
+	        type: 'for',
+	        name: fm[1],
+	        init: fm[2],
+	        cond: fm[3],
+	        step: fm[4],
+	        body: []
+	      };
+	      pushNode(forNode);
+	      stack.push(forNode);
+	      continue;
+	    }
+
+	    var vm = c.match(/^var\s+(\w+)\s*=\s*([\s\S]+)$/);
+	    if (vm) {
+	      pushNode({ type: 'var', name: vm[1], expr: vm[2] });
+	      continue;
+	    }
+
+	    var im = c.match(/^if\s*\(([\s\S]+)\)\s*\{$/);
+	    if (im) {
+	      var ifNode = { type: 'if', cond: im[1], body: [], elseBody: [], _inElse: false };
+	      pushNode(ifNode);
+	      stack.push(ifNode);
+	      continue;
+	    }
+
+	    if (/^\}\s*else\s*\{$/.test(c)) {
+	      current()._inElse = true;
+	      continue;
+	    }
+
+	    if (c === '}') {
+	      stack.pop();
+	      continue;
+	    }
+
+	    // Unsupported statement: ignore safely
+	  }
+
+	  return root;
+	};
+
+	UI.template._eval = function(expr, scope) {
+	  var me = UI.template;
+	  expr = String(expr).replace(/^\s+|\s+$/g, '');
+	  if (!expr) {
+	    return undefined;
+	  }
+
+	  function skipSpace(s, i) {
+	    while (i < s.length && /\s/.test(s.charAt(i))) {
+	      i++;
+	    }
+	    return i;
+	  }
+
+	  function parseString(s, i) {
+	    var q = s.charAt(i);
+	    var out = '';
+	    i++;
+	    while (i < s.length) {
+	      var ch = s.charAt(i);
+	      if (ch === '\\') {
+	        out += s.charAt(i + 1);
+	        i += 2;
+	        continue;
+	      }
+	      if (ch === q) {
+	        return { value: out, next: i + 1 };
+	      }
+	      out += ch;
+	      i++;
+	    }
+	    throw new Error('Template string not closed');
+	  }
+
+	  function parsePrimary(s, i) {
+	    i = skipSpace(s, i);
+	    var ch = s.charAt(i);
+
+	    if (ch === '\'' || ch === '"') {
+	      return parseString(s, i);
+	    }
+
+	    if (ch === '(') {
+	      var inner = parseTernary(s, i + 1);
+	      i = skipSpace(s, inner.next);
+	      if (s.charAt(i) !== ')') {
+	        throw new Error('Expected )');
+	      }
+	      return { value: inner.value, next: i + 1 };
+	    }
+
+	    if (/\d/.test(ch) || (ch === '.' && /\d/.test(s.charAt(i + 1)))) {
+	      var num = /^(\d+(?:\.\d+)?)/.exec(s.slice(i));
+	      return { value: parseFloat(num[1]), next: i + num[1].length };
+	    }
+
+	    if (/^[A-Za-z_$]/.test(ch)) {
+	      var id = /^[A-Za-z_$][\w$]*/.exec(s.slice(i))[0];
+	      var val;
+	      if (id === 'true') {
+	        val = true;
+	      } else if (id === 'false') {
+	        val = false;
+	      } else if (id === 'null') {
+	        val = null;
+	      } else if (id === 'undefined') {
+	        val = undefined;
+	      } else {
+	        val = scope[id];
+	      }
+	      i += id.length;
+	      // member / index access chain
+	      while (true) {
+	        i = skipSpace(s, i);
+	        if (s.charAt(i) === '.') {
+	          i++;
+	          var prop = /^[A-Za-z_$][\w$]*/.exec(s.slice(i));
+	          if (!prop) {
+	            break;
+	          }
+	          val = (val == null) ? undefined : val[prop[0]];
+	          i += prop[0].length;
+	          continue;
+	        }
+	        if (s.charAt(i) === '[') {
+	          var idx = parseTernary(s, i + 1);
+	          i = skipSpace(s, idx.next);
+	          if (s.charAt(i) !== ']') {
+	            throw new Error('Expected ]');
+	          }
+	          val = (val == null) ? undefined : val[idx.value];
+	          i++;
+	          continue;
+	        }
+	        break;
+	      }
+	      return { value: val, next: i };
+	    }
+
+	    throw new Error('Unexpected token in template expr: ' + s.slice(i));
+	  }
+
+	  function parseUnary(s, i) {
+	    i = skipSpace(s, i);
+	    if (s.charAt(i) === '!') {
+	      var u = parseUnary(s, i + 1);
+	      return { value: !u.value, next: u.next };
+	    }
+	    return parsePrimary(s, i);
+	  }
+
+	  function parseCompare(s, i) {
+	    var left = parseUnary(s, i);
+	    i = skipSpace(s, left.next);
+	    var op = null;
+	    if (s.slice(i, i + 3) === '===') {
+	      op = '===';
+	      i += 3;
+	    } else if (s.slice(i, i + 3) === '!==') {
+	      op = '!==';
+	      i += 3;
+	    } else if (s.slice(i, i + 2) === '==') {
+	      op = '==';
+	      i += 2;
+	    } else if (s.slice(i, i + 2) === '!=') {
+	      op = '!=';
+	      i += 2;
+	    } else if (s.slice(i, i + 2) === '<=') {
+	      op = '<=';
+	      i += 2;
+	    } else if (s.slice(i, i + 2) === '>=') {
+	      op = '>=';
+	      i += 2;
+	    } else if (s.charAt(i) === '<' || s.charAt(i) === '>') {
+	      op = s.charAt(i);
+	      i += 1;
+	    } else {
+	      return left;
+	    }
+	    var right = parseUnary(s, i);
+	    var v;
+	    /* eslint-disable eqeqeq */
+	    if (op === '===') {
+	      v = left.value === right.value;
+	    } else if (op === '!==') {
+	      v = left.value !== right.value;
+	    } else if (op === '==') {
+	      v = left.value == right.value;
+	    } else if (op === '!=') {
+	      v = left.value != right.value;
+	    } else if (op === '<=') {
+	      v = left.value <= right.value;
+	    } else if (op === '>=') {
+	      v = left.value >= right.value;
+	    } else if (op === '<') {
+	      v = left.value < right.value;
+	    } else {
+	      v = left.value > right.value;
+	    }
+	    /* eslint-enable eqeqeq */
+	    return { value: v, next: right.next };
+	  }
+
+	  function parseLogicAnd(s, i) {
+	    var left = parseCompare(s, i);
+	    i = skipSpace(s, left.next);
+	    while (s.slice(i, i + 2) === '&&') {
+	      var right = parseCompare(s, i + 2);
+	      left = { value: left.value && right.value, next: right.next };
+	      i = skipSpace(s, left.next);
+	    }
+	    return left;
+	  }
+
+	  function parseLogicOr(s, i) {
+	    var left = parseLogicAnd(s, i);
+	    i = skipSpace(s, left.next);
+	    while (s.slice(i, i + 2) === '||') {
+	      var right = parseLogicAnd(s, i + 2);
+	      left = { value: left.value || right.value, next: right.next };
+	      i = skipSpace(s, left.next);
+	    }
+	    return left;
+	  }
+
+	  function parseTernary(s, i) {
+	    var cond = parseLogicOr(s, i);
+	    i = skipSpace(s, cond.next);
+	    if (s.charAt(i) !== '?') {
+	      return cond;
+	    }
+	    var whenTrue = parseTernary(s, i + 1);
+	    i = skipSpace(s, whenTrue.next);
+	    if (s.charAt(i) !== ':') {
+	      throw new Error('Expected : in ternary');
+	    }
+	    var whenFalse = parseTernary(s, i + 1);
+	    return {
+	      value: cond.value ? whenTrue.value : whenFalse.value,
+	      next: whenFalse.next
+	    };
+	  }
+
+	  var result = parseTernary(expr, 0);
+	  return result.value;
+	};
+
+	UI.template._render = function(node, scope) {
+	  var me = UI.template;
+	  var out = '';
+	  var i;
+	  var child;
+	  var list;
+
+	  if (node.type === 'text') {
+	    return node.value;
+	  }
+	  if (node.type === 'escape') {
+	    return me._escapeHTML(me._eval(node.value, scope));
+	  }
+	  if (node.type === 'raw') {
+	    return '' + me._eval(node.value, scope);
+	  }
+	  if (node.type === 'var') {
+	    scope[node.name] = me._eval(node.expr, scope);
+	    return '';
+	  }
+	  if (node.type === 'if') {
+	    list = me._eval(node.cond, scope) ? node.body : node.elseBody;
+	    for (i = 0; i < list.length; i++) {
+	      out += me._render(list[i], scope);
+	    }
+	    return out;
+	  }
+	  if (node.type === 'for') {
+	    scope[node.name] = me._eval(node.init, scope);
+	    var guard = 0;
+	    while (me._eval(node.cond, scope)) {
+	      for (i = 0; i < node.body.length; i++) {
+	        out += me._render(node.body[i], scope);
+	      }
+	      // step like i++ / ++i / i+=1
+	      var step = String(node.step).replace(/^\s+|\s+$/g, '');
+	      var sm = step.match(/^(\w+)\+\+$/);
+	      var sm2 = step.match(/^\+\+(\w+)$/);
+	      var sm3 = step.match(/^(\w+)\s*\+=\s*(.+)$/);
+	      if (sm) {
+	        scope[sm[1]] = Number(scope[sm[1]]) + 1;
+	      } else if (sm2) {
+	        scope[sm2[1]] = Number(scope[sm2[1]]) + 1;
+	      } else if (sm3) {
+	        scope[sm3[1]] = Number(scope[sm3[1]]) + Number(me._eval(sm3[2], scope));
+	      } else {
+	        break;
+	      }
+	      if (++guard > 10000) {
+	        break;
+	      }
+	    }
+	    return out;
+	  }
+
+	  // block
+	  for (i = 0; i < node.body.length; i++) {
+	    child = node.body[i];
+	    out += me._render(child, scope);
+	  }
+	  return out;
 	};
 
 	// Dom mutation watchers
@@ -5352,7 +5708,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if(e == 'auto') {
 	  	var config = $element.attr('data-am-dropdown') || null;
 		if ((config || null) != null && typeof (config) == 'string') {
-			config = eval('(' + config + ')');
+			config = UI.utils.parseOptions(config);
 		}
 
 		 // 是否不自动关闭
@@ -5437,7 +5793,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  $toggle.on('click.' + eventNS, $.proxy(function(e) {
 	  	var config = this.$element.attr('data-am-dropdown') || null;
 		if ((config || null) != null && typeof (config) == 'string') {
-			config = eval('(' + config + ')');
+			config = UI.utils.parseOptions(config);
 		}
 		// 开启hover则禁用点击事件
 	  	if($(window).width() >= 641 && config != null && config.trigger == 'hover') {

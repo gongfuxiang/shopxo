@@ -18,6 +18,39 @@
         <!-- 右侧内容 -->
         <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
             <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-right-list">
+                <!-- 菜单搜索 -->
+                <li class="am-dropdown admin-menu-search" data-am-dropdown="{trigger: 'hover'}">
+                    <a href="javascript:;" class="am-dropdown-toggle am-flex am-flex-row am-flex-items-center am-gap-12">
+                        <i class="iconfont icon-search-fine"></i>
+                        <span class="am-show-sm-only">{{:MyLang('admin_menu_search.title')}}</span>
+                    </a>
+                    <div class="am-dropdown-content am-radius-lg am-color-333 admin-menu-search-panel">
+                        <input type="search" class="am-form-field am-radius admin-menu-search-input" placeholder="{{:MyLang('admin_menu_search.placeholder')}}" autocomplete="off" />
+                        <p class="admin-menu-search-tips am-color-grey am-text-xs am-margin-top-xs am-margin-bottom-0">{{:MyLang('admin_menu_search.input_tips')}}</p>
+                        <ul class="am-list am-list-static am-margin-bottom-0 am-margin-top-xs admin-menu-search-list"></ul>
+                        <p class="admin-menu-search-empty am-hide am-text-center am-color-grey am-text-sm am-margin-top-sm am-margin-bottom-xs">{{:MyLang('admin_menu_search.empty_tips')}}</p>
+                    </div>
+                    <script type="text/json" id="admin-menu-search-data">{{$admin_menu_search_json|raw}}</script>
+                </li>
+
+                <!-- 帮助 -->
+                <li class="am-dropdown" data-am-dropdown="{trigger: 'hover'}">
+                    <a href="javascript:;" class="am-dropdown-toggle am-flex am-flex-row am-flex-items-center am-gap-12">
+                        <i class="iconfont icon-help"></i>
+                        <span class="am-show-sm-only">{{:MyLang('app_pages.nav_title')}}</span>
+                    </a>
+                    <ul class="am-dropdown-content am-radius-lg">
+                        <li>
+                            <a href="javascript:;" class="submit-popup" data-url="{{:MyUrl('admin/appmini/pages')}}" data-title="{{:MyLang('app_pages.nav_title')}}" data-offcanvas="right">{{:MyLang('app_pages.nav_title')}}</a>
+                        </li>
+                        {{if !empty($site_store_links) and !empty($site_store_links['system_use_tutorial'])}}
+                            <li>
+                                <a href="{{$site_store_links.system_use_tutorial}}" target="_blank" rel="noopener noreferrer">{{:MyLang('system_use_tutorial_title')}}</a>
+                            </li>
+                        {{/if}}
+                    </ul>
+                </li>
+
                 <!-- 语言切换 -->
                 {{if !empty($multilingual_data) and !empty($multilingual_data['data']) and !empty($multilingual_data['default']) and is_array($multilingual_data['data']) and is_array($multilingual_data['default'])}}
                     <li class="am-dropdown" data-am-dropdown="{trigger: 'hover'}" data-am-dropdown-toggle>

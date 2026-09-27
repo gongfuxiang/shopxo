@@ -5,15 +5,15 @@
 	<div class="content">
         <!-- nav start -->
         {{:ModuleInclude('public/admin_nav', [
-            'title'     => MyLang('slide.base_nav_title').(empty($data['id']) ? MyLang('created_title') : MyLang('edit_title')),
-            'back_url'  => MyUrl('admin/slide/index', $params)
+            'title'     => MyLang('slider.base_nav_title').(empty($data['id']) ? MyLang('created_title') : MyLang('edit_title')),
+            'back_url'  => MyUrl('admin/slider/index', $params)
         ])}}
         <!-- nav end -->
         <!-- form start -->
-        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/slide/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/slide/index', $params)}}" enctype="multipart/form-data">
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/slider/save')}}" method="POST" data-i18n-table="slider" request-type="ajax-url" request-value="{{:MyUrl('admin/slider/index', $params)}}" enctype="multipart/form-data">
             <div class="am-form-group">
-                <label>{{:MyLang('common_service.slide.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-                <input type="text" name="name" placeholder="{{:MyLang('common_service.slide.form_item_name_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('common_service.slide.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+                <label>{{:MyLang('common_service.slider.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+                <input type="text" name="name" data-i18n="1" placeholder="{{:MyLang('common_service.slider.form_item_name_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('common_service.slider.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
             </div>
             <div class="am-form-group">
                 <label>{{:MyLang('form_platform_title')}}<span class="am-form-group-label-tips-must">*</span></label>
@@ -27,8 +27,8 @@
             </div>
 
             <div class="am-form-group">
-                <label>{{:MyLang('common_service.slide.form_item_describe')}}</label>
-                <input type="text" name="describe" placeholder="{{:MyLang('common_service.slide.form_item_describe_message')}}" maxlength="230" data-validation-message="{{:MyLang('common_service.slide.form_item_describe_message')}}" class="am-radius" {{if !empty($data['describe'])}} value="{{$data.describe}}"{{/if}} />
+                <label>{{:MyLang('common_service.slider.form_item_describe')}}</label>
+                <input type="text" name="describe" data-i18n="1" placeholder="{{:MyLang('common_service.slider.form_item_describe_message')}}" maxlength="230" data-validation-message="{{:MyLang('common_service.slider.form_item_describe_message')}}" class="am-radius" {{if !empty($data['describe'])}} value="{{$data.describe}}"{{/if}} />
             </div>
             <div class="am-form-group">
                 <label>{{:MyLang('form_event_type_title')}}</label>
@@ -55,10 +55,10 @@
             </div>
             
             <div class="am-form-group am-form-file">
-                <label class="am-block">{{:MyLang('common_service.slide.form_item_images_url')}}<span class="am-form-group-label-tips-must">*</span>{{if is_array(MyLang('common_service.slide.form_item_images_url_tips'))}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:implode('<br />', MyLang('common_service.slide.form_item_images_url_tips'))}}', trigger: 'hover focus', theme: 'sm'}"></a>{{/if}}</label>
+                <label class="am-block">{{:MyLang('common_service.slider.form_item_images_url')}}<span class="am-form-group-label-tips-must">*</span>{{if is_array(MyLang('common_service.slider.form_item_images_url_tips'))}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:implode('<br />', MyLang('common_service.slider.form_item_images_url_tips'))}}', trigger: 'hover focus', theme: 'sm'}"></a>{{/if}}</label>
                 <div class="am-form-file-upload-container plug-file-upload-view-width-auto">
-                    <ul class="plug-file-upload-view slide-images_url-images-view" data-form-name="images_url" data-max-number="1" data-dialog-type="images" data-is-eye="1">
-                        <li class="plug-file-upload-submit" data-view-tag="ul.slide-images_url-images-view">
+                    <ul class="plug-file-upload-view slider-images_url-images-view" data-form-name="images_url" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                        <li class="plug-file-upload-submit" data-view-tag="ul.slider-images_url-images-view">
                             {{if empty($data['images_url'])}}
                                 <i class="iconfont icon-add"></i>
                             {{else /}}

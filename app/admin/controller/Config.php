@@ -45,6 +45,9 @@ class Config extends Base
 			$config_tab_key = $switch;
 		}
 
+		// 兼容新增配置项（不存在则按语言包初始化）
+		ConfigService::ConfigEnsure('common_cache_data_file_expire', '');
+
 		// 模板数据
 		$assign = [
 			// 数据
@@ -66,6 +69,8 @@ class Config extends Base
 			'common_map_type_list'             => MyConst('common_map_type_list'),
 			// 关闭开启
 			'common_close_open_list'           => MyConst('common_close_open_list'),
+			// 多语言列表
+			'common_multilingual_list'         => MyConst('common_multilingual_list'),
 			// 图片验证码类型 / 规则（验证码 tab）
 			'common_site_images_verify_rand_type_list' => MyConst('common_site_images_verify_rand_type_list'),
 			'common_site_images_verify_rules_list'     => MyConst('common_site_images_verify_rules_list'),

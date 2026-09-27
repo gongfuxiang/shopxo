@@ -16,6 +16,7 @@ use app\service\SystemService;
 use app\service\SystemBaseService;
 use app\service\StoreService;
 use app\service\ResourcesService;
+use app\service\I18nService;
 use app\service\GoodsCategoryService;
 use app\service\NavigationService;
 use app\service\BuyService;
@@ -359,6 +360,11 @@ class Common extends BaseController
 
         // 静态文件状态css,js
         $assign['static_path_data'] = ResourcesService::StaticCssOrJsPathData($this->default_theme, $this->module_name, $this->controller_name, $this->action_name);
+
+        // 多语言数据组件JS/CSS（用户端默认不引入、页面需要时 MyViewAssign('is_load_i18n', 1) 开启）
+        // 总开关（common_multilingual_write_entry_status、默认关闭）、不开则配置不生成、页面开了is_load_i18n也不生效
+        $assign['is_load_i18n'] = 0;
+        $assign['i18n_view_config'] = (MyC('common_multilingual_write_entry_status', 0) == 1) ? I18nService::JsConfig('index') : null;
 
         // 导航
         $assign['nav_header'] = $this->nav_header;
@@ -777,6 +783,10 @@ class Common extends BaseController
             'plugins_view_common_header_nav_left',
             // 中间导航搜索内部
             'plugins_view_common_header_nav_search_inside',
+            // 中间导航搜索前面
+            'plugins_view_common_header_nav_search_before',
+            // 中间导航搜索后面
+            'plugins_view_common_header_nav_search_later',
             // 中间导航内容内部顶部
             'plugins_view_common_header_nav_content_inside_top',
             // 中间导航内容内部底部

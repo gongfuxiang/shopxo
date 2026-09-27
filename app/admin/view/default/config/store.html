@@ -4,7 +4,7 @@
 <div class="content-right">
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/config/save', ['view_type'=>$view_type])}}" method="POST" request-type="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}ajax-view{{else /}}ajax-reload{{/if}}" request-value="{{if isset($is_theme_data_admin) and $is_theme_data_admin eq 1}}parent{{/if}}">
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/config/save', ['view_type'=>$view_type])}}" method="POST" data-i18n-table="config" request-type="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}ajax-view{{else /}}ajax-reload{{/if}}" request-value="{{if isset($is_theme_data_admin) and $is_theme_data_admin eq 1}}parent{{/if}}">
             {{:ModuleInclude('public/nav_switch_btn', [
                 'nav_data' => [
                     [
@@ -26,11 +26,11 @@
                 <div class="item am-active" data-key="base">
                     <div class="am-form-group">
                         <label>{{$data.common_customer_store_address.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_address.describe}}</span></label>
-                        <input type="text" name="{{$data.common_customer_store_address.only_tag}}" placeholder="{{$data.common_customer_store_address.name}}" data-validation-message="{{$data.common_customer_store_address.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_address.value}}"{{/if}} />
+                        <input type="text" name="{{$data.common_customer_store_address.only_tag}}" data-i18n="1" placeholder="{{$data.common_customer_store_address.name}}" data-validation-message="{{$data.common_customer_store_address.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_address.value}}"{{/if}} />
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_customer_store_describe.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_describe.describe}}</span></label>
-                        <input type="text" name="{{$data.common_customer_store_describe.only_tag}}" placeholder="{{$data.common_customer_store_describe.name}}" data-validation-message="{{$data.common_customer_store_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_describe.value}}"{{/if}} />
+                        <input type="text" name="{{$data.common_customer_store_describe.only_tag}}" data-i18n="1" placeholder="{{$data.common_customer_store_describe.name}}" data-validation-message="{{$data.common_customer_store_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_describe.value}}"{{/if}} />
                     </div>
                     <div class="am-form-group">
                         <label class="am-block">{{$data.common_customer_store_public_alipay.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_public_alipay.describe}}</span></label>

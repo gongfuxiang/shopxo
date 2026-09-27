@@ -1,0 +1,15 @@
+{{if !empty($data) and is_array($data)}}
+    {{if isset($list_layout_value) and $list_layout_value eq 1}}
+        {{:ModuleInclude('module/goods/list/base', [
+            'goods_list'  => $data,
+            'type'        => 'search',
+        ])}}
+    {{else /}}
+        {{:ModuleInclude('module/goods/grid/base', [
+            'goods_list'  => $data,
+            'type'        => 'search',
+        ])}}
+    {{/if}}
+{{else /}}
+    {{:ModuleInclude('public/not_data')}}
+{{/if}}

@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\I18nService;
 use app\service\ResourcesService;
 
 /**
@@ -55,6 +56,9 @@ class CustomViewService
      */
     public static function CustomViewListHandle($data, $params = [])
     {
+        // 多语言数据替换（仅前台非默认语言生效）
+        I18nService::DataHandle($data, 'customview');
+
         if(!empty($data))
         {
             $common_is_text_list = MyConst('common_is_text_list');
@@ -150,6 +154,12 @@ class CustomViewService
                 return DataReturn(MyLang('save_fail'), -1);
             }
         }
+        // 多语言数据保存（隐藏域未提交则不处理）
+        $i18n_data = I18nService::RequestData($params);
+        if($i18n_data !== null)
+        {
+            I18nService::SaveData('customview', $data_id, $i18n_data);
+        }
         return DataReturn(MyLang('save_success'), 0, $data_id);
     }
 
@@ -178,6 +188,7 @@ class CustomViewService
         // 删除操作
         if(Db::name('CustomView')->where(['id'=>$params['ids']])->delete())
         {
+            I18nService::DeleteData('customview', $params['ids']);
             return DataReturn(MyLang('delete_success'), 0);
         }
         return DataReturn(MyLang('delete_fail'), -100);

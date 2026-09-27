@@ -13,6 +13,7 @@ namespace app\service;
 use think\facade\Db;
 use app\service\GoodsService;
 use app\service\ResourcesService;
+use app\service\I18nService;
 
 /**
  * 品牌服务层
@@ -71,6 +72,9 @@ class BrandService
     {
         if(!empty($data))
         {
+            // 多语言数据替换（仅前台非默认语言生效）
+            I18nService::DataHandle($data, 'brand');
+
             // 字段列表
             $keys = ArrayKeys($data);
 
@@ -209,9 +213,17 @@ class BrandService
         // id数组则直接返回
         if(is_array($brand_ids))
         {
-            return empty($data) ? [] : $data;
+            $data = empty($data) ? [] : $data;
+            I18nService::NameHandle($data, 'brand');
+            return $data;
         }
-        return (!empty($data) && is_array($data) && array_key_exists($brand_ids, $data)) ? $data[$brand_ids] : null;
+        $result = (!empty($data) && is_array($data) && array_key_exists($brand_ids, $data)) ? $data[$brand_ids] : null;
+        if($result !== null)
+        {
+            I18nService::NameHandle($data, 'brand');
+            $result = $data[$brand_ids];
+        }
+        return $result;
     }
 
     /**
@@ -353,6 +365,14 @@ class BrandService
             {
                 throw new \Exception($ret['msg']);
             }
+
+            // 多语言数据保存（隐藏域未提交则不处理）
+            $i18n_data = I18nService::RequestData($params);
+            if($i18n_data !== null)
+            {
+                I18nService::SaveData('brand', $brand_id, $i18n_data);
+            }
+
             // 提交事务
             Db::commit();
             return DataReturn(MyLang('operate_success'), 0);
@@ -418,6 +438,9 @@ class BrandService
         // 删除操作
         if(Db::name('Brand')->where(['id'=>$params['ids']])->delete())
         {
+            // 多语言数据删除
+            I18nService::DeleteData('brand', $params['ids']);
+
             return DataReturn(MyLang('delete_success'), 0);
         }
         return DataReturn(MyLang('delete_fail'), -100);

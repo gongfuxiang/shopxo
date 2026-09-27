@@ -4,11 +4,11 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/goodsparamstemplate/save')}}" method="POST" request-type="ajax-reload" request-value="parent">
+		<form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/goodsparamstemplate/save')}}" method="POST" data-i18n-table="goods_params_template" request-type="ajax-reload" request-value="parent">
 			
             <div class="am-form-group row">
                 <label>{{:MyLang('common_service.goodsparamstemplate.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-                <input type="text" name="name" placeholder="{{:MyLang('common_service.goodsparamstemplate.form_item_name_message')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('common_service.goodsparamstemplate.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+                <input type="text" name="name" data-i18n="1" placeholder="{{:MyLang('common_service.goodsparamstemplate.form_item_name_message')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('common_service.goodsparamstemplate.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
             </div>
             <div class="am-form-group row">
                 <label class="am-block">

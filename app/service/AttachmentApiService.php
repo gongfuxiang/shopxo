@@ -13,6 +13,7 @@ namespace app\service;
 use app\service\UeditorService;
 use app\service\AttachmentService;
 use app\service\AttachmentCategoryService;
+use app\service\AdminService;
 
 /**
  * 附件api服务层
@@ -25,6 +26,23 @@ use app\service\AttachmentCategoryService;
 class AttachmentApiService
 {
     /**
+     * 校验后台管理员登录（附件写操作）
+     * @author  Devil
+     * @version 1.0.0
+     * @date    2026-09-13
+     * @return  [array]  DataReturn；成功时 data 为管理员信息
+     */
+    private static function RequireAdmin()
+    {
+        $admin = AdminService::LoginInfo();
+        if(empty($admin))
+        {
+            return DataReturn(MyLang('login_failure_tips'), -400);
+        }
+        return DataReturn('success', 0, $admin);
+    }
+
+    /**
      * 附件分类
      * @author  Devil
      * @blog    http://gong.gg/
@@ -35,6 +53,11 @@ class AttachmentApiService
      */
     public static function Category($params = [])
     {
+        $auth = self::RequireAdmin();
+        if($auth['code'] != 0)
+        {
+            return $auth;
+        }
         $result = [
             'attachment_category' => AttachmentCategoryService::AttachmentCategoryAll(),
         ];
@@ -52,6 +75,12 @@ class AttachmentApiService
      */
     public static function Save($params = [])
     {
+        $auth = self::RequireAdmin();
+        if($auth['code'] != 0)
+        {
+            return $auth;
+        }
+        $params['admin'] = $auth['data'];
         return AttachmentService::AttachmentSave($params);
     }
 
@@ -66,6 +95,12 @@ class AttachmentApiService
      */
     public static function Delete($params = [])
     {
+        $auth = self::RequireAdmin();
+        if($auth['code'] != 0)
+        {
+            return $auth;
+        }
+        $params['admin'] = $auth['data'];
         return AttachmentService::AttachmentDelete($params);
     }
 
@@ -80,6 +115,11 @@ class AttachmentApiService
      */
     public static function Upload($params = [])
     {
+        $auth = self::RequireAdmin();
+        if($auth['code'] != 0)
+        {
+            return $auth;
+        }
         // 请求参数
         $p = [
             [
@@ -114,6 +154,11 @@ class AttachmentApiService
      */
     public static function Catch($params = [])
     {
+        $auth = self::RequireAdmin();
+        if($auth['code'] != 0)
+        {
+            return $auth;
+        }
         // 请求参数
         $p = [
             [
@@ -168,6 +213,11 @@ class AttachmentApiService
      */
     public static function MoveCategory($params = [])
     {
+        $auth = self::RequireAdmin();
+        if($auth['code'] != 0)
+        {
+            return $auth;
+        }
         return AttachmentService::AttachmentMoveCategory($params);
     }
 
@@ -182,6 +232,11 @@ class AttachmentApiService
      */
     public static function CategorySave($params = [])
     {
+        $auth = self::RequireAdmin();
+        if($auth['code'] != 0)
+        {
+            return $auth;
+        }
         return AttachmentCategoryService::AttachmentCategorySave($params);
     }
 
@@ -196,6 +251,11 @@ class AttachmentApiService
      */
     public static function CategoryDelete($params = [])
     {
+        $auth = self::RequireAdmin();
+        if($auth['code'] != 0)
+        {
+            return $auth;
+        }
         return AttachmentCategoryService::AttachmentCategoryDelete($params);
     }
 }

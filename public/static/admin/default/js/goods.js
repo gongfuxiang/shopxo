@@ -72,7 +72,7 @@ $(function () {
         // 右侧
         html += '<div class="am-form-group content-app-right am-padding-bottom-0">';
         html += '<label>' + $app_content.data('content-title') + '</label>';
-        html += '<textarea rows="3" name="' + content_name + '_' + index + '" class="am-radius" placeholder="' + $app_content.data('content-title') + '"></textarea>';
+        html += '<textarea rows="3" name="' + content_name + '_' + index + '" data-i18n="1" class="am-radius" placeholder="' + $app_content.data('content-title') + '"></textarea>';
         html += '</div>';
         html += '</div>';
 

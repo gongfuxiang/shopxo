@@ -201,8 +201,8 @@ return [
     'register_success'                                      => 'Registro exitoso',
     'login_fail'                                            => 'Falló el inicio de sesión',
     'login_success'                                         => 'Inicio de sesión exitoso',
-    'comments_fail'                                         => 'El comentario falló',
-    'comments_success'                                      => 'Comentario exitoso',
+    'comments_fail'                                         => 'La evaluación falló',
+    'comments_success'                                      => 'Evaluación exitosa',
     'favor_fail'                                            => 'La colección falló',
     'favor_success'                                         => 'Colección exitosa',
     'refund_fail'                                           => 'Falló el reembolso',
@@ -401,6 +401,7 @@ return [
     'view_tap_title'                                        => 'Hacer clic para ver',
     'view_detail_title'                                     => 'Ver detalles',
     'view_all_title'                                        => 'Ver todo',
+    'view_more_title'                                       => 'Ver más',
     'base_title'                                            => 'Base',
     'data_title'                                            => 'Datos',
     'data_operate_title'                                    => 'Operación de datos',
@@ -884,7 +885,7 @@ return [
                 '2. ejemplo: / pages / user / user',
                 '¿3. ¿ soporte con parámetros? X = XX',
             ],
-            'tips'  => 'Instrucciones de configuración de la dirección de la página del applet',
+            'tips'  => 'Ver direcciones de páginas internas',
         ],
         [
             'type'  => 'map',
@@ -894,6 +895,59 @@ return [
                 '2. por ejemplo: shopxo | no. xxx, zhangjiang High - Tech park, Pudong New area, Shanghai | 121.626444 | 31.20843',
             ]
         ]
+    ],
+    // Direcciones de páginas internas móviles (popup de valor de evento, independiente de DIY)
+    'app_pages'                         => [
+        'popup_title'                   => 'Direcciones de páginas internas',
+        'nav_title'                     => 'Direcciones de páginas móviles',
+        'search_placeholder'            => 'Buscar título, nombre o ruta',
+        'copy_title'                    => 'Copiar',
+        'use_title'                     => 'Usar',
+        'empty_tips'                    => 'No hay páginas coincidentes',
+        'plugins_empty_tips'            => 'Sin páginas de plugin',
+        'plugins_hook_tips'             => 'Extienda con el hook plugins_service_app_pages_list',
+        'group_base'                    => 'Páginas básicas',
+        'group_user'                    => 'Centro de usuario',
+        'group_params'                  => 'Necesitan parámetros',
+        'group_plugins'                 => 'Páginas de plugin',
+        'page_index'                    => 'Inicio',
+        'page_goods_category'           => 'Categoría de productos',
+        'page_goods_search_start'       => 'Inicio de búsqueda',
+        'page_goods_search'             => 'Búsqueda de productos',
+        'page_cart'                     => 'Carrito',
+        'page_cart_page'                => 'Página del carrito',
+        'page_login'                    => 'Inicio de sesión',
+        'page_article_category'         => 'Lista de artículos',
+        'page_setup'                    => 'Configuración',
+        'page_about'                    => 'Acerca de',
+        'page_user'                     => 'Centro de usuario',
+        'page_user_order'               => 'Lista de pedidos',
+        'page_user_orderaftersale'      => 'Posventa',
+        'page_user_favor'               => 'Favoritos',
+        'page_user_goods_comments'      => 'Comentarios',
+        'page_user_address'             => 'Mis direcciones',
+        'page_user_integral'            => 'Mis puntos',
+        'page_message'                  => 'Mensajes',
+        'page_user_goods_browse'        => 'Historial',
+        'page_personal'                 => 'Perfil',
+        'page_goods_detail'             => 'Detalle del producto',
+        'page_article_detail'           => 'Detalle del artículo',
+        'page_diy'                      => 'Página DIY',
+        'page_design'                   => 'Diseño de página',
+        'page_customview'               => 'Página personalizada',
+        'page_goods_comment'            => 'Página de comentarios',
+        'page_user_order_detail'        => 'Detalle del pedido',
+        'page_web_view'                 => 'Navegador interno',
+        'tips_goods_search'             => 'Agregue parámetros, p. ej. ?keywords=palabra&category_id=IDCategoría&brand=IDMarca',
+        'tips_goods_category'           => 'Agregue parámetros, p. ej. ?id=IDCategoría',
+        'tips_goods_detail'             => 'Agregue parámetros, p. ej. ?id=ID_producto',
+        'tips_article_detail'           => 'Agregue parámetros, p. ej. ?id=ID_artículo',
+        'tips_diy'                      => 'Agregue parámetros, p. ej. ?id=ID_diy',
+        'tips_design'                   => 'Agregue parámetros, p. ej. ?id=ID_diseño',
+        'tips_customview'               => 'Agregue parámetros, p. ej. ?id=ID_personalizado',
+        'tips_goods_comment'            => 'Agregue parámetros, p. ej. ?goods_id=ID_producto',
+        'tips_user_order_detail'        => 'Agregue parámetros, p. ej. ?id=ID_pedido',
+        'tips_web_view'                 => 'Agregue parámetros, p. ej. ?url=url_http_codificada',
     ],
     // 自定义跳转地址提示说明
     'custom_to_value_tips'              => [
@@ -960,7 +1014,7 @@ return [
         1    => 'Pendiente de pago',
         2    => 'Pendiente de envío',
         3    => 'A recibir',
-        4    => 'Completado',
+        4    => 'Hecho',
         5    => 'Cancelado',
         6    => 'Cerrado',
         100  => 'Pendiente de evaluación',
@@ -1041,7 +1095,7 @@ return [
         1 => 'Pendiente de pago',
         2 => 'Pendiente de envío',
         3 => 'A recibir',
-        4 => 'Completado',
+        4 => 'Hecho',
         5 => 'Cancelado',
         6 => 'Cerrado',
     ],
@@ -1084,6 +1138,12 @@ return [
     'common_sales_count_inc_rules_list' => [
         0 => 'Pago de pedidos',
         1 => 'Recepción de pedidos',
+    ],
+    // Especificaciones en la página de detalle
+    'common_goods_detail_spec_page_show_list' => [
+        0 => 'No incrustado (predeterminado)',
+        1 => 'Un nivel',
+        2 => 'Varios niveles',
     ],
     // 是否已读
     'common_is_read_list' => [
@@ -1164,13 +1224,15 @@ return [
     ],
     // 下单指定时间
     'common_buy_datetime_config_list' => [
-        0 => 'Opcional',
-        1 => 'Selección obligatoria',
+        0 => 'Cerrado',
+        1 => 'Seleccionar',
+        2 => 'Obligatorio',
     ],
     // 下单联系信息
     'common_buy_extraction_contact_config_list' => [
-        0 => 'Se puede rellenar',
-        1 => 'Rellenar obligatoriamente',
+        0 => 'Cerrado',
+        1 => 'Rellenar',
+        2 => 'Obligatorio',
     ],
     // 订单售后类型
     'common_order_aftersale_type_list' => [
@@ -1201,7 +1263,7 @@ return [
         4 => '4 puntos',
         5 => '5 puntos',
     ],
-    // 商品评论业务类型
+    // 商品评价业务类型
     'common_goods_comments_business_type_list' => [
         'order' => 'Pedidos',
     ],
@@ -1490,12 +1552,12 @@ return [
         'quick_nav'       => 'Navegación rápida',
         'shortcutmenu'    => 'Menú de acceso rápido',
         'app_nav'         => 'Navegación en la página de inicio',
-        'slide'           => 'Rotación',
+        'slider'          => 'Rotación',
         'article'         => 'Artículo',
         'user'            => 'Usuarios',
         'design'          => 'Diseño de página',
         'plugins'         => 'Plug - in',
-        'order_comments'  => 'Comentarios sobre productos de pedido',
+        'order_comments'  => 'Evaluación de productos del pedido',
         'theme_data'      => 'Datos temáticos',
         'agreement'       => 'Acuerdo',
         'warehouse'       => 'Almacén',
@@ -1552,6 +1614,16 @@ return [
         // 基础
         'base'                => [
             'key_error_tips'                    => 'El valor de la clave de datos es incorrecto',
+        ],
+        // 多语言数据
+        'i18n'                => [
+            'popup_title'                       => 'Datos multilingües',
+            'default_tips'                      => 'Idioma por defecto',
+            'load_fail_tips'                    => 'Error al cargar los datos multilingües',
+            'table_not_support_tips'            => 'La tabla de negocio no admite multilingüe',
+            'save_tips'                      => 'Los datos confirmados se guardan al enviar el formulario',
+            'editor_tips'                     => 'Para el contenido enriquecido, consulte el campo original',
+            'loading_tips'                    => 'En proceso de adquisición...',
         ],
         // 系统
         'system'            => [
@@ -1978,8 +2050,9 @@ return [
             'save_stock_update_data_empty_tips'     => 'Por favor, agregue el carrito de la compra primero.',
             'save_buy_max_error_tips'               => 'Superar la cantidad de productos restringidos',
             'save_inventory_not_enough_tips'        => 'Existencias insuficientes de productos básicos',
+            'spec_empty_tips'                       => 'Por favor seleccione las especificaciones del producto',
         ],
-        // 商品评论
+        // 商品评价
         'goodscomments'     => [
             // 表单
             'form_item_goods_info_title'            => 'Información sobre productos básicos',
@@ -1990,9 +2063,9 @@ return [
             'form_item_rating'                      => 'Puntuación',
             'form_item_rating_placeholder'          => 'Sin puntuación',
             'form_item_rating_message'              => 'Puntuación incorrecta',
-            'form_item_content'                     => 'Contenido del comentario',
+            'form_item_content'                     => 'Contenido de la evaluación',
             'form_item_content_placeholder'         => '¿¿ el bebé satisface tus expectativas? Hablemos de sus ventajas y deficiencias en la belleza.',
-            'form_item_content_message'             => 'Contenido del comentario entre 6 y 230 caracteres',
+            'form_item_content_message'             => 'Contenido de la evaluación entre 6 y 230 caracteres',
             'form_item_reply'                       => 'Contenido de la respuesta',
             'form_item_reply_message'               => 'El contenido de la respuesta es de hasta 230 caracteres',
             'form_item_reply_content_message'       => 'Entre 1 y 230 caracteres del contenido de la respuesta',
@@ -2001,12 +2074,12 @@ return [
             'form_item_is_reply'                    => 'Si se ha respondido',
             'form_item_is_anonymous'                => 'Anonimato o no',
             'form_item_images_message'              => 'Subir hasta 3 imágenes',
-            'form_item_anonymous_tips'              => 'Los comentarios que escribes después de abrirlos se mostrarán en forma anónima.',
+            'form_item_anonymous_tips'              => 'Tras activarlo, tu evaluación se mostrará de forma anónima.',
             // 保存
             'save_rating_empty_tips'                => 'La calificación no puede estar vacía',
-            'save_content_empty_tips'               => 'El contenido del comentario no puede estar vacío',
-            'save_order_already_comments_tips'      => 'Has comentado el pedido',
-            'save_comments_add_fail_tips'           => 'Falló la adición del contenido del comentario',
+            'save_content_empty_tips'               => 'El contenido de la evaluación no puede estar vacío',
+            'save_order_already_comments_tips'      => 'Ya has evaluado este pedido',
+            'save_comments_add_fail_tips'           => 'Falló la adición del contenido de la evaluación',
             'save_order_comments_update_tail_tips'  => 'Falló la actualización del pedido',
             // 基础
             'comments_username_default'             => 'Anonimato',
@@ -2393,7 +2466,7 @@ return [
                 'order'             => 'Gestión de pedidos',
                 'orderaftersale'    => 'Posventa de pedidos',
                 'goodsfavor'        => 'Colección de productos básicos',
-                'goodscomments'     => 'Comentarios sobre productos básicos',
+                'goodscomments'     => 'Evaluación de productos',
                 'property'          => 'Centro de propiedad',
                 'integral'          => 'Mis puntos',
                 'base'              => 'Gestión de datos',
@@ -2538,7 +2611,7 @@ return [
             'order_take_status_name'                => 'A recoger',
             'order_under_line_pay_status_name'      => 'Pendiente de confirmación',
             'order_under_line_name'                 => 'Pago fuera de línea',
-            'order_item_summary_desc'               => 'Total {:buy_number_count} total de piezas: {:currency_symbol} {:total_price} Yuan',
+            'order_item_summary_desc'               => '{:buy_number_count} uds. Total: {:currency_symbol}{:total_price}',
             'order_goods_sales_count_inc_fail_tips' => 'El aumento de las ventas de bienes pedidos fracasó',
             'order_detail_goods_empty_tips'         => 'El pedido es incorrecto y no se encontraron los productos relacionados.',
             'pay_have_in_hand_tips'                 => 'En pago',
@@ -2834,7 +2907,7 @@ return [
             'redis_connect_fail_tips'               => 'Falló la conexión redis',
         ],
         // 轮播
-        'slide'                     => [
+        'slider'                    => [
             // 表单
             'form_item_name'                        => 'Nombre',
             'form_item_name_message'                => 'Formato de nombre de 2 a 60 caracteres',
@@ -2957,8 +3030,8 @@ return [
             'form_item_article_order_by_rule_message'  => 'por favor, elija la regla de clasificación del artículo',
             'form_item_please_enter_text'              => 'Por favor, introduzca',
             'form_item_index_text'                     => 'Artículo ({index})',
-            'form_item_custom_data_name_text'          => 'nombre de los datos',
-            'form_item_custom_data_value_text'         => 'Valor de los datos',
+            'form_item_custom_data_name_text'          => 'Nombre de datos personalizados',
+            'form_item_custom_data_value_text'         => 'Valor de datos personalizados',
             // 服务层
             'save_type_error_tips'                     => 'el valor del rango del tipo de datos es incorrecto',
             'save_goods_data_type_error_tips'          => 'el valor del rango del tipo de datos del producto es incorrecto',
@@ -4390,9 +4463,19 @@ return [
             'tips' => 'Por favor, elija el tipo de sitio',
         ],
         'common_is_exhibition_mode_btn_text'  => [
-            'name' => 'Nombre de la operación de exhibición',
+            'name' => 'Nombre del botón de producto en modo exhibición',
             'desc' => 'Consulta inmediata por defecto, nombre de ocupación del botón [compra inmediata] de la página del producto en modo de exhibición',
-            'tips' => 'Por favor, rellene el nombre de la operación de exhibición.',
+            'tips' => 'Por favor, rellene el nombre del botón de producto en modo exhibición.',
+        ],
+        'common_exhibition_mode_hide_price'  => [
+            'name' => 'Ocultar precios en modo exhibición',
+            'desc' => 'Al activarlo, no se muestran el precio de venta y el precio original reales en modo exhibición (tipo de sitio o de producto es exhibición), prevaleciendo sobre los interruptores de mostrar precio de venta y precio original',
+            'tips' => 'Elija si ocultar precios en modo exhibición',
+        ],
+        'common_exhibition_mode_hide_price_text'  => [
+            'name' => 'Texto de reemplazo al ocultar precios',
+            'desc' => 'Al ocultar el precio, la fila de precio sigue visible y el importe se reemplaza por este texto, p. ej. Contactar; déjelo vacío para no mostrar la fila',
+            'tips' => 'Rellene el texto de reemplazo al ocultar precios',
         ],
         'common_site_fictitious_title'  => [
             'name' => 'Título de la información virtual',
@@ -4421,10 +4504,12 @@ return [
         ],
         'common_goods_sales_price_status'  => [
             'name' => 'Muestra el precio de venta de los productos',
+            'desc' => 'Si Ocultar precios en modo exhibición está activo y el tipo actual es exhibición, el precio de venta se oculta y este interruptor no aplica',
             'tips' => 'Por favor, elija si muestra el precio de venta del producto.',
         ],
         'common_goods_original_price_status'  => [
             'name' => 'Muestra el precio original del producto',
+            'desc' => 'Si Ocultar precios en modo exhibición está activo y el tipo actual es exhibición, el precio original se oculta y este interruptor no aplica',
             'tips' => 'Por favor, elija si muestra el precio original del producto.',
         ],
         'common_goods_sales_price_unit_status'  => [
@@ -4531,8 +4616,13 @@ return [
         ],
         'common_cache_data_redis_expire'  => [
             'name' => 'Tiempo de validez',
-            'desc' => 'Por defecto 0 significa permanente',
+            'desc' => 'Segundos, 0 permanente, solo caché Redis',
             'tips' => 'Por favor, rellene el tiempo de validez.',
+        ],
+        'common_cache_data_file_expire'  => [
+            'name' => 'Tiempo de validez de caché de archivo',
+            'desc' => 'Segundos, 0 permanente, solo caché de archivo',
+            'tips' => 'Por favor, rellene el tiempo de validez de la caché de archivo',
         ],
         'common_cache_data_redis_prefix'  => [
             'name' => 'Prefijo',
@@ -4770,6 +4860,11 @@ return [
         'common_is_goods_detail_show_left_more'  => [
             'name' => 'Más a la izquierda de la página de detalles del producto (teléfono móvil)',
             'tips' => 'Por favor, elija si hay más a la izquierda de la página de detalles del producto.',
+        ],
+        'common_goods_detail_spec_page_show'  => [
+            'name' => 'Especificaciones en la página de detalle',
+            'desc' => 'Predeterminado: emergente; un nivel: tarjetas en la página; varios niveles: selección en la página',
+            'tips' => 'Seleccione el modo de especificaciones en la página de detalle',
         ],
         'common_goods_cover_size_type'  => [
             'name' => 'La portada del producto está muy estirada (extremo del teléfono móvil)',

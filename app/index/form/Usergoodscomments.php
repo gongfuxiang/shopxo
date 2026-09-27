@@ -52,6 +52,127 @@ class UserGoodsComments
     public function Run($params = [])
     {
         $lang = MyLang('usergoodscomments.form_table');
+        // api/app 端用 field/many_images，便于 field_list；商品列始终 module（App 单独渲染）
+        $is_app = (APPLICATION == 'app');
+        $business_type_form = $is_app ? [
+            'label'         => $lang['business_type'],
+            'view_type'     => 'field',
+            'view_key'      => 'business_type_text',
+            'width'         => 120,
+            'is_sort'       => 1,
+            'sort_field'    => 'business_type',
+            'search_config' => [
+                'form_type'         => 'select',
+                'form_name'         => 'business_type',
+                'where_type'        => 'in',
+                'data'              => MyConst('common_goods_comments_business_type_list'),
+                'data_key'          => 'value',
+                'data_name'         => 'name',
+                'is_multiple'       => 1,
+            ],
+        ] : [
+            'label'         => $lang['business_type'],
+            'view_type'     => 'field',
+            'view_key'      => 'business_type',
+            'view_data_key' => 'name',
+            'view_data'     => MyConst('common_goods_comments_business_type_list'),
+            'width'         => 120,
+            'is_sort'       => 1,
+            'search_config' => [
+                'form_type'         => 'select',
+                'where_type'        => 'in',
+                'data'              => MyConst('common_goods_comments_business_type_list'),
+                'data_key'          => 'value',
+                'data_name'         => 'name',
+                'is_multiple'       => 1,
+            ],
+        ];
+        $content_form = $is_app ? [
+            'label'         => $lang['content'],
+            'view_type'     => 'field',
+            'view_key'      => 'content',
+            'grid_size'     => 'sm',
+            'search_config' => [
+                'form_type'         => 'input',
+                'form_name'         => 'content',
+                'where_type'        => 'like',
+            ],
+        ] : [
+            'label'         => $lang['content'],
+            'view_type'     => 'module',
+            'view_key'      => 'usergoodscomments/module/content',
+            'grid_size'     => 'sm',
+            'search_config' => [
+                'form_type'         => 'input',
+                'form_name'         => 'content',
+                'where_type'        => 'like',
+            ],
+        ];
+        $reply_form = $is_app ? [
+            'label'         => $lang['reply'],
+            'view_type'     => 'field',
+            'view_key'      => 'reply',
+            'grid_size'     => 'sm',
+            'search_config' => [
+                'form_type'         => 'input',
+                'form_name'         => 'reply',
+                'where_type'        => 'like',
+            ],
+        ] : [
+            'label'         => $lang['reply'],
+            'view_type'     => 'module',
+            'view_key'      => 'usergoodscomments/module/reply',
+            'grid_size'     => 'sm',
+            'search_config' => [
+                'form_type'         => 'input',
+                'form_name'         => 'reply',
+                'where_type'        => 'like',
+            ],
+        ];
+        $rating_form = $is_app ? [
+            'label'         => $lang['rating'],
+            'view_type'     => 'field',
+            'view_key'      => 'rating_text',
+            'width'         => 150,
+            'is_sort'       => 1,
+            'sort_field'    => 'rating',
+            'search_config' => [
+                'form_type'         => 'select',
+                'form_name'         => 'rating',
+                'where_type'        => 'in',
+                'data'              => MyConst('common_goods_comments_rating_list'),
+                'data_key'          => 'value',
+                'data_name'         => 'name',
+                'is_multiple'       => 1,
+            ],
+        ] : [
+            'label'         => $lang['rating'],
+            'view_type'     => 'star',
+            'view_key'      => 'rating',
+            'star_max'      => 5,
+            'color_style'   => 'danger',
+            'star_text_key' => 'rating_text',
+            'width'         => 150,
+            'is_sort'       => 1,
+            'search_config' => [
+                'form_type'         => 'select',
+                'form_name'         => 'rating',
+                'where_type'        => 'in',
+                'data'              => MyConst('common_goods_comments_rating_list'),
+                'data_key'          => 'value',
+                'data_name'         => 'name',
+                'is_multiple'       => 1,
+            ],
+        ];
+        $images_form = $is_app ? [
+            'label'         => $lang['images'],
+            'view_type'     => 'many_images',
+            'view_key'      => 'images',
+        ] : [
+            'label'         => $lang['images'],
+            'view_type'     => 'module',
+            'view_key'      => 'usergoodscomments/module/images',
+        ];
         return [
             // 基础配置
             'base' => [
@@ -86,69 +207,11 @@ class UserGoodsComments
                         'placeholder'           => $lang['goods_placeholder'],
                     ],
                 ],
-                [
-                    'label'         => $lang['business_type'],
-                    'view_type'     => 'field',
-                    'view_key'      => 'business_type',
-                    'view_data_key' => 'name',
-                    'view_data'     => MyConst('common_goods_comments_business_type_list'),
-                    'width'         => 120,
-                    'is_sort'       => 1,
-                    'search_config' => [
-                        'form_type'         => 'select',
-                        'where_type'        => 'in',
-                        'data'              => MyConst('common_goods_comments_business_type_list'),
-                        'data_key'          => 'value',
-                        'data_name'         => 'name',
-                        'is_multiple'       => 1,
-                    ],
-                ],
-                [
-                    'label'         => $lang['content'],
-                    'view_type'     => 'module',
-                    'view_key'      => 'usergoodscomments/module/content',
-                    'grid_size'     => 'sm',
-                    'search_config' => [
-                        'form_type'         => 'input',
-                        'form_name'         => 'content',
-                        'where_type'        => 'like',
-                    ],
-                ],
-                [
-                    'label'         => $lang['reply'],
-                    'view_type'     => 'module',
-                    'view_key'      => 'usergoodscomments/module/reply',
-                    'grid_size'     => 'sm',
-                    'search_config' => [
-                        'form_type'         => 'input',
-                        'form_name'         => 'reply',
-                        'where_type'        => 'like',
-                    ],
-                ],
-                [
-                    'label'         => $lang['rating'],
-                    'view_type'     => 'star',
-                    'view_key'      => 'rating',
-                    'star_max'      => 5,
-                    'color_style'   => 'danger',
-                    'star_text_key' => 'rating_text',
-                    'width'         => 150,
-                    'is_sort'       => 1,
-                    'search_config' => [
-                        'form_type'         => 'select',
-                        'form_name'         => 'rating',
-                        'where_type'        => 'in',
-                        'data'              => MyConst('common_goods_comments_rating_list'),
-                        'data_key'          => 'value',
-                        'data_name'         => 'name',
-                        'is_multiple'       => 1,
-                    ],
-                ],
-                [
-                    'label'         => $lang['images'],
-                    'view_type'     => 'module',
-                    'view_key'      => 'usergoodscomments/module/images',
-                ],
+                $business_type_form,
+                $content_form,
+                $reply_form,
+                $rating_form,
+                $images_form,
                 [
                     'label'         => $lang['is_show'],
                     'view_type'     => 'field',

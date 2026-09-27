@@ -179,6 +179,36 @@ class Attachment
                     ],
                 ],
                 [
+                    'label'              => $lang['upload_source_name'],
+                    'view_type'          => 'field',
+                    'view_key'           => 'upload_source_name',
+                    'is_sort'            => 1,
+                    'width'              => 130,
+                    'params_where_name'  => 'upload_source',
+                    'search_config'      => [
+                        'form_type'         => 'select',
+                        'form_name'         => 'upload_source',
+                        'where_type'        => 'in',
+                        'data'              => [
+                            0 => $lang['upload_source_admin'],
+                            1 => $lang['upload_source_user'],
+                        ],
+                        'is_multiple'       => 1,
+                    ],
+                ],
+                [
+                    'label'         => $lang['upload_user_name'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'upload_user_name',
+                    'width'         => 180,
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'form_name'         => 'upload_user_id',
+                        'where_type'        => '=',
+                        'placeholder'       => $lang['upload_user_id_placeholder'],
+                    ],
+                ],
+                [
                     'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
@@ -203,6 +233,7 @@ class Attachment
                 'is_handle_annex_field'      => 1,
                 'handle_annex_fields'        => ['url'],
                 'is_handle_time_field'       => 1,
+                'data_handle'                => 'AttachmentService::AttachmentFormListHandle',
                 'is_fixed_name_field'        => 1,
                 'fixed_name_data'            => [
                     'category_id'   => [

@@ -93,6 +93,7 @@ return [
         'base_nav_title'                        => 'Búsqueda de productos',
         'filter_out_first_text'                 => 'Selección',
         'filter_out_last_data_text'             => 'Datos de barra',
+        'advanced_filter_title'                 => 'Filtro avanzado',
     ],
 
     // 商品分类
@@ -123,6 +124,7 @@ return [
         'no_cart_data_tips'                     => 'Su carrito de la compra todavía está vacío, puede',
         'no_cart_data_my_favor_name'            => 'Mi colección',
         'no_cart_data_my_order_name'            => 'Mi pedido',
+        'change_spec_title'                     => 'Cambiar especificación',
     ],
 
     // 订单确认
@@ -210,12 +212,12 @@ return [
         'detail_shipping_address_title'         => 'Address',
         'detail_service_title'                  => 'Información de servicio',
         'detail_trace_source_title'             => 'Información de trazabilidad',
-        'comments_base_nav_title'               => 'Comentarios sobre pedidos',
+        'comments_base_nav_title'               => 'Evaluación del pedido',
         'batch_payment_name'                    => 'Pago por lotes',
         'comments_goods_list_thead_base'        => 'Información sobre productos básicos',
         'comments_goods_list_thead_price'       => 'Precio unitario',
-        'comments_goods_list_thead_content'     => 'Contenido del comentario',
-        'form_you_have_commented_tips'          => 'Ya has comentado',
+        'comments_goods_list_thead_content'     => 'Contenido de la evaluación',
+        'form_you_have_commented_tips'          => 'Ya has evaluado',
         'form_payment_title'                    => 'Pago',
         'form_payment_no_data_tips'             => 'No hay método de pago',
         'order_base_title'                      => 'Información del pedido',

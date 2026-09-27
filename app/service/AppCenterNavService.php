@@ -13,6 +13,7 @@ namespace app\service;
 use think\facade\Db;
 use app\service\SystemService;
 use app\service\ResourcesService;
+use app\service\I18nService;
 
 /**
  * APP用户中心导航服务层
@@ -104,8 +105,15 @@ class AppCenterNavService
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            if(Db::name('AppCenterNav')->insertGetId($data) > 0)
+            $nav_id = Db::name('AppCenterNav')->insertGetId($data);
+            if($nav_id > 0)
             {
+                // 多语言数据保存（隐藏域未提交则不处理）
+                $i18n_data = I18nService::RequestData($params);
+                if($i18n_data !== null)
+                {
+                    I18nService::SaveData('app_center_nav', $nav_id, $i18n_data);
+                }
                 return DataReturn(MyLang('insert_success'), 0);
             }
             return DataReturn(MyLang('insert_fail'), -100);
@@ -113,9 +121,15 @@ class AppCenterNavService
             $data['upd_time'] = time();
             if(Db::name('AppCenterNav')->where(['id'=>intval($params['id'])])->update($data))
             {
+                // 多语言数据保存（隐藏域未提交则不处理）
+                $i18n_data = I18nService::RequestData($params);
+                if($i18n_data !== null)
+                {
+                    I18nService::SaveData('app_center_nav', intval($params['id']), $i18n_data);
+                }
                 return DataReturn(MyLang('edit_success'), 0);
             }
-            return DataReturn(MyLang('edit_fail'), -100); 
+            return DataReturn(MyLang('edit_fail'), -100);
         }
     }
 
@@ -144,6 +158,9 @@ class AppCenterNavService
         // 删除操作
         if(Db::name('AppCenterNav')->where(['id'=>$params['ids']])->delete())
         {
+            // 多语言数据删除
+            I18nService::DeleteData('app_center_nav', $params['ids']);
+
             return DataReturn(MyLang('delete_success'), 0);
         }
         return DataReturn(MyLang('delete_fail'), -100);
@@ -203,8 +220,8 @@ class AppCenterNavService
      */
     public static function AppCenterNav($params = [])
     {
-        // 缓存
-        $key = SystemService::CacheKey('shopxo.cache_app_user_center_navigation_key').APPLICATION_CLIENT_TYPE;
+        // 缓存（多语言隔离）
+        $key = SystemService::CacheKey('shopxo.cache_app_user_center_navigation_key').APPLICATION_CLIENT_TYPE.'_'.I18nService::CacheLangKey();
         $data = MyCache($key);
         if(empty($data))
         {
@@ -213,6 +230,9 @@ class AppCenterNavService
             $list = Db::name('AppCenterNav')->field($field)->where(['is_enable'=>1])->order($order_by)->select()->toArray();
             if(!empty($list))
             {
+                // 多语言数据替换
+                I18nService::DataHandle($list, 'app_center_nav');
+
                 $data = [];
                 foreach($list as &$v)
                 {

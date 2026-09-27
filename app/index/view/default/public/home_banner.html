@@ -1,22 +1,22 @@
-{{if !empty($banner_list)}}
-    <div class="banner theme-data-edit-event" data-module="slide_list">
+{{if !empty($slider_list)}}
+    <div class="banner theme-data-edit-event" data-module="slider_list">
         <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}'>
             <ul class="am-slides">
-                {{foreach $banner_list as $banner}}
-                    {{if !empty($banner['images_url'])}}
-                        <li {{if !empty($banner['bg_color'])}}style="background: {{$banner.bg_color}};"{{/if}}>
-                            {{switch banner.event_type}}
+                {{foreach $slider_list as $v}}
+                    {{if !empty($v['images_url'])}}
+                        <li {{if !empty($v['bg_color'])}}style="background: {{$v.bg_color}};"{{/if}}>
+                            {{switch v.event_type}}
                                 {{case 3}}
                                     <!-- 地图 -->
-                                    <a href="javascript:;" {{if !empty($banner['event_value_data']) and isset($banner['event_value_data'][2]) and isset($banner['event_value_data'][3]) and $banner['event_value_data'][2] neq 0 and $banner['event_value_data'][3] neq 0}}class="submit-map-popup" data-lng="{{$banner['event_value_data'][2]}}" data-lat="{{$banner['event_value_data'][3]}}"{{/if}}><img src="{{$banner.images_url}}" alt="{{$banner.name}}" /></a>
+                                    <a href="javascript:;" {{if !empty($v['event_value_data']) and isset($v['event_value_data'][2]) and isset($v['event_value_data'][3]) and $v['event_value_data'][2] neq 0 and $v['event_value_data'][3] neq 0}}class="submit-map-popup" data-lng="{{$v['event_value_data'][2]}}" data-lat="{{$v['event_value_data'][3]}}"{{/if}}><img src="{{$v.images_url}}" alt="{{$v.name}}" /></a>
                                 {{/case}}
                                 {{case 4}}
                                     <!-- 电话 -->
-                                    <a {{if !empty($banner['event_value'])}}href="tel:{{$banner.event_value}}"{{else /}}href="javascript:;"{{/if}}><img src="{{$banner.images_url}}" alt="{{$banner.name}}" /></a>
+                                    <a {{if !empty($v['event_value'])}}href="tel:{{$v.event_value}}"{{else /}}href="javascript:;"{{/if}}><img src="{{$v.images_url}}" alt="{{$v.name}}" /></a>
                                 {{/case}}
                                 {{default /}}
                                     <!-- 默认url地址 -->
-                                    <a {{if !empty($banner['event_value'])}}href="{{$banner.event_value}}" target="_blank" rel="noopener noreferrer"{{else /}}href="javascript:;"{{/if}}><img src="{{$banner.images_url}}" alt="{{$banner.name}}" /></a>
+                                    <a {{if !empty($v['event_value'])}}href="{{$v.event_value}}" target="_blank" rel="noopener noreferrer"{{else /}}href="javascript:;"{{/if}}><img src="{{$v.images_url}}" alt="{{$v.name}}" /></a>
                             {{/switch}}
                         </li>
                     {{/if}}

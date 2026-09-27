@@ -242,7 +242,12 @@ class Order extends Center
                 return MyRedirect($ret['data']['data']);
             }
         }
-        return MyView('public/tips_error', ['msg'=>$ret['msg']]);
+        // 支付失败也可从我的订单重新发起支付
+        return MyView('public/tips_error', [
+            'msg'       => $ret['msg'],
+            'to_url'    => MyUrl('index/order/index'),
+            'to_title'  => MyLang('order.base_nav_title'),
+        ]);
     }
 
     /**

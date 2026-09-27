@@ -38,7 +38,7 @@
                                 <img src="{{$user.icon}}" class="common-user-icon am-vertical-align-middle am-radius" {{if !empty($user['icon_title'])}}title="{{$user.icon_title}}"{{/if}} />
                             {{/if}}
                             {{if !empty($user['user_name_view'])}}
-                                <em class="user">{{$user.user_name_view}}</em>
+                                <em class="user am-vertical-align-middle">{{$user.user_name_view}}</em>
                             {{/if}}
                             <em class="last am-vertical-align-middle">{{:MyLang('common.header_top_nav_left_login_last')}}</em>
                             <em class="site-name am-vertical-align-middle">{{$home_site_name}}</em>
@@ -88,8 +88,8 @@
                     <div class="top-nav-items top-nav-items-home">
                         <div class="menu-hd">
                             <a href="{{$home_url}}">
-                                <i class="iconfont icon-index"></i>
-                                <span>{{:MyLang('common.shop_home_title')}}</span>
+                                <i class="iconfont icon-index am-vertical-align-middle"></i>
+                                <span class="am-vertical-align-middle">{{:MyLang('common.shop_home_title')}}</span>
                             </a>
                         </div>
                     </div>

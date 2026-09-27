@@ -141,6 +141,18 @@ class Order extends Common
                     $result['status_tips'] = MyLang('common_service.order.order_delivery_tips');
                 }
 
+                // 订单状态进度（复用 PC OrderStepData，结构对齐门店 status_progress）
+                $status_progress = OrderService::OrderStatusProgressData($data);
+                if(!empty($status_progress))
+                {
+                    if(!empty($result['status_tips']))
+                    {
+                        $status_progress['tips'] = $result['status_tips'];
+                    }
+                    $data['status_progress'] = $status_progress;
+                    $result['data'] = $data;
+                }
+
                 // 虚拟销售配置
                 if($data['order_model'] == 3 && $data['pay_status'] == 1 && in_array($data['status'], [3,4]))
                 {

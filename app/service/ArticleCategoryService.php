@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\I18nService;
 
 /**
  * 文章分类服务层
@@ -52,6 +53,9 @@ class ArticleCategoryService
     {
         if(!empty($data))
         {
+            // 多语言数据替换
+            I18nService::DataHandle($data, 'article_category');
+
             foreach($data as &$v)
             {
                 if(APPLICATION == 'web')
@@ -88,6 +92,9 @@ class ArticleCategoryService
             if(empty($data))
             {
                 $data = Db::name('ArticleCategory')->where(['is_enable'=>1,'id'=>intval($params['id'])])->field('*')->order('sort asc')->select()->toArray();
+
+                // 多语言数据替换
+                I18nService::DataHandle($data, 'article_category');
             } else {
                 $temp = array_column($data, null, 'id');
                 $data = array_key_exists($params['id'], $temp) ? [$temp[$params['id']]] : [];
@@ -179,6 +186,13 @@ class ArticleCategoryService
                 $data['id'] = $params['id'];
             }
         }
+
+        // 多语言数据保存（隐藏域未提交则不处理）
+        $i18n_data = I18nService::RequestData($params);
+        if($i18n_data !== null)
+        {
+            I18nService::SaveData('article_category', $data['id'], $i18n_data);
+        }
         return DataReturn(MyLang('operate_success'), 0, $data);
     }
 
@@ -214,6 +228,9 @@ class ArticleCategoryService
         // 开始删除
         if(Db::name('ArticleCategory')->where(['id'=>intval($params['id'])])->delete())
         {
+            // 多语言数据删除
+            I18nService::DeleteData('article_category', intval($params['id']));
+
             return DataReturn(MyLang('delete_success'), 0);
         }
         return DataReturn(MyLang('delete_fail'), -100);
@@ -231,6 +248,10 @@ class ArticleCategoryService
     public static function ArticleCategoryListContent($params = [])
     {
         $data = Db::name('ArticleCategory')->field('id,name')->where(['is_enable'=>1])->order('id asc, sort asc')->select()->toArray();
+
+        // 多语言数据替换
+        I18nService::DataHandle($data, 'article_category');
+
         if(!empty($data))
         {
             foreach($data as &$v)

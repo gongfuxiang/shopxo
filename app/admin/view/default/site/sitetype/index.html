@@ -4,7 +4,7 @@
 <div class="content-right">
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'sitetype'])}}" enctype="multipart/form-data">
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/site/save')}}" method="POST" data-i18n-table="config" request-type="ajax-view" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'sitetype'])}}" enctype="multipart/form-data">
             {{:ModuleInclude('public/nav_switch_btn', [
                 'nav_data' => [
                     [
@@ -37,8 +37,28 @@
                 <div class="item am-active" data-key="base-config-title">
                     <!-- 展示型 -->
                     <div class="am-form-group">
+                        <label class="am-block">{{$data.common_exhibition_mode_hide_price.name}}</label>
+                        <div class="am-radio-group">
+                            {{foreach $common_close_open_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.value}}" name="{{$data.common_exhibition_mode_hide_price.only_tag}}" data-validation-message="{{$data.common_exhibition_mode_hide_price.error_tips}}" required {{if (isset($data['common_exhibition_mode_hide_price']['value']) and $data['common_exhibition_mode_hide_price']['value'] eq $v['value']) or ((empty($data['common_exhibition_mode_hide_price']) or !isset($data['common_exhibition_mode_hide_price']['value']) or $data['common_exhibition_mode_hide_price']['value'] === '') and $v['value'] eq 0)}}checked{{/if}} data-am-ucheck>{{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                        <div class="am-tips-card">
+                            <p>{{$data.common_exhibition_mode_hide_price.describe}}</p>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_exhibition_mode_hide_price_text.name}}</label>
+                        <input type="text" name="{{$data.common_exhibition_mode_hide_price_text.only_tag}}" data-i18n="1" placeholder="{{$data.common_exhibition_mode_hide_price_text.name}}" maxlength="20" data-validation-message="{{$data.common_exhibition_mode_hide_price_text.error_tips}}" class="am-radius" {{if !empty($data['common_exhibition_mode_hide_price_text'])}}value="{{$data.common_exhibition_mode_hide_price_text.value}}"{{/if}} />
+                        <div class="am-tips-card">
+                            <p>{{$data.common_exhibition_mode_hide_price_text.describe}}</p>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
                         <label class="am-block">{{$data.common_is_exhibition_mode_btn_text.name}}</label>
-                        <input type="text" name="{{$data.common_is_exhibition_mode_btn_text.only_tag}}" placeholder="{{$data.common_is_exhibition_mode_btn_text.name}}" data-validation-message="{{$data.common_is_exhibition_mode_btn_text.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_is_exhibition_mode_btn_text.value}}"{{/if}} />
+                        <input type="text" name="{{$data.common_is_exhibition_mode_btn_text.only_tag}}" data-i18n="1" placeholder="{{$data.common_is_exhibition_mode_btn_text.name}}" data-validation-message="{{$data.common_is_exhibition_mode_btn_text.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_is_exhibition_mode_btn_text.value}}"{{/if}} />
                         <div class="am-tips-card">
                             <p>{{$data.common_is_exhibition_mode_btn_text.describe}}</p>
                         </div>
@@ -111,14 +131,14 @@
                 <div class="item" data-key="site-item-fictitious">
                     <div class="am-form-group">
                         <label class="am-block">{{$data.common_site_fictitious_title.name}}</label>
-                        <input type="text" name="{{$data.common_site_fictitious_title.only_tag}}" placeholder="{{$data.common_site_fictitious_title.name}}" data-validation-message="{{$data.common_site_fictitious_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_site_fictitious_title.value}}"{{/if}} />
+                        <input type="text" name="{{$data.common_site_fictitious_title.only_tag}}" data-i18n="1" placeholder="{{$data.common_site_fictitious_title.name}}" data-validation-message="{{$data.common_site_fictitious_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_site_fictitious_title.value}}"{{/if}} />
                         <div class="am-tips-card">
                             <p>{{$data.common_site_fictitious_title.describe}}</p>
                         </div>
                     </div>
                     <div class="am-form-group">
                         <label class="am-block">{{$data.common_site_fictitious_use_tips.name}}</label>
-                        <textarea rows="4" name="{{$data.common_site_fictitious_use_tips.only_tag}}" class="am-radius" placeholder="{{$data.common_site_fictitious_use_tips.name}}" data-validation-message="{{$data.common_site_fictitious_use_tips.error_tips}}">{{if !empty($data)}}{{$data.common_site_fictitious_use_tips.value}}{{/if}}</textarea>
+                        <textarea rows="4" name="{{$data.common_site_fictitious_use_tips.only_tag}}" data-i18n="1" class="am-radius" placeholder="{{$data.common_site_fictitious_use_tips.name}}" data-validation-message="{{$data.common_site_fictitious_use_tips.error_tips}}">{{if !empty($data)}}{{$data.common_site_fictitious_use_tips.value}}{{/if}}</textarea>
                         <div class="am-tips-card">
                             <p>{{$data.common_site_fictitious_use_tips.describe}}</p>
                         </div>
@@ -144,7 +164,7 @@
                     <span data-am-modal-close class="am-close">&times;</span>
                 </div>
                 <div class="am-popup-bd">
-                    <form class="am-form form-validation-address am-form-full-screen am-form-popup-fixed" method="post" request-type="sync" request-value="ViewAddressModalBack">
+                    <form class="am-form form-validation-address am-form-full-screen am-form-popup-fixed" data-i18n-table="config" method="post" request-type="sync" request-value="ViewAddressModalBack">
                         <div class="am-form-group row am-form-file">
                             <label class="am-block">
                                 {{:MyLang('site.form_take_address_logo')}}
@@ -160,11 +180,11 @@
                         </div>
                         <div class="am-form-group row">
                             <label class="am-block">{{:MyLang('site.form_take_address_alias')}}</label>
-                            <input type="text" name="alias" placeholder="{{:MyLang('site.form_take_address_alias_message')}}" minlength="0" maxlength="16" data-validation-message="{{:MyLang('site.form_take_address_alias_message')}}" class="am-radius" />
+                            <input type="text" name="alias" data-i18n="1" data-i18n-field="common_self_extraction_address_alias" placeholder="{{:MyLang('site.form_take_address_alias_message')}}" minlength="0" maxlength="16" data-validation-message="{{:MyLang('site.form_take_address_alias_message')}}" class="am-radius" />
                         </div>
                         <div class="am-form-group row">
                             <label class="am-block">{{:MyLang('site.form_take_address_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-                            <input type="text" name="name" placeholder="{{:MyLang('site.form_take_address_name_message')}}" minlength="1" maxlength="60" data-validation-message="{{:MyLang('site.form_take_address_name_message')}}" class="am-radius" required />
+                            <input type="text" name="name" data-i18n="1" data-i18n-field="common_self_extraction_address_name" placeholder="{{:MyLang('site.form_take_address_name_message')}}" minlength="1" maxlength="60" data-validation-message="{{:MyLang('site.form_take_address_name_message')}}" class="am-radius" required />
                         </div>
                         <div class="am-form-group row">
                             <label class="am-block">{{:MyLang('site.form_take_address_tel')}}<span class="am-form-group-label-tips-must">*</span></label>
@@ -177,7 +197,7 @@
                             <div class="am-flex am-flex-items-center am-width am-pr">
                                 <input type="hidden" name="lng" id="form-lng" />
                                 <input type="hidden" name="lat" id="form-lat" />
-                                <input type="text" name="address" id="form-address" data-is-clearout="0" placeholder="{{:MyLang('site.form_take_address_address')}}" minlength="2" maxlength="80" data-validation-message="{{:MyLang('site.form_take_address_address_message')}}" class="am-radius am-map-positioning-input" required />
+                                <input type="text" name="address" data-i18n="1" data-i18n-field="common_self_extraction_address_address" id="form-address" data-is-clearout="0" placeholder="{{:MyLang('site.form_take_address_address')}}" minlength="2" maxlength="80" data-validation-message="{{:MyLang('site.form_take_address_address_message')}}" class="am-radius am-map-positioning-input" required />
                                 <i class="iconfont icon-map-position am-map-positioning-icon" id="map-location-submit"></i>
                             </div>
                         </div>

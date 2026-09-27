@@ -79,6 +79,55 @@ class AttachmentService
     }
 
     /**
+     * 当前请求的上传人
+     * @author  Devil
+     * @version 1.0.0
+     * @date    2026-09-24
+     * @desc    后台记管理员id且来源为0，前台记用户id且来源为1
+     */
+    public static function AttachmentUploader()
+    {
+        $is_admin = (RequestModule() === 'admin');
+        $user_id = 0;
+        if($is_admin)
+        {
+            $admin = AdminService::LoginInfo();
+            $user_id = empty($admin['id']) ? 0 : intval($admin['id']);
+        } else {
+            $user = UserService::LoginUserInfo();
+            $user_id = empty($user['id']) ? 0 : intval($user['id']);
+        }
+        return [
+            'upload_user_id' => $user_id,
+            'upload_source'  => $is_admin ? 0 : 1,
+        ];
+    }
+
+    /**
+     * 前台用户自己上传的附件id
+     * @author  Devil
+     * @version 1.0.0
+     * @date    2026-09-24
+     * @param   [array]          $ids     [附件id]
+     * @param   [int]            $user_id [用户id]
+     */
+    public static function UserOwnAttachmentIds($ids, $user_id)
+    {
+        $ids = array_values(array_unique(array_filter(array_map('intval', (array) $ids))));
+        $user_id = intval($user_id);
+        if(empty($ids) || $user_id <= 0)
+        {
+            return [];
+        }
+        $rows = Db::name('Attachment')->where([
+            ['id', 'in', $ids],
+            ['upload_source', '=', 1],
+            ['upload_user_id', '=', $user_id],
+        ])->column('id');
+        return array_map('intval', $rows);
+    }
+
+    /**
      * 附件添加
      * @author   Devil
      * @blog     http://gong.gg/
@@ -142,8 +191,17 @@ class AttachmentService
             'type'          => isset($params['type']) ? $params['type'] : 'file',
             'hash'          => $params['hash'],
             'url'           => ResourcesService::AttachmentPathHandle($params['url']),
+            'upload_user_id'=> array_key_exists('upload_user_id', $params) ? intval($params['upload_user_id']) : 0,
+            'upload_source' => (array_key_exists('upload_source', $params) && intval($params['upload_source']) === 1) ? 1 : 0,
             'add_time'      => time(),
         ];
+        // 未显式传入时按当前请求记录上传人（后台管理员 / 前台用户）
+        if(!array_key_exists('upload_user_id', $params) && !array_key_exists('upload_source', $params))
+        {
+            $uploader = self::AttachmentUploader();
+            $data['upload_user_id'] = $uploader['upload_user_id'];
+            $data['upload_source'] = $uploader['upload_source'];
+        }
 
         // 附件上传前处理钩子
         $hook_name = 'plugins_service_attachment_handle_begin';
@@ -220,6 +278,84 @@ class AttachmentService
             return DataReturn(MyLang('update_fail'), -100);
         }
         return DataReturn(MyLang('update_success'), 0);
+    }
+
+    /**
+     * 附件列表展示上传人和来源
+     * @author  Devil
+     * @version 1.0.0
+     * @date    2026-09-24
+     * @param   [array]          $data   [列表数据]
+     * @param   [array]          $params [额外参数]
+     */
+    public static function AttachmentFormListHandle($data, $params = [])
+    {
+        if(empty($data) || !is_array($data))
+        {
+            return $data;
+        }
+
+        $admin_ids = [];
+        $user_ids = [];
+        foreach($data as $v)
+        {
+            if(empty($v['upload_user_id']))
+            {
+                continue;
+            }
+            $uid = intval($v['upload_user_id']);
+            if($uid <= 0)
+            {
+                continue;
+            }
+            if(isset($v['upload_source']) && intval($v['upload_source']) === 1)
+            {
+                $user_ids[] = $uid;
+            } else {
+                $admin_ids[] = $uid;
+            }
+        }
+        $admin_map = empty($admin_ids) ? [] : Db::name('Admin')->where(['id'=>array_unique($admin_ids)])->column('username', 'id');
+        $user_map = [];
+        if(!empty($user_ids))
+        {
+            $rows = Db::name('User')->where(['id'=>array_unique($user_ids)])->field('id,username,nickname,mobile')->select()->toArray();
+            foreach($rows as $row)
+            {
+                $name = '';
+                if(!empty($row['nickname']))
+                {
+                    $name = $row['nickname'];
+                } elseif(!empty($row['username']))
+                {
+                    $name = $row['username'];
+                } elseif(!empty($row['mobile']))
+                {
+                    $name = $row['mobile'];
+                }
+                $user_map[intval($row['id'])] = $name;
+            }
+        }
+
+        $source_list = [
+            0 => MyLang('attachment.form_table.upload_source_admin'),
+            1 => MyLang('attachment.form_table.upload_source_user'),
+        ];
+        foreach($data as &$v)
+        {
+            $source = isset($v['upload_source']) ? intval($v['upload_source']) : 0;
+            $v['upload_source_name'] = array_key_exists($source, $source_list) ? $source_list[$source] : '';
+            $uid = empty($v['upload_user_id']) ? 0 : intval($v['upload_user_id']);
+            if($uid <= 0)
+            {
+                $v['upload_user_name'] = '';
+                continue;
+            }
+            $name = ($source === 1) ? (isset($user_map[$uid]) ? $user_map[$uid] : '') : (isset($admin_map[$uid]) ? $admin_map[$uid] : '');
+            $v['upload_user_name'] = ($name === '') ? (string) $uid : ($name.'('.$uid.')');
+        }
+        unset($v);
+        return $data;
     }
 
     /**
@@ -342,6 +478,12 @@ class AttachmentService
      */
     public static function AttachmentDelete($params = [])
     {
+        // 必须显式授权：后台管理员会话，或 Ueditor 已校验的扫码/权限标记
+        if(empty($params['admin']) && empty($params['is_power_delete']))
+        {
+            return DataReturn(MyLang('no_power_tips'), -1);
+        }
+
         // 请求参数
         $ids = empty($params['ids']) ? (empty($params['id']) ? '' : $params['id']) : $params['ids'];
         if(empty($ids))

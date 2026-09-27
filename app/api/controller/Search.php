@@ -79,12 +79,35 @@ class Search extends Common
             'screening_price_list'     => SearchService::ScreeningPriceList($this->data_request),
             // 商品产地
             'goods_produce_region_list'  => SearchService::SearchGoodsProduceRegionList($map, $this->data_request),
-            // 商品参数
-            'goods_params_list'        => SearchService::SearchGoodsParamsValueList($map, $this->data_request),
-            // 商品规格
-            'goods_spec_list'          => SearchService::SearchGoodsSpecValueList($map, $this->data_request),
+            // 商品参数（按分类模板，与 PC 一致）
+            'goods_params_list'        => SearchService::SearchGoodsParamsTemplateFilterList($this->data_request),
+            // 商品规格（按分类模板，与 PC 一致）
+            'goods_spec_list'          => SearchService::SearchGoodsSpecTemplateFilterList($this->data_request),
             // 购物车汇总
             'cart_total'               => GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]),
+        ];
+        return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
+    }
+
+    /**
+     * 参数/规格筛选项（分类切换后刷新，与 PC MapFilter 一致）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-08-11
+     * @desc    description
+     */
+    public function MapFilter()
+    {
+        $ret = SearchService::SearchIsLoginCheck();
+        if($ret['code'] != 0)
+        {
+            $this->IsLogin();
+        }
+
+        $result = [
+            'goods_params_list' => SearchService::SearchGoodsParamsTemplateFilterList($this->data_request),
+            'goods_spec_list'   => SearchService::SearchGoodsSpecTemplateFilterList($this->data_request),
         ];
         return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }

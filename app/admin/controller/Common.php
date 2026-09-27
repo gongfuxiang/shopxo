@@ -19,6 +19,7 @@ use app\service\AdminPowerService;
 use app\service\ResourcesService;
 use app\service\StoreService;
 use app\service\MultilingualService;
+use app\service\I18nService;
 use app\service\ConfigService;
 use app\service\AdminNavTodoService;
 
@@ -302,6 +303,8 @@ class Common extends BaseController
 
         // 权限菜单
         $assign['left_menu'] = $this->left_menu;
+        // 菜单搜索（含页面切换导航）
+        $assign['admin_menu_search_json'] = json_encode(AdminPowerService::MenuSearchList($this->left_menu), JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
         // 当前管理员可使用的插件
         $assign['admin_plugins'] = $this->admin_plugins;
 
@@ -310,6 +313,11 @@ class Common extends BaseController
 
         // 静态文件状态css,js
         $assign['static_path_data'] = ResourcesService::StaticCssOrJsPathData($this->default_theme, $this->module_name, $this->controller_name, $this->action_name);
+
+        // 多语言数据组件（后台自身需要使用）
+        $assign['is_load_i18n'] = 1;
+        // 总开关（common_multilingual_write_entry_status、默认关闭）、不开则配置不生成、前后台组件均不生效
+        $assign['i18n_view_config'] = (MyC('common_multilingual_write_entry_status', 0) == 1) ? I18nService::JsConfig('admin') : null;
 
         // 后台logo
         $assign['admin_logo'] = MyC('admin_logo');

@@ -11,7 +11,6 @@
 namespace app\api\controller;
 
 use app\service\ApiService;
-use app\service\SystemBaseService;
 use app\service\GoodsCommentsService;
 
 /**
@@ -48,34 +47,11 @@ class UserGoodsComments extends Common
      */
     public function Index()
     {
-        // 参数
-        $params = $this->data_request;
-        $params['user'] = $this->user;
-
-        // 条件
-        $where = GoodsCommentsService::UserGoodsCommentsListWhere($params);
-
-        // 获取总数
-        $total = GoodsCommentsService::GoodsCommentsTotal($where);
-        $page_total = ceil($total/$this->page_size);
-        $start = intval(($this->page-1)*$this->page_size);
-
-        // 获取列表
-        $data_params = [
-            'm'         => $start,
-            'n'         => $this->page_size,
-            'where'     => $where,
-            'is_goods'  => 1,
-        ];
-        $ret = GoodsCommentsService::GoodsCommentsList($data_params);
-
-        // 返回数据
-        $result = [
-            'total'         => $total,
-            'page_total'    => $page_total,
-            'data'          => $ret['data'],
-        ];
-        return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
+        return ApiService::ApiDataReturn(DataReturn('success', 0, FormModuleData(array_merge($this->data_request, [
+            'group'   => 'index',
+            'control' => 'usergoodscomments',
+            'action'  => 'index',
+        ]))));
     }
 
     /**
@@ -105,7 +81,7 @@ class UserGoodsComments extends Common
                 $data = $ret['data'][0];
             }
         }
-        return ApiService::ApiDataReturn(SystemBaseService::DataReturn($data));
+        return ApiService::ApiDataReturn(DataReturn('success', 0, $data));
     }
 
     /**
@@ -120,6 +96,8 @@ class UserGoodsComments extends Common
     {
         $params = $this->data_request;
         $params['user'] = $this->user;
+        // 前台强制普通用户身份，禁止客户端伪造 user_type=admin
+        $params['user_type'] = 'user';
         return ApiService::ApiDataReturn(GoodsCommentsService::GoodsCommentsSave($params));
     }
 
@@ -135,6 +113,7 @@ class UserGoodsComments extends Common
     {
         $params = $this->data_request;
         $params['user'] = $this->user;
+        $params['user_type'] = 'user';
         return ApiService::ApiDataReturn(GoodsCommentsService::GoodsCommentsDelete($params));
     }
 }

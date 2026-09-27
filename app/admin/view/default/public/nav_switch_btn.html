@@ -2,7 +2,7 @@
     <div class="nav-switch-btn">
         {{foreach $module_data.nav_data as $k=>$v}}
             {{if (!isset($v.is_show) or $v.is_show eq 1) and isset($v['key']) and isset($v['name'])}}
-                <a href="javascript:;" class="item {{if isset($module_data['index']) and $module_data.index eq $k or (!isset($module_data['index']) and $k eq 0)}}am-active{{/if}}" data-key="{{$v.key}}">{{$v.name}}</a>
+                <a href="javascript:;" class="item {{if isset($module_data['index']) and $module_data.index eq $k}}am-active{{elseif !isset($module_data['index']) and !empty($params['switch']) and $params['switch'] eq $v['key']}}am-active{{elseif !isset($module_data['index']) and empty($params['switch']) and $k eq 0}}am-active{{/if}}" data-key="{{$v.key}}">{{$v.name}}</a>
             {{/if}}
         {{/foreach}}
     </div>

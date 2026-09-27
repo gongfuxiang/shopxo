@@ -13,7 +13,7 @@
         <!-- nav end -->
 
         <!-- form start -->
-        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/themedata/save')}}" method="POST" request-type="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}ajax-url{{else /}}ajax-reload{{/if}}" request-value="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}{{:MyUrl('admin/themedata/index', $params)}}{{else /}}parent{{/if}}">
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" data-i18n-table="theme_data" data-i18n-id="{{if !empty($data['id'])}}{{$data.id}}{{/if}}" action="{{:MyUrl('admin/themedata/save')}}" method="POST" request-type="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}ajax-url{{else /}}ajax-reload{{/if}}" request-value="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}{{:MyUrl('admin/themedata/index', $params)}}{{else /}}parent{{/if}}">
             {{:ModuleInclude('public/nav_switch_btn', [
                 'nav_data' => [
                     [
@@ -93,8 +93,8 @@
                                             {{/if}}
                                         </li>
                                     </ul>
-                                    <input type="text" name="custom_data[{{$k}}][name]" placeholder="{{:MyLang('common_service.themedata.form_item_custom_data_name_text')}}" class="name am-radius" value="{{if isset($v['name'])}}{{$v.name}}{{/if}}" />
-                                    <input type="text" name="custom_data[{{$k}}][value]" placeholder="{{:MyLang('common_service.themedata.form_item_custom_data_value_text')}}" class="value am-radius" value="{{if isset($v['value'])}}{{$v.value}}{{/if}}" />
+                                    <input type="text" name="custom_data[{{$k}}][name]" data-i18n="1" data-i18n-field="theme_data_custom_name" data-i18n-content="1" data-i18n-business-id="{{if !empty($data['id'])}}{{$data.id}}{{/if}}" data-i18n-label="{{:MyLang('common_service.themedata.form_item_custom_data_name_text')}}" placeholder="{{:MyLang('common_service.themedata.form_item_custom_data_name_text')}}" class="name am-radius" value="{{if isset($v['name'])}}{{$v.name}}{{/if}}" />
+                                    <input type="text" name="custom_data[{{$k}}][value]" data-i18n="1" data-i18n-field="theme_data_custom_value" data-i18n-content="1" data-i18n-business-id="{{if !empty($data['id'])}}{{$data.id}}{{/if}}" data-i18n-label="{{:MyLang('common_service.themedata.form_item_custom_data_value_text')}}" placeholder="{{:MyLang('common_service.themedata.form_item_custom_data_value_text')}}" class="value am-radius" value="{{if isset($v['value'])}}{{$v.value}}{{/if}}" />
                                     <a href="javascript:;" class="am-text-blue am-block url-choice-event">
                                         <input type="hidden" name="custom_data[{{$k}}][url_data]" value="{{if !empty($v['url_data'])}}{{:urlencode(base64_encode(json_encode($v.url_data)))}}{{/if}}" />
                                         <span>

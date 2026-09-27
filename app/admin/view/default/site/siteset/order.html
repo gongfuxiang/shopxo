@@ -64,10 +64,10 @@
                     <!-- 下单指定时间 -->
                     <div class="am-form-group">
                         <label>{{$data.common_buy_datetime_info.name}}<span class="am-form-group-label-tips">{{$data.common_buy_datetime_info.describe}}</span></label>
-                        <div class="am-checkbox-group">
+                        <div class="am-radio-group">
                             {{foreach $common_buy_datetime_config_list as $v}}
-                                <label class="am-checkbox-inline">
-                                    <input type="checkbox" name="{{$data.common_buy_datetime_info.only_tag}}" value="{{$v.value}}" {{if isset($data['common_buy_datetime_info']['value']) and in_array($v['value'], $data['common_buy_datetime_info']['value'])}}checked{{/if}} data-validation-message="{{$data.common_buy_datetime_info.error_tips}}" data-am-ucheck> {{$v.name}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" name="{{$data.common_buy_datetime_info.only_tag}}" value="{{$v.value}}" {{if isset($data['common_buy_datetime_info']['value']) and $data['common_buy_datetime_info']['value'] eq $v['value']}}checked{{else /}}{{if !isset($data['common_buy_datetime_info']['value']) and isset($v['checked']) and $v['checked'] eq true}}checked{{/if}}{{/if}} data-validation-message="{{$data.common_buy_datetime_info.error_tips}}" data-am-ucheck> {{$v.name}}
                                 </label>
                             {{/foreach}}
                         </div>
@@ -76,10 +76,10 @@
                     <!-- 下单联系信息 -->
                     <div class="am-form-group">
                         <label>{{$data.common_buy_extraction_contact_info.name}}<span class="am-form-group-label-tips">{{$data.common_buy_extraction_contact_info.describe}}</span></label>
-                        <div class="am-checkbox-group">
+                        <div class="am-radio-group">
                             {{foreach $common_buy_extraction_contact_config_list as $v}}
-                                <label class="am-checkbox-inline">
-                                    <input type="checkbox" name="{{$data.common_buy_extraction_contact_info.only_tag}}" value="{{$v.value}}" {{if isset($data['common_buy_extraction_contact_info']['value']) and in_array($v['value'], $data['common_buy_extraction_contact_info']['value'])}}checked{{/if}} data-validation-message="{{$data.common_buy_extraction_contact_info.error_tips}}" data-am-ucheck> {{$v.name}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" name="{{$data.common_buy_extraction_contact_info.only_tag}}" value="{{$v.value}}" {{if isset($data['common_buy_extraction_contact_info']['value']) and $data['common_buy_extraction_contact_info']['value'] eq $v['value']}}checked{{else /}}{{if !isset($data['common_buy_extraction_contact_info']['value']) and isset($v['checked']) and $v['checked'] eq true}}checked{{/if}}{{/if}} data-validation-message="{{$data.common_buy_extraction_contact_info.error_tips}}" data-am-ucheck> {{$v.name}}
                                 </label>
                             {{/foreach}}
                         </div>

@@ -1,0 +1,289 @@
+{{:ModuleInclude('public/header')}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- nav start -->
+        {{if !empty($siteset_nav_list) and is_array($siteset_nav_list)}}
+            {{:ModuleInclude('public/nav_switch_tabs', [
+                'nav_data'  => $siteset_nav_list,
+                'view_type' => $view_type,
+                'nav_type'  => $nav_type,
+                'url'       => 'admin/site/index'
+            ])}}
+        {{/if}}
+        <!-- nav end -->
+
+        <!-- form start -->
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/site/save')}}" method="POST" data-i18n-table="config" request-type="ajax-view" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>$nav_type, 'view_type'=>$view_type])}}" enctype="multipart/form-data">
+            <!-- 基础 -->
+            <div class="nav-content">
+                <div class="am-form-group">
+                    <label>{{$data.common_site_default_index.name}}<span class="am-form-group-label-tips">{{$data.common_site_default_index.describe}}</span></label>
+                    <select name="{{$data.common_site_default_index.only_tag}}" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{$data.common_site_default_index.error_tips}}">
+                        <option value="">{{:MyLang('please_select_tips')}}</option>
+                        {{foreach $site_default_index_data_list as $v}}
+                            {{if !empty($v['data']) and is_array($v['data']) and !empty($v['name'])}}
+                                <optgroup label="{{$v.name}}" class="am-color-ccc">
+                                    {{foreach $v.data as $vs}}
+                                        <option value="{{$vs.type}}|{{$vs.value}}" {{if !empty($data['common_site_default_index']['value']) and $data['common_site_default_index']['value'] eq $vs['type'].'|'.$vs['value']}}selected{{/if}}>{{$vs.name}}</option>
+                                    {{/foreach}}
+                                </optgroup>
+                            {{/if}}
+                        {{/foreach}}
+                    </select>
+                </div>
+                <div class="am-form-group">
+                    <label class="am-block">{{$data.home_index_banner_left_status.name}}<span class="am-form-group-label-tips">{{$data.home_index_banner_left_status.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_close_open_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.value}}" name="{{$data.home_index_banner_left_status.only_tag}}" data-validation-message="{{$data.home_index_banner_left_status.error_tips}}" required {{if isset($data['home_index_banner_left_status']['value']) and $data['home_index_banner_left_status']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck /> {{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label class="am-block">{{$data.home_index_banner_right_status.name}}<span class="am-form-group-label-tips">{{$data.home_index_banner_right_status.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_close_open_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.value}}" name="{{$data.home_index_banner_right_status.only_tag}}" data-validation-message="{{$data.home_index_banner_right_status.error_tips}}" required {{if isset($data['home_index_banner_right_status']['value']) and $data['home_index_banner_right_status']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck /> {{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label class="am-block">{{$data.home_index_floor_data_type.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_data_type.describe}}</span></label>
+                    <div class="am-radio-group">
+                        {{foreach $common_site_floor_data_type_list as $k=>$v}}
+                            <label class="am-radio-inline">
+                                <input class="check-radio-change" type="radio" value="{{$k}}" name="{{$data.home_index_floor_data_type.only_tag}}" {{if isset($data['home_index_floor_data_type']['value']) and $data['home_index_floor_data_type']['value'] eq $k}}checked{{/if}} data-validation-message="{{$data.home_index_floor_data_type.error_tips}}" data-am-ucheck /> {{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                </div>
+                <div class="item {{if isset($data['home_index_floor_data_type']['value']) and $data['home_index_floor_data_type']['value'] eq '2'}}am-active{{/if}}" data-key="2">
+                    <div class="am-form-group">
+                        <div class="am-flex am-flex-row am-flex-justify-center am-flex-items-center am-margin-top-xl">
+                            <div class="am-flex am-flex-col am-flex-items-center drop-mode am-color-999 am-text-xs am-gap-1">
+                                <img src="{{:StaticAttachmentUrl('site/siteset/index/drop.png')}}"/>
+                                {{:MyLang('site.site_setup_layout_tips')}}
+                                <a href="{{:MyUrl('index/index/index', ['is_design'=>1, 'save_url'=>urlencode(base64_encode(MyUrl('admin/layout/layoutindexhomesave')))])}}" target="_blank" rel="noopener noreferrer" class="am-btn am-btn-primary am-btn-xs am-radius">{{:MyLang('site.site_setup_layout_button_name')}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 自动 + 手动 -->
+                <div class="reverse-drop-show am-margin-bottom {{if isset($data['home_index_floor_data_type']['value']) and $data['home_index_floor_data_type']['value'] eq 2}} am-hide{{/if}}">
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.home_index_floor_left_top_category.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_left_top_category.describe}}</span></label>
+                        {{if !empty($one_level_goods_category_list)}}
+                            <div class="card-grey am-margin-top-sm">
+                                <ul class="auto-hand-cart">
+                                    {{foreach $one_level_goods_category_list as $category}}
+                                        <li>
+                                            <p class="am-text-truncate am-margin-bottom-sm">
+                                                <span>{{$category.name}}</span>
+                                                <span class="am-margin-left-sm form.am-form am-form-group-label-tips">{{$category.vice_name}}</span>
+                                            </p>
+                                            {{if !empty($category['items'])}}
+                                                <div class="am-checkbox-group">
+                                                    {{foreach $category.items as $v}}
+                                                        <label class="am-checkbox-inline">
+                                                            <input type="checkbox" name="{{$data.home_index_floor_left_top_category.only_tag}}[{{$category.id}}]" value="{{$v.id}}" {{if !empty($category['config_category_ids']) and in_array($v['id'], $category['config_category_ids'])}}checked{{/if}} data-validation-message="{{$data.home_index_floor_left_top_category.error_tips}}" data-am-ucheck /> {{$v.name}}
+                                                        </label>
+                                                    {{/foreach}}
+                                                </div>
+                                            {{/if}}
+                                        </li>
+                                    {{/foreach}}
+                                </ul>
+                                <div class="am-tips-card">
+                                    <p>{{:MyLang('site.site_setup_goods_category_tips')}}</p>
+                                </div>
+                            </div>
+                        {{else /}}
+                            <div class="am-text-center am-margin-top-lg">
+                                <i class="am-icon-warning"></i>
+                                <span>{{:MyLang('site.site_setup_goods_category_no_data_tips')}}</span>
+                            </div>
+                        {{/if}}
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.home_index_floor_top_right_keywords.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_top_right_keywords.describe}}</span></label>
+                        {{if !empty($one_level_goods_category_list)}}
+                            <div class="card-grey">
+                                <ul class="auto-hand-cart">
+                                    {{foreach $one_level_goods_category_list as $category}}
+                                        <li>
+                                            <p class="am-text-truncate am-margin-bottom-xs">
+                                                <span>{{$category.name}}</span>
+                                                <span class="am-margin-left-sm form.am-form am-form-group-label-tips">{{$category.vice_name}}</span>
+                                            </p>
+                                            <input type="text" name="{{$data.home_index_floor_top_right_keywords.only_tag}}[{{$category['id']}}]" data-i18n="1" data-i18n-field="{{$data.home_index_floor_top_right_keywords.only_tag}}_{{$category['id']}}" placeholder="{{$category.name}}{{$data.home_index_floor_top_right_keywords.describe}}" data-validation-message="{{$data.home_index_floor_top_right_keywords.error_tips}}" class="am-radius" value="{{$category.config_keywords}}" data-am-tagsinput />
+                                        </li>
+                                    {{/foreach}}
+                                </ul>
+                                <div class="am-tips-card">
+                                    <p>{{:MyLang('site.site_setup_goods_category_tips')}}</p>
+                                </div>
+                            </div>
+                        {{else /}}
+                            <div class="am-text-center am-margin-top-lg">
+                                <i class="am-icon-warning"></i>
+                                <span>{{:MyLang('site.site_setup_goods_category_no_data_tips')}}</span>
+                            </div>
+                        {{/if}}
+                    </div>
+                </div>
+                <!-- 自动模式 -->
+                <div class="item {{if isset($data['home_index_floor_data_type']['value']) and $data['home_index_floor_data_type']['value'] eq 0}} am-active{{/if}}" data-key="0">
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.home_index_floor_goods_max_count.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_goods_max_count.describe}}</span></label>
+                        <input type="number" min="0" name="{{$data.home_index_floor_goods_max_count.only_tag}}" placeholder="{{$data.home_index_floor_goods_max_count.name}}" data-validation-message="{{$data.home_index_floor_goods_max_count.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.home_index_floor_goods_max_count.value}}"{{/if}} />
+                        {{if is_array(MyLang('site.goods_auto_mode_max_count_tips_list'))}}
+                            <div class="am-tips-card">
+                                <p>{{:implode('</p><p>', MyLang('site.goods_auto_mode_max_count_tips_list'))}}</p>
+                            </div>
+                        {{/if}}
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.home_index_floor_goods_order_by_type.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_goods_order_by_type.describe}}</span></label>
+                        <div class="am-radio-group">
+                            {{foreach $common_goods_order_by_type_list as $k=>$v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" name="{{$data.home_index_floor_goods_order_by_type.only_tag}}" value="{{$k}}" {{if isset($data['home_index_floor_goods_order_by_type']['value']) and $data['home_index_floor_goods_order_by_type']['value'] eq $k}}checked{{/if}} data-validation-message="{{$data.home_index_floor_goods_order_by_type.error_tips}}" data-am-ucheck /> {{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                        {{if is_array(MyLang('site.goods_auto_mode_order_by_tips_list'))}}
+                            <div class="am-tips-card">
+                                <p>{{:implode('</p><p>', MyLang('site.goods_auto_mode_order_by_tips_list'))}}</p>
+                            </div>
+                        {{/if}}
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.home_index_floor_goods_order_by_rule.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_goods_order_by_rule.describe}}</span></label>
+                        <div class="am-radio-group">
+                            {{foreach $common_data_order_by_rule_list as $k=>$v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" name="{{$data.home_index_floor_goods_order_by_rule.only_tag}}" value="{{$k}}" {{if isset($data['home_index_floor_goods_order_by_rule']['value']) and $data['home_index_floor_goods_order_by_rule']['value'] eq $k}}checked{{/if}} data-validation-message="{{$data.home_index_floor_goods_order_by_rule.error_tips}}" data-am-ucheck /> {{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
+                </div>
+                <!-- 手动模式 -->
+                <div class="item {{if isset($data['home_index_floor_data_type']['value']) and $data['home_index_floor_data_type']['value'] eq 1}} am-active{{/if}}" data-key="1">
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.home_index_floor_manual_mode_goods.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_manual_mode_goods.describe}}</span></label>
+                        {{if !empty($one_level_goods_category_list)}}
+                            <div class="card-grey">
+                                <ul class="auto-hand-cart">
+                                    {{foreach $one_level_goods_category_list as $category}}
+                                        <li>
+                                            <p class="am-text-truncate am-margin-bottom-xs">
+                                                <span>{{$category.name}}</span>
+                                                <span class="am-margin-left-sm form.am-form am-form-group-label-tips">{{$category.vice_name}}</span>
+                                            </p>
+                                            <ul class="manual-mode-goods-container am-nbfc am-radius manual-mode-goods-container-{{$category.id}}">
+                                            {{if !empty($floor_manual_mode_goods_list) && !empty($floor_manual_mode_goods_list[$category['id']])}}
+                                                {{foreach $floor_manual_mode_goods_list[$category['id']] as $g}}
+                                                    <li class="manual-mode-goods-item-{{$g.id}}">
+                                                        <input type="hidden" name="{{$data.home_index_floor_manual_mode_goods.only_tag}}[{{$category.id}}][]" value="{{$g.id}}" />
+                                                        <a href="{{$g.goods_url}}" target="_blank" rel="noopener noreferrer" class="am-text-truncate am-flex am-flex-items-center am-gap-1">
+                                                            <img src="{{$g.images}}" alt="{{$g.title}}" class="am-border-c am-radius" width="26" height="26" />
+                                                            <span class="am-flex-1 am-flex-width">{{$g.title}}</span>
+                                                        </a>
+                                                        <button type="button" class="am-close am-fr">&times;</button>
+                                                    </li>
+                                                {{/foreach}}
+                                            {{/if}}
+                                        </ul>
+                                        <span class="business-operations-submit goods-popup-add" data-tag=".manual-mode-goods-container-{{$category.id}}" data-form-name="{{$data.home_index_floor_manual_mode_goods.only_tag}}[{{$category.id}}][]">+ {{:MyLang('site.add_goods_title')}}</span>
+                                        </li>
+                                    {{/foreach}}
+                                </ul>
+                                <div class="am-tips-card">
+                                    <p>{{:MyLang('site.site_setup_goods_category_tips')}}</p>
+                                </div>
+                            </div>
+                        {{else /}}
+                            <div class="am-text-center am-margin-top-lg">
+                                <i class="am-icon-warning"></i>
+                                <span>{{:MyLang('site.site_setup_goods_category_no_data_tips')}}</span>
+                            </div>
+                        {{/if}}
+                        {{if is_array(MyLang('site.goods_manual_mode_max_tips_list'))}}
+                            <div class="am-tips-card">
+                                <p>{{:implode('</p><p>', MyLang('site.goods_manual_mode_max_tips_list'))}}</p>
+                            </div>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+            <div class="am-form-popup-submit">
+                <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                <input type="hidden" name="view_type" value="{{$view_type}}" />
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner: 'circle-o-notch', loadingText:'{{:MyLang('save_title')}}'}">
+                    <i class="am-icon-save"></i>
+                    <span>{{:MyLang('save_title')}}</span>
+                </button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- 商品添加弹窗 -->
+<div class="am-popup am-radius am-popup-full-max-lg" id="siteset-goods-popup">
+    <div class="am-popup-inner">
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">{{:MyLang('site.add_goods_title')}}</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
+        <div class="am-popup-bd am-padding-0">
+            <form class="am-form am-padding-sm goods-add-container">
+                <!-- 搜索 -->
+                <div class="forth-selection-container" data-search-url="{{:MyUrl('admin/site/goodssearch')}}">
+                    <select class="am-radius chosen-select forth-selection-form-category" data-placeholder="{{:MyLang('form_goods_category_placeholder')}}" data-validation-message="{{:MyLang('form_goods_category_message')}}">
+                        <option value="">{{:MyLang('form_goods_category_placeholder')}}</option>
+                        {{if !empty($one_level_goods_category_list)}}
+                            {{foreach $one_level_goods_category_list as $v}}
+                                <option value="{{$v.id}}">{{$v.name}}</option>
+                                {{if !empty($v['items'])}}
+                                    {{foreach $v.items as $vs}}
+                                        <option style="padding-left: 15px;" value="{{$vs.id}}">{{if empty($vs['items'])}}├{{else /}}└{{/if}}² {{$vs.name}}</option>
+                                        {{if !empty($vs['items'])}}
+                                            {{foreach $vs.items as $kss=>$vss}}
+                                                <option style="padding-left: 30px;" value="{{$vss.id}}">{{if $kss eq count($vs['items'])-1}}└{{else /}}├{{/if}}³ {{$vss.name}}</option>
+                                            {{/foreach}}
+                                        {{/if}}
+                                    {{/foreach}}
+                                {{/if}}
+                            {{/foreach}}
+                        {{/if}}
+                    </select>
+                    <input type="text" placeholder="{{:MyLang('goods_name')}}" class="am-radius forth-selection-form-keywords" />
+                    <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs search-submit" data-am-loading="{spinner: 'circle-o-notch', loadingText: ' {{:MyLang('search_title')}}'}">
+                        <i class="iconfont icon-search"></i>
+                        <span>{{:MyLang('search_title')}}</span>
+                    </button>
+                </div>
+
+                <!-- 商品列表 -->
+                <div class="am-scrollable-vertical am-margin-top-sm am-padding-bottom-xs am-radius goods-list-container" data-loading-msg="{{:MyLang('searching_tips')}}">
+                    <ul class="am-gallery am-avg-sm-2 am-avg-md-6 am-avg-lg-8 am-gallery-bordered"></ul>
+                </div>
+
+                <!-- 分页 -->
+                <div class="am-margin-top-sm am-text-center goods-page-container"></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- footer start -->
+{{:ModuleInclude('public/footer')}}

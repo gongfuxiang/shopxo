@@ -47,7 +47,7 @@
             </div>
             <div class="am-popup-bd">
                 <!-- form start -->
-                <form class="am-form form-validation-custom am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload">
+                <form class="am-form form-validation-custom am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" data-i18n-table="navigation" data-i18n-table="navigation" request-type="ajax-reload">
                     <div class="am-form-group row">
                         <label>{{:MyLang('common_service.navigation.form_item_pid')}}</label>
                         <select class="am-radius chosen-select" name="pid" data-placeholder="{{:MyLang('common_service.navigation.form_item_pid_placeholder')}}" data-validation-message="{{:MyLang('common_service.navigation.form_item_pid_message')}}">
@@ -59,7 +59,7 @@
                     </div>
                     <div class="am-form-group row">
                         <label>{{:MyLang('common_service.navigation.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-                        <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" minlength="1" maxlength="60" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" required />
+                        <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" data-i18n="1" minlength="1" maxlength="60" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" required />
                     </div>
                     <div class="am-form-group row">
                         <label>{{:MyLang('common_service.navigation.form_item_url')}}<span class="am-form-group-label-tips-must">*</span></label>
@@ -97,7 +97,7 @@
             </div>
             <div class="am-popup-bd">
                 <!-- form start -->
-                <form class="am-form form-validation-article am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload">
+                <form class="am-form form-validation-article am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" data-i18n-table="navigation" request-type="ajax-reload">
                     <div class="am-form-group row">
                         <label>{{:MyLang('common_service.navigation.form_item_pid')}}</label>
                         <select class="am-radius chosen-select" name="pid" data-placeholder="{{:MyLang('common_service.navigation.form_item_pid_placeholder')}}" data-validation-message="{{:MyLang('common_service.navigation.form_item_pid_message')}}">
@@ -124,7 +124,7 @@
                     </div>
                     <div class="am-form-group row">
                         <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['article']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
-                        <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
+                        <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" data-i18n="1" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
                     </div>
                     {{:ModuleInclude('lib/sort', ['is_row'=>1])}}
                     {{:ModuleInclude('lib/is_show', ['is_row'=>1])}}
@@ -159,7 +159,7 @@
                 </div>
             <div class="am-popup-bd">
                 <!-- form start -->
-                <form class="am-form form-validation-customview am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload">
+                <form class="am-form form-validation-customview am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" data-i18n-table="navigation" request-type="ajax-reload">
                     <div class="am-form-group row">
                         <label>{{:MyLang('common_service.navigation.form_item_pid')}}</label>
                         <select class="am-radius chosen-select" name="pid" data-placeholder="{{:MyLang('common_service.navigation.form_item_pid_placeholder')}}" data-validation-message="{{:MyLang('common_service.navigation.form_item_pid_message')}}">
@@ -171,7 +171,7 @@
                     </div>
                     <div class="am-form-group row">
                         <label>{{$add_type_list.customview}}<span class="am-form-group-label-tips-must">*</span></label>
-                        <select class="am-radius chosen-select" name="value" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.navigation.form_item_value_customview_message')}}" required>
+                        <select class="am-radius chosen-select" name="value" data-i18n="1" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('common_service.navigation.form_item_value_customview_message')}}" required>
                             <option value="">{{:MyLang('please_select_tips')}}</option>
                             {{foreach $customview_list as $v}}
                                 <option value="{{$v.id}}">{{$v.name}}</option>
@@ -180,7 +180,7 @@
                     </div>
                     <div class="am-form-group row">
                         <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['customview']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
-                        <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
+                        <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" data-i18n="1" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
                     </div>
                     {{:ModuleInclude('lib/sort', ['is_row'=>1])}}
                     {{:ModuleInclude('lib/is_show', ['is_row'=>1])}}
@@ -214,7 +214,7 @@
             </div>
             <div class="am-popup-bd">
                 <!-- form start -->
-                <form class="am-form form-validation-goods_category am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload">
+                <form class="am-form form-validation-goods_category am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" data-i18n-table="navigation" request-type="ajax-reload">
                     <div class="am-form-group row">
                         <label>{{:MyLang('common_service.navigation.form_item_pid')}}</label>
                         <select class="am-radius chosen-select" name="pid" data-placeholder="{{:MyLang('common_service.navigation.form_item_pid_placeholder')}}" data-validation-message="{{:MyLang('common_service.navigation.form_item_pid_message')}}">
@@ -245,7 +245,7 @@
                     </div>
                     <div class="am-form-group row">
                         <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['goods_category']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
-                        <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
+                        <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" data-i18n="1" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
                     </div>
                     {{:ModuleInclude('lib/sort', ['is_row'=>1])}}
                     {{:ModuleInclude('lib/is_show', ['is_row'=>1])}}
@@ -279,7 +279,7 @@
             </div>
             <div class="am-popup-bd">
                 <!-- form start -->
-                <form class="am-form form-validation-design am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload">
+                <form class="am-form form-validation-design am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" data-i18n-table="navigation" request-type="ajax-reload">
                     <div class="am-form-group row">
                         <label>{{:MyLang('common_service.navigation.form_item_pid')}}</label>
                         <select class="am-radius chosen-select" name="pid" data-placeholder="{{:MyLang('common_service.navigation.form_item_pid_placeholder')}}" data-validation-message="{{:MyLang('common_service.navigation.form_item_pid_message')}}">
@@ -300,7 +300,7 @@
                     </div>
                     <div class="am-form-group row">
                         <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['design']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
-                        <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
+                        <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" data-i18n="1" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
                     </div>
                     {{:ModuleInclude('lib/sort', ['is_row'=>1])}}
                     {{:ModuleInclude('lib/is_show', ['is_row'=>1])}}
@@ -334,7 +334,7 @@
             </div>
             <div class="am-popup-bd">
                 <!-- form start -->
-                <form class="am-form form-validation-plugins am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload">
+                <form class="am-form form-validation-plugins am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" data-i18n-table="navigation" request-type="ajax-reload">
                     <div class="am-form-group row">
                         <label>{{:MyLang('common_service.navigation.form_item_pid')}}</label>
                         <select class="am-radius chosen-select" name="pid" data-placeholder="{{:MyLang('common_service.navigation.form_item_pid_placeholder')}}" data-validation-message="{{:MyLang('common_service.navigation.form_item_pid_message')}}">
@@ -355,7 +355,7 @@
                     </div>
                     <div class="am-form-group row">
                         <label>{{:MyLang('common_service.navigation.form_item_name')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('common_service.navigation.form_item_name_tips', ['type'=>$add_type_list['plugins']])}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
-                        <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
+                        <input type="text" placeholder="{{:MyLang('common_service.navigation.form_item_name_message')}}" name="name" data-i18n="1" maxlength="16" data-validation-message="{{:MyLang('common_service.navigation.form_item_name_message')}}" class="am-radius" />
                     </div>
                     {{:ModuleInclude('lib/sort', ['is_row'=>1])}}
                     {{:ModuleInclude('lib/is_show', ['is_row'=>1])}}

@@ -18,7 +18,7 @@ namespace app\admin\form;
  * @date    2020-06-18
  * @desc    description
  */
-class Slide
+class Slider
 {
     // 基础条件
     public $condition_base = [];
@@ -34,7 +34,7 @@ class Slide
      */
     public function Run($params = [])
     {
-        $lang = MyLang('slide.form_table');
+        $lang = MyLang('slider.form_table');
         return [
             // 基础配置
             'base' => [
@@ -42,7 +42,7 @@ class Slide
                 'status_field'          => 'is_enable',
                 'is_middle'             => 0,
                 'is_search'             => 1,
-                'is_delete'             => AdminIsPower('slide', 'delete') ? 1 : 0,
+                'is_delete'             => AdminIsPower('slider', 'delete') ? 1 : 0,
                 'is_data_export_excel'  => 1,
             ],
             // 表单配置
@@ -71,7 +71,6 @@ class Slide
                     'view_type'      => 'field',
                     'view_key'       => 'describe',
                     'text_truncate'  => 2,
-                    'is_popover'     => 1,
                     'is_sort'        => 1,
                     'search_config'  => [
                         'form_type'         => 'input',
@@ -82,7 +81,7 @@ class Slide
                     'label'         => $lang['is_enable'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_enable',
-                    'post_url'      => MyUrl('admin/slide/statusupdate'),
+                    'post_url'      => MyUrl('admin/slider/statusupdate'),
                     'is_form_su'    => 1,
                     'align'         => 'center',
                     'is_sort'       => 1,
@@ -99,7 +98,7 @@ class Slide
                 [
                     'label'         => $lang['images'],
                     'view_type'     => 'module',
-                    'view_key'      => 'slide/module/images',
+                    'view_key'      => 'slider/module/images',
                     'width'         => 160,
                 ],
                 [
@@ -192,14 +191,14 @@ class Slide
                 [
                     'label'         => MyLang('operate_title'),
                     'view_type'     => 'operate',
-                    'view_key'      => 'slide/module/operate',
+                    'view_key'      => 'slider/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
                 ],
             ],
             // 数据配置
             'data'  => [
-                'table_name'            => 'Slide',
+                'table_name'            => 'Slider',
                 'is_page'               => 1,
                 'order_by'              => 'sort asc,id asc',
                 'is_handle_time_field'  => 1,

@@ -14,6 +14,7 @@ use think\facade\Db;
 use app\service\SystemBaseService;
 use app\service\UserService;
 use app\service\GoodsService;
+use app\service\I18nService;
 use app\service\GoodsCartService;
 use app\service\UserAddressService;
 use app\service\ResourcesService;
@@ -105,15 +106,31 @@ class BuyService
                 // 商品
                 $goods = $temp_goods[$v['goods_id']];
 
-                // 规格
+                // 规格（单规格商品或解析失败为空字符串、统一转数组避免后续列操作报错）
                 $goods['spec'] = self::GoodsSpecificationsHandle($v);
+                $goods['spec'] = is_array($goods['spec']) ? $goods['spec'] : [];
+
+                // 规格key（基础值md5、语言无关）、优先用于条目标识与匹配
+                $spec_keys = array_column($goods['spec'], 'key');
+                $is_key_mode = !empty($goods['spec']) && count(array_filter($spec_keys)) == count($spec_keys);
+
+                // id处理、避免不同规格导致id一样（key模式语言无关稳定）
+                $goods['id'] = md5($goods['goods_id'].(empty($goods['spec']) ? 'default' : implode('', $is_key_mode ? $spec_keys : array_column($goods['spec'], 'value'))));
+
+                // key模式反解为默认语言基础规格（匹配、规格图、订单快照统一语言无关）
+                if($is_key_mode)
+                {
+                    $goods['spec'] = I18nService::SpecBaseSpecResolve($goods['goods_id'], $goods['spec']);
+                }
+
+                // 规格快照文本（默认语言）
                 $goods['spec_text'] = empty($goods['spec']) ? '' : implode('，', array_filter(array_map(function($spec)
                         {
                             return (isset($spec['type']) && isset($spec['value'])) ? $spec['type'].':'.$spec['value'] : '';
                         }, $goods['spec'])));
 
-                // id处理、避免不同规格导致id一样
-                $goods['id'] = md5($goods['goods_id'].(empty($goods['spec']) ? 'default' : implode('', array_column($goods['spec'], 'value'))));
+                // 当前语言展示规格（不落库、仅页面显示：按key翻译、未翻译回退默认语言）
+                $goods['spec_show'] = I18nService::SpecShowData($goods['goods_id'], $goods['spec']);
 
                 // 获取商品基础信息
                 $spec_params = array_merge($params, [
@@ -274,6 +291,10 @@ class BuyService
                 {
                     foreach($spec as $v)
                     {
+                        if(!isset($v['type'], $v['value']))
+                        {
+                            continue;
+                        }
                         if(array_key_exists($v['type'], $spec_images) && array_key_exists($v['value'], $spec_images[$v['type']]))
                         {
                             return $spec_images[$v['type']][$v['value']];
@@ -891,7 +912,6 @@ class BuyService
             'payment_id'    => $payment_id,
             'jump_url'      => (APPLICATION_CLIENT_TYPE == 'pc') ? MyUrl('index/order/index') : '',
         ];
-
 
         // 获取订单信息
         switch($order_status)

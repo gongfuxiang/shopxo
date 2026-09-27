@@ -201,8 +201,8 @@ return [
     'register_success'                                      => 'Register Succeeded',
     'login_fail'                                            => 'Login Failed',
     'login_success'                                         => 'Login Succeeded',
-    'comments_fail'                                         => 'Comments Failed',
-    'comments_success'                                      => 'Comments Succeeded',
+    'comments_fail'                                         => 'Review Failed',
+    'comments_success'                                      => 'Review Succeeded',
     'favor_fail'                                            => 'Favor Failed',
     'favor_success'                                         => 'Favor Succeeded',
     'refund_fail'                                           => 'Refund Failed',
@@ -401,6 +401,7 @@ return [
     'view_tap_title'                                        => 'Click to view',
     'view_detail_title'                                     => 'View details',
     'view_all_title'                                        => 'View all',
+    'view_more_title'                                       => 'View more',
     'base_title'                                            => 'Base',
     'data_title'                                            => 'Data',
     'data_operate_title'                                    => 'Data operate',
@@ -439,8 +440,8 @@ return [
     'favor_title'                                           => 'Favor',
     'already_favor_title'                                   => 'Already Favor',
     'miniapp_title'                                         => 'mini program',
-    'comment_title'                                         => 'Comment',
-    'go_comment_title'                                      => 'To Comment',
+    'comment_title'                                         => 'Review',
+    'go_comment_title'                                      => 'To Review',
     'default_title'                                         => 'Default',
     'setup_default_title'                                   => 'Setup Default',
     'grade_title'                                           => 'Grade',
@@ -884,7 +885,7 @@ return [
                 '2. For example:/pages/user/user',
                 '3. Support with parameters ?x=xx',
             ],
-            'tips'  => 'Applet page address configuration instructions',
+            'tips'  => 'View internal page addresses',
         ],
         [
             'type'  => 'map',
@@ -894,6 +895,59 @@ return [
                 '2. For example: ShopXO | No. XXX, Zhangjiang High-tech Park, Pudong New Area, Shanghai | 121.626444 | 31.20843',
             ]
         ]
+    ],
+    // Mobile internal page addresses (admin event value popup, independent of DIY)
+    'app_pages'                         => [
+        'popup_title'                   => 'Internal page addresses',
+        'nav_title'                     => 'Mobile page addresses',
+        'search_placeholder'            => 'Search title, name or path',
+        'copy_title'                    => 'Copy',
+        'use_title'                     => 'Use',
+        'empty_tips'                    => 'No matching pages',
+        'plugins_empty_tips'            => 'No plugin pages',
+        'plugins_hook_tips'             => 'Plugins can extend via hook plugins_service_app_pages_list',
+        'group_base'                    => 'Basic pages',
+        'group_user'                    => 'User center',
+        'group_params'                  => 'Need parameters',
+        'group_plugins'                 => 'Plugin pages',
+        'page_index'                    => 'Home',
+        'page_goods_category'           => 'Goods category',
+        'page_goods_search_start'       => 'Goods search start',
+        'page_goods_search'             => 'Goods search',
+        'page_cart'                     => 'Cart',
+        'page_cart_page'                => 'Cart page',
+        'page_login'                    => 'Login',
+        'page_article_category'         => 'Article list',
+        'page_setup'                    => 'Settings',
+        'page_about'                    => 'About us',
+        'page_user'                     => 'User center',
+        'page_user_order'               => 'Order list',
+        'page_user_orderaftersale'      => 'Order aftersale',
+        'page_user_favor'               => 'Goods favor',
+        'page_user_goods_comments'      => 'Goods comments',
+        'page_user_address'             => 'My address',
+        'page_user_integral'            => 'My points',
+        'page_message'                  => 'Messages',
+        'page_user_goods_browse'        => 'Browse history',
+        'page_personal'                 => 'Profile',
+        'page_goods_detail'             => 'Goods detail',
+        'page_article_detail'           => 'Article detail',
+        'page_diy'                      => 'DIY page',
+        'page_design'                   => 'Design page',
+        'page_customview'               => 'Custom view',
+        'page_goods_comment'            => 'Goods comment page',
+        'page_user_order_detail'        => 'Order detail',
+        'page_web_view'                 => 'Web view',
+        'tips_goods_search'             => 'Append params, e.g. ?keywords=keyword&category_id=categoryID&brand=brandID',
+        'tips_goods_category'           => 'Append params, e.g. ?id=categoryID',
+        'tips_goods_detail'             => 'Append params yourself, e.g. ?id=goods_id',
+        'tips_article_detail'           => 'Append params yourself, e.g. ?id=article_id',
+        'tips_diy'                      => 'Append params yourself, e.g. ?id=diy_id',
+        'tips_design'                   => 'Append params yourself, e.g. ?id=design_id',
+        'tips_customview'               => 'Append params yourself, e.g. ?id=customview_id',
+        'tips_goods_comment'            => 'Append params yourself, e.g. ?goods_id=goods_id',
+        'tips_user_order_detail'        => 'Append params yourself, e.g. ?id=order_id',
+        'tips_web_view'                 => 'Append params yourself, e.g. ?url=encoded_http_url',
     ],
     // 自定义跳转地址提示说明
     'custom_to_value_tips'              => [
@@ -960,7 +1014,7 @@ return [
         1    => 'Pending payment',
         2    => 'To be shipped',
         3    => 'Goods to be received',
-        4    => 'Completed',
+        4    => 'Done',
         5    => 'Cancelled',
         6    => 'Closed',
         100  => 'To be evaluated',
@@ -1041,7 +1095,7 @@ return [
         1 => 'Pending payment',
         2 => 'To be shipped',
         3 => 'Goods to be received',
-        4 => 'Completed',
+        4 => 'Done',
         5 => 'Cancelled',
         6 => 'Closed',
     ],
@@ -1084,6 +1138,12 @@ return [
     'common_sales_count_inc_rules_list' => [
         0 => 'Order payment',
         1 => 'Order receipt',
+    ],
+    // Goods detail page-inline specs
+    'common_goods_detail_spec_page_show_list' => [
+        0 => 'Not embedded (default)',
+        1 => 'Single-level specs',
+        2 => 'Multi-level specs',
     ],
     // 是否已读
     'common_is_read_list' => [
@@ -1164,13 +1224,15 @@ return [
     ],
     // 下单指定时间
     'common_buy_datetime_config_list' => [
-        0 => 'Optional',
-        1 => 'Forced selection',
+        0 => 'Off',
+        1 => 'Optional',
+        2 => 'Required',
     ],
     // 下单联系信息
     'common_buy_extraction_contact_config_list' => [
-        0 => 'Can be filled in',
-        1 => 'Mandatory filling',
+        0 => 'Off',
+        1 => 'Fill',
+        2 => 'Required',
     ],
     // 订单售后类型
     'common_order_aftersale_type_list' => [
@@ -1490,12 +1552,12 @@ return [
         'quick_nav'       => 'Quick Navigation',
         'shortcutmenu'    => 'shortcut menu',
         'app_nav'         => 'Home Navigation',
-        'slide'           => 'Rotating broadcast',
+        'slider'          => 'Rotating broadcast',
         'article'         => 'article',
         'user'            => 'user',
         'design'          => 'Page Design',
         'plugins'         => 'plug-in unit',
-        'order_comments'  => 'Order Product Review',
+        'order_comments'  => 'Order goods reviews',
         'theme_data'      => 'Theme data',
         'agreement'       => 'agreement',
         'warehouse'       => 'Warehouse',
@@ -1552,6 +1614,16 @@ return [
         // 基础
         'base'                => [
             'key_error_tips'                    => 'The data key value is incorrect',
+        ],
+        // 多语言数据
+        'i18n'                => [
+            'popup_title'                       => 'Multilingual Data',
+            'default_tips'                      => 'Default Language',
+            'load_fail_tips'                    => 'Multilingual data loading failed',
+            'table_not_support_tips'            => 'Business table does not support multilingual',
+            'save_tips'                      => 'Confirmed data is saved when the form is submitted',
+            'editor_tips'                     => 'For rich text content, please refer to the original field',
+            'loading_tips'                    => 'Getting...',
         ],
         // 系统
         'system'            => [
@@ -1974,6 +2046,7 @@ return [
             'save_stock_update_data_empty_tips'     => 'Please join the shopping cart first',
             'save_buy_max_error_tips'               => 'Exceeding the product purchase limit',
             'save_inventory_not_enough_tips'        => 'Insufficient inventory of goods',
+            'spec_empty_tips'                       => 'Please select product specifications',
         ],
         // 商品评论
         'goodscomments'     => [
@@ -1986,9 +2059,9 @@ return [
             'form_item_rating'                      => 'Score',
             'form_item_rating_placeholder'          => 'No score',
             'form_item_rating_message'              => 'Incorrect score',
-            'form_item_content'                     => 'Comment Content',
+            'form_item_content'                     => 'Review Content',
             'form_item_content_placeholder'         => 'Does baby meet your expectations? Talk about its advantages and disadvantages',
-            'form_item_content_message'             => 'Comment content is between 6 and 230 characters',
+            'form_item_content_message'             => 'Review content is between 6 and 230 characters',
             'form_item_reply'                       => 'Reply Content',
             'form_item_reply_message'               => 'Reply content can be up to 230 characters',
             'form_item_reply_content_message'       => 'The reply content is between 1 and 230 characters',
@@ -1997,12 +2070,12 @@ return [
             'form_item_is_reply'                    => 'Reply or not',
             'form_item_is_anonymous'                => 'Anonymous or not',
             'form_item_images_message'              => 'Upload up to 3 pictures',
-            'form_item_anonymous_tips'              => 'After opening, your comments will be displayed anonymously',
+            'form_item_anonymous_tips'              => 'After opening, your reviews will be displayed anonymously',
             // 保存
             'save_rating_empty_tips'                => 'Rating cannot be empty',
-            'save_content_empty_tips'               => 'Comment content cannot be empty',
-            'save_order_already_comments_tips'      => 'You have commented on this order',
-            'save_comments_add_fail_tips'           => 'Failed to add comment content',
+            'save_content_empty_tips'               => 'Review content cannot be empty',
+            'save_order_already_comments_tips'      => 'You have already reviewed this order',
+            'save_comments_add_fail_tips'           => 'Failed to add review content',
             'save_order_comments_update_tail_tips'  => 'Order update failed',
             // 基础
             'comments_username_default'             => 'Anonymous',
@@ -2389,7 +2462,7 @@ return [
                 'order'             => 'Order Admin',
                 'orderaftersale'    => 'Order Aftersales',
                 'goodsfavor'        => 'Goods Favor',
-                'goodscomments'     => 'Goods Comments',
+                'goodscomments'     => 'Goods Reviews',
                 'property'          => 'Property Center',
                 'integral'          => 'My Points',
                 'base'              => 'Data Admin',
@@ -2534,7 +2607,7 @@ return [
             'order_take_status_name'                => 'To be picked up',
             'order_under_line_pay_status_name'      => 'To be confirmed',
             'order_under_line_name'                 => 'Offline payment',
-            'order_item_summary_desc'               => '共{:buy_number_count}件 合计:{:currency_symbol}{:total_price}',
+            'order_item_summary_desc'               => '{:buy_number_count} item(s) Total: {:currency_symbol}{:total_price}',
             'order_goods_sales_count_inc_fail_tips' => 'Failed to increase sales volume of order goods',
             'order_detail_goods_empty_tips'         => 'There is an error in the order. No related goods were found',
             'pay_have_in_hand_tips'                 => 'In payment',
@@ -2829,7 +2902,7 @@ return [
             'redis_connect_fail_tips'               => 'Redis connection failed',
         ],
         // 轮播
-        'slide'                     => [
+        'slider'                    => [
             // 表单
             'form_item_name'                        => 'Name',
             'form_item_name_message'                => 'Name format: 2~60 characters',
@@ -2952,8 +3025,8 @@ return [
             'form_item_article_order_by_rule_message'  => 'Please select the article sorting rule',
             'form_item_please_enter_text'              => 'Please enter',
             'form_item_index_text'                     => 'Article {index}',
-            'form_item_custom_data_name_text'          => 'Data Name',
-            'form_item_custom_data_value_text'         => 'Data value',
+            'form_item_custom_data_name_text'          => 'Custom Data Name',
+            'form_item_custom_data_value_text'         => 'Custom Data Value',
             // 服务层
             'save_type_error_tips'                     => 'Incorrect data type range value',
             'save_goods_data_type_error_tips'          => 'Incorrect range value of product data type',
@@ -4425,9 +4498,19 @@ return [
             'tips' => 'Please select the site type',
         ],
         'common_is_exhibition_mode_btn_text'  => [
-            'name' => 'Display type operation name',
+            'name' => 'Display mode product button name',
             'desc' => 'Default immediate consultation, the name occupied by the Buy Now button on the product page in display mode',
-            'tips' => 'Please fill in the name of display type operation',
+            'tips' => 'Please fill in the display mode product button name',
+        ],
+        'common_exhibition_mode_hide_price'  => [
+            'name' => 'Hide prices in display mode',
+            'desc' => 'When enabled, real selling price and original price are not shown in exhibition mode (site type or product type is exhibition), overriding the Display selling price and Display original price switches in site settings',
+            'tips' => 'Please choose whether to hide prices in display mode',
+        ],
+        'common_exhibition_mode_hide_price_text'  => [
+            'name' => 'Replacement text for hidden prices',
+            'desc' => 'When hide price is enabled, the price row still shows and the amount is replaced with this text, e.g. Contact us; leave empty to hide the price row',
+            'tips' => 'Please fill in the replacement text for hidden prices',
         ],
         'common_site_fictitious_title'  => [
             'name' => 'Virtual information title',
@@ -4456,10 +4539,12 @@ return [
         ],
         'common_goods_sales_price_status'  => [
             'name' => 'Display product selling price',
+            'desc' => 'If Hide prices in display mode is on and the current type is exhibition, selling price is hidden and this switch does not take effect',
             'tips' => 'Please choose whether to display the selling price of the product',
         ],
         'common_goods_original_price_status'  => [
             'name' => 'Display the original price of the product',
+            'desc' => 'If Hide prices in display mode is on and the current type is exhibition, original price is hidden and this switch does not take effect',
             'tips' => 'Please choose whether to display the original price of the product',
         ],
         'common_goods_sales_price_unit_status'  => [
@@ -4565,9 +4650,14 @@ return [
             'tips' => 'Please fill in the password',
         ],
         'common_cache_data_redis_expire'  => [
-            'name' => 'Effective time:',
-            'desc' => 'Default 0 means permanent',
+            'name' => 'Effective time',
+            'desc' => 'Seconds, 0 means permanent, Redis cache only',
             'tips' => 'Please fill in the valid time',
+        ],
+        'common_cache_data_file_expire'  => [
+            'name' => 'File cache expire',
+            'desc' => 'Seconds, 0 means permanent, file cache only',
+            'tips' => 'Please fill in the file cache expire time',
         ],
         'common_cache_data_redis_prefix'  => [
             'name' => 'prefix',
@@ -4807,6 +4897,11 @@ return [
         'common_is_goods_detail_show_left_more'  => [
             'name' => 'More on the left side of the product details page (mobile version)',
             'tips' => 'Please choose if there is more on the left side of the product details page',
+        ],
+        'common_goods_detail_spec_page_show'  => [
+            'name' => 'Goods detail page-inline specs',
+            'desc' => 'Default popup; single-level embeds card picker; multi-level also selects specs on the detail page',
+            'tips' => 'Please select goods detail page-inline specs mode',
         ],
         'common_goods_cover_size_type'  => [
             'name' => 'Product cover height stretching (mobile end)',

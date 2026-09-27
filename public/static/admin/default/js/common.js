@@ -379,6 +379,7 @@ function AdminMenuNavTabsMemoryHandle () {
             url: self.data('url') || '',
             type: self.data('type') || '',
             key: self.data('key') || '',
+            menu_id: self.attr('data-menu-id') || '',
             name: self.data('name') || '',
             is_active: $(item).hasClass('am-active') ? true : false
         };
@@ -414,7 +415,7 @@ function AdminMenuNavTabsMemoryView () {
     if (menu_list !== null) {
         menu_list.forEach(item => {
             // 添加快捷导航
-            var html = `<li data-url="` + item.url + `" data-key="` + item.key + `" data-type="` + item.type + `" data-name="` + item.name + `" class="nav-item-key-` + item.key + ` ` + (item.is_active ? 'am-active' : '') + `"><span>` + item.name + `</span>`;
+            var html = `<li data-url="` + item.url + `" data-key="` + item.key + `" data-menu-id="` + (item.menu_id || '') + `" data-type="` + item.type + `" data-name="` + item.name + `" class="nav-item-key-` + item.key + ` ` + (item.is_active ? 'am-active' : '') + `"><span>` + item.name + `</span>`;
             if (item.key !== '-') {
                 html += `<a href="javascript:;" class="iconfont icon-close-line"></a>`;
             }

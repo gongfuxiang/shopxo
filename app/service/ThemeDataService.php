@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\service;
 
+use app\service\I18nService;
+
 use think\facade\Db;
 use app\service\ResourcesService;
 use app\service\AttachmentService;
@@ -140,6 +142,9 @@ class ThemeDataService
 
             // 是否页面展示读取
             $is_view = isset($params['is_view']) && $params['is_view'] == 1;
+            // 多语言数据替换（名称/业务文本/自定义数据均按主题数据行 id）
+            I18nService::ThemeDataHandle($data);
+
 
             // 循环处理数据
             foreach($data as &$v)
@@ -988,6 +993,13 @@ class ThemeDataService
                 }
             }
 
+            // 多语言数据保存（名称 + 业务文本/自定义数据内容键，统一归属主题数据行 id）
+            $i18n_data = I18nService::RequestData($params);
+            if($i18n_data !== null && $data_id > 0)
+            {
+                I18nService::SaveData('theme_data', $data_id, $i18n_data);
+            }
+
             return DataReturn(MyLang('operate_success'), 0, $data_id);
         } catch(\Exception $e) {
             return DataReturn($e->getMessage(), -1);
@@ -1122,6 +1134,10 @@ class ThemeDataService
             {
                 AttachmentService::AttachmentPathTypeDelete(self::AttachmentPathTypeValue($v));
             }
+
+            // 多语言数据删除（行字段、内容寻址键按内容匹配不清）
+            I18nService::DeleteData('theme_data', $params['ids']);
+
             return DataReturn(MyLang('delete_success'), 0);
         }
         return DataReturn(MyLang('delete_fail'), -100);

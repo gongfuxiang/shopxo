@@ -2,3 +2,41 @@
 .form-data-base-fields-list span {
     min-width: 10rem;
 }
+
+/* 多语言tab */
+/**
+ * 域名对应语言
+ */
+
+.domain-multilingual-list>ul {
+    max-width: 90rem;
+}
+
+.domain-multilingual-list>ul li input.item-domain-input,
+.domain-multilingual-list>ul li .item-multilingual-choice {
+    width: calc(50% - 4rem) !important;
+}
+
+.domain-multilingual-list .delete-btn {
+    padding: 0.6rem 1.2rem;
+}
+
+/**
+ * 多语言图标
+ */
+.multilingual-content > .am-inline-block:not(:last-child) {
+    margin-right: 1.22rem;
+}
+.multilingual-content .am-checkbox-inline {
+    margin: 0;
+}
+.multilingual-content ul.plug-file-upload-view {
+    padding: 0 !important;
+}
+
+/* 扩展-多语言 */
+.multilingual-content {
+    padding: 1rem;
+    background: #F9F9F9;
+    border-radius: var(--border-radius);
+}

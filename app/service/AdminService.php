@@ -30,6 +30,63 @@ class AdminService
     public static $admin_login_key = 'admin_login_info';
 
     /**
+     * 后台 API 初始化配置
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-18
+     * @desc    返回后台管理配置信息数据
+     */
+    public static function ApiInitConfigData()
+    {
+        // 登录方式
+        $login_type = MyC('admin_login_type', [], true);
+        if(!is_array($login_type))
+        {
+            $login_type = empty($login_type) ? [] : explode(',', strval($login_type));
+        }
+        $login_type = array_values(array_filter(array_map('strval', $login_type)));
+
+        // 可选登录方式文案（仅返回已开启的）
+        $type_list_all = MyConst('common_login_type_list');
+        $login_type_list = [];
+        if(!empty($type_list_all) && is_array($type_list_all))
+        {
+            foreach($login_type as $tv)
+            {
+                if(isset($type_list_all[$tv]))
+                {
+                    $login_type_list[] = [
+                        'value' => $tv,
+                        'name'  => $type_list_all[$tv],
+                    ];
+                }
+            }
+        }
+
+        return [
+            // 站点
+            'home_site_name'                   => MyC('home_site_name', null, true),
+            'admin_login_logo'                 => ResourcesService::AttachmentPathViewHandle(MyC('admin_login_logo')),
+            // 登录方式：已开启的 value 列表 + 带名称列表
+            'admin_login_type'                 => $login_type,
+            'admin_login_type_list'            => $login_type_list,
+            // 账号密码登录是否需要图形验证码
+            'admin_login_img_verify_state'     => (int) MyC('admin_login_img_verify_state', 0, true),
+            // 短信/邮箱发码时是否需要图形验证码（沿用系统公共开关）
+            'common_img_verify_state'          => (int) MyC('common_img_verify_state', 0, true),
+            // 验证码时效/间隔
+            'common_verify_expire_time'        => (int) MyC('common_verify_expire_time', 600, true),
+            'common_verify_interval_time'      => (int) MyC('common_verify_interval_time', 60, true),
+            // 图形验证码拉取参数（business_control=admin&business_action=adminverifyentry）
+            'admin_verify_entry_params'        => [
+                'business_control' => 'admin',
+                'business_action'  => 'adminverifyentry',
+            ],
+        ];
+    }
+
+    /**
      * 角色列表
      * @author   Devil
      * @blog     http://gong.gg/
@@ -524,6 +581,35 @@ class AdminService
     }
 
     /**
+     * 按 token 获取管理员（API / 移动端）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-18
+     * @desc    与 PC session 登录隔离；校验 token 与 login_salt 一致性
+     * @param   [string]          $token [管理员token]
+     */
+    public static function AdminTokenData($token = '')
+    {
+        $token = empty($token) ? '' : strval($token);
+        if($token === '')
+        {
+            return null;
+        }
+        $info = self::AdminInfoHandle(Db::name('Admin')->field('id,token,avatar,username,mobile,email,login_total,role_id,login_salt')->where(['token'=>$token, 'status'=>0])->find());
+        if(empty($info) || empty($info['id']))
+        {
+            return null;
+        }
+        if(ApiService::CreatedUserToken($info['id'], $info['login_salt']) != $info['token'])
+        {
+            return null;
+        }
+        unset($info['login_salt']);
+        return $info;
+    }
+
+    /**
      * 登录信息
      * @author  Devil
      * @blog    http://gong.gg/
@@ -548,15 +634,31 @@ class AdminService
                 self::LoginSession($admin);
             }
         } else {
-            // 获取管理员信息
-            $info = self::AdminInfoHandle(Db::name('Admin')->field('id,token,avatar,username,mobile,email,login_total,role_id,login_total,login_salt')->where(['token'=>$params['token'], 'status'=>0])->find());
-            if(!empty($info) && ApiService::CreatedUserToken($info['id'], $info['login_salt']) == $info['token'])
-            {
-                unset($info['login_salt']);
-                $admin = $info;
-            }
+            $admin = self::AdminTokenData($params['token']);
         }
         return $admin;
+    }
+
+    /**
+     * API 退出（清 session，并作废当前 token）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-18
+     * @param   [array]          $admin [当前管理员]
+     */
+    public static function ApiLoginLogout($admin = [])
+    {
+        $admin_id = empty($admin['id']) ? 0 : intval($admin['id']);
+        if($admin_id > 0)
+        {
+            Db::name('Admin')->where(['id'=>$admin_id])->update([
+                'token'    => '',
+                'upd_time' => time(),
+            ]);
+        }
+        self::LoginLogout();
+        return DataReturn(MyLang('logout_success'), 0);
     }
 
     /**

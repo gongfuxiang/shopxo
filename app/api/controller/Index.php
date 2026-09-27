@@ -13,7 +13,7 @@ namespace app\api\controller;
 use app\service\ApiService;
 use app\service\SystemBaseService;
 use app\service\GoodsService;
-use app\service\SlideService;
+use app\service\SliderService;
 use app\service\AppHomeNavService;
 use app\service\BuyService;
 use app\service\LayoutService;
@@ -23,6 +23,7 @@ use app\service\AppService;
 use app\service\PluginsService;
 use app\service\GoodsCartService;
 use app\service\DiyService;
+use app\service\I18nService;
 
 /**
  * 首页
@@ -55,9 +56,9 @@ class Index extends Common
      */
     public function Index()
     {
-        $key = 'api_index_data_'.SYSTEM_TYPE.'_'.APPLICATION_CLIENT_TYPE;
+        // 缓存键带上当前语言，避免英文站命中中文首页缓存（含插件广告名称等 i18n 字段）
+        $key = 'api_index_data_'.SYSTEM_TYPE.'_'.APPLICATION_CLIENT_TYPE.'_'.I18nService::CacheLangKey();
         $result = MyCache($key);
-        $result = '';
         if(empty($result) || (isset($this->data_request['is_cache']) && $this->data_request['is_cache'] == 0))
         {
             // 购物车汇总
@@ -85,11 +86,14 @@ class Index extends Common
                 // 未读消息总数
                 $message_total = MessageService::UserMessageTotal(['user'=>$this->user, 'is_more'=>1, 'is_read'=>0]);
 
+                // 轮播列表
+                $slider_list = SliderService::SliderList();
+
                 // 返回数据
                 $result = SystemBaseService::DataReturn([
                     'data_mode'             => $data_mode,
                     'navigation'            => AppHomeNavService::AppHomeNav(),
-                    'banner_list'           => SlideService::SlideList(),
+                    'slider_list'           => $slider_list,
                     'data_list'             => $data_list,
                     'article_list'          => ArticleService::RecommendedArticleList(),
                     'right_icon_list'       => AppService::HomeRightIconList(['message_total'=>$message_total]),

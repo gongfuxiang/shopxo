@@ -14,6 +14,7 @@ use think\facade\Db;
 use app\service\NavigationService;
 use app\service\RegionService;
 use app\service\GoodsCategoryService;
+use app\service\I18nService;
 
 /**
  * 面包屑导航服务层
@@ -266,16 +267,50 @@ class BreadcrumbService
             $temp_name[] = AsciiToStr($params['wd']);
         }
 
-        // 属性
+        // 属性（psid 支持逗号多选）
         if(!empty($params['psid']))
         {
-            $temp_name[] = AsciiToStr($params['psid']);
+            $psid_names = [];
+            foreach(explode(',', strval($params['psid'])) as $ascii_item)
+            {
+                $ascii_item = trim($ascii_item);
+                if($ascii_item === '')
+                {
+                    continue;
+                }
+                $text = AsciiToStr($ascii_item);
+                if($text !== '')
+                {
+                    $psid_names[] = $text;
+                }
+            }
+            if(!empty($psid_names))
+            {
+                $temp_name[] = implode('、', $psid_names);
+            }
         }
 
-        // 规格
+        // 规格（scid 支持逗号多选）
         if(!empty($params['scid']))
         {
-            $temp_name[] = AsciiToStr($params['scid']);
+            $scid_names = [];
+            foreach(explode(',', strval($params['scid'])) as $ascii_item)
+            {
+                $ascii_item = trim($ascii_item);
+                if($ascii_item === '')
+                {
+                    continue;
+                }
+                $text = AsciiToStr($ascii_item);
+                if($text !== '')
+                {
+                    $scid_names[] = $text;
+                }
+            }
+            if(!empty($scid_names))
+            {
+                $temp_name[] = implode('、', $scid_names);
+            }
         }
         if(!empty($temp_name))
         {
@@ -283,6 +318,19 @@ class BreadcrumbService
                 'type'  => 0,
                 'name'  => implode(' / ', $temp_name).MyLang('common_service.search.search_breadcrumb_result_last_text'),
             ];
+        }
+
+        // 商品分类多语言替换（层级项含id、data为同级分类列表）
+        foreach($result as $k=>$v)
+        {
+            if(isset($v['id']))
+            {
+                I18nService::DataHandle($result[$k], 'goods_category');
+            }
+            if(!empty($v['data']) && is_array($v['data']))
+            {
+                I18nService::DataHandle($result[$k]['data'], 'goods_category');
+            }
         }
         return $result;
     }
@@ -313,6 +361,9 @@ class BreadcrumbService
                         ['is_enable', '=', 1],
                     ];
                     $category = Db::name('GoodsCategory')->where($where)->field('id,name')->select()->toArray();
+
+                    // 商品分类多语言替换
+                    I18nService::DataHandle($category, 'goods_category');
                     if(!empty($category))
                     {
                         foreach($category as $v)
@@ -330,6 +381,9 @@ class BreadcrumbService
                         ['is_enable', '=', 1],
                     ];
                     $category = Db::name('GoodsCategory')->where($where)->field('id,name')->select()->toArray();
+
+                    // 商品分类多语言替换
+                    I18nService::DataHandle($category, 'goods_category');
                     if(!empty($category))
                     {
                         $category = array_map(function($v)

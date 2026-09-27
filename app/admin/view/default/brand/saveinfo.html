@@ -12,10 +12,10 @@
         {{/if}}
         <!-- nav end -->
         <!-- form start -->
-        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/brand/save')}}" method="POST" request-type="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}ajax-url{{else /}}ajax-reload{{/if}}" request-value="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}{{:MyUrl('admin/brand/index', $params)}}{{else /}}parent{{/if}}">
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/brand/save')}}" method="POST" data-i18n-table="brand" data-i18n-id="{{if !empty($data['id'])}}{{$data.id}}{{else /}}0{{/if}}" request-type="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}ajax-url{{else /}}ajax-reload{{/if}}" request-value="{{if !isset($is_theme_data_admin) or $is_theme_data_admin eq 0}}{{:MyUrl('admin/brand/index', $params)}}{{else /}}parent{{/if}}">
             <div class="am-form-group">
                 <label>{{:MyLang('common_service.brand.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-                <input type="text" name="name" placeholder="{{:MyLang('common_service.brand.form_item_name_message')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('common_service.brand.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+                <input type="text" name="name" data-i18n="1" placeholder="{{:MyLang('common_service.brand.form_item_name_message')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('common_service.brand.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
             </div>
             <div class="am-form-group">
                 <label>{{:MyLang('common_service.brand.form_item_brand_category_id')}}<span class="am-form-group-label-tips-must">*</span></label>
@@ -33,7 +33,7 @@
             
             <div class="am-form-group">
                 <label>{{:MyLang('common_service.brand.form_item_describe')}}</label>
-                <textarea rows="3" name="describe" maxlength="230" class="am-radius" placeholder="{{:MyLang('common_service.brand.form_item_describe_message')}}" data-validation-message="{{:MyLang('common_service.brand.form_item_describe_message')}}">{{if !empty($data['describe'])}} {{$data.describe}}{{/if}}</textarea>
+                <textarea rows="3" name="describe" data-i18n="1" maxlength="230" class="am-radius" placeholder="{{:MyLang('common_service.brand.form_item_describe_message')}}" data-validation-message="{{:MyLang('common_service.brand.form_item_describe_message')}}">{{if !empty($data['describe'])}} {{$data.describe}}{{/if}}</textarea>
             </div>
             
             <div class="am-form-group am-form-file">

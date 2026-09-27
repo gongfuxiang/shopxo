@@ -1,0 +1,29 @@
+<!-- 参数 + 规格筛选项（与分类/价格等同结构：map-left + map-right） -->
+{{if !empty($module_data['goods_params_list']) or !empty($module_data['goods_spec_list'])}}
+    <li class="am-nbfc map-select-item map-params-spec-row" data-field="goods_params_values">
+        <div class="map-left am-text-center">{{:MyLang('search.advanced_filter_title')}}</div>
+        <div class="map-right map-dropdown-items am-nbfc">
+            {{if !empty($module_data['goods_params_list'])}}
+                {{foreach $module_data.goods_params_list as $v}}
+                    <!-- value 用 ascii id，避免选项文本含逗号时筛选串被拆开；placeholder 必须写原生属性 -->
+                    <select class="am-radius search-map-select" data-am-selected="{btnSize: 'sm', maxHeight: 240, btnWidth: 'auto'}" placeholder="{{$v.name}}" data-placeholder="{{$v.name}}" data-filter="goods_params_values" data-name="{{$v.name}}" data-is-clearout="0">
+                        <option value="" {{if empty($v['selected'])}}selected{{/if}}>{{$v.name}}</option>
+                        {{foreach $v.options as $ov}}
+                            <option value="{{$ov.id}}" data-id="{{$ov.id}}" {{if isset($ov['is_active']) and $ov['is_active'] eq 1}}selected{{/if}}>{{$ov.value}}</option>
+                        {{/foreach}}
+                    </select>
+                {{/foreach}}
+            {{/if}}
+            {{if !empty($module_data['goods_spec_list'])}}
+                {{foreach $module_data.goods_spec_list as $v}}
+                    <select class="am-radius search-map-select" data-am-selected="{btnSize: 'sm', maxHeight: 240, btnWidth: 'auto'}" placeholder="{{$v.name}}" data-placeholder="{{$v.name}}" data-filter="goods_spec_values" data-name="{{$v.name}}" data-is-clearout="0">
+                        <option value="" {{if empty($v['selected'])}}selected{{/if}}>{{$v.name}}</option>
+                        {{foreach $v.options as $ov}}
+                            <option value="{{$ov.id}}" data-id="{{$ov.id}}" {{if isset($ov['is_active']) and $ov['is_active'] eq 1}}selected{{/if}}>{{$ov.value}}</option>
+                        {{/foreach}}
+                    </select>
+                {{/foreach}}
+            {{/if}}
+        </div>
+    </li>
+{{/if}}

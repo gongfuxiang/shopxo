@@ -36,15 +36,26 @@
                                 {{if !empty($module_data['goods']['specifications']['choose'])}}
                                     {{foreach $module_data.goods.specifications.choose as $key=>$spec}}
                                         {{if !empty($spec['value'])}}
-                                            <div class="theme-options sku-items am-flex am-flex-row am-flex-items-center">
-                                                <div class="cart-title">{{$spec.name}}</div>
+                                            <div class="theme-options sku-items am-flex am-flex-row am-flex-items-start{{if count($module_data.goods.specifications.choose) elt 1}} sku-items-only-one{{/if}}">
+                                                {{if count($module_data.goods.specifications.choose) gt 1}}
+                                                    <div class="cart-title">{{$spec.name}}</div>
+                                                {{/if}}
                                                 <ul>
                                                     {{foreach $spec.value as $keys=>$specs}}
-                                                        <li class="sku-line {{if !empty($specs['images'])}} sku-line-images{{/if}} {{if $key gt 0}} sku-dont-choose{{/if}} {{if isset($specs['is_only_level_one']) and isset($specs['inventory']) and $specs['inventory'] elt 0}} sku-items-disabled{{/if}}" data-type-value="{{$spec.name}}" data-value="{{$specs.name}}" {{if !empty($specs['images'])}} data-type-images="{{$specs.images}}"{{/if}}>
-                                                            {{if !empty($specs['images'])}}
-                                                                <img src="{{$specs.images}}" />
-                                                            {{/if}}
-                                                            <span>{{$specs.name}}</span>
+                                                        <li class="sku-line {{if !empty($specs['images'])}} sku-line-images{{/if}} {{if $key gt 0}} sku-dont-choose{{/if}} {{if isset($specs['is_only_level_one']) and isset($specs['inventory']) and $specs['inventory'] elt 0}} sku-items-disabled{{/if}}" data-key="{{$specs.key}}" {{if isset($specs['is_only_level_one'])}} data-only-level-one="1"{{/if}} {{if !empty($specs['images'])}} data-type-images="{{$specs.images}}"{{/if}}>
+                                                            <div class="sku-card-main">
+                                                                {{if !empty($specs['images'])}}
+                                                                    <img src="{{$specs.images}}" />
+                                                                {{/if}}
+                                                                <span class="sku-name">{{$specs.name}}</span>
+                                                            </div>
+                                                            <div class="sku-card-price" {{if !isset($specs['price']) or $specs['price'] === '' or $specs['price'] === null}}style="display:none;"{{/if}}>
+                                                                <em class="symbol">{{$module_data.goods.show_price_symbol}}</em>
+                                                                <b class="price">{{if isset($specs['price'])}}{{$specs.price}}{{/if}}</b>
+                                                                {{if !empty($specs['inventory_unit'])}}
+                                                                    <em class="unit"> / {{$specs.inventory_unit}}</em>
+                                                                {{/if}}
+                                                            </div>
                                                             <i class="iconfont icon-subscript"></i>
                                                         </li>
                                                     {{/foreach}}
@@ -103,7 +114,7 @@
                             {{/if}}
 
                             <div class="btn-op am-background-white">
-                                <span class="am-radius btn am-btn am-btn-default confirm login-event" data-type="cart">{{:MyLang('confirm_title')}}</span>
+                                <span class="am-radius btn am-btn am-btn-default confirm{{if (isset($buy_button['is_buy']) and $buy_button['is_buy'] eq 1) or (isset($buy_button['is_cart']) and $buy_button['is_cart'] eq 1)}} login-event{{/if}}" data-type="{{if (isset($buy_button['is_buy']) and $buy_button['is_buy'] eq 1) or (isset($buy_button['is_cart']) and $buy_button['is_cart'] eq 1)}}cart{{else /}}show{{/if}}">{{:MyLang('confirm_title')}}</span>
                                 <span class="am-radius btn close am-btn am-btn-danger cancel">{{:MyLang('cancel_title')}}</span>
                             </div>
                         </div>

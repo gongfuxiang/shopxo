@@ -10,14 +10,14 @@
         ])}}
         <!-- nav end -->
         <!-- form start -->
-        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/warehouse/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/warehouse/index', $params)}}">
+        <form class="am-form form-validation am-form-full-screen am-form-popup-sticky" action="{{:MyUrl('admin/warehouse/save')}}" method="POST" data-i18n-table="warehouse" request-type="ajax-url" request-value="{{:MyUrl('admin/warehouse/index', $params)}}">
             <div class="am-form-group">
                 <label>{{:MyLang('common_service.warehouse.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-                <input type="text" name="name" placeholder="{{:MyLang('common_service.warehouse.form_item_name_message')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('common_service.warehouse.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+                <input type="text" name="name" data-i18n="1" placeholder="{{:MyLang('common_service.warehouse.form_item_name_message')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('common_service.warehouse.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
             </div>
             <div class="am-form-group">
                 <label>{{:MyLang('common_service.warehouse.form_item_alias')}}</label>
-                <input type="text" name="alias" placeholder="{{:MyLang('common_service.warehouse.form_item_alias_message')}}" minlength="0" maxlength="16" data-validation-message="{{:MyLang('common_service.warehouse.form_item_alias_message')}}" class="am-radius" {{if !empty($data['alias'])}} value="{{$data.alias}}"{{/if}} />
+                <input type="text" name="alias" data-i18n="1" placeholder="{{:MyLang('common_service.warehouse.form_item_alias_message')}}" minlength="0" maxlength="16" data-validation-message="{{:MyLang('common_service.warehouse.form_item_alias_message')}}" class="am-radius" {{if !empty($data['alias'])}} value="{{$data.alias}}"{{/if}} />
             </div>
             <div class="am-form-group">
                 <label class="am-block">{{:MyLang('form_is_default_title')}}</label>
@@ -41,11 +41,16 @@
             {{:ModuleInclude('lib/region_linkage')}}
             <div class="am-form-group">
                 <label>{{:MyLang('common_service.warehouse.form_item_address')}}<span class="am-form-group-label-tips-must">*</span></label>
-                <input type="hidden" name="lng" id="form-lng" {{if !empty($data)}} value="{{$data.lng}}"{{/if}} />
-                <input type="hidden" name="lat" id="form-lat" {{if !empty($data)}} value="{{$data.lat}}"{{/if}} />
-                <div class="am-flex am-flex-items-center">
-                    <input type="text" name="address" id="form-address" placeholder="{{:MyLang('common_service.warehouse.form_item_address_message')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('common_service.warehouse.form_item_address_message')}}" class="am-radius am-map-positioning-input" {{if !empty($data)}} value="{{$data.address}}"{{/if}} data-is-clearout="0" required />
-                    <i class="iconfont icon-map-position am-map-positioning-icon" id="map-location-submit"></i>
+                <div class="am-input-group am-input-group-sm">
+                    <input type="hidden" name="lng" id="form-lng" {{if !empty($data)}} value="{{$data.lng}}"{{/if}} />
+                    <input type="hidden" name="lat" id="form-lat" {{if !empty($data)}} value="{{$data.lat}}"{{/if}} />
+                    <input type="text" name="address" data-i18n="1" id="form-address" placeholder="{{:MyLang('common_service.warehouse.form_item_address_message')}}" minlength="1" maxlength="80" data-validation-message="{{:MyLang('common_service.warehouse.form_item_address_message')}}" class="am-form-field am-radius" {{if !empty($data)}} value="{{$data.address}}"{{/if}} data-is-clearout="0" required />
+                    <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-default am-radius" type="button" id="map-location-submit">
+                            <i class="am-icon-map-marker"></i>
+                            <span>{{:MyLang('location_title')}}</span>
+                        </button>
+                    </span>
                 </div>
                 <div id="map" data-level="17" class="am-margin-top-xs"></div>
             </div>

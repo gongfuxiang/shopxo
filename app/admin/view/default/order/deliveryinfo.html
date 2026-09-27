@@ -5,7 +5,7 @@
         {{:ModuleInclude('public/not_data')}}
     {{else /}}
         <!-- form start -->
-        <form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/order/delivery')}}" method="POST" request-type="ajax-reload" request-value="parent">
+        <form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/order/delivery')}}" method="POST" data-i18n-table="order_express" data-i18n-id="{{$data.id}}" request-type="ajax-reload" request-value="parent">
             <!-- 发货页面顶部钩子 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                 <div class="plugins-tag">
@@ -94,7 +94,7 @@
             <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
         </div>
         <div class="am-modal-bd am-text-left">
-            <form class="am-form form-validation-express" method="post" request-type="sync" request-value="ViewExpressModalBack">
+            <form class="am-form form-validation-express" method="post" data-i18n-table="order_express" data-i18n-id="{{$data.id}}" request-type="sync" request-value="ViewExpressModalBack">
                 <div class="am-form-group">
                     <label>{{:MyLang('order.form_item_express_id')}}<span class="am-form-group-label-tips-must">*</span></label>
                     <div>
@@ -114,7 +114,7 @@
                 </div>
                 <div class="am-form-group">
                     <label>{{:MyLang('order.form_item_note')}}</label>
-                    <input type="text" autocomplete="off" name="note" placeholder="{{:MyLang('order.form_item_note')}}" maxlength="230" data-validation-message="{{:MyLang('order.form_item_note_message')}}" class="am-radius" />
+                    <input type="text" autocomplete="off" name="note" data-i18n="1" data-i18n-field="note" placeholder="{{:MyLang('order.form_item_note')}}" maxlength="230" data-validation-message="{{:MyLang('order.form_item_note_message')}}" class="am-radius" />
                 </div>
 
                 <div class="am-form-group am-margin-top-sm">
@@ -128,10 +128,3 @@
 <!-- footer start -->
 {{:ModuleInclude('public/footer')}}
 
-<script type="text/javascript">
-// 返回处理
-function ViewExpressModalBack(data)
-{
-    ExpressModalHandle(data);
-}
-</script>

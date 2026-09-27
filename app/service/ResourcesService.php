@@ -27,6 +27,20 @@ use app\service\ThemeAdminService;
 class ResourcesService
 {
     /**
+     * 业务控制器/方法名安全过滤
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-18
+     * @desc    仅保留字母数字下划线，供 API 转接入口与插件映射共用
+     * @param   [string]          $name [控制器或方法名]
+     */
+    public static function BusinessCallNameSafe($name)
+    {
+        return preg_replace('/[^a-zA-Z0-9_]/', '', strval($name));
+    }
+
+    /**
      * 编辑器中内容的静态资源替换
      * @author   Devil
      * @blog     http://gong.gg/
@@ -34,9 +48,10 @@ class ResourcesService
      * @datetime 2017-01-22T16:07:58+0800
      * @param    [string]    $content [在这个字符串中查找进行替换]
      * @param    [string]    $type    [操作类型[get读取额你让, add写入内容](编辑/展示传入get,数据写入数据库传入add)]
+     * @param    [array]     $params  [扩展参数，如 image_scene=detail 供插件处理图片样式]
      * @return   [string]             [正确返回替换后的内容, 则返回原内容]
      */
-    public static function ContentStaticReplace($content, $type = 'get')
+    public static function ContentStaticReplace($content, $type = 'get', $params = [])
     {
         // 仅处理字符串和数字类型
         if(is_string($content) || is_int($content))
@@ -54,7 +69,7 @@ class ResourcesService
             {
                 // 读取内容
                 case 'get':
-                    return str_replace('src="/static/', 'src="'.$attachment_host_path, $content);
+                    $content = str_replace('src="/static/', 'src="'.$attachment_host_path, $content);
                     break;
 
                 // 内容写入
@@ -64,8 +79,20 @@ class ResourcesService
                         'src="'.__MY_ROOT_PUBLIC__.'static/',
                         'src="'.$attachment_host_path,
                     ];
-                    return str_replace($search, 'src="/static/', $content);
+                    $content = str_replace($search, 'src="/static/', $content);
+                    break;
             }
+
+            // 内容静态资源处理结束钩子
+            $hook_name = 'plugins_service_resources_content_static_replace_end';
+            MyEventTrigger($hook_name, [
+                'hook_name'    => $hook_name,
+                'is_backend'   => true,
+                'content'      => &$content,
+                'type'         => $type,
+                'image_scene'  => empty($params['image_scene']) ? '' : $params['image_scene'],
+                'params'       => $params,
+            ]);
         }
         return $content;
     }
@@ -77,17 +104,23 @@ class ResourcesService
      * @version 1.0.0
      * @date    2018-08-07
      * @desc    description
-     * @param   [array]          $params [输入参数]
-     * @param   [array]          $data   [字段列表]
+     * @param   [array]          $params      [输入参数]
+     * @param   [array]          $data        [字段列表]
+     * @param   [array]          $image_scene [字段=>样式场景，如 images=>cover]
      */
-    public static function AttachmentParams($params, $data)
+    public static function AttachmentParams($params, $data, $image_scene = [])
     {
         $result = [];
         if(!empty($data))
         {
             foreach($data as $field)
             {
-                $result[$field] = isset($params[$field]) ? self::AttachmentPathHandle($params[$field]) : '';
+                $handle_params = [];
+                if(!empty($image_scene) && is_array($image_scene) && !empty($image_scene[$field]))
+                {
+                    $handle_params['image_scene'] = $image_scene[$field];
+                }
+                $result[$field] = isset($params[$field]) ? self::AttachmentPathHandle($params[$field], 'url', $handle_params) : '';
             }
         }
 
@@ -101,10 +134,11 @@ class ResourcesService
      * @version 1.0.0
      * @date    2018-12-12
      * @desc    description
-     * @param   [string|array]    $value [附件路径地址]
-     * @param   [string]          $field [url字段名称]
+     * @param   [string|array]    $value  [附件路径地址]
+     * @param   [string]          $field  [url字段名称]
+     * @param   [array]           $params [扩展参数，如 image_scene 供插件处理图片样式]
      */
-    public static function AttachmentPathHandle($value, $field = 'url')
+    public static function AttachmentPathHandle($value, $field = 'url', $params = [])
     {
         if(!empty($value))
         {
@@ -135,6 +169,17 @@ class ResourcesService
             } else {
                 $value = empty($value) ? '' : str_replace($search, DS, $value);
             }
+
+            // 附件路径处理结束钩子（插件可按 image_scene 追加云存储图片样式）
+            $hook_name = 'plugins_service_attachment_path_handle_end';
+            MyEventTrigger($hook_name, [
+                'hook_name'    => $hook_name,
+                'is_backend'   => true,
+                'value'        => &$value,
+                'field'        => $field,
+                'image_scene'  => empty($params['image_scene']) ? '' : $params['image_scene'],
+                'params'       => $params,
+            ]);
         }
         return $value;
     }
@@ -282,6 +327,21 @@ class ResourcesService
     }
 
     /**
+     * 下单时间/联系信息三态值解析
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-20
+     * @desc    0关闭、1选择/填写、2必选/必填
+     * @param   [mixed]          $value [配置值]
+     */
+    public static function BuyChoiceModeFromConfig($value)
+    {
+        $mode = intval($value);
+        return in_array($mode, [0, 1, 2], true) ? $mode : 0;
+    }
+
+    /**
      * 购买填写时间数据
      * @author  Devil
      * @blog    http://gong.gg/
@@ -292,11 +352,11 @@ class ResourcesService
      */
     public static function BuyDatetimeData($params = [])
     {
-        // 默认配置
-        $config = MyC('common_buy_datetime_info', [], true);
+        // 默认配置（0关闭、1选择、2必选）
+        $mode = self::BuyChoiceModeFromConfig(MyC('common_buy_datetime_info', 0, true));
         $data = [
-            'is_select'     => in_array(0, $config) ? 1 : 0,
-            'required'      => in_array(1, $config) ? 1 : 0,
+            'is_select'     => ($mode > 0) ? 1 : 0,
+            'required'      => ($mode == 2) ? 1 : 0,
             'title'         => MyLang('appoint_time_title'),
             'placeholder'   => MyLang('choice_time_title'),
             'error_msg'     => MyLang('form_time_message'),
@@ -330,11 +390,11 @@ class ResourcesService
      */
     public static function BuyExtractionContactData($params = [])
     {
-        // 默认配置
-        $config = MyC('common_buy_extraction_contact_info', [], true);
+        // 默认配置（0关闭、1填写、2必填）
+        $mode = self::BuyChoiceModeFromConfig(MyC('common_buy_extraction_contact_info', 0, true));
         $data = [
-            'is_write'   => in_array(0, $config) ? 1 : 0,
-            'required'   => in_array(1, $config) ? 1 : 0,
+            'is_write'   => ($mode > 0) ? 1 : 0,
+            'required'   => ($mode == 2) ? 1 : 0,
             'name'       => (empty($params['user']) || empty($params['user']['nickname'])) ? '' : $params['user']['nickname'],
             'tel'        => (empty($params['user']) || empty($params['user']['mobile'])) ? '' : $params['user']['mobile'],
             'error_msg'  => MyLang('form_name_tel_message'),

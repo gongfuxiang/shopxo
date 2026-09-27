@@ -186,6 +186,20 @@
 .textimages-custom-container > li > input.value {
     width: 22rem;
 }
+/* 多语言按钮包裹后的输入（i18n-field-wrap内）、保持原布局尺寸（wrap不占多余空间、按钮紧贴输入框右侧） */
+.textimages-custom-container > li > .i18n-field-wrap {
+    flex: 0 0 auto;
+    margin: 0 1rem;
+}
+.textimages-custom-container > li > .i18n-field-wrap > input {
+    display: -webkit-inline-box !important;
+}
+.textimages-custom-container > li > .i18n-field-wrap > input.name {
+    width: 12rem;
+}
+.textimages-custom-container > li > .i18n-field-wrap > input.value {
+    width: 22rem;
+}
 .textimages-custom-container > li > .url-choice-event {
     width: 11rem;
 }

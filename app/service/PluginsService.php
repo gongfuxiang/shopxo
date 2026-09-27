@@ -15,6 +15,7 @@ use app\service\SystemService;
 use app\service\ResourcesService;
 use app\service\PluginsAdminService;
 use app\service\StoreService;
+use app\service\I18nService;
 
 /**
  * 应用服务层
@@ -70,6 +71,10 @@ class PluginsService
             // 加入静态记录
             $static_all_plugins_data[$plugins] = $data;
         }
+
+        // 多语言替换（插件配置键、注册表控制范围、缓存与静态记录均存原文不受影响）
+        I18nService::PluginsConfigHandle($plugins, $data);
+
         return DataReturn(MyLang('handle_success'), 0, $data);
     }
 
@@ -217,7 +222,7 @@ class PluginsService
         }
 
         // 附件处理
-        $attachment = ResourcesService::AttachmentParams($params['data'], $attachment_field);
+        $attachment = ResourcesService::AttachmentParams($params['data'], $attachment_field, empty($params['image_scene']) ? [] : $params['image_scene']);
         if($attachment['code'] != 0)
         {
             return $attachment;
@@ -233,12 +238,26 @@ class PluginsService
         // 移除多余的字段
         unset($params['data']['pluginsname'], $params['data']['pluginscontrol'], $params['data']['pluginsaction']);
 
-        // 数据更新
-        if(Db::name('Plugins')->where(['plugins'=>$params['plugins']])->update(['data'=>json_encode($params['data']), 'upd_time'=>time()]))
+        // 多语言数据（表单隐藏域提交、随配置一起保存、不进入插件配置json）
+        $i18n_data = I18nService::RequestData($params['data']);
+        unset($params['data']['i18n_data'], $params['data']['i18n_plugins']);
+
+        // 数据更新（仅改多语言、配置json未变时 affected=0 仍视为成功，避免 i18n 未落库）
+        if(Db::name('Plugins')->where(['plugins'=>$params['plugins']])->update(['data'=>json_encode($params['data']), 'upd_time'=>time()]) !== false)
         {
             // 删除缓存
             self::PluginsCacheDelete($params['plugins']);
-            
+
+            // 多语言数据保存（插件配置键、键值型精准删除重写）
+            if($i18n_data !== null)
+            {
+                $i18n_data = I18nService::FilterPluginsConfigData($params['plugins'], $i18n_data);
+                if(!empty($i18n_data))
+                {
+                    I18nService::SaveData('plugins_config', 0, $i18n_data, $params['plugins']);
+                }
+            }
+
             return DataReturn(MyLang('operate_success'), 0);
         }
         return DataReturn(MyLang('operate_fail'), -100);
@@ -381,6 +400,14 @@ class PluginsService
             return $ret;
         }
 
+        // 仅允许字母数字下划线，防止路径/注入类字符
+        $control = ResourcesService::BusinessCallNameSafe($control);
+        $action = ResourcesService::BusinessCallNameSafe($action);
+        if($control === '' || $action === '')
+        {
+            return DataReturn('业务控制器或方法无效', -5000);
+        }
+
         // 应用控制器
         $control = ucfirst($control);
         $plugins_class = '\app\plugins\\'.$plugins.'\\'.$group.'\\'.$control;
@@ -393,6 +420,15 @@ class PluginsService
         if(!empty($params['data_request']) && is_array($params['data_request']))
         {
             unset($params['data_request']['s'], $params['data_request']['pluginsname'], $params['data_request']['pluginscontrol'], $params['data_request']['pluginsaction']);
+            // 网关入口（如 seller/admin）已由客户端传入 business_*，不可覆盖为当前插件控制器名
+            if(empty($params['data_request']['business_control']))
+            {
+                $params['data_request']['business_control'] = $control;
+            }
+            if(empty($params['data_request']['business_action']))
+            {
+                $params['data_request']['business_action'] = $action;
+            }
         }
 
         // 调用方法
@@ -533,6 +569,9 @@ class PluginsService
 
                 // 处理配置数据
                 $v['data'] = self::PluginsDataHandle($v['data'], $base_ser['attachment_field']);
+
+                // 多语言替换（与 PluginsData 一致；uniapp 公共配置 plugins_base 依赖此处）
+                I18nService::PluginsConfigHandle($v['plugins'], $v['data']);
 
                 // 是否存在配置处理方法
                 if($base_ser['ser'] !== null && method_exists($base_ser['ser'], 'BaseConfigHandle'))

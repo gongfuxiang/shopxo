@@ -887,7 +887,7 @@ class LayoutModule
 
                 // 获取商品
                 $order_by = 'id desc';
-                $field = 'id,title,images,price,original_price,min_price,max_price,min_original_price,max_original_price,inventory,inventory_unit';
+                $field = 'id,title,images,price,original_price,min_price,max_price,min_original_price,max_original_price,inventory,inventory_unit,site_type';
                 $where = [
                     ['is_delete_time', '=', 0],
                     ['is_shelves', '=', 1],
@@ -919,7 +919,7 @@ class LayoutModule
 
                 // 获取商品
                 $order_by = $order_by_type.' '.$order_by_rule;
-                $field = 'g.id,g.title,g.images,g.price,g.original_price,g.min_price,g.max_price,g.min_original_price,g.max_original_price,g.inventory,g.inventory_unit';
+                $field = 'g.id,g.title,g.images,g.price,g.original_price,g.min_price,g.max_price,g.min_original_price,g.max_original_price,g.inventory,g.inventory_unit,g.site_type';
                 $where = [
                     ['gci.category_id', 'in', GoodsCategoryService::GoodsCategoryItemsIds([intval($params['category_id'])])],
                     ['g.is_delete_time', '=', 0],

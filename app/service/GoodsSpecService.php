@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\I18nService;
 use app\service\GoodsCategoryService;
 
 /**
@@ -191,6 +192,13 @@ class GoodsSpecService
                 }
             }
 
+            // 多语言数据保存（模板名称 + 规格值块自动按逗号拆分逐值存储、供商品规格选择模板后预填带出）
+            $i18n_data = I18nService::RequestData($params);
+            if($i18n_data !== null)
+            {
+                I18nService::SpecTemplateSaveData('goods_spec_template', $template_id, $i18n_data, $params['content']);
+            }
+
             // 完成
             return DataReturn(MyLang('operate_success'), 0);
         } catch(\Exception $e) {
@@ -229,7 +237,10 @@ class GoodsSpecService
             }
 
             // 完成
-            return DataReturn(MyLang('delete_success'), 0);
+// 多语言数据删除
+            I18nService::DeleteData('goods_spec_template', $params['ids']);
+
+                        return DataReturn(MyLang('delete_success'), 0);
         } catch(\Exception $e) {
             return DataReturn($e->getMessage(), -1);
         }

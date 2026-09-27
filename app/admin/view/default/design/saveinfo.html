@@ -38,20 +38,20 @@
 {{:ModuleInclude('public/footer')}}
 <script type="text/javascript">
 // 基础数据保存回调处理
-function FormBackSaveinfoEdit(e)
+window.FormBackSaveinfoEdit = function (e)
 {
     var $page = $('.layout-operate-container');
     $page.attr('data-json', encodeURIComponent(JSON.stringify(e)));
 
     // logo
-    $('.page-top-nav-logo').attr('src', e.logo || "{{:StaticAttachmentUrl('default-images-mini.png')}}");
+    $('.page-top-nav-logo').attr('src', e.logo || "{:StaticAttachmentUrl('default-images-mini.png')}");
 
     // 名称
-    $('.page-top-nav-title span').text(e.name || '{{:MyLang("common_service.design.create_name_default")}}');
+    $('.page-top-nav-title span').text(e.name || "{:MyLang('common_service.design.create_name_default')}");
 
     // 关闭弹窗
     $('#popup-saveinfo').modal('close');
-}
+};
 </script>
 
 <!-- layout formback -->

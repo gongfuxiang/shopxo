@@ -24,7 +24,7 @@
                 <th>{{:MyLang('common.form_goods_params_thead_value_title')}}</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody data-i18n-dynamic="1">
             {{if !empty($goods_base_template) and !empty($goods_base_template['params']) and is_array($goods_base_template['params'])}}
                 {{foreach $goods_base_template.params as $pk=>$pv}}
                     {{if !empty($pv['config_data']) and is_array($pv['config_data'])}}
@@ -67,7 +67,7 @@
                                             {{/if}}
                                         {{/case}}
                                         {{default /}}
-                                            <input type="text" name="parameters_value[{{$pv.id}}{{$pvs.id}}]" placeholder="{{:MyLang('common.form_goods_params_value_name')}}" value="{{if empty($parameters)}}{{$pvs.value}}{{else /}}{{if !empty($parameters[$pvs['key']]) and isset($parameters[$pvs['key']]['value'])}}{{$parameters[$pvs['key']]['value']}}{{/if}}{{/if}}" maxlength="160" class="am-radius" {{if isset($pvs['required']) and $pvs['required'] eq 1}} data-validation-message="{{:MyLang('not_fill_in_error')}}（{{:MyLang('goods_params')}}-{{$pvs.name}}）" required{{/if}} {{if !empty($goods_params_operate_data) and isset($goods_params_operate_data['is_edit']) and $goods_params_operate_data['is_edit'] eq 0}} readonly{{/if}} />
+                                            <input type="text" name="parameters_value[{{$pv.id}}{{$pvs.id}}]" data-i18n="1" placeholder="{{:MyLang('common.form_goods_params_value_name')}}" value="{{if empty($parameters)}}{{$pvs.value}}{{else /}}{{if !empty($parameters[$pvs['key']]) and isset($parameters[$pvs['key']]['value'])}}{{$parameters[$pvs['key']]['value']}}{{/if}}{{/if}}" maxlength="160" class="am-radius" {{if isset($pvs['required']) and $pvs['required'] eq 1}} data-validation-message="{{:MyLang('not_fill_in_error')}}（{{:MyLang('goods_params')}}-{{$pvs.name}}）" required{{/if}} {{if !empty($goods_params_operate_data) and isset($goods_params_operate_data['is_edit']) and $goods_params_operate_data['is_edit'] eq 0}} readonly{{/if}} />
                                     {{/switch}}
                                 </td>
                             </tr>

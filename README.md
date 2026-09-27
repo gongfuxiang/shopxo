@@ -56,7 +56,6 @@
 |----|----|
 | Gitee | [https://gitee.com/zongzhige/shopxo](https://gitee.com/zongzhige/shopxo) |
 | GitHub | [https://github.com/gongfuxiang/shopxo](https://github.com/gongfuxiang/shopxo) |
-| Coding | [https://zongzhige.coding.net/public/shopxo/shopxo/git](https://zongzhige.coding.net/public/shopxo/shopxo/git) |
 | GitCode | [https://gitcode.com/zongzhige/shopxo](https://gitcode.com/zongzhige/shopxo) |
 
 ### uniapp手机端源代码平台
@@ -64,7 +63,6 @@
 |----|----|
 | Gitee | [https://gitee.com/zongzhige/shopxo-uniapp](https://gitee.com/zongzhige/shopxo-uniapp) |
 | GitHub | [https://github.com/gongfuxiang/shopxo-uniapp](https://github.com/gongfuxiang/shopxo-uniapp) |
-| Coding | [https://zongzhige.coding.net/public/shopxo/uniapp/git](https://zongzhige.coding.net/public/shopxo/uniapp/git) |
 | GitCode | [https://gitcode.com/zongzhige/shopxo-uniapp](https://gitcode.com/zongzhige/shopxo-uniapp) |
 | uni-app | [https://ext.dcloud.net.cn/plugin?id=6380](https://ext.dcloud.net.cn/plugin?id=6380) |
 

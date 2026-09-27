@@ -15,15 +15,13 @@
     {{/if}}
 
     <!-- 基础数据 -->
-    <li class="am-nbfc">
+    <li class="am-nbfc map-result-row">
         <p class="am-fl">
             <span>{{:MyLang('search.filter_out_first_text')}}</span>
             <strong class="map-result-count am-text-danger">{{$data_total}}</strong>
             <span>{{:MyLang('search.filter_out_last_data_text')}}</span>
         </p>
-        {{if isset($is_map) and $is_map eq 1}}
-            <a href="{{:MyUrl('index/search/index')}}" class="map-remove-submit am-fr am-margin-right-sm">{{:MyLang('clear_title')}}</a>
-        {{/if}}
+        <a href="javascript:;" class="map-remove-submit am-fr am-margin-right-sm am-hide">{{:MyLang('clear_title')}}</a>
     </li>
 
     <!-- 搜索页面筛选条件内基础底部钩子 -->
@@ -52,11 +50,8 @@
     <!-- 产地 -->
     {{:ModuleInclude('search/module/map/content/produce_region', empty($module_data) ? [] : $module_data)}}
 
-    <!-- 属性 -->
-    {{:ModuleInclude('search/module/map/content/goods_params', empty($module_data) ? [] : $module_data)}}
-
-    <!-- 规格 -->
-    {{:ModuleInclude('search/module/map/content/goods_spec', empty($module_data) ? [] : $module_data)}}
+    <!-- 参数 / 规格（按分类模板下拉） -->
+    {{:ModuleInclude('search/module/map/content/params_spec', empty($module_data) ? [] : $module_data)}}
 
     <!-- 搜索页面筛选条件内尾部钩子 -->
     {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}

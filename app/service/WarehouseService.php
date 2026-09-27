@@ -14,6 +14,7 @@ use think\facade\Db;
 use app\service\RegionService;
 use app\service\WarehouseGoodsService;
 use app\service\SystemBaseService;
+use app\service\I18nService;
 
 /**
  * 仓库服务层
@@ -57,6 +58,9 @@ class WarehouseService
     {
         if(!empty($data))
         {
+            // 多语言数据替换
+            I18nService::DataHandle($data, 'warehouse');
+
             // 字段列表
             $keys = ArrayKeys($data);
 
@@ -239,13 +243,15 @@ class WarehouseService
             if(empty($info))
             {
                 $data['add_time'] = time();
-                if(Db::name('Warehouse')->insertGetId($data) <= 0)
+                $warehouse_id = Db::name('Warehouse')->insertGetId($data);
+                if($warehouse_id <= 0)
                 {
                     throw new \Exception(MyLang('insert_fail'));
                 }
             } else {
+                $warehouse_id = intval($params['id']);
                 $data['upd_time'] = time();
-                if(!Db::name('Warehouse')->where(['id'=>intval($params['id'])])->update($data))
+                if(!Db::name('Warehouse')->where(['id'=>$warehouse_id])->update($data))
                 {
                     throw new \Exception(MyLang('update_fail'));
                 }
@@ -259,6 +265,13 @@ class WarehouseService
                         throw new \Exception($ret['msg']);
                     }
                 }
+            }
+
+            // 多语言数据保存（隐藏域未提交则不处理）
+            $i18n_data = I18nService::RequestData($params);
+            if($i18n_data !== null)
+            {
+                I18nService::SaveData('warehouse', $warehouse_id, $i18n_data);
             }
 
             // 完成
@@ -301,6 +314,9 @@ class WarehouseService
             {
                 throw new \Exception(MyLang('delete_fail'));
             }
+
+            // 多语言数据删除
+            I18nService::DeleteData('warehouse', $params['ids']);
 
             // 同步库存
             foreach($params['ids'] as $warehouse_id)

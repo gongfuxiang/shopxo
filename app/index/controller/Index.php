@@ -14,7 +14,7 @@ use app\index\controller\Common;
 use app\module\LayoutModule;
 use app\service\SeoService;
 use app\service\AdminService;
-use app\service\SlideService;
+use app\service\SliderService;
 use app\service\GoodsService;
 use app\service\GoodsCategoryService;
 use app\service\ArticleService;
@@ -78,13 +78,14 @@ class Index extends Common
             $is_design = (!empty($this->data_request['save_url']) && isset($this->data_request['is_design']) && $this->data_request['is_design'] == 1 && $floor_data_type == 2 && !empty($admin)) ? 1 : 0;
 
             // 模板数据
+            $slider_list = SliderService::SliderList();
             $assign = array_merge($assign, [
                 // 数据模式
                 'floor_data_type'   => $floor_data_type,
                 // 是否设计模式
                 'is_design'         => $is_design,
                 // 首页轮播
-                'banner_list'       => SlideService::SlideList(),
+                'slider_list'       => $slider_list,
                 // 文章
                 'article_list'      => ArticleService::RecommendedArticleList(),
             ]);

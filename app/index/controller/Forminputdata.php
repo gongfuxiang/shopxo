@@ -105,6 +105,7 @@ class FormInputData extends Common
     {
         $params = $this->data_request;
         $params['user'] = $this->user;
+        $params['user_type'] = 'user';
         return ApiService::ApiDataReturn(FormInputDataService::FormInputDataDelete($params));
     }
 }

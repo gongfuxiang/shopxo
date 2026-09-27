@@ -201,8 +201,8 @@ return [
     'register_success'                                      => '注册成功',
     'login_fail'                                            => '登录失败',
     'login_success'                                         => '登录成功',
-    'comments_fail'                                         => '评论失败',
-    'comments_success'                                      => '评论成功',
+    'comments_fail'                                         => '评价失败',
+    'comments_success'                                      => '评价成功',
     'favor_fail'                                            => '收藏失败',
     'favor_success'                                         => '收藏成功',
     'refund_fail'                                           => '退款失败',
@@ -402,6 +402,7 @@ return [
     'view_tap_title'                                        => '点击查看',
     'view_detail_title'                                     => '查看详情',
     'view_all_title'                                        => '查看全部',
+    'view_more_title'                                       => '查看更多',
     'base_title'                                            => '基础',
     'data_title'                                            => '数据',
     'data_operate_title'                                    => '数据操作',
@@ -885,7 +886,7 @@ return [
                 '2. 例如：/pages/user/user',
                 '3. 支持带参数 ?x=xx',
             ],
-            'tips'  => '小程序页面地址配置说明',
+            'tips'  => '查看内部页面地址',
         ],
         [
             'type'  => 'map',
@@ -895,6 +896,59 @@ return [
                 '2. 例如：ShopXO|上海浦东新区张江高科技园区XXX号|121.626444|31.20843',
             ]
         ]
+    ],
+    // 手机端内部页面地址（后台事件值弹窗，与 DIY 独立）
+    'app_pages'                         => [
+        'popup_title'                   => '内部页面地址',
+        'nav_title'                     => '手机端页面地址',
+        'search_placeholder'            => '搜索标题、名称或地址',
+        'copy_title'                    => '复制',
+        'use_title'                     => '使用',
+        'empty_tips'                    => '暂无匹配的页面',
+        'plugins_empty_tips'            => '暂无插件页面',
+        'plugins_hook_tips'             => '插件可通过钩子 plugins_service_app_pages_list 扩展',
+        'group_base'                    => '基础页面',
+        'group_user'                    => '用户中心',
+        'group_params'                  => '需拼接参数',
+        'group_plugins'                 => '插件页面',
+        'page_index'                    => '商城首页',
+        'page_goods_category'           => '商品分类',
+        'page_goods_search_start'       => '商品搜索开始',
+        'page_goods_search'             => '商品搜索',
+        'page_cart'                     => '购物车',
+        'page_cart_page'                => '购物车单页',
+        'page_login'                    => '登录页面',
+        'page_article_category'         => '文章列表',
+        'page_setup'                    => '设置中心',
+        'page_about'                    => '关于我们',
+        'page_user'                     => '用户中心',
+        'page_user_order'               => '订单列表',
+        'page_user_orderaftersale'      => '订单售后',
+        'page_user_favor'               => '商品收藏',
+        'page_user_goods_comments'      => '商品评论',
+        'page_user_address'             => '我的地址',
+        'page_user_integral'            => '我的积分',
+        'page_message'                  => '我的消息',
+        'page_user_goods_browse'        => '我的足迹',
+        'page_personal'                 => '个人资料',
+        'page_goods_detail'             => '商品详情',
+        'page_article_detail'           => '文章详情',
+        'page_diy'                      => 'DIY页面',
+        'page_design'                   => '页面设计',
+        'page_customview'               => '自定义页面',
+        'page_goods_comment'            => '商品评论页',
+        'page_user_order_detail'        => '订单详情',
+        'page_web_view'                 => '内置浏览器',
+        'tips_goods_search'             => '可拼接参数，如 ?keywords=关键词&category_id=分类ID&brand=品牌ID',
+        'tips_goods_category'           => '可拼接参数，如 ?id=分类ID',
+        'tips_goods_detail'             => '请自行拼接参数，如 ?id=商品ID',
+        'tips_article_detail'           => '请自行拼接参数，如 ?id=文章ID',
+        'tips_diy'                      => '请自行拼接参数，如 ?id=DIY页面ID',
+        'tips_design'                   => '请自行拼接参数，如 ?id=页面设计ID',
+        'tips_customview'               => '请自行拼接参数，如 ?id=自定义页面ID',
+        'tips_goods_comment'            => '请自行拼接参数，如 ?goods_id=商品ID',
+        'tips_user_order_detail'        => '请自行拼接参数，如 ?id=订单ID',
+        'tips_web_view'                 => '请自行拼接参数，如 ?url=编码后的http地址',
     ],
     // 自定义跳转地址提示说明
     'custom_to_value_tips'              => [
@@ -1086,6 +1140,12 @@ return [
         0 => '订单支付',
         1 => '订单收货',
     ],
+    // 商品详情规格内页展示
+    'common_goods_detail_spec_page_show_list' => [
+        0 => '默认不内嵌',
+        1 => '一层规格',
+        2 => '多层规格',
+    ],
     // 是否已读
     'common_is_read_list' => [
         0 => '未读',
@@ -1165,13 +1225,15 @@ return [
     ],
     // 下单指定时间
     'common_buy_datetime_config_list' => [
-        0 => '可选择',
-        1 => '强制选择',
+        0 => '关闭',
+        1 => '选择',
+        2 => '必选',
     ],
     // 下单联系信息
     'common_buy_extraction_contact_config_list' => [
-        0 => '可填写',
-        1 => '强制填写',
+        0 => '关闭',
+        1 => '填写',
+        2 => '必填',
     ],
     // 订单售后类型
     'common_order_aftersale_type_list' => [
@@ -1202,7 +1264,7 @@ return [
         4 => '4分',
         5 => '5分',
     ],
-    // 商品评论业务类型
+    // 商品评价业务类型
     'common_goods_comments_business_type_list' => [
         'order' => '订单',
     ],
@@ -1493,12 +1555,12 @@ return [
         'quick_nav'       => '快捷导航',
         'shortcutmenu'    => '快捷菜单',
         'app_nav'         => '首页导航',
-        'slide'           => '轮播',
+        'slider'          => '轮播',
         'article'         => '文章',
         'user'            => '用户',
         'design'          => '页面设计',
         'plugins'         => '插件',
-        'order_comments'  => '订单商品评论',
+        'order_comments'  => '订单商品评价',
         'theme_data'      => '主题数据',
         'agreement'       => '协议',
         'warehouse'       => '仓库',
@@ -1555,6 +1617,16 @@ return [
         // 基础
         'base'                => [
             'key_error_tips'                    => '数据key值有误',
+        ],
+        // 多语言数据
+        'i18n'                => [
+            'popup_title'                       => '多语言数据',
+            'default_tips'                      => '默认语言',
+            'load_fail_tips'                    => '多语言数据加载失败',
+            'table_not_support_tips'            => '业务表不支持多语言',
+            'save_tips'                      => '确认后暂存、随表单保存按钮一起提交生效',
+            'editor_tips'                     => '富文本内容请参考主表单原始内容',
+            'loading_tips'                    => '正在获取中...',
         ],
         // 系统
         'system'            => [
@@ -1980,8 +2052,9 @@ return [
             'save_stock_update_data_empty_tips'     => '请先加入购物车',
             'save_buy_max_error_tips'               => '超过商品限购数量',
             'save_inventory_not_enough_tips'        => '商品库存不足',
+            'spec_empty_tips'                       => '请选择商品规格',
         ],
-        // 商品评论
+        // 商品评价
         'goodscomments'     => [
             // 表单
             'form_item_goods_info_title'            => '商品信息',
@@ -1992,9 +2065,9 @@ return [
             'form_item_rating'                      => '评分',
             'form_item_rating_placeholder'          => '未评分',
             'form_item_rating_message'              => '请选择评分',
-            'form_item_content'                     => '评论内容',
+            'form_item_content'                     => '评价内容',
             'form_item_content_placeholder'         => '宝贝满足你的期待吗？说说它的优点和美中不足的地方吧',
-            'form_item_content_message'             => '评论内容6~230个字符之间',
+            'form_item_content_message'             => '评价内容6~230个字符之间',
             'form_item_reply'                       => '回复内容',
             'form_item_reply_message'               => '回复内容最多230个字符',
             'form_item_reply_content_message'       => '回复内容1~230个字符之间',
@@ -2003,12 +2076,12 @@ return [
             'form_item_is_reply'                    => '是否已回复',
             'form_item_is_anonymous'                => '是否匿名',
             'form_item_images_message'              => '最多上传3张图片',
-            'form_item_anonymous_tips'              => '开启后你写的评论会以匿名的形式展现',
+            'form_item_anonymous_tips'              => '开启后你写的评价会以匿名的形式展现',
             // 保存
             'save_rating_empty_tips'                => '评级不能为空',
-            'save_content_empty_tips'               => '评论内容不能为空',
-            'save_order_already_comments_tips'      => '该订单你已进行过评论',
-            'save_comments_add_fail_tips'           => '评论内容添加失败',
+            'save_content_empty_tips'               => '评价内容不能为空',
+            'save_order_already_comments_tips'      => '该订单你已进行过评价',
+            'save_comments_add_fail_tips'           => '评价内容添加失败',
             'save_order_comments_update_tail_tips'  => '订单更新失败',
             // 基础
             'comments_username_default'             => '匿名',
@@ -2397,7 +2470,7 @@ return [
                 'order'             => '订单管理',
                 'orderaftersale'    => '订单售后',
                 'goodsfavor'        => '商品收藏',
-                'goodscomments'     => '商品评论',
+                'goodscomments'     => '商品评价',
                 'property'          => '财产中心',
                 'integral'          => '我的积分',
                 'base'              => '资料管理',
@@ -2838,7 +2911,7 @@ return [
             'redis_connect_fail_tips'               => 'redis连接失败',
         ],
         // 轮播
-        'slide'                     => [
+        'slider'                    => [
             // 表单
             'form_item_name'                        => '名称',
             'form_item_name_message'                => '名称格式2~60个字符',
@@ -2961,8 +3034,8 @@ return [
             'form_item_article_order_by_rule_message'  => '请选择文章排序规则',
             'form_item_please_enter_text'              => '请输入',
             'form_item_index_text'                     => '第{index}条',
-            'form_item_custom_data_name_text'          => '数据名称',
-            'form_item_custom_data_value_text'         => '数据值',
+            'form_item_custom_data_name_text'          => '自定义数据名称',
+            'form_item_custom_data_value_text'         => '自定义数据值',
 
             'form_item_images_icon'                   => '图标',
             'form_item_images_active_icon'            => '选中图标',
@@ -4427,9 +4500,19 @@ return [
             'tips' => '请选择站点类型',
         ],
         'common_is_exhibition_mode_btn_text'  => [
-            'name' => '展示型操作名称',
+            'name' => '展示模式商品按钮名称',
             'desc' => '默认 立即咨询，展示模式下商品页面的【立即购买】按钮占位名称',
-            'tips' => '请填写展示型操作名称',
+            'tips' => '请填写展示模式商品按钮名称',
+        ],
+        'common_exhibition_mode_hide_price'  => [
+            'name' => '展示模式隐藏价格',
+            'desc' => '开启后，在展示型（站点类型或商品类型为展示）下不展示真实售价和原价，覆盖网站设置中「显示商品售价」「显示商品原价」开关',
+            'tips' => '请选择是否展示模式隐藏价格',
+        ],
+        'common_exhibition_mode_hide_price_text'  => [
+            'name' => '展示模式隐藏价格替换文字',
+            'desc' => '开启隐藏价格后，价格行仍显示，金额替换为该文字，如联系客服；留空则不显示价格行',
+            'tips' => '请填写展示模式隐藏价格替换文字',
         ],
         'common_site_fictitious_title'  => [
             'name' => '虚拟信息标题',
@@ -4458,10 +4541,12 @@ return [
         ],
         'common_goods_sales_price_status'  => [
             'name' => '显示商品售价',
+            'desc' => '若开启【展示模式隐藏价格】且当前为展示型，则优先隐藏售价，本开关不生效',
             'tips' => '请选择是否显示商品售价',
         ],
         'common_goods_original_price_status'  => [
             'name' => '显示商品原价',
+            'desc' => '若开启【展示模式隐藏价格】且当前为展示型，则优先隐藏原价，本开关不生效',
             'tips' => '请选择是否显示商品原价',
         ],
         'common_goods_sales_price_unit_status'  => [
@@ -4568,8 +4653,13 @@ return [
         ],
         'common_cache_data_redis_expire'  => [
             'name' => '有效时间',
-            'desc' => '默认0表示永久',
+            'desc' => '单位秒，默认0表示永久，仅Redis缓存生效',
             'tips' => '请填写有效时间',
+        ],
+        'common_cache_data_file_expire'  => [
+            'name' => '文件缓存有效时间',
+            'desc' => '单位秒，默认0表示永久，仅文件缓存生效',
+            'tips' => '请填写文件缓存有效时间',
         ],
         'common_cache_data_redis_prefix'  => [
             'name' => '前缀',
@@ -4807,6 +4897,11 @@ return [
         'common_is_goods_detail_show_left_more'  => [
             'name' => '商品详情页左侧更多（手机端）',
             'tips' => '请选择是否商品详情页左侧更多',
+        ],
+        'common_goods_detail_spec_page_show'  => [
+            'name' => '商品详情规格内页展示',
+            'desc' => '默认不内嵌（弹层选择）；一层规格仅单层商品页内卡片直选；多层规格则多层也在详情页内选择',
+            'tips' => '请选择商品详情规格内页展示方式',
         ],
         'common_goods_cover_size_type'  => [
             'name' => '商品封面高度拉伸（手机端）',

@@ -11,39 +11,39 @@
         ])}}
         <!-- nav end -->	
         <!-- form start -->
-        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/sms/save')}}" method="POST" request-type="ajax-view" request-value="{{:MyUrl('admin/sms/index', ['type'=>'message'])}}">
+        <form class="am-form form-validation am-form-popup-sticky" action="{{:MyUrl('admin/sms/save')}}" method="POST" data-i18n-table="config" request-type="ajax-view" request-value="{{:MyUrl('admin/sms/index', ['type'=>'message'])}}">
             <div class="nav-content">
                 <!-- table tips start -->
                 {{:ModuleInclude('sms/tips')}}
                 <!-- table tips end -->
                 <!-- 后台 -->
 
-                <p class="am-margin-bottom-xl am-text-sm am-color-333">{{:MyLang('sms.base_item_admin_title')}}</p>
+                <p class="am-margin-bottom am-text-sm am-color-333">{{:MyLang('sms.base_item_admin_title')}}</p>
                 <div class="am-form-group">
                     <label>{{$data.admin_sms_login_template.name}}<span class="am-form-group-label-tips">{{$data.admin_sms_login_template.describe}}</span></label>
-                    <input type="text" name="{{$data.admin_sms_login_template.only_tag}}" placeholder="{{$data.admin_sms_login_template.name}}" data-validation-message="{{$data.admin_sms_login_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.admin_sms_login_template.value}}"{{/if}} />
+                    <input type="text" name="{{$data.admin_sms_login_template.only_tag}}" data-i18n="1" placeholder="{{$data.admin_sms_login_template.name}}" data-validation-message="{{$data.admin_sms_login_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.admin_sms_login_template.value}}"{{/if}} />
                 </div>
                 <!-- 前端 -->
-                <p class="am-margin-bottom-xl am-text-sm am-color-333">{{:MyLang('sms.base_item_index_title')}}</p>
+                <p class="am-margin-bottom am-text-sm am-color-333">{{:MyLang('sms.base_item_index_title')}}</p>
                 <div class="am-form-group">
                     <label>{{$data.common_sms_currency_template.name}}<span class="am-form-group-label-tips">{{$data.common_sms_currency_template.describe}}</span></label>
-                    <input type="text" name="{{$data.common_sms_currency_template.only_tag}}" placeholder="{{$data.common_sms_currency_template.name}}" data-validation-message="{{$data.common_sms_currency_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_sms_currency_template.value}}"{{/if}} />
+                    <input type="text" name="{{$data.common_sms_currency_template.only_tag}}" data-i18n="1" placeholder="{{$data.common_sms_currency_template.name}}" data-validation-message="{{$data.common_sms_currency_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_sms_currency_template.value}}"{{/if}} />
                 </div>
                 <div class="am-form-group">
                     <label>{{$data.home_sms_login_template.name}}<span class="am-form-group-label-tips">{{$data.home_sms_login_template.describe}}</span></label>
-                    <input type="text" name="{{$data.home_sms_login_template.only_tag}}" placeholder="{{$data.home_sms_login_template.name}}" data-validation-message="{{$data.home_sms_login_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_sms_login_template.value}}"{{/if}} />
+                    <input type="text" name="{{$data.home_sms_login_template.only_tag}}" data-i18n="1" placeholder="{{$data.home_sms_login_template.name}}" data-validation-message="{{$data.home_sms_login_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_sms_login_template.value}}"{{/if}} />
                 </div>
                 <div class="am-form-group">
                     <label>{{$data.home_sms_user_reg_template.name}}<span class="am-form-group-label-tips">{{$data.home_sms_user_reg_template.describe}}</span></label>
-                    <input type="text" name="{{$data.home_sms_user_reg_template.only_tag}}" placeholder="{{$data.home_sms_user_reg_template.name}}" data-validation-message="{{$data.home_sms_user_reg_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_sms_user_reg_template.value}}"{{/if}} />
+                    <input type="text" name="{{$data.home_sms_user_reg_template.only_tag}}" data-i18n="1" placeholder="{{$data.home_sms_user_reg_template.name}}" data-validation-message="{{$data.home_sms_user_reg_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_sms_user_reg_template.value}}"{{/if}} />
                 </div>
                 <div class="am-form-group">
                     <label>{{$data.home_sms_user_forget_pwd_template.name}}<span class="am-form-group-label-tips">{{$data.home_sms_user_forget_pwd_template.describe}}</span></label>
-                    <input type="text" name="{{$data.home_sms_user_forget_pwd_template.only_tag}}" placeholder="{{$data.home_sms_user_forget_pwd_template.name}}" data-validation-message="{{$data.home_sms_user_forget_pwd_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_sms_user_forget_pwd_template.value}}"{{/if}} />
+                    <input type="text" name="{{$data.home_sms_user_forget_pwd_template.only_tag}}" data-i18n="1" placeholder="{{$data.home_sms_user_forget_pwd_template.name}}" data-validation-message="{{$data.home_sms_user_forget_pwd_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_sms_user_forget_pwd_template.value}}"{{/if}} />
                 </div>
                 <div class="am-form-group">
                     <label>{{$data.home_sms_user_mobile_binding_template.name}}<span class="am-form-group-label-tips">{{$data.home_sms_user_mobile_binding_template.describe}}</span></label>
-                    <input type="text" name="{{$data.home_sms_user_mobile_binding_template.only_tag}}" placeholder="{{$data.home_sms_user_mobile_binding_template.name}}" data-validation-message="{{$data.home_sms_user_mobile_binding_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_sms_user_mobile_binding_template.value}}"{{/if}} />
+                    <input type="text" name="{{$data.home_sms_user_mobile_binding_template.only_tag}}" data-i18n="1" placeholder="{{$data.home_sms_user_mobile_binding_template.name}}" data-validation-message="{{$data.home_sms_user_mobile_binding_template.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_sms_user_mobile_binding_template.value}}"{{/if}} />
                 </div>
             </div>
             <div class="am-form-popup-submit">

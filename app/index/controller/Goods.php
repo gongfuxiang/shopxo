@@ -14,6 +14,7 @@ use app\index\controller\Common;
 use app\service\ApiService;
 use app\service\SeoService;
 use app\service\GoodsService;
+use app\service\I18nService;
 use app\service\GoodsCommentsService;
 use app\service\GoodsBrowseService;
 use app\service\GoodsFavorService;
@@ -60,8 +61,8 @@ class Goods extends Common
 
         $user_id = !empty($this->user) && !empty($this->user['id']) ? intval($this->user['id']) : 0;
 
-        // 获取商品（缓存不含用户收藏状态）
-        $goods = MyCacheRemember('cache_index_goods_detail_goods_'.$goods_id, function() use ($goods_id) {
+        // 获取商品（key 带 user_id，避免会员价等被其他用户缓存串用；收藏状态仍实时覆盖）
+        $goods = MyCacheRemember('cache_index_goods_detail_goods_'.$goods_id.'_'.$user_id, function() use ($goods_id) {
             $params = [
                 'where' => [
                     ['id', '=', $goods_id],
@@ -108,8 +109,8 @@ class Goods extends Common
             'buy_left_nav'       => MyCacheRemember('cache_index_goods_detail_buy_left_nav_'.$goods_id.'_'.intval($goods['user_is_favor']), function() use ($goods) {
                 return GoodsService::GoodsBuyLeftNavList($goods);
             }),
-            // 商品购买按钮列表
-            'buy_button'         => MyCacheRemember('cache_index_goods_detail_buy_button_'.$goods_id, function() use ($goods) {
+            // 商品购买按钮列表（随用户价格/权限变化，key 带 user_id）
+            'buy_button'         => MyCacheRemember('cache_index_goods_detail_buy_button_'.$goods_id.'_'.$user_id, function() use ($goods) {
                 return GoodsService::GoodsBuyButtonList($goods);
             }),
             // 商品购买指向链接数据
@@ -129,6 +130,22 @@ class Goods extends Common
         ];
         // 是否商品详情页展示相册
         $assign['common_is_goods_detail_content_show_photo'] = MyC('common_is_goods_detail_content_show_photo', 0, true);
+        // 商品详情规格是否页内直选（与 UniApp 共用配置：0不内嵌/1一层/2多层）
+        $spec_page_show = (int) MyC('common_goods_detail_spec_page_show', 0, true);
+        $is_goods_spec_page_inline = 0;
+        if($spec_page_show > 0 && isset($goods['is_exist_many_spec']) && intval($goods['is_exist_many_spec']) == 1)
+        {
+            $spec_level = (!empty($goods['specifications']['choose']) && is_array($goods['specifications']['choose'])) ? count($goods['specifications']['choose']) : 0;
+            if($spec_level > 0)
+            {
+                if(($spec_page_show == 1 && $spec_level == 1) || $spec_page_show == 2)
+                {
+                    $is_goods_spec_page_inline = 1;
+                }
+            }
+        }
+        $assign['common_goods_detail_spec_page_show'] = $spec_page_show;
+        $assign['is_goods_spec_page_inline'] = $is_goods_spec_page_inline;
 
         // tabs菜单数据处理
         if(!empty($assign['middle_tabs_nav']) && !empty($assign['middle_tabs_nav']['type']))
@@ -188,6 +205,7 @@ class Goods extends Common
     public function CartInfo()
     {
         $goods_id = isset($this->data_request['id']) ? $this->data_request['id'] : 0;
+        $cart_id = isset($this->data_request['cart_id']) ? intval($this->data_request['cart_id']) : 0;
         $params = [
             'where' => [
                 ['id', '=', $goods_id],
@@ -200,11 +218,60 @@ class Goods extends Common
         {
             $goods = $ret['data'][0];
             $buy_button = GoodsService::GoodsBuyButtonList($goods);
+
+            // 购物车改规格模式
+            $cart = null;
+            if($cart_id > 0 && !empty($this->user['id']))
+            {
+                $cart_row = \think\facade\Db::name('Cart')->where([
+                    'id'        => $cart_id,
+                    'user_id'   => $this->user['id'],
+                    'goods_id'  => $goods_id,
+                ])->find();
+                if(!empty($cart_row))
+                {
+                    $cart_row['spec'] = empty($cart_row['spec']) ? [] : json_decode($cart_row['spec'], true);
+                    if(!empty($cart_row['spec']) && is_array($cart_row['spec']))
+                    {
+                        $cart_spec_keys = array_column($cart_row['spec'], 'key');
+                        if(count(array_filter($cart_spec_keys)) == count($cart_spec_keys))
+                        {
+                            $cart_row['spec'] = I18nService::SpecBaseSpecResolve($goods_id, $cart_row['spec']);
+                        }
+                        $cart_row['spec_show'] = I18nService::SpecShowData($goods_id, $cart_row['spec']);
+                    } else {
+                        $cart_row['spec_show'] = [];
+                    }
+                    $cart = $cart_row;
+                }
+            }
+
+            // 回显已选规格（优先 key，其次显示值）
+            $cart_appoint_spec = [];
+            if(!empty($cart['spec']) && is_array($cart['spec']))
+            {
+                $show_values = [];
+                if(!empty($cart['spec_show']) && is_array($cart['spec_show']))
+                {
+                    $show_values = array_column($cart['spec_show'], 'value');
+                }
+                foreach($cart['spec'] as $si=>$sv)
+                {
+                    $cart_appoint_spec[] = [
+                        'key'   => isset($sv['key']) ? $sv['key'] : '',
+                        'value' => isset($show_values[$si]) ? $show_values[$si] : (isset($sv['value']) ? $sv['value'] : ''),
+                    ];
+                }
+            }
+
             MyViewAssign([
-                'goods'         => $goods,
-                'buy_button'    => $buy_button,
-                'is_header'     => 0,
-                'is_footer'     => 0,
+                'goods'             => $goods,
+                'buy_button'        => $buy_button,
+                'cart'              => $cart,
+                'is_cart_spec'      => (!empty($cart) && !empty($cart['id'])) ? 1 : 0,
+                'cart_appoint_spec' => $cart_appoint_spec,
+                'is_header'         => 0,
+                'is_footer'         => 0,
             ]);
             return MyView();
         }

@@ -4,7 +4,20 @@
 .goods-title:hover { text-decoration: underline; }
 .goods-base { margin-left: 10.4rem; }
 .goods-attr { margin-top: 0.5rem;  }
-.goods-attr li { color: #666666; margin-top: 0.4rem; line-height: 1.4rem; }
+.goods-attr li { color: #666666; line-height: 1.8rem; }
+.cart-goods-spec-edit {
+    display: inline-flex;
+    align-items: flex-start;
+    cursor: pointer;
+    max-width: 100%;
+}
+.cart-goods-spec-edit ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.cart-goods-spec-edit:hover li,
+.cart-goods-spec-edit:hover .icon-edit { color: #e22c08; }
 strong.total-price-content, .nav-total-price { font-weight: 700; }
 .stock-tag { width: 10rem; }
 .stock-tag .am-form-field { padding: 0.3rem; height: 3.6rem; text-align: center; font-size: 1.4rem !important; width: 8rem; }
