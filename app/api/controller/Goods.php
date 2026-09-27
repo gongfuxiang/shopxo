@@ -64,8 +64,8 @@ class Goods extends Common
             $is_use_mobile_detail = intval(MyC('common_app_is_use_mobile_detail', 0, true));
             $user_id = !empty($this->user) && !empty($this->user['id']) ? intval($this->user['id']) : 0;
 
-            // 获取商品（缓存不含用户收藏状态）
-            $goods = MyCacheRemember('cache_api_goods_detail_goods_'.$goods_id.'_'.$is_use_mobile_detail, function() use ($goods_id, $is_use_mobile_detail) {
+            // 获取商品（key 带 user_id，避免会员价等被其他用户缓存串用；收藏状态仍实时覆盖）
+            $goods = MyCacheRemember('cache_api_goods_detail_goods_'.$goods_id.'_'.$is_use_mobile_detail.'_'.$user_id, function() use ($goods_id, $is_use_mobile_detail) {
                 $params = [
                     'where'           => [
                         ['id', '=', $goods_id],
@@ -140,8 +140,8 @@ class Goods extends Common
                     return GoodsService::GoodsBuyLeftNavList($goods);
                 });
 
-                // 商品购买按钮列表
-                $buy_button = MyCacheRemember('cache_api_goods_detail_buy_button_'.$goods_id, function() use ($goods) {
+                // 商品购买按钮列表（随用户价格/权限变化，key 带 user_id）
+                $buy_button = MyCacheRemember('cache_api_goods_detail_buy_button_'.$goods_id.'_'.$user_id, function() use ($goods) {
                     return GoodsService::GoodsBuyButtonList($goods);
                 });
 

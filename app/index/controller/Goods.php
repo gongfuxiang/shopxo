@@ -61,8 +61,8 @@ class Goods extends Common
 
         $user_id = !empty($this->user) && !empty($this->user['id']) ? intval($this->user['id']) : 0;
 
-        // 获取商品（缓存不含用户收藏状态）
-        $goods = MyCacheRemember('cache_index_goods_detail_goods_'.$goods_id, function() use ($goods_id) {
+        // 获取商品（key 带 user_id，避免会员价等被其他用户缓存串用；收藏状态仍实时覆盖）
+        $goods = MyCacheRemember('cache_index_goods_detail_goods_'.$goods_id.'_'.$user_id, function() use ($goods_id) {
             $params = [
                 'where' => [
                     ['id', '=', $goods_id],
@@ -109,8 +109,8 @@ class Goods extends Common
             'buy_left_nav'       => MyCacheRemember('cache_index_goods_detail_buy_left_nav_'.$goods_id.'_'.intval($goods['user_is_favor']), function() use ($goods) {
                 return GoodsService::GoodsBuyLeftNavList($goods);
             }),
-            // 商品购买按钮列表
-            'buy_button'         => MyCacheRemember('cache_index_goods_detail_buy_button_'.$goods_id, function() use ($goods) {
+            // 商品购买按钮列表（随用户价格/权限变化，key 带 user_id）
+            'buy_button'         => MyCacheRemember('cache_index_goods_detail_buy_button_'.$goods_id.'_'.$user_id, function() use ($goods) {
                 return GoodsService::GoodsBuyButtonList($goods);
             }),
             // 商品购买指向链接数据

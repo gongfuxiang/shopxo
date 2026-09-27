@@ -3804,6 +3804,99 @@ class OrderService
     }
 
     /**
+     * 订单状态进度（移动端步骤条，复用 OrderStepData）
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-09-26
+     * @desc    结构对齐门店 status_progress，步骤文案/时间来自 PC OrderStepData
+     * @param   [array]          $order [订单数据]
+     * @return  [array|null]
+     */
+    public static function OrderStatusProgressData($order = [])
+    {
+        if(empty($order) || !isset($order['status']))
+        {
+            return null;
+        }
+
+        $status = intval($order['status']);
+        $status_name = empty($order['status_name']) ? '' : $order['status_name'];
+        $step_data = self::OrderStepData($order);
+        $style_map = [
+            0 => 'default',
+            1 => 'default',
+            2 => 'warning',
+            3 => 'primary',
+            4 => 'success',
+            5 => 'danger',
+            6 => 'danger',
+        ];
+        $style = isset($style_map[$status]) ? $style_map[$status] : 'default';
+
+        // 取消/关闭：与门店一致，仅状态无步骤条
+        if(in_array($status, [5, 6]))
+        {
+            return [
+                'type'          => 'end',
+                'status'        => $status,
+                'status_name'   => $status_name,
+                'tips'          => '',
+                'style'         => 'danger',
+                'current'       => -1,
+                'current_key'   => '',
+                'current_name'  => $status_name,
+                'steps'         => null,
+                'step_data'     => $step_data,
+            ];
+        }
+
+        $keys = ['add', 'pay', 'delivery', 'collect', 'comments'];
+        $steps = [];
+        foreach($step_data as $i => $v)
+        {
+            $key = isset($keys[$i]) ? $keys[$i] : ('step_'.$i);
+            $steps[] = [
+                'key'  => $key,
+                'name' => empty($v['title']) ? '' : $v['title'],
+                'time' => empty($v['time']) ? '' : $v['time'],
+            ];
+        }
+
+        // 当前步索引（门店 current：小于为已完成、等于为进行中）
+        // 0/1 待付→付款，2 待发→发货，3 待收→收货，4 完成→评价
+        if($status <= 1)
+        {
+            $current = 1;
+        } elseif($status == 2)
+        {
+            $current = 2;
+        } elseif($status == 3)
+        {
+            $current = 3;
+        } else {
+            $current = 4;
+        }
+        if($current > count($steps) - 1)
+        {
+            $current = max(0, count($steps) - 1);
+        }
+
+        return [
+            'type'          => 'order',
+            'status'        => $status,
+            'status_name'   => $status_name,
+            'tips'          => '',
+            'style'         => $style,
+            'current'       => $current,
+            'current_key'   => isset($steps[$current]) ? $steps[$current]['key'] : '',
+            'current_name'  => isset($steps[$current]) ? $steps[$current]['name'] : $status_name,
+            'steps'         => $steps,
+            'step_data'     => $step_data,
+        ];
+    }
+
+    /**
      * 订单数据追溯过滤
      * @author  Devil
      * @blog    http://gong.gg/

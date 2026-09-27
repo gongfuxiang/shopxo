@@ -481,7 +481,9 @@ class Uploader
     private function getFilePath()
     {
         $fullname = $this->fullName;
-        $rootPath = GetDocumentRoot();
+        // 始终相对 public 目录落盘（ROOT_PATH），勿用 DOCUMENT_ROOT：
+        // 站点根在源码根时 DOCUMENT_ROOT 不含 public，会把配置里 __MY_ROOT_PUBLIC__ 带的 public 截掉后写到错误位置
+        $rootPath = rtrim(str_replace('\\', '/', ROOT_PATH), '/');
 
         if (substr($fullname, 0, 1) != '/') {
             $fullname = '/' . $fullname;
@@ -518,7 +520,7 @@ class Uploader
                 $fullname = $upload_prefix.'images/other/'.basename($fullname);
             }
         } else {
-            // 去掉 upload 根之前的 ../ 逃逸段，仅保留 upload 及之后路径
+            // 去掉 upload 根之前的前缀（含 __MY_ROOT_PUBLIC__ 的 public 段），仅保留相对 public 的路径
             $fullname = substr($fullname, $pos);
         }
 

@@ -166,6 +166,8 @@ class UeditorService
         {
             MyCache($key, [], 7200);
         }
+        // 记录发起扫码的登录人，手机端上传时记到附件上
+        self::ScanOwnerBind(self::$params['key']);
         return DataReturn('success', 0, $data);
     }
 
@@ -181,6 +183,94 @@ class UeditorService
     public static function ScanCacheKey($key)
     {
         return 'cache_scanupload_data_'.$key;
+    }
+
+    /**
+     * 扫码上传归属缓存key
+     * @author  Devil
+     * @version 1.0.0
+     * @date    2026-09-24
+     * @param   [string]          $key [标识key]
+     */
+    public static function ScanOwnerCacheKey($key)
+    {
+        return 'cache_scanupload_owner_'.$key;
+    }
+
+    /**
+     * 绑定扫码上传归属人（已绑定则不覆盖）
+     * @author  Devil
+     * @version 1.0.0
+     * @date    2026-09-24
+     * @param   [string]          $key [标识key]
+     */
+    public static function ScanOwnerBind($key)
+    {
+        if(empty($key))
+        {
+            return;
+        }
+        $cache_key = self::ScanOwnerCacheKey($key);
+        if(MyCache($cache_key) !== null)
+        {
+            return;
+        }
+        $uploader = AttachmentService::AttachmentUploader();
+        if(empty($uploader['upload_user_id']))
+        {
+            return;
+        }
+        MyCache($cache_key, $uploader, 7200);
+    }
+
+    /**
+     * 读取扫码上传归属人
+     * @author  Devil
+     * @version 1.0.0
+     * @date    2026-09-24
+     * @param   [string]          $key [标识key]
+     */
+    public static function ScanUploadOwner($key)
+    {
+        if(empty($key))
+        {
+            return [];
+        }
+        $owner = MyCache(self::ScanOwnerCacheKey($key));
+        return (is_array($owner) && isset($owner['upload_user_id'])) ? $owner : [];
+    }
+
+    /**
+     * 前台是否允许删除这些附件（必须全是当前用户上传）
+     * @author  Devil
+     * @version 1.0.0
+     * @date    2026-09-24
+     * @param   [array]          $params [请求参数]
+     */
+    public static function UserOwnAttachmentDeleteAllow(&$params)
+    {
+        $user = UserService::LoginUserInfo();
+        if(empty($user['id']))
+        {
+            return false;
+        }
+        $ids = empty($params['ids']) ? (empty($params['id']) ? [] : $params['id']) : $params['ids'];
+        if(!is_array($ids))
+        {
+            $ids = explode(',', $ids);
+        }
+        $ids = array_values(array_unique(array_filter(array_map('intval', $ids))));
+        if(empty($ids))
+        {
+            return false;
+        }
+        $own_ids = AttachmentService::UserOwnAttachmentIds($ids, $user['id']);
+        if(count($own_ids) !== count($ids))
+        {
+            return false;
+        }
+        $params['ids'] = $own_ids;
+        return true;
     }
 
     /**
@@ -238,9 +328,13 @@ class UeditorService
     public static function DeleteFile()
     {
         $params = input();
-        // 删除鉴权：仅后台已授权调用，或扫码上传会话内删除自己刚传的附件
+        // 删除鉴权：后台走原权限；前台只能删自己上传的附件；扫码会话可删本次刚传的
         $allow_delete = false;
-        if(defined('APPLICATION') && APPLICATION === 'admin')
+        if(RequestModule() === 'admin')
+        {
+            $allow_delete = true;
+            $params['is_power_delete'] = 1;
+        } elseif(self::UserOwnAttachmentDeleteAllow($params))
         {
             $allow_delete = true;
             $params['is_power_delete'] = 1;
@@ -377,6 +471,15 @@ class UeditorService
             }
             $data['type'] = $attachment_type;
             $data['category_id'] = self::$category_id;
+            if(!empty(self::$params['upload_source']) && self::$params['upload_source'] == 'scanupload' && !empty(self::$params['key']))
+            {
+                $owner = self::ScanUploadOwner(self::$params['key']);
+                if(!empty($owner))
+                {
+                    $data['upload_user_id'] = intval($owner['upload_user_id']);
+                    $data['upload_source'] = intval($owner['upload_source']) === 1 ? 1 : 0;
+                }
+            }
             $ret = AttachmentService::AttachmentAdd($data);
             if($ret['code'] == 0)
             {
