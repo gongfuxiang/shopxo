@@ -4204,6 +4204,28 @@ function PhpPluginLibPhpFilePath($norm_file, $plugins)
 }
 
 /**
+ * 插件包根目录 PHP（如 socket.php CLI 入口，安装时可豁免「须含 class」序言校验）
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2026-09-28
+ * @desc    仅匹配 {plugins}/_main_/{plugins}/*.php 一层，不含子目录
+ * @param   [string]          $norm_file [zip 内归一化路径]
+ * @param   [string]          $plugins   [插件标识]
+ * @return  [boolean]                    [是插件根目录 PHP 返回 true]
+ */
+function PhpPluginRootPhpFilePath($norm_file, $plugins)
+{
+    if(!is_string($norm_file) || $norm_file === '' || !is_string($plugins) || $plugins === '')
+    {
+        return false;
+    }
+    $plugins = preg_quote($plugins, '#');
+    $pattern = '#(?:^|/)'.$plugins.'/_main_/'.$plugins.'/[^/]+\.php$#i';
+    return preg_match($pattern, str_replace('\\', '/', $norm_file)) === 1;
+}
+
+/**
  * 校验 zip 内 PHP 文件源码：首个类/接口/trait/enum 之前须为声明性序言（防上传包内恶意 PHP 在 autoload 时执行）
  * @author  Devil
  * @blog    http://gong.gg/
