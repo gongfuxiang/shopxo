@@ -551,9 +551,9 @@ class GoodsCommentsService
             return DataReturn($ret, -1);
         }
 
-        // 用户类型（仅 admin 应用可信；其它入口一律按 user，防伪造越权）
+        // 用户类型（仅后台模块可信；其它入口一律按 user，防伪造越权）
         $user_type = empty($params['user_type']) ? 'user' : $params['user_type'];
-        if($user_type == 'admin' && !(defined('APPLICATION') && APPLICATION === 'admin'))
+        if($user_type == 'admin' && RequestModule() != 'admin')
         {
             $user_type = 'user';
         }
@@ -643,13 +643,8 @@ class GoodsCommentsService
         {
             $params['ids'] = explode(',', $params['ids']);
         }
-
-        // 用户类型（仅 admin 应用可信；其它入口一律按 user，防伪造越权）
+        // 用户类型
         $user_type = empty($params['user_type']) ? 'user' : $params['user_type'];
-        if($user_type == 'admin' && !(defined('APPLICATION') && APPLICATION === 'admin'))
-        {
-            $user_type = 'user';
-        }
 
         // 更新条件
         $where = [
