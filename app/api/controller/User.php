@@ -12,6 +12,7 @@ namespace app\api\controller;
 
 use app\service\ApiService;
 use app\service\SystemBaseService;
+use app\service\DiyService;
 use app\service\UserService;
 use app\service\OrderService;
 use app\service\GoodsService;
@@ -320,6 +321,9 @@ class User extends Common
             'navigation'                => AppCenterNavService::AppCenterNav(),
             'cart_total'                => $cart_total,
         ];
+        $diy_data = DiyService::AppClientPageDiyData('common_app_user_center_data_diy_mode');
+        $result['data_mode'] = empty($diy_data) ? 0 : 3;
+        $result['diy_data'] = empty($diy_data) ? null : $diy_data;
         return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }
 

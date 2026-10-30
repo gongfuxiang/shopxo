@@ -64,6 +64,11 @@ class Ueditor extends Common
                     $this->IsPower('attachment', 'upload');
                 }
         }
+        // 配置接口只读，尽早释放 session，避免商品编辑页并发请求互相阻塞导致编辑器初始化超时
+        if($action === 'config' && function_exists('session_write_close'))
+        {
+            session_write_close();
+        }
         return ApiService::ApiDataReturn(UeditorService::Run($this->data_request));
     }
 }

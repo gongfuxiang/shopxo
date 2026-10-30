@@ -108,7 +108,7 @@
                         <div class="am-form-group">
                             <label>{{:MyLang('common_service.goods.form_item_title')}}<span class="am-form-group-label-tips-must">*</span></label>
                             <div class="am-input-group am-input-group-sm am-flex am-gap-1-half am-flex-items-center">
-                                <input type="text" name="title" data-i18n="1" placeholder="{{:MyLang('common_service.goods.form_item_title_message')}}" minlength="2" maxlength="160" data-validation-message="{{:MyLang('common_service.goods.form_item_title_message')}}" class="am-form-field am-radius" {{if !empty($data['title'])}} value="{{$data.title}}" {{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('title', $goods_base_forbid_operate_data)}} readonly {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} required />
+                                <input type="text" name="title" data-i18n="1" placeholder="{{:MyLang('common_service.goods.form_item_title_message')}}" minlength="2" maxlength="160" data-validation-message="{{:MyLang('common_service.goods.form_item_title_message')}}" class="am-form-field am-radius" {{if !empty($data['title'])}} value="{{$data.title}}" {{/if}} {{if !empty($goods_base_forbid_operate_data) and in_array('title', $goods_base_forbid_operate_data)}} readonly {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}} !important;" {{/if}} required />
                                 <div class="colorpicker-container colorpicker-simple">
                                     <input type="hidden" name="title_color" value="{{if !empty($data['title_color'])}}{{$data.title_color}}{{/if}}" />
                                     <div class="colorpicker-submit" data-color="{{if !empty($data['title_color'])}}{{$data.title_color}}{{/if}}" data-input-tag="input[name='title']" data-color-tag="input[name='title_color']"></div>
@@ -365,6 +365,26 @@
                                         {{else /}}
                                             <input type="text" name="video" value="{{$data.video}}" />
                                             <video src="{{$data.video}}" controls>your browser does not support the video tag</video>
+                                            {{if empty($goods_base_forbid_operate_data) or !in_array('video', $goods_base_forbid_operate_data)}}
+                                                <i class="iconfont icon-close"></i>
+                                            {{/if}}
+                                            <i class="iconfont icon-eye"></i>
+                                        {{/if}}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- 视频封面 -->
+                        <div class="am-form-group am-form-file">
+                            <label>{{:MyLang('form_video_cover_title')}}<a href="javascript:;" class="am-icon-question-circle am-margin-left-xs" data-am-popover="{content: '{{:MyLang('form_video_cover_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+                            <div class="am-form-file-upload-container">
+                                <ul class="plug-file-upload-view goods-video-cover-view" data-form-name="video_cover" data-max-number="1" data-dialog-type="images" data-is-eye="1">
+                                    <li class="plug-file-upload-submit" data-view-tag="ul.goods-video-cover-view">
+                                        {{if empty($data['video_cover'])}}
+                                            <i class="iconfont icon-add"></i>
+                                        {{else /}}
+                                            <input type="text" name="video_cover" value="{{$data.video_cover}}" />
+                                            <img src="{{$data.video_cover}}" />
                                             {{if empty($goods_base_forbid_operate_data) or !in_array('video', $goods_base_forbid_operate_data)}}
                                                 <i class="iconfont icon-close"></i>
                                             {{/if}}

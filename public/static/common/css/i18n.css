@@ -8,10 +8,10 @@
     justify-content: center;
     width: 3.1rem;
     height: 3.1rem;
-    border: 1px solid #dcdcdc;
+    border: 1px solid var(--border-strong-color, #dcdcdc);
     border-radius: 0.4rem;
-    background: #fff;
-    color: #999;
+    background: var(--surface-elevated, #ffffff);
+    color: var(--text-muted-color, #999);
     cursor: pointer;
 }
 
@@ -21,8 +21,8 @@
 
 .i18n-field-btn:hover {
     color: #fff;
-    background: var(--color-blue, #0e90d2);
-    border-color: var(--color-blue, #0e90d2);
+    background: var(--color-main);
+    border-color: var(--color-main);
 }
 
 @media only screen and (max-width: 640px) {
@@ -105,11 +105,11 @@
     align-items: center;
     justify-content: flex-end;
     padding: 1rem 1.6rem;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--border-color, #eeeeee);
 }
 
 .i18n-modal .i18n-save-tips {
-    color: #999;
+    color: var(--text-muted-color, #999);
     margin-right: 2rem;
 }
 
@@ -118,7 +118,7 @@
 }
 
 .i18n-modal .i18n-body {
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--border-color, #eeeeee);
     padding-top: 1rem;
 }
 
@@ -144,7 +144,7 @@
     justify-content: flex-end;
     gap: 0.4rem;
     padding: 0.5rem 0.8rem 0 0;
-    color: #666;
+    color: var(--text-muted-color, #666);
     font-size: 1.3rem;
     white-space: nowrap;
 }

@@ -2,6 +2,9 @@
     {{:ModuleInclude('module/goods/list/base', [
         'goods_list'  => $data,
         'type'        => 'category',
+        'sm'          => 1,
+        'md'          => (isset($category_goods_style) and in_array($category_goods_style, [2, 4])) ? 2 : 1,
+        'lg'          => (isset($category_goods_style) and in_array($category_goods_style, [2, 4])) ? 3 : 2,
     ])}}
 {{else /}}
         {{:ModuleInclude('public/not_data')}}

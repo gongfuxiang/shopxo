@@ -72,6 +72,8 @@ class DiyApiService
             'page_link_list'              => self::PageLinkList(),
             // 模块组件
             'module_list'                 => self::ModuleList(),
+            // 商品详情专属组件，插件在初始化钩子里往插件分组追加
+            'goods_detail_module_list'    => self::GoodsDetailModuleList(),
             // 品牌排序类型
             'brand_order_by_type_list'    => MyConst('common_brand_order_by_type_list'),
             // 文章排序类型
@@ -82,6 +84,8 @@ class DiyApiService
             'data_order_by_rule_list'     => MyConst('common_data_order_by_rule_list'),
             // 插件
             'plugins'                     => [],
+            // 用户信息统计项，由钱包、优惠券等插件追加
+            'user_info_stats'             => [],
         ];
 
         // 钩子
@@ -194,6 +198,9 @@ class DiyApiService
                 'name'  => '基础组件',
                 'key'   => 'base',
                 'data'  => [
+                    ['key' => 'line-nav', 'name' => '横向导航'],
+                    ['key' => 'user-order-nav', 'name' => '我的订单'],
+                    ['key' => 'service-nav', 'name' => '服务导航'],
                     ['key' => 'tabs', 'name' => '选项卡'],
                     ['key' => 'tabs-carousel', 'name' => '选项卡轮播'],
                     ['key' => 'tabs-magic', 'name' => '选项卡魔方'],
@@ -231,6 +238,41 @@ class DiyApiService
                     ['key' => 'rich-text', 'name' => '富文本'],
                 ]
             ]
+        ];
+    }
+
+    /**
+     * 商品详情专属组件
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-10-29
+     * @desc    只放系统自带组件。插件组件由插件在 plugins_service_diyapi_init_data 写入 plugins 分组
+     * @param   [array]           $params [输入参数]
+     */
+    public static function GoodsDetailModuleList($params = [])
+    {
+        return [
+            [
+                'name'  => '基础组件',
+                'key'   => 'base',
+                'data'  => [
+                    ['key' => 'goods-detail-photo', 'name' => '商品相册'],
+                    ['key' => 'goods-detail-info', 'name' => '商品信息'],
+                    ['key' => 'goods-detail-spec', 'name' => '商品规格'],
+                    ['key' => 'goods-detail-base', 'name' => '商品基础'],
+                    ['key' => 'goods-detail-panel-tips', 'name' => '商品面板提示'],
+                    ['key' => 'goods-detail-params', 'name' => '商品参数'],
+                    ['key' => 'goods-detail-comment', 'name' => '商品评价'],
+                    ['key' => 'goods-detail-discount-info', 'name' => '优惠信息'],
+                    ['key' => 'goods-detail-detail', 'name' => '商品介绍'],
+                ],
+            ],
+            [
+                'name'  => '插件',
+                'key'   => 'plugins',
+                'data'  => [],
+            ],
         ];
     }
 

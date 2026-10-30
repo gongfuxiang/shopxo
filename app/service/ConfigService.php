@@ -64,6 +64,9 @@ class ConfigService
         'common_regex_id_card',
         'common_app_customer_service_custom',
         'common_app_home_data_diy_mode',
+        'common_app_goods_detail_data_diy_mode',
+        'common_app_goods_detail_category_diy_mode',
+        'common_app_user_center_data_diy_mode',
         'common_customer_store_chat_url',
     ];
 
@@ -130,9 +133,14 @@ class ConfigService
         'common_multilingual_choose_list',
         'common_app_customer_service_custom',
         'common_app_home_data_diy_mode',
+        'common_app_goods_detail_data_diy_mode',
+        'common_app_goods_detail_category_diy_mode',
+        'common_app_user_center_data_diy_mode',
         'common_customer_store_platform_client',
         'common_goods_admin_nav_custom_data',
         'common_order_trace_source_config',
+        'common_attachment_upload_limit_type',
+        'common_attachment_upload_limit',
     ];
 
     // 二维数组附件字段
@@ -349,6 +357,97 @@ class ConfigService
         MyCache($only_tag, null);
         MyCache($only_tag.'_row_data', null);
         MyCache(SystemService::CacheKey('shopxo.cache_common_my_config_key'), null);
+    }
+
+    /**
+     * 附件上传登录与数量限制配置
+     * @author  Devil
+     * @version 1.0.0
+     * @date    2026-10-20
+     * @desc    不存在则按默认值写入
+     */
+    public static function AttachmentUploadConfigEnsure()
+    {
+        self::ConfigEnsure('common_attachment_upload_is_login', '0');
+        self::ConfigEnsure('common_attachment_upload_limit_type', []);
+        self::ConfigEnsure('common_attachment_upload_limit', ['image' => [], 'file' => [], 'video' => []]);
+    }
+
+    /**
+     * 整理附件上传限制后再保存
+     * @author  Devil
+     * @version 1.0.0
+     * @date    2026-10-20
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function AttachmentUploadLimitParams($params = [])
+    {
+        $login = isset($params['common_attachment_upload_is_login']) ? $params['common_attachment_upload_is_login'] : 0;
+        $params['common_attachment_upload_is_login'] = (strval($login) === '1') ? '1' : '0';
+
+        $allow_dim = ['ip', 'uuid', 'client'];
+        $dims = isset($params['common_attachment_upload_limit_type']) ? $params['common_attachment_upload_limit_type'] : [];
+        if(is_string($dims))
+        {
+            $dims = ($dims === '') ? [] : explode(',', $dims);
+        }
+        if(!is_array($dims))
+        {
+            $dims = [];
+        }
+        if(count($dims) === 1 && is_string($dims[0]) && strpos($dims[0], ',') !== false)
+        {
+            $dims = explode(',', $dims[0]);
+        }
+        $params['common_attachment_upload_limit_type'] = array_values(array_intersect($allow_dim, $dims));
+
+        $units = ['minute' => 60, 'hour' => 3600, 'day' => 86400];
+        $raw = isset($params['common_attachment_upload_limit']) ? $params['common_attachment_upload_limit'] : [];
+        if(!is_array($raw))
+        {
+            $raw = [];
+        }
+        $result = [];
+        foreach(['image', 'file', 'video'] as $type)
+        {
+            $result[$type] = [];
+            $seen = [];
+            $rows = (isset($raw[$type]) && is_array($raw[$type])) ? $raw[$type] : [];
+            foreach($rows as $row)
+            {
+                if(!is_array($row))
+                {
+                    continue;
+                }
+                $time = isset($row['time']) ? intval($row['time']) : 0;
+                $unit = isset($row['unit']) ? strval($row['unit']) : '';
+                $count = isset($row['count']) ? intval($row['count']) : 0;
+                $size = isset($row['size']) ? intval($row['size']) : 0;
+                if($time === 0 && $count === 0 && $size === 0 && ($unit === '' || $unit === '0'))
+                {
+                    continue;
+                }
+                $unit = isset($units[$unit]) ? $unit : '';
+                if($time > 0 && $unit !== '' && ($count > 0 || $size > 0))
+                {
+                    $seconds = $time * $units[$unit];
+                    if(isset($seen[$seconds]))
+                    {
+                        return DataReturn(MyLang('config.attachment_upload_limit_repeat_tips'), -1);
+                    }
+                    $seen[$seconds] = 1;
+                }
+                $result[$type][] = [
+                    'time'  => max(0, $time),
+                    'unit'  => $unit,
+                    'count' => max(0, $count),
+                    'size'  => max(0, $size),
+                ];
+            }
+        }
+        $params['common_attachment_upload_limit'] = $result;
+        return DataReturn('success', 0, $params);
     }
 
     /**

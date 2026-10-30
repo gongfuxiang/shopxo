@@ -1,6 +1,15 @@
 var window_is_toolbox = $(window).width() > 900;
 var chart_object = {};
 
+/** 图表文字色：读 --text-weak-color，随深浅模式变化 */
+function EchartsTextColor () {
+    try {
+        return getComputedStyle(document.documentElement).getPropertyValue('--text-weak-color').trim() || '#999';
+    } catch (e) {
+        return '#999';
+    }
+}
+
 /**
  * 系统更新异步请求步骤
  * @author  Devil
@@ -189,7 +198,8 @@ function EchartsOrderProfit (title_arr, name_arr, data) {
         },
         legend: {
             data: title_arr,
-            left: '0%'
+            left: '0%',
+            textStyle: { color: EchartsTextColor() }
         },
         toolbox: {
             show: window_is_toolbox,
@@ -266,7 +276,8 @@ function EchartsOrderTrading (title_arr, name_arr, data) {
         },
         legend: {
             data: title_arr,
-            left: '0%'
+            left: '0%',
+            textStyle: { color: EchartsTextColor() }
         },
         toolbox: {
             show: window_is_toolbox,
@@ -334,11 +345,13 @@ function EchartsGoodsHot (data) {
         title: {
             subtext: window['lang_goods_hot_tips'] || '仅显示前13条商品',
             x: 'center',
-            bottom: '3%'
+            bottom: '3%',
+            subtextStyle: { color: EchartsTextColor() }
         },
         legend: {
             orient: 'vertical',
-            left: 'left'
+            left: 'left',
+            textStyle: { color: EchartsTextColor() }
         },
         tooltip: {
             trigger: 'item',
@@ -384,7 +397,8 @@ function EchartsGoodsHot (data) {
                     label: {
                         show: true,
                         fontSize: 12,
-                        fontWeight: 'bold'
+                        fontWeight: 'bold',
+                        color: EchartsTextColor()
                     }
                 },
                 labelLine: {
@@ -418,7 +432,8 @@ function EchartsPayType (title_arr, name_arr, data) {
         },
         legend: {
             data: title_arr,
-            left: '0%'
+            left: '0%',
+            textStyle: { color: EchartsTextColor() }
         },
         toolbox: {
             show: window_is_toolbox,
@@ -493,7 +508,8 @@ function EchartsOrderMapWholeCountry (name_arr, data) {
             }
         },
         legend: {
-            data: []
+            data: [],
+            textStyle: { color: EchartsTextColor() }
         },
         toolbox: {
             show: window_is_toolbox,
@@ -524,7 +540,7 @@ function EchartsOrderMapWholeCountry (name_arr, data) {
             },
             axisLabel: {
                 textStyle: {
-                    color: '#ccc' // 设置颜色为红色
+                    color: '#ccc'
                 }
             },
             boundaryGap: [0, 0.01]
@@ -542,7 +558,7 @@ function EchartsOrderMapWholeCountry (name_arr, data) {
             },
             axisLabel: {
                 textStyle: {
-                    color: '#5F9AD6' // 设置颜色
+                    color: '#5F9AD6'
                 }
             },
             data: name_arr
@@ -618,7 +634,8 @@ function EchartsNewUser (name_arr, data) {
             trigger: 'axis'
         },
         legend: {
-            data: []
+            data: [],
+            textStyle: { color: EchartsTextColor() }
         },
         toolbox: {
             show: window_is_toolbox,
@@ -718,7 +735,8 @@ function EchartsBuyUser (name_arr, data) {
             trigger: 'axis'
         },
         legend: {
-            data: []
+            data: [],
+            textStyle: { color: EchartsTextColor() }
         },
         toolbox: {
             show: window_is_toolbox,
@@ -1056,6 +1074,7 @@ $(function () {
 
     // 统计数据初始化
     EchartsInit();
+
 
     // 基础条件值改变事件
     $(document).on('change', '.echarts-title select[name="value"]', function () {

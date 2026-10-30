@@ -3,12 +3,20 @@
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
-    <!-- 新增 -->
+    <!-- 新增：下拉区分进入公共装修或商品详情装修 -->
     {{if AdminIsPower('diy', 'saveinfo')}}
-        <a href="{{:MyUrl('admin/diy/saveinfo')}}" class="am-btn am-btn-primary am-radius am-btn-xs" target="_blank" rel="noopener noreferrer">
-            <i class="iconfont icon-add am-show-sm-only"></i>
-            <span>{{:MyLang('add_title')}}</span>
-        </a>
+        <div class="am-dropdown am-dropdown-down am-margin-right-xs" data-am-dropdown>
+            <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs am-dropdown-toggle">
+                <i class="iconfont icon-add am-show-sm-only"></i>
+                <span>{{:MyLang('add_title')}}</span>
+                <i class="am-icon-caret-down"></i>
+            </button>
+            <ul class="am-dropdown-content" style="min-width: 12rem;">
+                <li><a href="{{:MyUrl('admin/diy/saveinfo')}}" target="_blank" rel="noopener noreferrer">{{:MyLang('diy.nav_common_diy_name')}}</a></li>
+                <!-- 与底部菜单 #/tabbar 一样，用 hash 指定商品详情设计页 -->
+                <li><a href="{{:MyUrl('admin/diy/saveinfo', ['page'=>'goods-detail'])}}#/goods-detail" target="_blank" rel="noopener noreferrer">{{:MyLang('diy.nav_goods_detail_diy_name')}}</a></li>
+            </ul>
+        </div>
     {{/if}}
     <!-- 导入 -->
     {{if AdminIsPower('diy', 'upload')}}
@@ -24,12 +32,20 @@
             <span>{{:MyLang('diy.nav_apptabbar_name')}}</span>
         </button>
     {{/if}}
-    <!-- 首页DIY -->
+    <!-- 页面DIY：下拉打开同一个弹窗，并落到对应标签 -->
     {{if AdminIsPower('appconfig', 'index')}}
-        <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs submit-popup" data-offcanvas="right" data-url="{{:MyUrl('admin/appconfig/index', ['type'=>'homediy'])}}" data-title="{{:MyLang('diy.nav_homediy_name')}}">
-            <i class="iconfont icon-layout-magic am-show-sm-only"></i>
-            <span>{{:MyLang('diy.nav_homediy_name')}}</span>
-        </button>
+        <div class="am-dropdown am-dropdown-down am-margin-right-xs" data-am-dropdown>
+            <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs am-dropdown-toggle">
+                <i class="iconfont icon-layout-magic am-show-sm-only"></i>
+                <span>{{:MyLang('diy.nav_pagediy_name')}}</span>
+                <i class="am-icon-caret-down"></i>
+            </button>
+            <ul class="am-dropdown-content">
+                <li><a href="javascript:;" class="submit-popup" data-offcanvas="right" data-url="{{:MyUrl('admin/appconfig/index', ['type'=>'pagediy', 'tab'=>'home'])}}" data-title="{{:MyLang('diy.nav_pagediy_name')}}">{{:MyLang('diy.nav_homediy_name')}}</a></li>
+                <li><a href="javascript:;" class="submit-popup" data-offcanvas="right" data-url="{{:MyUrl('admin/appconfig/index', ['type'=>'pagediy', 'tab'=>'goods-detail'])}}" data-title="{{:MyLang('diy.nav_pagediy_name')}}">{{:MyLang('diy.nav_goods_detail_diy_name')}}</a></li>
+                <li><a href="javascript:;" class="submit-popup" data-offcanvas="right" data-url="{{:MyUrl('admin/appconfig/index', ['type'=>'pagediy', 'tab'=>'user-center'])}}" data-title="{{:MyLang('diy.nav_pagediy_name')}}">{{:MyLang('diy.nav_user_center_diy_name')}}</a></li>
+            </ul>
+        </div>
     {{/if}}
 
     <!-- 父级内容 -->

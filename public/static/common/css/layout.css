@@ -91,7 +91,7 @@
 /**
  * 商品列表
  */
-.module-goods-content .module-item{background:#fff}
+.module-goods-content .module-item{background: var(--surface-color, #ffffff)}
 .module-goods-content .module-item .item-bottom{margin-top:0.5rem}
 .module-goods-content .module-item .module-title{margin-bottom:0.5rem}
 .module-goods-content .module-item .module-title{max-width:100%;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.8rem;height:3.4rem;white-space:initial !important}

@@ -81,7 +81,7 @@
 .forth-selection-list-container {
     max-height: calc(100% - 9.2rem);
     height: calc(100% - 9.2rem);
-    border: 0.1rem solid #eee;
+    border: 0.1rem solid var(--border-color, #eeeeee);
 }
 .forth-selection-list-container .am-gallery-bordered .am-gallery-title {
     margin-top: 0.5rem;
@@ -114,7 +114,7 @@
  */
 .manual-mode-data-container li {
     position: relative;
-    background: #FFFFFF;
+    background: var(--surface-color, #ffffff);
     display: flex;
     justify-content: flex-start;
     align-items: center;

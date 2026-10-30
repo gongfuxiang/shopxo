@@ -1659,12 +1659,21 @@ class BuyService
                 'spec'  => $spec,
             ]);
             $base = GoodsService::GoodsSpecDetail($spec_params);
+            if(empty($base) || !is_array($base) || !isset($base['code']))
+            {
+                return DataReturn(MyLang('common_service.goods.base_spec_empty_tips').'['.$goods['title'].']', -10);
+            }
             if($base['code'] == 0)
             {
                 // 先判断商品规格库存是否不足
-                if($base['data']['spec_base']['inventory'] < $detail['buy_number'])
+                $spec_inv = (empty($base['data']) || empty($base['data']['spec_base']) || !isset($base['data']['spec_base']['inventory'])) ? null : $base['data']['spec_base']['inventory'];
+                if($spec_inv === null)
                 {
-                    return DataReturn(MyLang('common_service.buy.goods_inventory_not_enough_tips').'['.$goods['title'].'('.$base['data']['spec_base']['inventory'].'<'.$detail['buy_number'].')]', -10);
+                    return DataReturn(MyLang('common_service.goods.base_spec_empty_tips').'['.$goods['title'].']', -10);
+                }
+                if($spec_inv < $detail['buy_number'])
+                {
+                    return DataReturn(MyLang('common_service.buy.goods_inventory_not_enough_tips').'['.$goods['title'].'('.$spec_inv.'<'.$detail['buy_number'].')]', -10);
                 }
             } else {
                 return $base;

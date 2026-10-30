@@ -285,8 +285,8 @@ class PaymentService
      */
     public static function DataListHandle($data)
     {
-        // 多语言数据替换（仅前台非默认语言生效）
-        I18nService::DataHandle($data, 'payment');
+        // 多语言数据替换（强制：后台非默认语言也读取支付方式 i18n）
+        I18nService::DataHandle($data, 'payment', true);
 
         if(!empty($data) && is_array($data))
         {
@@ -376,17 +376,40 @@ class PaymentService
         {
             $business_ids = array_filter(array_unique($business_ids));
         }
+        $data = [];
         if(!empty($business_ids))
         {
-            $res = Db::name('PayLog')->alias('pl')->join('pay_log_value plv', 'pl.id=plv.pay_log_id')->where(['plv.business_id'=>$business_ids])->order('pl.id desc')->field('plv.business_id,pl.payment_name')->select()->toArray();
-            $data = [];
+            $res = Db::name('PayLog')->alias('pl')->join('pay_log_value plv', 'pl.id=plv.pay_log_id')->where(['plv.business_id'=>$business_ids])->order('pl.id desc')->field('plv.business_id,pl.payment_name,pl.payment')->select()->toArray();
+            // 按支付标识读取当前语言名称（避免仅用支付时落库的 payment_name 快照）
+            $payment_name_map = [];
+            $codes = empty($res) ? [] : array_unique(array_filter(array_column($res, 'payment')));
+            if(!empty($codes))
+            {
+                $plist = self::PaymentList([
+                    'where' => [['payment', 'in', $codes]],
+                    'field' => 'id,name,payment',
+                ]);
+                if(!empty($plist) && is_array($plist))
+                {
+                    foreach($plist as $p)
+                    {
+                        if(!empty($p['payment']))
+                        {
+                            $payment_name_map[$p['payment']] = empty($p['name']) ? '' : $p['name'];
+                        }
+                    }
+                }
+            }
             if(!empty($res) && is_array($res))
             {
                 foreach($res as $v)
                 {
                     if(!array_key_exists($v['business_id'], $data))
                     {
-                        $data[$v['business_id']] = $v['payment_name'];
+                        $code = empty($v['payment']) ? '' : $v['payment'];
+                        $data[$v['business_id']] = ($code !== '' && isset($payment_name_map[$code]) && $payment_name_map[$code] !== '')
+                            ? $payment_name_map[$code]
+                            : (empty($v['payment_name']) ? '' : $v['payment_name']);
                     }
                 }
             }

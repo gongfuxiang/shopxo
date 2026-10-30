@@ -117,6 +117,38 @@
 
 <!-- ueditor 编辑器 -->
 <script type='text/javascript' src="{{$public_host}}static/common/lib/ueditor/ueditor.config.js?v={{$static_cache_version}}"></script>
+<script type="text/javascript">
+/* 深色模式：在 UE.getEditor 之前写入 initialStyle，避免编辑区 iframe 首帧白底闪烁 */
+(function () {
+    try {
+        var theme = document.documentElement.getAttribute('data-theme') || 'light';
+        if (!theme || theme === 'system') {
+            theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        if (window.UEDITOR_CONFIG && theme === 'dark') {
+            var s = window.getComputedStyle(document.documentElement);
+            var t = function (name, fb) { return (s.getPropertyValue(name) || '').trim() || fb; };
+            var page = t('--input-bg-color', '#161b24');
+            var surface = t('--surface-color', '#1c212b');
+            var text = t('--text-color', '#e8eaed');
+            var border = t('--border-color', '#2f3643');
+            var borderStrong = t('--border-strong-color', '#3d4656');
+            var main = t('--color-main', '#2a94ff');
+            window.UEDITOR_CONFIG.initialStyle =
+                'html,body{background:' + page + '!important;color:' + text + '!important;}' +
+                'body{margin:8px;}' +
+                'a{color:' + main + ';}' +
+                'table,td,th{border-color:' + border + '!important;}' +
+                'blockquote,pre,code{background:' + surface + '!important;border-color:' + borderStrong + '!important;color:' + text + '!important;}' +
+                'html{scrollbar-color:' + borderStrong + ' ' + surface + ';scrollbar-width:thin;}' +
+                '::-webkit-scrollbar{width:8px;height:8px;}' +
+                '::-webkit-scrollbar-thumb,::-webkit-scrollbar-thumb:vertical{background:' + borderStrong + '!important;border-radius:4px;}' +
+                '::-webkit-scrollbar-thumb:hover,::-webkit-scrollbar-thumb:vertical:hover{background:' + borderStrong + '!important;}' +
+                '::-webkit-scrollbar-track,::-webkit-scrollbar-track:vertical,::-webkit-scrollbar-track-piece,::-webkit-scrollbar-corner{background:' + surface + '!important;border:none!important;}';
+        }
+    } catch (e) {}
+})();
+</script>
 <script type='text/javascript' src="{{$public_host}}static/common/lib/ueditor/ueditor.all.js?v={{$static_cache_version}}"></script>
 
 <!-- 颜色选择器 -->
@@ -280,6 +312,7 @@
 <!-- 项目公共 -->
 <script type='text/javascript' src="{{$public_host}}static/common/js/common.js?v={{$static_cache_version}}"></script>
 <script type='text/javascript' src="{{$public_host}}static/common/js/forminput.js?v={{$static_cache_version}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/js/theme-mode.js?v={{$static_cache_version}}"></script>
 <!-- 多语言数据组件（is_load_i18n开关控制、后台默认引入、css在header引入） -->
 {{if !empty($i18n_view_config) and isset($is_load_i18n) and $is_load_i18n eq 1}}
     {{:ModuleInclude('public/i18n_popup')}}
@@ -304,7 +337,11 @@
     <script type='text/javascript' src="{{$public_host}}static/common/js/layout.admin.js?v={{$static_cache_version}}"></script>
 {{/if}}
 
-<!-- 应用插件公共js -->
+<!-- 应用插件前后端共用js -->
+{{if !empty($static_path_data['plugins_common_js'])}}
+    <script type='text/javascript' src="{{$public_host}}static/{{$static_path_data.plugins_common_js}}?v={{$static_cache_version}}"></script>
+{{/if}}
+<!-- 应用插件端公共js -->
 {{if !empty($static_path_data['plugins_js'])}}
     <script type='text/javascript' src="{{$public_host}}static/{{$static_path_data.plugins_js}}?v={{$static_cache_version}}"></script>
 {{/if}}

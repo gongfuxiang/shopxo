@@ -59,10 +59,26 @@
 
         <!-- 商品视频 -->
         <div class="item" data-key="video">
-            {{if !empty($data['video'])}}
-                <video src="{{$data.video}}" class="am-img-responsive" controls="controls" preload="auto">
-                    your browser does not support the video tag
-                </video>
+            {{if !empty($data['video']) or !empty($data['video_cover'])}}
+                {{if !empty($data['video'])}}
+                    <video src="{{$data.video}}" class="am-img-responsive" controls="controls" preload="auto"{{if !empty($data['video_cover'])}} poster="{{$data.video_cover}}"{{/if}}>
+                        your browser does not support the video tag
+                    </video>
+                {{/if}}
+                {{if !empty($data['video_cover'])}}
+                    <div class="{{if !empty($data['video'])}}am-margin-top-sm{{/if}}">
+                        <p class="am-margin-bottom-xs">{{:MyLang('form_video_cover_title')}}</p>
+                        <ul data-am-widget="gallery" class="am-gallery am-avg-sm-4 am-avg-md-4 am-avg-lg-4 am-gallery-default am-padding-0" data-am-gallery="{ pureview: true }">
+                            <li class="am-padding-0">
+                                <div class="am-gallery-item am-nbfc">
+                                    <a href="javascript:;">
+                                        <img src="{{$data.video_cover}}" />
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                {{/if}}
             {{else /}}
                 {{:ModuleInclude('public/not_data')}}
             {{/if}}

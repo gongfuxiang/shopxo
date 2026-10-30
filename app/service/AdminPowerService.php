@@ -479,7 +479,10 @@ class AdminPowerService
                                     {
                                         $url_params['nav_type'] = $vss['type'];
                                     }
-                                    $vss['url'] = MyUrl('admin/'.strtolower($vs['control']).'/'.strtolower($vs['action']), $url_params);
+                                    if(empty($vss['url']))
+                                    {
+                                        $vss['url'] = MyUrl('admin/'.strtolower($vs['control']).'/'.strtolower($vs['action']), $url_params);
+                                    }
                                     $vss['key'] = $key.'_'.$vss['type'];
                                     $vss['id'] = $vs['id'].$vss['type'];
                                 }

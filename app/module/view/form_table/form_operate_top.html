@@ -27,6 +27,38 @@
     </button>
 {{/if}}
 
+<!-- 是否开启小票打印操作（飞鹅等云小票） -->
+{{if isset($form_table['base']['is_data_ticket_print']) and $form_table['base']['is_data_ticket_print'] eq 1}}
+    <button
+        type="button"
+        class="am-btn am-btn-default-plain am-radius am-btn-xs form-table-operate-top-data-ticket-print-submit"
+        data-url="{{if isset($form_table['base']['data_ticket_print_url'])}}{{$form_table.base.data_ticket_print_url}}{{/if}}"
+        data-form="form_checkbox_value"
+        data-key="ids"
+        data-confirm-msg="{{:MyLang('form_table_nav_operate_data_ticket_print_confirm')}}"
+        data-select-title="{{:MyLang('form_table_nav_operate_data_ticket_print_select_title')}}"
+    >
+        <i class="am-icon-print am-show-sm-only"></i>
+        <span>{{:MyLang('form_table_nav_operate_data_ticket_print_name')}}</span>
+    </button>
+{{/if}}
+
+<!-- 是否开启标签打印操作（飞鹅标签机，与小票打印分开） -->
+{{if isset($form_table['base']['is_data_label_print']) and $form_table['base']['is_data_label_print'] eq 1}}
+    <button
+        type="button"
+        class="am-btn am-btn-default-plain am-radius am-btn-xs form-table-operate-top-data-label-print-submit"
+        data-url="{{if isset($form_table['base']['data_label_print_url'])}}{{$form_table.base.data_label_print_url}}{{/if}}"
+        data-form="form_checkbox_value"
+        data-key="ids"
+        data-confirm-msg="{{:MyLang('form_table_nav_operate_data_label_print_confirm')}}"
+        data-select-title="{{:MyLang('form_table_nav_operate_data_label_print_select_title')}}"
+    >
+        <i class="am-icon-print am-show-sm-only"></i>
+        <span>{{:MyLang('form_table_nav_operate_data_label_print_name')}}</span>
+    </button>
+{{/if}}
+
 <!-- 是否开启数据导出pdf操作 -->
 {{if isset($form_table['base']['is_data_export_pdf']) and $form_table['base']['is_data_export_pdf'] eq 1}}
     <button type="button" class="am-btn am-btn-default-plain am-radius am-btn-xs form-table-operate-top-data-print-submit" data-is-pdf="1">

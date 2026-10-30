@@ -1,0 +1,56 @@
+<div class="ticket-print-designer"
+    data-form-name="{{if empty($module_data['form_name'])}}ticket_print_template{{else /}}{{$module_data.form_name}}{{/if}}"
+    data-draft="{{if !empty($module_data['list_mode'])}}1{{else /}}0{{/if}}">
+    <div class="ticket-print-palette">
+        <div class="ticket-print-palette-search">
+            <input type="search" class="am-form-field am-radius am-input-sm ticket-print-palette-search-input" placeholder="{{:MyLang('ticket_print.palette_search_placeholder')}}" autocomplete="off" />
+        </div>
+        <div class="ticket-print-palette-list">
+            {{if !empty($module_data['type_data']) and !empty($module_data['type_data']['common'])}}
+                <p class="group-title">{{:MyLang('ticket_print.form_panel_public')}}</p>
+                {{foreach $module_data.type_data.common as $v}}
+                    <a href="javascript:;" class="item" draggable="true"
+                        data-type="{{$v.type}}"
+                        data-field="{{$v.field}}"
+                        data-title="{{$v.title}}"
+                        data-label="{{if isset($v['label'])}}{{$v.label}}{{/if}}"
+                        data-mode="{{if isset($v['mode'])}}{{$v.mode}}{{/if}}"
+                        data-header="{{if isset($v['header'])}}{{$v.header}}{{/if}}"
+                        data-size="{{if isset($v['size'])}}{{$v.size}}{{/if}}">{{$v.title}}</a>
+                {{/foreach}}
+            {{/if}}
+            {{if !empty($module_data['type_data']) and !empty($module_data['type_data']['business'])}}
+                <p class="group-title">{{:MyLang('ticket_print.form_panel_business')}}</p>
+                {{foreach $module_data.type_data.business as $v}}
+                    <a href="javascript:;" class="item" draggable="true"
+                        data-type="{{$v.type}}"
+                        data-field="{{$v.field}}"
+                        data-title="{{$v.title}}"
+                        data-label="{{if isset($v['label'])}}{{$v.label}}{{/if}}"
+                        data-mode="{{if isset($v['mode'])}}{{$v.mode}}{{/if}}"
+                        data-header="{{if isset($v['header'])}}{{$v.header}}{{/if}}"
+                        data-size="{{if isset($v['size'])}}{{$v.size}}{{/if}}">{{$v.title}}</a>
+                {{/foreach}}
+            {{/if}}
+            {{if !empty($module_data['type_data']) and !empty($module_data['type_data']['assist'])}}
+                <p class="group-title">{{:MyLang('ticket_print.form_panel_assist')}}</p>
+                {{foreach $module_data.type_data.assist as $v}}
+                    <a href="javascript:;" class="item" draggable="true"
+                        data-type="{{$v.type}}"
+                        data-field="{{$v.field}}"
+                        data-title="{{$v.title}}"
+                        data-custom="{{if !empty($v['custom'])}}1{{else /}}0{{/if}}"
+                        data-mode="{{if isset($v['mode'])}}{{$v.mode}}{{/if}}">{{$v.title}}</a>
+                {{/foreach}}
+            {{/if}}
+            <div class="ticket-print-palette-search-empty am-hide">{{:MyLang('ticket_print.palette_search_empty')}}</div>
+        </div>
+    </div>
+    <div class="ticket-print-canvas-wrap">
+        <div class="ticket-print-toolbar"></div>
+        <div class="ticket-print-ticket"></div>
+    </div>
+    <div class="ticket-print-setting">
+        <div class="empty-tips">{{:MyLang('ticket_print.form_panel_setting_tips')}}</div>
+    </div>
+</div>

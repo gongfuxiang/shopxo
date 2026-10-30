@@ -1,0 +1,56 @@
+/**
+ * 内部页面地址（admin/appmini/pages）
+ * 本页无 .content-right>.content 内边距，勿用负边距（会撑出弹窗）
+ */
+.common-app-pages-top {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface-color, #ffffff);
+    border-bottom: 0.1rem solid var(--border-color, #eeeeee);
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+}
+.common-app-pages-top-inner,
+.common-app-pages-list {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+.common-app-pages-list {
+    padding-bottom: 1.5rem;
+}
+.common-app-pages-anchor {
+    max-height: 7.2rem;
+    overflow-y: auto;
+}
+a.common-app-pages-anchor-item {
+    border: 0.1rem solid var(--border-strong-color, #dcdcdc);
+    background: var(--fill-color-light, #f8f8f8);
+    color: var(--text-muted-color, #666);
+}
+a.common-app-pages-anchor-item:hover,
+a.common-app-pages-anchor-item:focus {
+    color: var(--text-color, #333) !important;
+    background: var(--hover-bg-color, #f5f5f5);
+    border-color: var(--border-strong-color, #ccc);
+    text-decoration: none;
+}
+.common-app-pages-search-submit.am-btn-default {
+    background: var(--input-bg-color, #fff);
+    border-color: var(--border-strong-color, #ddd);
+    color: var(--text-color, #333);
+}
+a.common-app-pages-anchor-item.am-active,
+a.common-app-pages-anchor-item.am-active:hover,
+a.common-app-pages-anchor-item.am-active:focus {
+    border-color: transparent;
+    background-color: var(--color-main);
+    color: #fff !important;
+}
+a.common-app-pages-copy.am-badge-success {
+    border: 0.1rem solid #5eb95e;
+}
+a.common-app-pages-copy:before,
+a.common-app-pages-use:before {
+    margin-right: 0.3rem;
+}

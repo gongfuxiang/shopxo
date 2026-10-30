@@ -509,8 +509,15 @@ class PluginsAdminService
             return DataReturn($ret, -1);
         }
 
-        // 应用是否存在
+        // 应用唯一标记，禁止路径穿越
         $plugins = $params['id'];
+        $ret = self::PluginsVerification($plugins);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 应用是否存在
         if(!file_exists(APP_PATH.'plugins'.DS.$plugins))
         {
            return DataReturn(MyLang('common_service.pluginsadmin.app_no_exist_tips'), -10); 
@@ -662,10 +669,18 @@ class PluginsAdminService
         }
 
         // 应用唯一标记
-        $plugins = trim($params['plugins']);
+        $plugins = is_string($params['plugins']) ? trim($params['plugins']) : '';
+        $params['plugins'] = $plugins;
 
         // 应用校验
         $ret = self::PluginsVerification($plugins);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 名称会写入生成的 PHP 注释，禁止换行和 PHP 闭合标签
+        $ret = self::PluginsNameCheck(isset($params['name']) ? $params['name'] : '');
         if($ret['code'] != 0)
         {
             return $ret;
@@ -711,11 +726,12 @@ class PluginsAdminService
     private static function PluginsApplicationCreated($params, $app_dir)
     {
         $plugins = trim($params['plugins']);
+        $plugins_name = self::PluginsPhpCommentText(isset($params['name']) ? $params['name'] : '');
 $admin=<<<php
 <?php
 namespace app\plugins\\$plugins\admin;
 
-// {$params['name']} - 后台管理
+// {$plugins_name} - 后台管理
 class Admin
 {
     // 后台管理入口
@@ -734,7 +750,7 @@ $hook=<<<php
 <?php
 namespace app\plugins\\$plugins;
 
-// {$params['name']} - 钩子入口
+// {$plugins_name} - 钩子入口
 class Hook
 {
     // 应用响应入口
@@ -763,7 +779,7 @@ $index=<<<php
 <?php
 namespace app\plugins\\$plugins\index;
 
-// {$params['name']} - 前端独立页面入口
+// {$plugins_name} - 前端独立页面入口
 class Index
 {
     // 前端页面入口
@@ -1007,11 +1023,48 @@ php;
      */
     public static function PluginsVerification($plugins)
     {
-        if(in_array($plugins, self::$plugins_exclude_verification))
+        if(!is_string($plugins) || !preg_match('/^[a-z0-9_]{2,60}$/', $plugins))
+        {
+            return DataReturn(MyLang('common_service.pluginsadmin.form_item_plugins_message'), -1);
+        }
+        if(in_array($plugins, self::$plugins_exclude_verification, true))
         {
             return DataReturn(MyLang('common_service.pluginsadmin.app_name_exclude_tips').'['.$plugins.']', -1);
         }
         return DataReturn(MyLang('check_success'), 0);
+    }
+
+    /**
+     * 应用名称校验（写入 PHP 注释前）
+     * @author   Devil
+     * @version  1.0.0
+     * @date     2026-10-20
+     * @param    [string]          $name [应用名称]
+     */
+    private static function PluginsNameCheck($name)
+    {
+        if(!is_string($name))
+        {
+            return DataReturn(MyLang('common_service.pluginsadmin.form_item_name_message'), -1);
+        }
+        $len = mb_strlen($name, 'utf-8');
+        if($len < 1 || $len > 80 || preg_match('/[\r\n\0]|<\?|\?>/', $name))
+        {
+            return DataReturn(MyLang('common_service.pluginsadmin.form_item_name_message'), -1);
+        }
+        return DataReturn(MyLang('check_success'), 0);
+    }
+
+    /**
+     * 写入 PHP 单行注释的文本
+     * @author   Devil
+     * @version  1.0.0
+     * @date     2026-10-20
+     * @param    [string]          $text [原始文本]
+     */
+    private static function PluginsPhpCommentText($text)
+    {
+        return str_replace(["\r", "\n", "\0", '<?', '?>'], '', (string) $text);
     }
 
     /**

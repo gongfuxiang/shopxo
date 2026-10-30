@@ -12,6 +12,7 @@ namespace app\api\controller;
 
 use app\service\ApiService;
 use app\service\UeditorService;
+use app\service\AttachmentUploadLimitService;
 
 /**
  * 附件上传
@@ -34,8 +35,12 @@ class Ueditor extends Common
         // 调用父类前置方法
         parent::__construct();
 
-        // 登录校验（配置、上传等均需用户登录）
-        $this->IsLogin();
+        // 上传必须登录关闭时，仅开放上传和配置；列表、删除、远程抓取仍需登录
+        $action = (!empty($this->data_request['action']) && is_string($this->data_request['action'])) ? $this->data_request['action'] : '';
+        if(AttachmentUploadLimitService::LoginRequired() || !AttachmentUploadLimitService::IsOpenAction($action))
+        {
+            $this->IsLogin();
+        }
     }
 
     /**
@@ -48,6 +53,11 @@ class Ueditor extends Common
      */
     public function Index()
     {
+        $action = empty($this->data_request['action']) ? 'config' : $this->data_request['action'];
+        if($action === 'config' && function_exists('session_write_close'))
+        {
+            session_write_close();
+        }
         return ApiService::ApiDataReturn(UeditorService::Run($this->data_request));
     }
 }

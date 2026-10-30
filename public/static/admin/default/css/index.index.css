@@ -6,7 +6,6 @@
 }
 
 .menu-logo {
-    background: var(--color-left-menu-bg);
     height: 4.6rem;
     line-height: 4.6rem;
     display: block;
@@ -23,9 +22,12 @@
     }
 }
 
-#ifcontent {
+/* 高于 A 层 html[data-theme] 白底壳 */
+html body #ifcontent {
     height: 100%;
     width: 100%;
+    background: var(--page-bg-color, #F4F3F7) !important;
+    background-color: var(--page-bg-color, #F4F3F7) !important;
 }
 
 #ifcontent iframe {
@@ -46,7 +48,20 @@
 .must-menu-list {
     float: left;
     height: 100vh;
-    background: var(--color-left-menu-bg);
+}
+/* 高于 A 层 am-list surface，避免一级菜单碎灰块 */
+html body .must-menu-list,
+html body .menu-logo,
+html body .must-menu-list .am-offcanvas-bar,
+html body .must-menu-list .admin-offcanvas-bar {
+    background: var(--color-left-menu-bg) !important;
+    background-color: var(--color-left-menu-bg) !important;
+}
+html body .must-menu-list .am-list,
+html body .must-menu-list .am-list > li,
+html body .must-menu-list .admin-sidebar-list > li {
+    background: transparent !important;
+    background-color: transparent !important;
 }
 
 .must-menu-list ul li ul li>a {
@@ -61,7 +76,7 @@
     float: right;
     width: calc(100% - 8rem);
     height: 100vh;
-    background-color: #fff;
+    background-color: var(--surface-color, #ffffff);
 }
 
 .child-menu-list .common-left-menu {
@@ -93,11 +108,11 @@
 .menu-name {
     height: 4.6rem;
     line-height: 4.6rem;
-    color: #333;
+    color: var(--text-color, #333);
     font-weight: 500;
     padding: 0 1.6rem;
-    background-color: #fff;
-    border-bottom: 0.1rem solid #f8f8f8;
+    background-color: var(--surface-color, #ffffff);
+    border-bottom: 0.1rem solid var(--border-color, #f8f8f8);
     width: 100%;
 }
 
@@ -109,12 +124,18 @@
 
 .child-menu-list i,
 .child-menu-list p {
-    color: #333;
+    color: var(--text-color, #333);
 }
 
 .child-menu-list ul li ul li p {
-    color: #666;
+    color: var(--text-muted-color, #666);
     vertical-align: middle;
+}
+
+/* 覆盖一级菜单链白色；二级在 surface 上跟正文色 */
+.child-menu-list .admin-sidebar-list li a,
+.child-menu-list .common-left-menu a {
+    color: var(--text-color, #333);
 }
 
 .child-menu-list a:hover {
@@ -128,22 +149,21 @@
     vertical-align: middle;
 }
 
-.child-menu-list .admin-sidebar-sub,
-.child-menu-list .admin-sidebar-sub li {
-    background: #fff !important;
-    border-color: #fff !important;
-}
-
-.child-menu-list .admin-parent .common-left-menu-active {
-    color: #333 !important;
-}
-
-.child-menu-list .common-left-menu-active {
+/* 父级已有 surface，子列表勿再铺底（html body 压过 A 层 am-list surface） */
+html body .child-menu-list .am-list,
+html body .child-menu-list .am-list > li,
+html body .child-menu-list .admin-sidebar-sub,
+html body .child-menu-list .admin-sidebar-sub li {
+    background: transparent !important;
     background-color: transparent !important;
-    color: var(--color-main) !important;
+    border-color: transparent !important;
 }
 
+.child-menu-list a.common-left-menu-active,
+.child-menu-list .common-left-menu-active,
+.child-menu-list .admin-parent .common-left-menu-active,
 .child-menu-list .admin-parent ul li .common-left-menu-active {
+    background-color: transparent !important;
     color: var(--color-main) !important;
 }
 
@@ -251,7 +271,7 @@
 }
 
 .tabs-tool .am-dropdown-toggle {
-    color: #666;
+    color: var(--text-muted-color, #666);
 }
 
 .tabs-tool.am-active .am-dropdown-toggle,
@@ -288,12 +308,12 @@
     margin-right: 1rem;
 }
 
-.header-menu-open-pages-list ul li span {
-    color: #333;
+.header-menu-open-pages-list ul li span,
+.header-menu-open-pages-list ul li a {
+    color: var(--text-muted-color, #333);
 }
 
 .header-menu-open-pages-list ul li a {
-    color: #333;
     font-size: 1.2rem;
     margin-left: 0.2rem;
     font-size: 1rem;
@@ -337,21 +357,72 @@
 }
 
 @media only screen and (max-width: 640px) {
-    .header-menu-open-pages-list {
-        display: none;
+    header.admin-header {
+        height: 7.9rem;
+    }
+
+    header.admin-header .tabs-list {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 3.3rem;
+        align-items: flex-end;
+        border-top: 0.1rem solid var(--border-color, #eeeeee);
+        background-color: var(--header-bg-color, #fff);
+    }
+
+    header.admin-header .header-menu-open-pages-list {
+        display: block;
+        flex: 1;
+        min-width: 0;
+        margin-top: 0;
+    }
+
+    header.admin-header .tabs-tool {
+        flex: 0 0 auto;
+    }
+
+    header.admin-header .tabs-list .tabs-tool.am-hide-sm-only:not(.am-hide) {
+        display: block !important;
+    }
+
+    header.admin-header .am-topbar-collapse.am-collapsing,
+    header.admin-header .am-topbar-collapse.am-in {
+        position: fixed;
+        top: 7.9rem;
+        left: 0;
+        right: 0;
+        z-index: 1100;
+        width: 100%;
+        margin: 0;
+        box-sizing: border-box;
+        background-color: var(--header-bg-color, #fff);
+        box-shadow: 0 0.7rem 0.7rem rgba(0, 0, 0, 0.08);
+        border-bottom-left-radius: var(--border-radius-lg);
+        border-bottom-right-radius: var(--border-radius-lg);
+    }
+
+    header.admin-header .am-topbar-collapse.am-in {
+        max-height: calc(100vh - 7.9rem);
+        overflow-y: auto;
     }
 }
 
 /**
  * 多屏窗口
  */
-.window-layer {
+html body .window-layer {
     width: 100%;
     height: 100%;
+    background: var(--page-bg-color, #F4F3F7) !important;
+    background-color: var(--page-bg-color, #F4F3F7) !important;
 }
 
 .window-layer-tab-bar {
-    background: #fff;
+    background: var(--surface-color, #ffffff);
+    color: var(--text-color, #333);
+    border-color: var(--border-color, #eee);
     height: 3.5rem;
     line-height: 3.5rem;
     cursor: move;
@@ -494,11 +565,28 @@
     max-width: calc(100vw - 2rem);
     padding: 1rem;
     line-height: normal;
+    background: var(--surface-elevated, #ffffff);
+    color: var(--text-color, #333);
+}
+.admin-menu-search-panel .admin-menu-search-input {
+    background: var(--input-bg-color, #ffffff);
+    border-color: var(--border-strong-color, #ddd);
+    color: var(--text-color, #333);
+}
+.admin-menu-search-tips,
+.admin-menu-search-empty {
+    color: var(--text-muted-color, #999);
 }
 .admin-menu-search-list {
     max-height: 32rem;
     overflow-y: auto;
     margin-top: 0.6rem;
+}
+/* 压过 A 层 am-list surface */
+.admin-menu-search-panel .admin-menu-search-list.am-list,
+.admin-menu-search-panel .admin-menu-search-list.am-list > li {
+    background: transparent !important;
+    border-color: transparent !important;
 }
 .admin-menu-search-list li {
     border: 0;
@@ -507,10 +595,16 @@
 .admin-menu-search-list li a {
     display: block;
     padding: 1rem;
-    color: #333;
+    color: var(--text-color, #333);
+}
+.admin-menu-search-list li a .name {
+    color: var(--text-color, #333);
 }
 .admin-menu-search-list li a:hover {
-    background: rgba(0, 0, 0, 0.04);
+    background: var(--hover-bg-color, rgba(0, 0, 0, 0.04));
+    color: var(--color-main);
+}
+.admin-menu-search-list li a:hover .name {
     color: var(--color-main);
 }
 .admin-menu-search-list .name {
@@ -520,6 +614,9 @@
 .admin-menu-search-list .path {
     display: block;
     margin-top: 0.2rem;
-    color: #999;
+    color: var(--text-muted-color, #999);
     font-size: 1.2rem;
+}
+.admin-menu-search-list li a:hover .path {
+    color: var(--text-muted-color, #999);
 }

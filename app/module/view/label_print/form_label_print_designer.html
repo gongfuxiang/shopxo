@@ -1,0 +1,49 @@
+<div class="label-print-designer"
+    data-form-name="{{if empty($module_data['form_name'])}}label_print_template{{else /}}{{$module_data.form_name}}{{/if}}"
+    data-paper-url="{{if !empty($module_data['paper_url'])}}{{$module_data.paper_url}}{{/if}}"
+    data-show-repeat="{{if !empty($module_data['show_repeat'])}}1{{else /}}0{{/if}}"
+    data-show-repeat-item="{{if isset($module_data['show_repeat_item']) and $module_data['show_repeat_item'] eq 0}}0{{else /}}1{{/if}}"
+    data-show-repeat-qty="{{if !empty($module_data['show_repeat_qty'])}}1{{else /}}0{{/if}}"
+    data-repeat-once-text="{{if !empty($module_data['repeat_once_text'])}}{{$module_data.repeat_once_text}}{{/if}}"
+    data-repeat-item-text="{{if !empty($module_data['repeat_item_text'])}}{{$module_data.repeat_item_text}}{{/if}}"
+    data-repeat-qty-text="{{if !empty($module_data['repeat_qty_text'])}}{{$module_data.repeat_qty_text}}{{/if}}">
+    <div class="label-print-palette">
+        <div class="label-print-palette-search">
+            <input type="search" class="am-form-field am-radius am-input-sm label-print-palette-search-input" placeholder="{{:MyLang('label_print.palette_search_placeholder')}}" autocomplete="off" />
+        </div>
+        <div class="label-print-palette-list">
+            {{if !empty($module_data['type_data']) and !empty($module_data['type_data']['business'])}}
+                <p class="group-title">{{:MyLang('label_print.form_panel_business')}}</p>
+                {{foreach $module_data.type_data.business as $v}}
+                    <a href="javascript:;" class="item" draggable="true"
+                        data-type="{{$v.type}}"
+                        data-field="{{$v.field}}"
+                        data-title="{{$v.title}}"
+                        data-label="{{if isset($v['label'])}}{{$v.label}}{{/if}}">{{$v.title}}</a>
+                {{/foreach}}
+            {{/if}}
+            {{if !empty($module_data['type_data']) and !empty($module_data['type_data']['assist'])}}
+                <p class="group-title">{{:MyLang('label_print.form_panel_assist')}}</p>
+                {{foreach $module_data.type_data.assist as $v}}
+                    <a href="javascript:;" class="item" draggable="true"
+                        data-type="{{$v.type}}"
+                        data-field="{{$v.field}}"
+                        data-title="{{$v.title}}"
+                        data-custom="{{if !empty($v['custom'])}}1{{else /}}0{{/if}}">{{$v.title}}</a>
+                {{/foreach}}
+            {{/if}}
+            <div class="label-print-palette-search-empty am-hide">{{:MyLang('label_print.palette_search_empty')}}</div>
+        </div>
+    </div>
+    <div class="label-print-stage">
+        <div class="label-print-paper-bar"></div>
+        <div class="label-print-canvas-wrap">
+            <div class="label-print-canvas"></div>
+        </div>
+    </div>
+    <div class="label-print-setting">
+        <div class="label-print-setting-body">
+            <div class="empty-tips">{{:MyLang('label_print.setting_tips')}}</div>
+        </div>
+    </div>
+</div>

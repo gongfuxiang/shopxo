@@ -87,6 +87,8 @@ class Order
                     'label'         => $lang['describe'],
                     'view_type'     => 'field',
                     'view_key'      => 'describe',
+                    // 内容已是「共X件 合计:¥Y」，小票前缀留空
+                    'ticket_label'  => '',
                     'is_list'       => 0,
                     'is_detail'     => 0,
                 ],

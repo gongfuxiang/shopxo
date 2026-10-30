@@ -65,13 +65,24 @@
             {{include file="../../../module/view/form_table/form_table_content" /}}
         </tbody>
     </table>
-    <!-- 是否开启数据打印操作 -->
+    <!-- 是否开启数据打印操作（与小票打印 is_data_ticket_print 互不干扰，勿混用 hiprint 模板） -->
     {{if (isset($form_table['base']['is_data_print']) and $form_table['base']['is_data_print'] eq 1) or (isset($form_table['base']['is_data_export_pdf']) and $form_table['base']['is_data_export_pdf'] eq 1) or (isset($form_table['base']['is_data_export_excel']) and $form_table['base']['is_data_export_excel'] eq 1)}}
         <script type="text/javascript">
             // 定义打印配置
             var print_is_list_choice = 1;
             // 打印模板
             var print_template = {{if empty($form_table['base']['data_print_template'])}}{}{{else /}}{{if is_array($form_table['base']['data_print_template'])}}{{:json_encode($form_table['base']['data_print_template'], JSON_UNESCAPED_UNICODE)}}{{else /}}{{$form_table.base.data_print_template|raw}}{{/if}}{{/if}};
+        </script>
+    {{/if}}
+    <!-- 小票打印模板列表（多模板时弹窗选择，与数据打印一致） -->
+    {{if isset($form_table['base']['is_data_ticket_print']) and $form_table['base']['is_data_ticket_print'] eq 1}}
+        <script type="text/javascript">
+            var ticket_print_template = {{if empty($form_table['base']['data_ticket_print_template'])}}[]{{else /}}{{if is_array($form_table['base']['data_ticket_print_template'])}}{{:json_encode($form_table['base']['data_ticket_print_template'], JSON_UNESCAPED_UNICODE)}}{{else /}}{{$form_table.base.data_ticket_print_template|raw}}{{/if}}{{/if}};
+        </script>
+    {{/if}}
+    {{if isset($form_table['base']['is_data_label_print']) and $form_table['base']['is_data_label_print'] eq 1}}
+        <script type="text/javascript">
+            var label_print_template = {{if empty($form_table['base']['data_label_print_template'])}}[]{{else /}}{{if is_array($form_table['base']['data_label_print_template'])}}{{:json_encode($form_table['base']['data_label_print_template'], JSON_UNESCAPED_UNICODE)}}{{else /}}{{$form_table.base.data_label_print_template|raw}}{{/if}}{{/if}};
         </script>
     {{/if}}
 

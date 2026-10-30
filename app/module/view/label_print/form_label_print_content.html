@@ -1,0 +1,15 @@
+<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/label_print.css?v={{$static_cache_version}}.guide5" />
+{{if !empty($module_data['popup'])}}
+    <div class="label-print-popup-entry">
+        <textarea class="am-hide label-print-popup-input" name="{{if empty($module_data['form_name'])}}label_print_template{{else /}}{{$module_data.form_name}}{{/if}}">{{if !empty($module_data['config'])}}{{if is_array($module_data['config'])}}{{:json_encode($module_data.config, JSON_UNESCAPED_UNICODE)}}{{else /}}{{$module_data.config}}{{/if}}{{/if}}</textarea>
+        <button type="button" class="am-btn am-btn-default am-btn-xs am-radius label-print-open" data-popup-id="{{$module_data.popup_id}}">{{:MyLang('label_print.design_title')}}</button>
+        <span class="label-print-designed{{if empty($module_data['designed'])}} am-hide{{/if}}">{{:MyLang('label_print.designed')}}</span>
+    </div>
+{{else /}}
+<div class="label-print-designer-box">
+    <textarea class="am-hide" name="{{if empty($module_data['form_name'])}}label_print_template{{else /}}{{$module_data.form_name}}{{/if}}">{{if !empty($module_data['config'])}}{{if is_array($module_data['config'])}}{{:json_encode($module_data.config, JSON_UNESCAPED_UNICODE)}}{{else /}}{{$module_data.config}}{{/if}}{{/if}}</textarea>
+    <script type="application/json" class="label-print-type-data">{{if empty($module_data['type_data'])}}{}{{else /}}{{:json_encode($module_data.type_data, JSON_UNESCAPED_UNICODE)}}{{/if}}</script>
+    <script type="application/json" class="label-print-sample-data">{{if empty($module_data['sample_data'])}}{}{{else /}}{{:json_encode($module_data.sample_data, JSON_UNESCAPED_UNICODE)}}{{/if}}</script>
+    {{:ModuleInclude('../../../module/view/label_print/form_label_print_designer', $module_data)}}
+</div>
+{{/if}}

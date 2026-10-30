@@ -1,7 +1,7 @@
 {{if !empty($module_data) and ((!empty($module_data['user']) and !empty($module_data['user']['user_name_view'])) || !empty($module_data['user_name_view']))}}
     <div class="am-flex am-flex-items-center am-gap-1-half am-pr user-info-data-container">
         <figure data-am-widget="figure" class="am-figure am-margin-0 am-inline-block" data-am-figure="{pureview: 'true'}">
-            <img src="{{if empty($module_data['user'])}}{{if !empty($module_data['avatar'])}}{{$module_data.avatar}}{{/if}}{{else /}}{{$module_data.user.avatar}}{{/if}}" alt="{{if empty($module_data['user'])}}{{if !empty($module_data['user_name_view'])}}{{$module_data.user_name_view}}{{/if}}{{else /}}{{$module_data.user.user_name_view}}{{/if}}" class="am-img-thumbnail am-radius am-block" width="33" height="33" />
+            <img src="{{if empty($module_data['user'])}}{{if !empty($module_data['avatar'])}}{{$module_data.avatar}}{{/if}}{{else /}}{{$module_data.user.avatar}}{{/if}}" class="am-img-thumbnail am-radius am-block" width="33" height="33" />
         </figure>
         <div class="user-info-dropdown-data-container am-flex-1 am-nbfc">
             {{if (!empty($module_data['user']) and (!empty($module_data['user']['username']) or !empty($module_data['user']['number_code']) or !empty($module_data['user']['mobile']) or !empty($module_data['user']['email']) or !empty($module_data['user']['gender_text']))) or (!empty($module_data['username']) or !empty($module_data['number_code']) or !empty($module_data['mobile']) or !empty($module_data['email']) or !empty($module_data['gender_text']))}}

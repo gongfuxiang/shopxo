@@ -23,6 +23,18 @@
                         'key'  => 'home-diy-template',
                     ],
                     [
+                        'name' => MyLang('appconfig.goods_detail_diy_template_title'),
+                        'key'  => 'goods-detail-diy-template',
+                    ],
+                    [
+                        'name' => MyLang('appconfig.user_center_diy_template_title'),
+                        'key'  => 'user-center-diy-template',
+                    ],
+                    [
+                        'name' => MyLang('appconfig.goods_category_title'),
+                        'key'  => 'goods-category',
+                    ],
+                    [
                         'name' => MyLang('appconfig.online_service_title'),
                         'key'  => 'online-service',
                     ],
@@ -34,7 +46,7 @@
             ])}}
             <div class="nav-content">
                 <!-- 基础配置 -->
-                <div class="item am-active" data-key="base-config-title">
+                <div class="item {{if empty($params['switch']) or $params['switch'] eq 'base-config-title'}}am-active{{/if}}" data-key="base-config-title">
                     <div class="am-form-group">
                         <label class="am-block">{{$data.common_app_is_use_mobile_detail.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_use_mobile_detail.describe}}</span></label>
                         <div class="am-radio-group">
@@ -162,13 +174,48 @@
                     </div>
                 </div>
 
-                <!-- 首页DIY模板 -->
-                <div class="item" data-key="home-diy-template">
-                    {{:ModuleInclude('appconfig/public/home-diy-template')}}
+                <!-- 首页DIY（与 DIY列表「页面DIY」共用配置） -->
+                <div class="item {{if !empty($params['switch']) and $params['switch'] eq 'home-diy-template'}}am-active{{/if}}" data-key="home-diy-template">
+                    <div class="am-operate-stretch-tips">
+                        <div class="title">
+                            <i class="iconfont icon-tips"></i>
+                            <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                            <i class="iconfont icon-retract-diagonal contract"></i>
+                        </div>
+                        <p>{{:MyLang('appconfig.home_diy_template_tips')}}</p>
+                    </div>
+                    {{:ModuleInclude('appconfig/public/page-diy-mode', ['diy_mode_key'=>'common_app_home_data_diy_mode'])}}
+                </div>
+
+                <!-- 商品详情DIY -->
+                <div class="item {{if !empty($params['switch']) and $params['switch'] eq 'goods-detail-diy-template'}}am-active{{/if}}" data-key="goods-detail-diy-template">
+                    <div class="am-operate-stretch-tips">
+                        <div class="title">
+                            <i class="iconfont icon-tips"></i>
+                            <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                            <i class="iconfont icon-retract-diagonal contract"></i>
+                        </div>
+                        <p>{{:MyLang('diy.goods_detail_diy_tips')}}</p>
+                    </div>
+                    {{:ModuleInclude('appconfig/public/page-diy-mode', ['diy_mode_key'=>'common_app_goods_detail_data_diy_mode'])}}
+                    {{:ModuleInclude('appconfig/public/page-diy-category')}}
+                </div>
+
+                <!-- 用户中心DIY -->
+                <div class="item {{if !empty($params['switch']) and $params['switch'] eq 'user-center-diy-template'}}am-active{{/if}}" data-key="user-center-diy-template">
+                    <div class="am-operate-stretch-tips">
+                        <div class="title">
+                            <i class="iconfont icon-tips"></i>
+                            <strong title="{{:MyLang('operate_list_tips_msg')}}">{{:MyLang('operate_list_tips_button_text')}}</strong>
+                            <i class="iconfont icon-retract-diagonal contract"></i>
+                        </div>
+                        <p>{{:MyLang('diy.user_center_diy_tips')}}</p>
+                    </div>
+                    {{:ModuleInclude('appconfig/public/page-diy-mode', ['diy_mode_key'=>'common_app_user_center_data_diy_mode'])}}
                 </div>
 
                 <!-- 在线客服 -->
-                <div class="item" data-key="online-service">
+                <div class="item {{if !empty($params['switch']) and $params['switch'] eq 'online-service'}}am-active{{/if}}" data-key="online-service">
                     {{if is_array(MyLang('appconfig.online_service_top_tips_list'))}}
                         <div class="am-operate-stretch-tips">
                             <div class="title">
@@ -220,7 +267,7 @@
                 </div>
 
                 <!-- 用户基础数据 -->
-                <div class="item" data-key="user-base-popup">
+                <div class="item {{if !empty($params['switch']) and $params['switch'] eq 'user-base-popup'}}am-active{{/if}}" data-key="user-base-popup">
                     {{if is_array(MyLang('appconfig.user_base_popup_top_tips_list'))}}
                         <div class="am-operate-stretch-tips">
                             <div class="title">
@@ -268,6 +315,49 @@
                         <input type="number" min="0" name="{{$data.common_app_user_base_popup_interval_time.only_tag}}" placeholder="{{$data.common_app_user_base_popup_interval_time.name}}" data-validation-message="{{$data.common_app_user_base_popup_interval_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_app_user_base_popup_interval_time.value}}"{{/if}} />
                     </div>
                 </div>
+
+                <!-- 商品分类页风格 -->
+                <div class="item {{if !empty($params['switch']) and $params['switch'] eq 'goods-category'}}am-active{{/if}}" data-key="goods-category">
+                    <div class="am-form-group goods-category-level-box" data-client="app">
+                        <label>{{$data.common_show_goods_category_level.name}}<span class="am-form-group-label-tips">{{$data.common_show_goods_category_level.describe}}</span></label>
+                        <div class="am-radio-group level-type">
+                            {{foreach $common_show_goods_category_level_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.value}}" name="{{$data.common_show_goods_category_level.only_tag}}" data-validation-message="{{$data.common_show_goods_category_level.error_tips}}" {{if isset($data['common_show_goods_category_level']['value']) and $data['common_show_goods_category_level']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck required>{{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                        <div class="goods-category-style-box am-margin-top {{if !(isset($data['common_show_goods_category_level']['value']) and $data['common_show_goods_category_level']['value'] eq 0)}}am-hide{{/if}}">
+                            <label>{{$data.common_goods_category_goods_style.name}}<span class="am-form-group-label-tips">{{$data.common_goods_category_goods_style.describe}}</span></label>
+                            <div class="am-radio-group goods-category-style-type">
+                                {{foreach $common_goods_category_goods_style_list as $v}}
+                                    <label class="am-radio-inline">
+                                        <input type="radio" value="{{$v.value}}" name="{{$data.common_goods_category_goods_style.only_tag}}" data-validation-message="{{$data.common_goods_category_goods_style.error_tips}}" {{if (isset($data['common_goods_category_goods_style']['value']) and $data['common_goods_category_goods_style']['value'] eq $v['value']) or ((!isset($data['common_goods_category_goods_style']['value']) or $data['common_goods_category_goods_style']['value'] eq '' or $data['common_goods_category_goods_style']['value'] eq 0) and $v['value'] eq 1)}}checked{{/if}} data-am-ucheck required>{{$v.name}}
+                                    </label>
+                                {{/foreach}}
+                            </div>
+                        </div>
+                        <div class="level-type-content am-margin-top">
+                            {{foreach $common_show_goods_category_level_list as $v}}
+                                <div class="item {{if isset($data['common_show_goods_category_level']['value']) and $data['common_show_goods_category_level']['value'] eq $v['value']}}am-active{{/if}}" data-key="{{$v.value}}">
+                                    <div class="am-flex am-flex-warp">
+                                        <div class="am-flex am-flex-col am-gap-1">
+                                            {{if $v.value eq 0}}
+                                                <div class="goods-category-style-preview-list">
+                                                    {{foreach $common_goods_category_goods_style_list as $sv}}
+                                                        <img class="am-radius-lg goods-category-style-preview {{if (isset($data['common_goods_category_goods_style']['value']) and $data['common_goods_category_goods_style']['value'] eq $sv['value']) or ((!isset($data['common_goods_category_goods_style']['value']) or $data['common_goods_category_goods_style']['value'] eq '' or $data['common_goods_category_goods_style']['value'] eq 0) and $sv['value'] eq 1)}}{{else /}}am-hide{{/if}}" data-style="{{$sv.value}}" src="{{:StaticAttachmentUrl('site/siteset/website/app_style_'.$sv['value'].'.png')}}" />
+                                                    {{/foreach}}
+                                                </div>
+                                            {{else /}}
+                                                <img class="am-radius-lg" src="{{:StaticAttachmentUrl('site/siteset/website/app_level_'.$v['value'].'.png')}}" />
+                                            {{/if}}
+                                        </div>
+                                    </div>
+                                </div>
+                            {{/foreach}}
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="am-form-popup-submit">
@@ -278,6 +368,8 @@
                 </button>
             </div>
         </form>
+        <!-- 品类设置弹窗放在保存表单外，避免嵌套 form -->
+        {{:ModuleInclude('appconfig/public/page-diy-category-popup')}}
         <!-- form end -->
     </div>
 </div>

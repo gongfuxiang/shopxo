@@ -358,7 +358,7 @@ class Common extends BaseController
         // 加载页面加载层、是否加载图片动画
         $assign['is_page_loading'] = ($this->module_name.$this->controller_name.$this->action_name == 'adminindexindex') ? 0 : 1;
         $assign['is_page_loading_images'] = 0;
-        $assign['page_loading_logo'] = $assign['home_site_logo_square'];
+        $assign['page_loading_logo'] = empty($assign['home_site_logo_square']) ? $assign['home_site_logo'] : $assign['home_site_logo_square'];
         $assign['page_loading_images_url'] = StaticAttachmentUrl('loading.gif');
         $assign['page_loading_logo_border'] = StaticAttachmentUrl('loading-border.svg', 'svg');
 

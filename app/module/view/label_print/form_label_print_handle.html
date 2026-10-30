@@ -1,0 +1,26 @@
+<script type="text/javascript" src="{{$public_host}}static/common/js/label_print.js?v={{$static_cache_version}}.guide"></script>
+<script type="text/javascript">
+    $(function()
+    {
+        var $boxes = $('.label-print-designer');
+        if($boxes.length == 0)
+        {
+            return;
+        }
+        var lang = JsonStringToJsonObject({{:json_encode(MyLang('label_print'), JSON_UNESCAPED_UNICODE)}});
+        $boxes.each(function()
+        {
+            var $box = $(this);
+            var $wrap = $box.closest('.label-print-designer-box');
+            $box.data('lang', lang);
+            var typeRaw = $.trim($wrap.find('script.label-print-type-data').first().text() || '{}');
+            var sampleRaw = $.trim($wrap.find('script.label-print-sample-data').first().text() || '{}');
+            $box.data('type-data', JsonStringToJsonObject(typeRaw));
+            $box.data('sample-data', JsonStringToJsonObject(sampleRaw));
+        });
+        if(typeof window.LabelPrintDesignerInit === 'function')
+        {
+            window.LabelPrintDesignerInit();
+        }
+    });
+</script>

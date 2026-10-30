@@ -47,6 +47,7 @@ class Config extends Base
 
 		// 兼容新增配置项（不存在则按语言包初始化）
 		ConfigService::ConfigEnsure('common_cache_data_file_expire', '');
+		ConfigService::AttachmentUploadConfigEnsure();
 
 		// 模板数据
 		$assign = [
@@ -82,6 +83,8 @@ class Config extends Base
 			'goods_admin_nav_list'             => MyConst('common_goods_admin_nav_list'),
 			// 商品分类
 			'goods_category_list'              => GoodsCategoryService::GoodsCategoryAll(),
+			// 附件上传数量限制类型
+			'attachment_upload_limit_type_list'=> ['image', 'file', 'video'],
 		];
 		MyViewAssign($assign);
 		return MyView();
@@ -135,6 +138,7 @@ class Config extends Base
 				$field_list[] = 'admin_login_ad_images';
 				$field_list[] = 'common_token_created_rules';
 				$field_list[] = 'common_images_verify_rules';
+				$field_list[] = 'common_attachment_upload_limit_type';
 				break;
 
 			// 商店信息
@@ -162,6 +166,18 @@ class Config extends Base
 
 		// 空字段处理
 		$params = ConfigService::FieldsEmptyDataHandle($params, $field_list);
+
+		// 附件上传限制
+		if($view_type == 'index')
+		{
+			ConfigService::AttachmentUploadConfigEnsure();
+			$ret = ConfigService::AttachmentUploadLimitParams($params);
+			if($ret['code'] != 0)
+			{
+				return ApiService::ApiDataReturn($ret);
+			}
+			$params = $ret['data'];
+		}
 
 		// 默认值字段处理
 		$default_value_field_list = [

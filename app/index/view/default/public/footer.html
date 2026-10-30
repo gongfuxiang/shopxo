@@ -375,6 +375,10 @@
 <!-- 项目公共 -->
 <script type='text/javascript' src="{{$public_host}}static/common/js/common.js?v={{$static_cache_version}}"></script>
 <script type='text/javascript' src="{{$public_host}}static/common/js/forminput.js?v={{$static_cache_version}}"></script>
+<!-- 外观模式（is_load_theme_mode 开关控制、用户端默认不引入、商家中心等页面自行开启） -->
+{{if isset($is_load_theme_mode) and $is_load_theme_mode eq 1}}
+    <script type='text/javascript' src="{{$public_host}}static/common/js/theme-mode.js?v={{$static_cache_version}}"></script>
+{{/if}}
 <!-- 多语言数据组件（is_load_i18n开关控制、用户端默认不引入、需要的页面自行开启、css在header引入） -->
 {{if !empty($i18n_view_config) and isset($is_load_i18n) and $is_load_i18n eq 1}}
     {{:ModuleInclude('public/i18n_popup')}}
@@ -399,7 +403,11 @@
     <script type='text/javascript' src="{{$public_host}}static/common/js/layout.admin.js?v={{$static_cache_version}}"></script>
 {{/if}}
 
-<!-- 应用插件公共js -->
+<!-- 应用插件前后端共用js -->
+{{if !empty($static_path_data['plugins_common_js'])}}
+    <script type='text/javascript' src="{{$public_host}}static/{{$static_path_data.plugins_common_js}}?v={{$static_cache_version}}"></script>
+{{/if}}
+<!-- 应用插件端公共js -->
 {{if !empty($static_path_data['plugins_js'])}}
     <script type='text/javascript' src="{{$public_host}}static/{{$static_path_data.plugins_js}}?v={{$static_cache_version}}"></script>
 {{/if}}

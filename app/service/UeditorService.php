@@ -13,6 +13,7 @@ namespace app\service;
 use app\service\SystemBaseService;
 use app\service\AttachmentService;
 use app\service\AttachmentCategoryService;
+use app\service\AttachmentUploadLimitService;
 
 /**
  * 百度编辑器附件服务层
@@ -53,7 +54,11 @@ class UeditorService
         self::$path_type = function_exists('SanitizeAttachmentPathType')
             ? SanitizeAttachmentPathType(self::$path_type)
             : self::$path_type;
-        self::$category_id = self::PathTypeCategoryId();
+        // 仅返回编辑器配置时不需要分类入库，避免页面并发请求时被 session/DB 拖慢导致前端 5s 超时
+        if(self::$current_action !== 'config')
+        {
+            self::$category_id = self::PathTypeCategoryId();
+        }
 
         // action
         $ret = DataReturn(MyLang('common_service.ueditor.request_action_error_tips'), -1);
@@ -446,6 +451,14 @@ class UeditorService
             $temp_config['pathFormat'] = str_replace('/other/{yyyy}', '/'.str_replace('-', '/', self::$path_type).'/{yyyy}', $temp_config['pathFormat']);
         }
 
+        // 数量限制，通过后才落盘
+        $limit_type = AttachmentUploadLimitService::LimitType($attachment_type);
+        $limit_check = AttachmentUploadLimitService::Check($limit_type, AttachmentUploadLimitService::ComingSize($field_name));
+        if($limit_check['code'] != 0)
+        {
+            return $limit_check;
+        }
+
         /* 生成上传实例对象并完成上传 */
         $up = new \base\Uploader($field_name, $temp_config, $attachment_type);
 
@@ -483,6 +496,7 @@ class UeditorService
             $ret = AttachmentService::AttachmentAdd($data);
             if($ret['code'] == 0)
             {
+                AttachmentUploadLimitService::Record($limit_type, isset($data['size']) ? intval($data['size']) : 0);
                 // 是否扫码来源-记录操作
                 if(!empty(self::$params['upload_source']) && self::$params['upload_source'] == 'scanupload' && !empty(self::$params['key']))
                 {
@@ -654,10 +668,20 @@ class UeditorService
             $attachment_host = GetUrlHost(SystemBaseService::AttachmentHost());
             // 源文件
             $source = is_array(self::$params[$field_name]) ? self::$params[$field_name] : [self::$params[$field_name]];
+            $limit_type = AttachmentUploadLimitService::LimitType($attachment_type);
             foreach($source as $url)
             {
                 if(GetUrlHost($url) != $attachment_host)
                 {
+                    $limit_check = AttachmentUploadLimitService::Check($limit_type, 0);
+                    if($limit_check['code'] != 0)
+                    {
+                        if(!empty($list))
+                        {
+                            return DataReturn('success', 0, $list);
+                        }
+                        return $limit_check;
+                    }
                     $up = new \base\Uploader($url, $temp_config, 'remote');
                     /**
                      * 得到上传文件所对应的各个参数,数组结构
@@ -675,11 +699,25 @@ class UeditorService
                     $data = $up->getFileInfo();
                     if(isset($data['state']) && $data['state'] == 'SUCCESS')
                     {
+                        $limit_check = AttachmentUploadLimitService::Check($limit_type, isset($data['size']) ? intval($data['size']) : 0);
+                        if($limit_check['code'] != 0)
+                        {
+                            if(!empty($data['path']))
+                            {
+                                \base\FileUtil::UnlinkFile($data['path']);
+                            }
+                            if(!empty($list))
+                            {
+                                return DataReturn('success', 0, $list);
+                            }
+                            return $limit_check;
+                        }
                         $data['type'] = $attachment_type;
                         $data['category_id'] = self::$category_id;
                         $ret = AttachmentService::AttachmentAdd($data);
                         if($ret['code'] == 0)
                         {
+                            AttachmentUploadLimitService::Record($limit_type, isset($data['size']) ? intval($data['size']) : 0);
                             $ret['data']['source'] = htmlspecialchars($url);
                             array_push($list, $ret['data']);
                         }
@@ -720,6 +758,11 @@ class UeditorService
         $list = [];
         if(!empty(self::$params['resources']))
         {
+            $limit_check = AttachmentUploadLimitService::Check('image', 0);
+            if($limit_check['code'] != 0)
+            {
+                return $limit_check;
+            }
             $up = new \base\Uploader(self::$params['resources'], $temp_config, self::$current_action);
             /**
              * 得到上传文件所对应的各个参数,数组结构
@@ -737,11 +780,21 @@ class UeditorService
             $data = $up->getFileInfo();
             if(isset($data['state']) && $data['state'] == 'SUCCESS')
             {
+                $limit_check = AttachmentUploadLimitService::Check('image', isset($data['size']) ? intval($data['size']) : 0);
+                if($limit_check['code'] != 0)
+                {
+                    if(!empty($data['path']))
+                    {
+                        \base\FileUtil::UnlinkFile($data['path']);
+                    }
+                    return $limit_check;
+                }
                 $data['type'] = 'image';
                 $data['category_id'] = self::$category_id;
                 $ret = AttachmentService::AttachmentAdd($data);
                 if($ret['code'] == 0)
                 {
+                    AttachmentUploadLimitService::Record('image', isset($data['size']) ? intval($data['size']) : 0);
                     array_push($list, $ret['data']);
                 }
             }

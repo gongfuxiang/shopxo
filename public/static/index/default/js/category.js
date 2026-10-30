@@ -1,16 +1,47 @@
 // 商品搜索
 var is_loading_first = 1;
-function CategoryGoodsSearchAjax(page = 1, page_size = null) {
-    // 选中的分类id（三级没有则选择二级，二级没有则选择一级）
-    var category_id = parseInt($('.zero-search-right .zero-right-title a.active').data('id') || 0);
-    if(category_id == 0)
+
+/**
+ * 当前分类+商品风格
+ */
+function CategoryGoodsStyle() {
+    return parseInt($('.zero-search').data('style') || 1);
+}
+
+/**
+ * 选中的分类id
+ */
+function CategoryGoodsActiveId() {
+    var style = CategoryGoodsStyle();
+    var category_id = 0;
+    if(style == 3 || style == 4)
     {
-        category_id = parseInt($('.zero-search-left .zero-left ul li.active').data('id') || 0);
+        // 三级块内选中 > 二级 > 一级
+        category_id = parseInt($('.zero-right-l3 .zero-l3-item.active').data('id') || 0);
         if(category_id == 0)
         {
-            category_id = parseInt($('.zero-search-top ul li.active').data('id') || 0);
+            category_id = parseInt($('.zero-right-l2 a.active').data('id') || 0);
+            if(category_id == 0)
+            {
+                category_id = parseInt($('.zero-level-one-nav li.active').data('id') || 0);
+            }
+        }
+    } else {
+        category_id = parseInt($('.zero-search-right .zero-right-title a.active').data('id') || 0);
+        if(category_id == 0)
+        {
+            category_id = parseInt($('.zero-search-left .zero-left ul li.active').data('id') || 0);
+            if(category_id == 0)
+            {
+                category_id = parseInt($('.zero-search-top ul li.active').data('id') || 0);
+            }
         }
     }
+    return category_id;
+}
+
+function CategoryGoodsSearchAjax(page = 1, page_size = null) {
+    var category_id = CategoryGoodsActiveId();
 
     // ajax
     $.ajax({
@@ -47,6 +78,56 @@ function CategoryGoodsSearchAjax(page = 1, page_size = null) {
         }
     });
 }
+
+/**
+ * 横滑容器回到最前
+ */
+function CategoryScrollNavToStart(selector) {
+    var $el = $(selector);
+    if($el.length > 0)
+    {
+        $el.scrollLeft(0);
+    }
+}
+
+/**
+ * 风格三/四：渲染三级（横向滚动，同二级）
+ */
+function CategoryStyle34RenderLevel3(json) {
+    var $box = $('.zero-right-l3');
+    var $inner = $box.find('.zero-right-l3-inner');
+    $inner.empty();
+    if(json == null || !json.length)
+    {
+        $box.addClass('am-hide');
+        return;
+    }
+    var all_name = $('.zero-search').data('all-name') || '全部';
+    var html = '<a href="javascript:;" class="zero-l3-item am-radius active" data-id="">' + all_name + '</a>';
+    json.forEach(function(item) {
+        html += '<a href="javascript:;" class="zero-l3-item am-radius" data-id="' + item.id + '">' + item.name + '</a>';
+    });
+    $inner.html(html);
+    $box.removeClass('am-hide');
+}
+
+/**
+ * 风格三/四：渲染二级
+ */
+function CategoryStyle34RenderLevel2(json) {
+    var all_name = $('.zero-search').data('all-name') || '全部';
+    var html = '<a class="am-radius active" data-id="">' + all_name + '</a>';
+    if(json != null && json.length > 0)
+    {
+        json.forEach(function(item) {
+            var child_json = encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(item.items || []))));
+            html += '<a class="am-radius" data-id="' + item.id + '" data-json="' + child_json + '">' + item.name + '</a>';
+        });
+    }
+    $('.zero-right-l2 .am-text-nowrap').html(html);
+    CategoryStyle34RenderLevel3(null);
+}
+
 $(function () {
     // 商品初始化
     if($('.zero-search').length > 0)
@@ -71,11 +152,12 @@ $(function () {
         }
     });
 
-    // 一级菜单点击
-    $(document).on('click', '.zero-title ul li', function () {
+    // 风格一/二：一级菜单点击
+    $(document).on('click', '.zero-search-style-1 .zero-title ul li, .zero-search-style-2 .zero-title ul li', function () {
         var data = $(this).data('json') || null;
         $('.zero-right-title a').remove();
         $('.zero-right-title').hide();
+        CategoryScrollNavToStart('.zero-right-title');
         $(this).addClass('active').siblings().removeClass('active');
         $('.zero-left ul li').eq(0).siblings().remove();
         var json = (data == null) ? null : JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(data)).toString(CryptoJS.enc.Utf8));
@@ -89,7 +171,9 @@ $(function () {
         }
         CategoryGoodsSearchAjax();
         $('.zero-left ul li').eq(0).addClass('active').siblings().removeClass('active');
-    })
+        CategoryScrollNavToStart('.zero-left');
+    });
+
     // 一级菜单鼠标移入移出效果
     $('.category-list-container .model-one li a').hover(function () {
         if($(this).find('.category-img-active').length > 0)
@@ -104,8 +188,9 @@ $(function () {
             $(this).find('.category-img-active').addClass('am-hide');
         }
     });
-    // 二级菜单点击
-    $(document).on('click', '.zero-left ul li', function () {
+
+    // 风格一/二：二级菜单点击
+    $(document).on('click', '.zero-search-style-1 .zero-left ul li, .zero-search-style-2 .zero-left ul li', function () {
         var data = $(this).data('json') || null;
         $('.zero-right-title a').remove();
         $('.zero-right-title').hide();
@@ -120,14 +205,47 @@ $(function () {
                 });
                 $('.zero-right-title .am-text-nowrap').empty().append(html);
                 $('.zero-right-title').show();
+                CategoryScrollNavToStart('.zero-right-title');
             }
         }
 
         $(this).addClass('active').siblings().removeClass('active');
         CategoryGoodsSearchAjax();
     });
-    // 三级菜单点击
-    $(document).on('click', '.zero-right-title a', function () {
+
+    // 风格一/二：三级菜单点击
+    $(document).on('click', '.zero-search-style-1 .zero-right-title a, .zero-search-style-2 .zero-right-title a', function () {
+        $(this).addClass('active').siblings().removeClass('active');
+        CategoryGoodsSearchAjax();
+    });
+
+    // 风格三/四：左侧一级
+    $(document).on('click', '.zero-level-one-nav li', function () {
+        var data = $(this).data('json') || null;
+        $(this).addClass('active').siblings().removeClass('active');
+        var json = (data == null || data === '') ? null : JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(data)).toString(CryptoJS.enc.Utf8));
+        CategoryStyle34RenderLevel2(json);
+        CategoryScrollNavToStart('.zero-right-l2');
+        CategoryScrollNavToStart('.zero-right-l3');
+        CategoryGoodsSearchAjax();
+    });
+
+    // 风格三/四：右侧顶部二级
+    $(document).on('click', '.zero-right-l2 a', function () {
+        $(this).addClass('active').siblings().removeClass('active');
+        var data = $(this).data('json') || null;
+        var json = null;
+        if(data != null && data !== '')
+        {
+            json = JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(data)).toString(CryptoJS.enc.Utf8));
+        }
+        CategoryStyle34RenderLevel3(json);
+        CategoryScrollNavToStart('.zero-right-l3');
+        CategoryGoodsSearchAjax();
+    });
+
+    // 风格三/四：三级块
+    $(document).on('click', '.zero-right-l3 .zero-l3-item', function () {
         $(this).addClass('active').siblings().removeClass('active');
         CategoryGoodsSearchAjax();
     });

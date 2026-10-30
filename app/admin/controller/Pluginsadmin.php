@@ -101,7 +101,7 @@ class Pluginsadmin extends Base
         // 名称校验
         if(!empty($params['plugins']))
         {
-            $ret = PluginsAdminService::PluginsVerification($params, $params['plugins']);
+            $ret = PluginsAdminService::PluginsVerification($params['plugins']);
             if($ret['code'] != 0)
             {
                 $assign['verification_msg'] = $ret['msg'];

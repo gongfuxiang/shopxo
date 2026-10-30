@@ -1,5 +1,5 @@
 body {
-    background: #fff;
+    background: var(--surface-color, #ffffff);
 }
 .mobile-iframe {
     width: 40rem;

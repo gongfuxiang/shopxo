@@ -97,6 +97,12 @@ class Diy
                     ],
                 ],
                 [
+                    'label'         => $lang['page_type'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'page_type_name',
+                    'width'         => 120,
+                ],
+                [
                     'label'         => $lang['describe'],
                     'view_type'     => 'field',
                     'view_key'      => 'describe',

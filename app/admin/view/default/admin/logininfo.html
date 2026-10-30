@@ -1,5 +1,32 @@
 {{:ModuleInclude('public/header')}}
 
+<!-- 登录页外观切换（与后台共用 theme_mode，避免跟随系统时无法改） -->
+<div class="admin-login-theme-mode am-dropdown am-dropdown-flip" data-am-dropdown="{trigger: 'hover'}" data-am-dropdown-toggle>
+    <a class="am-dropdown-toggle admin-login-theme-mode-toggle" href="javascript:;" data-am-popover="{content: '{{:MyLang('theme_mode_title')}}', trigger: 'hover focus', theme: 'sm'}">
+        <i id="admin-theme-mode-icon" class="iconfont icon-theme"></i>
+    </a>
+    <ul class="am-dropdown-content am-radius-lg">
+        <li data-admin-theme-mode="light">
+            <a href="javascript:;">
+                <i class="iconfont icon-light"></i>
+                <span class="am-margin-left-xs">{{:MyLang('theme_mode_light_title')}}</span>
+            </a>
+        </li>
+        <li data-admin-theme-mode="dark">
+            <a href="javascript:;">
+                <i class="iconfont icon-dark"></i>
+                <span class="am-margin-left-xs">{{:MyLang('theme_mode_dark_title')}}</span>
+            </a>
+        </li>
+        <li data-admin-theme-mode="system">
+            <a href="javascript:;">
+                <i class="iconfont icon-theme"></i>
+                <span class="am-margin-left-xs">{{:MyLang('theme_mode_system_title')}}</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
 <!-- content start -->
 <div class="account-pages">
 	<div class="wrapper-page {{if empty($admin_login_ad_images)}}not-login-ad-images{{/if}}">
@@ -132,8 +159,9 @@
 {{if MyC('common_img_verify_state') eq 1}}
     <!-- verify win start -->
     <div class="am-modal am-modal-no-btn" tabindex="-1" id="verify-win">
-        <div class="am-modal-dialog am-radius">
+        <div class="am-modal-dialog am-radius am-nbfc">
             <div class="am-modal-hd">
+                <span>{{:MyLang('verify_images_title')}}</span>
                 <a href="javascript:;" class="am-close" data-am-modal-close>&times;</a>
             </div>
             <div class="am-modal-bd">

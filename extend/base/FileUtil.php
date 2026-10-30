@@ -398,12 +398,12 @@ class FileUtil
                 $value = @file_get_contents($value);
             }
 
-            // 包含php代码
+            // 包含php代码（<?php、短标签 <? 和 <?=，<?xml 不拦）。真实图片二进制里的 <? 字节不算
             // 包含 script 脚本（含普通标签与 XML 命名空间形式如 <x:script>，防 ueditor catchfile 存 XSS）
             // 包含src引入文件
             // 包含href跳转地址
             // 包含iframe引入外部地址
-            if(preg_match('#<\?php#i', $value)
+            if((!self::IsImageBinary($value) && preg_match('#<\?(?!xml\b)#i', $value))
                 || preg_match('#<script\b#i', $value)
                 || preg_match('#<[a-z0-9_-]+:script\b#i', $value)
                 || preg_match('#src=#i', $value)
@@ -414,6 +414,36 @@ class FileUtil
             }
         }
         return DataReturn('success', 0);
+    }
+
+    /**
+     * 是否为真实图片二进制
+     * @author  Devil
+     * @version 1.0.0
+     * @date    2026-10-20
+     * @desc    webp、jpg、png、bmp 按文件头识别。gif 必须能被解析，避免只带 GIF89a 头的文本混过
+     * @param   [string]          $value [文件内容]
+     */
+    private static function IsImageBinary($value)
+    {
+        if(!is_string($value) || strlen($value) < 12)
+        {
+            return false;
+        }
+        if(strncmp($value, "\xFF\xD8\xFF", 3) === 0 || strncmp($value, "\x89PNG\r\n\x1a\n", 8) === 0 || strncmp($value, 'BM', 2) === 0)
+        {
+            return true;
+        }
+        if(strncmp($value, 'RIFF', 4) === 0 && substr($value, 8, 4) === 'WEBP')
+        {
+            return true;
+        }
+        if(strncmp($value, 'GIF8', 4) === 0)
+        {
+            $info = @getimagesizefromstring($value);
+            return !empty($info[2]) && $info[2] === IMAGETYPE_GIF;
+        }
+        return false;
     }
 
     /**

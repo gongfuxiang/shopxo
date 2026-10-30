@@ -310,7 +310,8 @@ class UserService
                 if(empty($user_cache_login_info))
                 {
                     $token = empty($params['token']) ? MyCookie(self::$user_token_key) : $params['token'];
-                    if(!empty($token))
+                    // token需要字符串格式
+                    if(is_string($token) && $token !== '')
                     {
                         $user_cache_login_info = self::CacheUserTokenData($token);
                         // 存在token用户信息则记录session
@@ -321,9 +322,11 @@ class UserService
                     }
                 }
             } else {
-                if(!empty($params['token']))
+                $token = empty($params['token']) ? '' : $params['token'];
+                // token需要字符串格式
+                if(is_string($token) && $token !== '')
                 {
-                    $user_cache_login_info = self::CacheUserTokenData($params['token']);
+                    $user_cache_login_info = self::CacheUserTokenData($token);
                 }
             }
         }
@@ -341,6 +344,10 @@ class UserService
      */
     public static function CacheUserTokenData($token)
     {
+        if(!is_string($token) || $token === '')
+        {
+            return '';
+        }
         return MyCache(SystemService::CacheKey('shopxo.cache_user_info').$token);
     }
 

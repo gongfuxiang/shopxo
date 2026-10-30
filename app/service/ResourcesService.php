@@ -1408,6 +1408,8 @@ class ResourcesService
         }
 
         // 是否插件
+        $plugins_common_css = '';
+        $plugins_common_js = '';
         $plugins_css = '';
         $plugins_js = '';
         $control = RequestController();
@@ -1442,21 +1444,40 @@ class ResourcesService
                 $page_js = file_exists(ROOT_PATH.'static'.DS.$pjs) ? $pjs : '';
             }
 
-            // 应用公共css
+            // 应用前后端共用css（plugins/{name}/css/common.css，不区分 admin/index）
+            $plugins_common_css = $control.DS.$plugins_name.DS.'css'.DS.'common.css';
+            $plugins_common_css = file_exists(ROOT_PATH.'static'.DS.$plugins_common_css) ? $plugins_common_css : '';
+            if(empty($plugins_common_css))
+            {
+                // 应用前后端共用css - 老版本目录
+                $plugins_common_css = $control.DS.'css'.DS.$plugins_name.DS.'common.css';
+                $plugins_common_css = file_exists(ROOT_PATH.'static'.DS.$plugins_common_css) ? $plugins_common_css : '';
+            }
+            // 应用前后端共用js（plugins/{name}/js/common.js，不区分 admin/index）
+            $plugins_common_js = $control.DS.$plugins_name.DS.'js'.DS.'common.js';
+            $plugins_common_js = file_exists(ROOT_PATH.'static'.DS.$plugins_common_js) ? $plugins_common_js : '';
+            if(empty($plugins_common_js))
+            {
+                // 应用前后端共用js - 老版本目录
+                $plugins_common_js = $control.DS.'js'.DS.$plugins_name.DS.'common.js';
+                $plugins_common_js = file_exists(ROOT_PATH.'static'.DS.$plugins_common_js) ? $plugins_common_js : '';
+            }
+
+            // 应用端公共css（plugins/{name}/css/{admin|index}/common.css）
             $plugins_css = $control.DS.$plugins_name.DS.'css'.DS.$group.DS.'common.css';
             $plugins_css = file_exists(ROOT_PATH.'static'.DS.$plugins_css) ? $plugins_css : '';
             if(empty($plugins_css))
             {
-                // 应用公共css - 老版本
+                // 应用端公共css - 老版本
                 $plugins_css = $control.DS.'css'.DS.$plugins_name.DS.$group.DS.'common.css';
                 $plugins_css = file_exists(ROOT_PATH.'static'.DS.$plugins_css) ? $plugins_css : '';
             }
-            // 应用公共js
+            // 应用端公共js（plugins/{name}/js/{admin|index}/common.js）
             $plugins_js = $control.DS.$plugins_name.DS.'js'.DS.$group.DS.'common.js';
             $plugins_js = file_exists(ROOT_PATH.'static'.DS.$plugins_js) ? $plugins_js : '';
             if(empty($plugins_js))
             {
-                // 应用公共js - 老版本
+                // 应用端公共js - 老版本
                 $plugins_js = $control.DS.'js'.DS.$plugins_name.DS.$group.DS.'common.js';
                 $plugins_js = file_exists(ROOT_PATH.'static'.DS.$plugins_js) ? $plugins_js : '';
             }
@@ -1464,23 +1485,26 @@ class ResourcesService
 
         return [
             // 公共
-            'common_css'        => $common_css,
-            'common_js'         => $common_js,
+            'common_css'         => $common_css,
+            'common_js'          => $common_js,
             // 主题指定
-            'theme_import_css'  => $theme_import_css,
-            'theme_import_js'   => $theme_import_js,
+            'theme_import_css'   => $theme_import_css,
+            'theme_import_js'    => $theme_import_js,
             // 主题专属
-            'other_css'         => $other_css,
-            'other_js'          => $other_js,
+            'other_css'          => $other_css,
+            'other_js'           => $other_js,
             // 公共模块
-            'module_css'        => $module_css,
-            'module_js'         => $module_js,
+            'module_css'         => $module_css,
+            'module_js'          => $module_js,
             // 当前页面
-            'page_css'          => $page_css,
-            'page_js'           => $page_js,
-            // 插件
-            'plugins_css'       => $plugins_css,
-            'plugins_js'        => $plugins_js,
+            'page_css'           => $page_css,
+            'page_js'            => $page_js,
+            // 插件前后端共用
+            'plugins_common_css' => $plugins_common_css,
+            'plugins_common_js'  => $plugins_common_js,
+            // 插件端公共（admin/index）
+            'plugins_css'        => $plugins_css,
+            'plugins_js'         => $plugins_js,
         ];
     }
 

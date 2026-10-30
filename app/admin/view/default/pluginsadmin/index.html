@@ -268,7 +268,7 @@
                                                     </a>
                                                 {{/if}}
                                                 {{if AdminIsPower('pluginsadmin', 'storeuploadinfo')}}
-                                                    <button class="am-btn am-btn-default am-btn-xs am-radius submit-popup" data-url="{{:MyUrl('admin/pluginsadmin/storeuploadinfo', ['id'=>$v['plugins']])}}">
+                                                    <button class="am-btn am-btn-default am-btn-xs am-radius submit-popup" data-url="{{:MyUrl('admin/pluginsadmin/storeuploadinfo', ['id'=>$v['plugins']])}}" data-title="{{:MyLang('upload_title')}}">
                                                         <i class="iconfont icon-upload"></i>
                                                         <span>{{:MyLang('upload_title')}}</span>
                                                     </button>

@@ -313,11 +313,12 @@
                                 {{if !empty($spec['images'])}}
                                     <li class="spec-images-items spec-images-items-{{$type.id}}{{$spec_key}}">
                                         <input type="text" name="spec_images_name[{{$type.id}}{{$spec_key}}]" placeholder="{{:MyLang('common_service.goods.form_spec_images_type_title')}}" class="am-radius am-text-center" data-validation-message="{{:MyLang('common_service.goods.form_spec_images_type_message')}}" value="{{$spec.name}}" data-is-clearout="0" required >
-                                        <ul class="plug-file-upload-view spec-images-view-{{$type.id}}{{$spec_key}}" data-form-name="spec_images[{{$type.id}}{{$spec_key}}]" data-max-number="1" data-dialog-type="images">
+                                        <ul class="plug-file-upload-view spec-images-view-{{$type.id}}{{$spec_key}}" data-form-name="spec_images[{{$type.id}}{{$spec_key}}]" data-max-number="1" data-dialog-type="images" data-is-eye="1">
                                             <li>
                                                 <input type="hidden" name="spec_images[{{$type.id}}{{$spec_key}}]" value="{{$spec.images}}" data-validation-message="{{:MyLang('common_service.goods.form_spec_images_images_message')}}" required />
                                                 <img src="{{$spec.images}}" />
                                                 <i class="iconfont icon-close"></i>
+                                                <i class="iconfont icon-eye"></i>
                                             </li>
                                         </ul>
                                         <div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-{{$type.id}}{{$spec_key}}">+ {{:MyLang('form_upload_images_title')}}</div>

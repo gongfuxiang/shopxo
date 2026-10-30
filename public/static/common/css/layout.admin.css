@@ -3,7 +3,7 @@
  */
 .renovation-tabs .am-active {
     border-bottom: 0.2rem solid transparent !important;
-    background: #fff;
+    background: var(--surface-color, #ffffff);
 }
 .renovation-tabs .am-tabs-bd {
     z-index: 1;
@@ -20,8 +20,8 @@
     border-color: transparent !important;
 }
 .renovation-tabs.am-sticky {
-    background: #fff;
-    border: 0.1rem solid #eee;
+    background: var(--surface-color, #ffffff);
+    border: 0.1rem solid var(--border-color, #eeeeee);
     border-top: 0;
     -webkit-box-shadow: 0 0.3rem 0.5rem rgb(0 0 0 / 5%);
     box-shadow: 0 0.3rem 0.5rem rgb(0 0 0 / 5%);
@@ -76,7 +76,8 @@
  * 布局容器-内容
  */
 .layout-view .drag-submit {
-    background: #e6e6e6;
+    background: var(--surface-elevated, #e6e6e6);
+    color: var(--text-color, #333);
     cursor: move !important;
     text-align: right;
     padding: 0.3rem;
@@ -85,6 +86,7 @@
     width: 100%;
     -webkit-box-shadow: 0 -0.5rem 1rem rgb(0 0 0 / 60%);
     box-shadow: 0 -0.5rem 1rem rgb(0 0 0 / 20%);
+    border-bottom: 0.1rem solid var(--border-color, transparent);
 }
 .layout-view .layout-submit {
     height: 2rem;
@@ -206,7 +208,7 @@
  * 颜色组件
  */
 .colorpicker-submit {
-    background-color: #fff;
+    background-color: var(--surface-color, #ffffff);
 }
 .colorpicker-submit img {
     width: 1.4rem;
@@ -218,8 +220,10 @@
  * 模块设置侧边栏
  */
 .module-offcanvas-container .am-offcanvas-bar {
-    background: #fff;
+    background: var(--surface-color, #ffffff);
     width: 38rem;
+    /* 用边框代替 :after 竖线，避免 overflow 滚动时右边线跟着内容跑 */
+    border-right: 0.1rem solid var(--border-color, #ccc);
 }
 .module-offcanvas-container .am-offcanvas-bar,
 .module-offcanvas-container .goods-search-container {
@@ -231,11 +235,11 @@
     transform: none;
 }
 .module-offcanvas-container .am-offcanvas-content {
-    color: #666;
+    color: var(--text-muted-color, #666);
     overflow: hidden;
 }
 .module-offcanvas-container .am-offcanvas-bar:after {
-    background: #ccc;
+    display: none;
 }
 .module-offcanvas-container .am-form-group-refreshing {
     padding: 0 0 1.5rem 0 !important;
@@ -261,8 +265,8 @@
     left: 0;
     width: 37.9rem;
     padding: 1rem;
-    border-top: 0.1rem solid #dfdfdf;
-    background: #f5f5f5;
+    border-top: 0.1rem solid var(--border-color, #dfdfdf);
+    background: var(--fill-color, #f5f5f5);
     z-index: 100;
 }
 .module-offcanvas-container .text-tips {
@@ -272,7 +276,7 @@
     margin-bottom: 2rem;
 }
 .module-offcanvas-container .am-tabs-d2 .am-tabs-bd {
-    border: 0.1rem solid #ddd;
+    border: 0.1rem solid var(--border-strong-color, #dddddd);
     overflow: inherit;
 }
 .module-offcanvas-container .am-panel .am-panel-bd .am-form-group:last-child {
@@ -313,7 +317,7 @@
     margin-right: 0.4rem;
 }
 .group-text-align-style {
-    border: 0.1rem solid #ddd;
+    border: 0.1rem solid var(--border-strong-color, #dddddd);
     padding: 0.5rem 0.8rem;
 }
 @media only screen and (max-width: 640px) {
@@ -354,7 +358,7 @@
 }
 #offcanvas-module-config-goods .config-goods-list li {
     float: left;
-    border: 0.1rem solid #eee;
+    border: 0.1rem solid var(--border-color, #eeeeee);
     position: relative;
 }
 #offcanvas-module-config-goods .config-goods-list li:hover {
@@ -430,7 +434,7 @@
 #modal-module-pages-select .am-tabs-bd {
     border-style: solid;
     border-width: 0 0 0.1rem 0;
-    border-color: #eee;
+    border-color: var(--border-color, #eeeeee);
 }
 #modal-module-pages-select .am-scrollable-vertical a {
     text-decoration: none;
@@ -497,7 +501,8 @@
 .layout-forth-selection-container .goods-list-container {
     height: calc(100% - 10rem);
     max-height: 100%;
-    border: 0.1rem solid #eee;
+    border: 0.1rem solid var(--border-color, #eeeeee);
+    background: var(--surface-color, #ffffff);
 }
 .layout-forth-selection-container .goods-list-container .am-gallery-bordered .am-gallery-title {
     margin-top: 0.5rem;
@@ -527,8 +532,8 @@
     margin-bottom: 0;
     height: 38rem;
     max-height: 100%;
-    background: #fff;
-    border: 0.1rem solid #dedede;
+    background: var(--surface-color, #ffffff);
+    border: 0.1rem solid var(--border-strong-color, #dedede);
 }
 .layout-category-choice .goods-category-choice-content ul li {
     border-width: 0.1rem 0;
@@ -538,20 +543,31 @@
 .layout-category-choice .goods-category-choice-content ul li:not(:nth-child(-n+7)):last-child {
     border-bottom: 0;
 }
-.layout-category-choice .goods-category-choice-content ul li a {
+.layout-category-choice .goods-category-choice-content ul li a,
+.system-goods-category-choice .goods-category-choice-content ul li a {
     text-decoration: none;
+    color: var(--text-color, #333);
 }
-.layout-category-choice .goods-category-choice-content ul li.active a {
-    background: var(--color-main);
-    color: #fff;
+/* 高于 common 里 html body .am-list-border > li > a 的 transparent !important */
+html body .layout-category-choice .goods-category-choice-content ul li:hover,
+html body .system-goods-category-choice .goods-category-choice-content ul li:hover,
+html body .layout-category-choice .goods-category-choice-content ul li a:hover,
+html body .system-goods-category-choice .goods-category-choice-content ul li a:hover {
+    background: var(--hover-bg-color, #f5f5f5) !important;
+    color: var(--color-main) !important;
+}
+html body .layout-category-choice .goods-category-choice-content ul li.active > a,
+html body .system-goods-category-choice .goods-category-choice-content ul li.active > a {
+    background: var(--color-main) !important;
+    color: #fff !important;
 }
 .layout-category-choice .goods-category-choice .already-select-tips {
     padding: 1rem 1.5rem;
-    border: 0.1rem solid #ed7f5a;
+    border: 0.1rem solid var(--tips-border-color, #ed7f5a);
     margin-top: 1rem;
     margin-bottom: 1rem;
-    background-color: #fff4f0;
-    color: #ed7f5a;
+    background-color: var(--tips-bg-color, #fff4f0);
+    color: var(--color-main, #ed7f5a);
 }
 .layout-category-choice .form-container-category .goods-category-choice-content {
     padding: 1rem;

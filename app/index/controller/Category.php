@@ -46,9 +46,17 @@ class Category extends Common
      */
     public function Index()
     {
+        $category_level = intval(MyC('common_show_goods_category_level_pc', MyC('common_show_goods_category_level', 0, true), true));
+        $category_style = intval(MyC('common_goods_category_goods_style_pc', 1, true));
+        if($category_style < 1 || $category_style > 4)
+        {
+            $category_style = 1;
+        }
         MyViewAssign([
-            // 分类展示层级模式
-            'category_level'        => MyC('common_show_goods_category_level', 0, true),
+            // 分类展示层级模式（PC）
+            'category_level'        => $category_level,
+            // 分类+商品风格（PC，仅 level=0）
+            'category_goods_style'  => $category_style,
             // 浏览器名称
             'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('category.base_nav_title'), 1),
         ]);
@@ -76,8 +84,16 @@ class Category extends Common
         $this->data_request['search_result_data'] = $ret['data'];
         SearchService::SearchAdd($this->data_request);
 
-        // 渲染html
-        $ret['data']['data'] = MyView('', ['data'=>$ret['data']['data']]);
+        // 渲染html（宽图风格二/四：md=2、lg=3）
+        $category_goods_style = intval(MyC('common_goods_category_goods_style_pc', 1, true));
+        if($category_goods_style < 1 || $category_goods_style > 4)
+        {
+            $category_goods_style = 1;
+        }
+        $ret['data']['data'] = MyView('', [
+            'data'                 => $ret['data']['data'],
+            'category_goods_style' => $category_goods_style,
+        ]);
 
         // 返回数据
         return ApiService::ApiDataReturn($ret);

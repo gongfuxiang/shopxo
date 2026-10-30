@@ -443,8 +443,48 @@ $(function () {
     // 商品分类层级
     $(document).on('click', '.level-type input', function () {
         var key = $(this).val();
-        $(".level-type-content .item[data-key='" + key + "']").addClass('am-active').siblings('.item').removeClass('am-active');
+        var $box = $(this).closest('.goods-category-level-box');
+        if($box.length == 0)
+        {
+            $box = $(this).closest('.am-form-group');
+        }
+        $box.find(".level-type-content .item[data-key='" + key + "']").addClass('am-active').siblings('.item').removeClass('am-active');
+        // 分类+商品时展示风格配置
+        var $style = $box.find('.goods-category-style-box');
+        if($style.length > 0)
+        {
+            if(parseInt(key) === 0)
+            {
+                $style.removeClass('am-hide');
+                // 同步当前风格预览图
+                var style_val = $style.find('.goods-category-style-type input:checked').val() || 1;
+                GoodsCategoryStylePreviewSync($box, style_val);
+            } else {
+                $style.addClass('am-hide');
+            }
+        }
     });
+
+    // 分类+商品风格切换：预览图联动
+    $(document).on('click', '.goods-category-style-type input', function () {
+        var $box = $(this).closest('.goods-category-level-box');
+        GoodsCategoryStylePreviewSync($box, $(this).val());
+    });
+
+    function GoodsCategoryStylePreviewSync($box, style_val)
+    {
+        if($box.length == 0)
+        {
+            return;
+        }
+        var $list = $box.find('.level-type-content .item[data-key="0"] .goods-category-style-preview-list');
+        if($list.length == 0)
+        {
+            return;
+        }
+        $list.find('.goods-category-style-preview').addClass('am-hide');
+        $list.find('.goods-category-style-preview[data-style="' + style_val + '"]').removeClass('am-hide');
+    }
 
 
     // 订单溯源-添加

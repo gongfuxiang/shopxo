@@ -503,6 +503,71 @@
                         <label>{{$data.home_max_limit_video.name}}<span class="am-form-group-label-tips">{{$data.home_max_limit_video.describe}}</span></label>
                         <input type="number" min="0" name="{{$data.home_max_limit_video.only_tag}}" placeholder="{{$data.home_max_limit_video.name}}" data-validation-message="{{$data.home_max_limit_video.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.home_max_limit_video.value}}"{{/if}} />
                     </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_attachment_upload_is_login.name}}<span class="am-form-group-label-tips">{{$data.common_attachment_upload_is_login.describe}}</span></label>
+                        <div class="am-radio-group">
+                            {{foreach $common_is_text_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.id}}" name="{{$data.common_attachment_upload_is_login.only_tag}}" data-validation-message="{{$data.common_attachment_upload_is_login.error_tips}}" required {{if isset($data['common_attachment_upload_is_login']['value']) and $data['common_attachment_upload_is_login']['value'] eq $v['id']}}checked{{elseif !isset($data['common_attachment_upload_is_login']['value']) and $v['id'] eq 0}}checked{{/if}} data-am-ucheck /> {{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_attachment_upload_limit_type.name}}<span class="am-form-group-label-tips">{{$data.common_attachment_upload_limit_type.describe}}</span></label>
+                        <div class="am-checkbox-group">
+                            <label class="am-checkbox-inline">
+                                <input type="checkbox" name="common_attachment_upload_limit_type" value="ip" {{if !empty($data['common_attachment_upload_limit_type']['value']) and is_array($data['common_attachment_upload_limit_type']['value']) and in_array('ip', $data['common_attachment_upload_limit_type']['value'])}}checked{{/if}} data-am-ucheck /> {{:MyLang('config.attachment_upload_limit_ip')}}
+                            </label>
+                            <label class="am-checkbox-inline">
+                                <input type="checkbox" name="common_attachment_upload_limit_type" value="uuid" {{if !empty($data['common_attachment_upload_limit_type']['value']) and is_array($data['common_attachment_upload_limit_type']['value']) and in_array('uuid', $data['common_attachment_upload_limit_type']['value'])}}checked{{/if}} data-am-ucheck /> {{:MyLang('config.attachment_upload_limit_uuid')}}
+                            </label>
+                            <label class="am-checkbox-inline">
+                                <input type="checkbox" name="common_attachment_upload_limit_type" value="client" {{if !empty($data['common_attachment_upload_limit_type']['value']) and is_array($data['common_attachment_upload_limit_type']['value']) and in_array('client', $data['common_attachment_upload_limit_type']['value'])}}checked{{/if}} data-am-ucheck /> {{:MyLang('config.attachment_upload_limit_client')}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-block">{{$data.common_attachment_upload_limit.name}}<span class="am-form-group-label-tips">{{$data.common_attachment_upload_limit.describe}}</span></label>
+                        {{foreach $attachment_upload_limit_type_list as $limit_type}}
+                            <div class="am-margin-bottom attachment-limit-list" data-type="{{$limit_type}}">
+                                <div class="am-margin-bottom-xs">
+                                    <strong>{{:MyLang('config.attachment_upload_limit_'.$limit_type)}}</strong>
+                                </div>
+                                <ul class="am-flex am-flex-col am-gap-1-half">
+                                    {{if !empty($data['common_attachment_upload_limit']['value'][$limit_type]) and is_array($data['common_attachment_upload_limit']['value'][$limit_type])}}
+                                        {{foreach $data['common_attachment_upload_limit']['value'][$limit_type] as $limit_index => $limit_row}}
+                                            <li class="am-flex am-flex-row am-flex-items-center am-gap-1">
+                                                <input type="number" min="0" name="common_attachment_upload_limit[{{$limit_type}}][{{$limit_index}}][time]" placeholder="{{:MyLang('config.attachment_upload_limit_time')}}" class="am-radius am-inline-block" {{if !empty($limit_row.time)}}value="{{$limit_row.time}}"{{/if}} />
+                                                <div class="am-inline-block item-attachment-limit-unit">
+                                                    <select name="common_attachment_upload_limit[{{$limit_type}}][{{$limit_index}}][unit]" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}">
+                                                        <option value="">{{:MyLang('please_select_tips')}}</option>
+                                                        <option value="minute" {{if isset($limit_row['unit']) and $limit_row['unit'] eq 'minute'}}selected{{/if}}>{{:MyLang('config.attachment_upload_limit_unit_minute')}}</option>
+                                                        <option value="hour" {{if isset($limit_row['unit']) and $limit_row['unit'] eq 'hour'}}selected{{/if}}>{{:MyLang('config.attachment_upload_limit_unit_hour')}}</option>
+                                                        <option value="day" {{if isset($limit_row['unit']) and $limit_row['unit'] eq 'day'}}selected{{/if}}>{{:MyLang('config.attachment_upload_limit_unit_day')}}</option>
+                                                    </select>
+                                                </div>
+                                                <input type="number" min="0" name="common_attachment_upload_limit[{{$limit_type}}][{{$limit_index}}][count]" placeholder="{{:MyLang('config.attachment_upload_limit_count')}}" class="am-radius am-inline-block" {{if !empty($limit_row.count)}}value="{{$limit_row.count}}"{{/if}} />
+                                                <input type="number" min="0" name="common_attachment_upload_limit[{{$limit_type}}][{{$limit_index}}][size]" placeholder="{{:MyLang('config.attachment_upload_limit_size')}}" class="am-radius am-inline-block" {{if !empty($limit_row.size)}}value="{{$limit_row.size}}"{{/if}} />
+                                                <div class="am-flex am-flex-items-center">
+                                                    <a href="javascript:;" class="am-btn am-btn-primary-plain am-radius delete-submit delete-btn">
+                                                        <i class="iconfont icon-btn-del am-text-xs"></i>
+                                                        {{:MyLang('remove_title')}}
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </ul>
+                                <div class="am-margin-top-sm">
+                                    <button type="button" class="am-btn am-btn-primary-light am-radius am-btn-xs attachment-limit-add" data-type="{{$limit_type}}" data-please-select-tips="{{:MyLang('please_select_tips')}}" data-time-placeholder="{{:MyLang('config.attachment_upload_limit_time')}}" data-count-placeholder="{{:MyLang('config.attachment_upload_limit_count')}}" data-size-placeholder="{{:MyLang('config.attachment_upload_limit_size')}}" data-unit-minute="{{:MyLang('config.attachment_upload_limit_unit_minute')}}" data-unit-hour="{{:MyLang('config.attachment_upload_limit_unit_hour')}}" data-unit-day="{{:MyLang('config.attachment_upload_limit_unit_day')}}" data-remove-title="{{:MyLang('remove_title')}}">
+                                        <i class="iconfont icon-add am-text-xs"></i>
+                                        {{:MyLang('config.attachment_upload_limit_add')}}
+                                    </button>
+                                </div>
+                            </div>
+                        {{/foreach}}
+                    </div>
                 </div>
 
                 <!-- 安全 -->

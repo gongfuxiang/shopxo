@@ -495,7 +495,7 @@ class OrderAftersaleService
 
                 // 订单商品
                 $order = self::OrdferGoodsRow($v['order_id'], $v['order_detail_id'], $v['user_id']);
-                $v['order_data'] = $order['data'];
+                $v['order_data'] = (!empty($order['data']) && is_array($order['data'])) ? $order['data'] : null;
 
                 // 用户信息
                 $v['user'] = (isset($params['is_public']) && $params['is_public'] == 0) ? UserService::GetUserViewInfo($v['user_id']) : '';
@@ -520,13 +520,18 @@ class OrderAftersaleService
                 if(!empty($v['images']))
                 {
                     $images = is_array($v['images']) ? $v['images'] : json_decode($v['images'], true);
-                    foreach($images as $ik=>$iv)
+                    if(is_array($images))
                     {
-                        $images[$ik] = ResourcesService::AttachmentPathViewHandle($iv);
+                        foreach($images as $ik=>$iv)
+                        {
+                            $images[$ik] = ResourcesService::AttachmentPathViewHandle($iv);
+                        }
+                        $v['images'] = $images;
+                    } else {
+                        $v['images'] = [];
                     }
-                    $v['images'] = $images;
                 } else {
-                    $v['images'] = '';
+                    $v['images'] = [];
                 }
 
                 // 订单日志

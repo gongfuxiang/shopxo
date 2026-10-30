@@ -1,0 +1,15 @@
+<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/ticket_print.css?v={{$static_cache_version}}" />
+{{if !empty($module_data['list_mode'])}}
+    <div class="ticket-print-list-box" data-form-name="{{if empty($module_data['form_name'])}}ticket_print_template{{else /}}{{$module_data.form_name}}{{/if}}">
+        <textarea class="am-hide ticket-print-list-input" name="{{if empty($module_data['form_name'])}}ticket_print_template{{else /}}{{$module_data.form_name}}{{/if}}">{{if !empty($module_data['config'])}}{{if is_array($module_data['config'])}}{{:json_encode($module_data.config, JSON_UNESCAPED_UNICODE)}}{{else /}}{{$module_data.config}}{{/if}}{{/if}}</textarea>
+        <ul class="am-list ticket-print-template-list"></ul>
+        <div class="am-margin-top-xs">
+            <span class="business-operations-submit ticket-print-template-add">{{:MyLang('ticket_print.add_template')}}</span>
+        </div>
+    </div>
+{{else /}}
+    <div class="ticket-print-designer-box">
+        <textarea class="am-hide" name="{{if empty($module_data['form_name'])}}ticket_print_template{{else /}}{{$module_data.form_name}}{{/if}}">{{if !empty($module_data['config'])}}{{if is_array($module_data['config'])}}{{:json_encode($module_data.config, JSON_UNESCAPED_UNICODE)}}{{else /}}{{$module_data.config}}{{/if}}{{/if}}</textarea>
+        {{:ModuleInclude('../../../module/view/ticket_print/form_ticket_print_designer', $module_data)}}
+    </div>
+{{/if}}

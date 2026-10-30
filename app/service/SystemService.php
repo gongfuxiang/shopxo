@@ -97,11 +97,13 @@ class SystemService
         MyCookie('uuid', $uuid, false);
 
         // token
-        if(!empty($params['token']))
+        $token = empty($params['token']) ? '' : $params['token'];
+        // token需要字符串格式
+        if(is_string($token) && $token !== '')
         {
             $key = UserService::$user_token_key;
-            MySession($key, $params['token']);
-            MyCookie($key, $params['token'], false);
+            MySession($key, $token);
+            MyCookie($key, $token, false);
         }
 
         // 邀请人id

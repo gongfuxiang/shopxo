@@ -8264,6 +8264,8 @@ UE.Editor.defaultOptions = function(editor){
 
                 configUrl && UE.ajax.request(configUrl,{
                     'method': 'GET',
+                    // 商品编辑等重页面并发时接口可能被 session 排队，默认 5s 容易超时导致上传组件不可用
+                    'timeout': 30000,
                     'dataType': isJsonp ? 'jsonp':'',
                     'onsuccess':function(r){
                         try {

@@ -1,0 +1,27 @@
+{{if !empty($module_data['list_mode'])}}
+    <div class="am-popup am-popup-offcanvas-right am-popup-full am-popup-full-max" id="ticket-print-template-popup" data-am-modal="{closeViaDimmer: false}">
+        <div class="am-popup-inner">
+            <div class="am-popup-hd">
+                <h4 class="am-popup-title">{{:MyLang('ticket_print.popup_title')}}</h4>
+                <span data-am-modal-close class="am-close">&times;</span>
+            </div>
+            <div class="am-popup-bd">
+                <div class="am-form-popup-container am-padding">
+                    <form class="am-form form-validation am-form-popup-fixed" action="javascript:;" method="POST" onsubmit="return false;">
+                        {{:ModuleInclude('../../../module/view/ticket_print/form_ticket_print_designer', $module_data)}}
+                        <div class="am-form-popup-submit am-text-left">
+                            <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs" data-am-modal-close>
+                                <i class="am-icon-paint-brush"></i>
+                                <span>{{:MyLang('cancel_title')}}</span>
+                            </button>
+                            <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs ticket-print-template-confirm">
+                                <i class="am-icon-check"></i>
+                                <span>{{:MyLang('confirm_title')}}</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/if}}

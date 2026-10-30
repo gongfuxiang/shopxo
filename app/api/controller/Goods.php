@@ -21,6 +21,7 @@ use app\service\ResourcesService;
 use app\service\GoodsFavorService;
 use app\service\GoodsBrowseService;
 use app\service\GoodsCartService;
+use app\service\DiyService;
 
 /**
  * 商品
@@ -100,20 +101,17 @@ class Goods extends Common
                     $goods['user_is_favor'] = (!empty($favor) && in_array($goods_id, $favor)) ? 1 : 0;
                 }
 
-                // 展示商品评分
-                if(MyC('common_is_goods_detail_show_comments', 0) == 1)
-                {
-                    $comments = MyCacheRemember('cache_api_goods_detail_comments_'.$goods_id, function() use ($goods_id) {
-                        return [
-                            'comments_count' => GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods_id, 'is_show'=>1]),
-                            'comments_score' => GoodsCommentsService::GoodsCommentsScore($goods_id),
-                            'comments_data'  => GoodsCommentsService::GoodsFirstSeveralComments($goods_id),
-                        ];
-                    });
-                    $goods['comments_count'] = $comments['comments_count'];
-                    $goods['comments_score'] = $comments['comments_score'];
-                    $goods['comments_data'] = $comments['comments_data'];
-                }
+                // 商品评价。系统默认页仍按开关决定是否展示，DIY 评价组件直接用这份数据
+                $comments = MyCacheRemember('cache_api_goods_detail_comments_'.$goods_id, function() use ($goods_id) {
+                    return [
+                        'comments_count' => GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods_id, 'is_show'=>1]),
+                        'comments_score' => GoodsCommentsService::GoodsCommentsScore($goods_id),
+                        'comments_data'  => GoodsCommentsService::GoodsFirstSeveralComments($goods_id),
+                    ];
+                });
+                $goods['comments_count'] = $comments['comments_count'];
+                $goods['comments_score'] = $comments['comments_score'];
+                $goods['comments_data'] = $comments['comments_data'];
 
                 // 商品访问统计
                 GoodsService::GoodsAccessCountInc(['goods_id'=>$goods_id]);
@@ -151,6 +149,7 @@ class Goods extends Common
                 });
 
                 // 数据返回
+                $diy_data = DiyService::AppClientPageDiyData('common_app_goods_detail_data_diy_mode', ['goods_id'=>$goods_id]);
                 $result = [
                     'goods'            => $goods,
                     'cart_total'       => GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]),
@@ -159,6 +158,8 @@ class Goods extends Common
                     'middle_tabs_nav'  => $middle_tabs_nav['nav'],
                     'nav_more_list'    => $nav_more_list,
                     'guess_you_like'   => $guess_you_like,
+                    'data_mode'        => empty($diy_data) ? 0 : 3,
+                    'diy_data'         => empty($diy_data) ? null : $diy_data,
                 ];
                 $ret = SystemBaseService::DataReturn($result);
             }

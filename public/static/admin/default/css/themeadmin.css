@@ -36,7 +36,7 @@
     position: relative;
 }
 #form-theme-tips .am-badge {
-    background-color: #f8f8f8;
-    color: #999;
+    background-color: var(--fill-color-light, #f8f8f8);
+    color: var(--text-weak-color, #999);
     border-radius: var(--border-radius-sm);
 }

@@ -1,0 +1,475 @@
+/* 设计页：铺满内容区（后台 / 多商户弹层页共用，保证左右面板可滚动） */
+.ticket-print-saveinfo-content,
+.content-right > .content.ticket-print-saveinfo-content {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 2rem);
+    max-height: calc(100vh - 2rem);
+    margin: 1rem;
+    padding: 1rem;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.ticket-print-designer-page {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+    box-sizing: border-box;
+}
+.ticket-print-designer-page > .ticket-print-designer-toolbar {
+    flex-shrink: 0;
+}
+.ticket-print-designer-page > .ticket-print-designer-box,
+.ticket-print-designer-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+.ticket-print-designer {
+    display: flex;
+    gap: 1.2rem;
+    align-items: stretch;
+    flex: 1;
+    min-height: 0;
+}
+.ticket-print-designer .ticket-print-palette,
+.ticket-print-designer .ticket-print-setting {
+    width: 21rem;
+    flex-shrink: 0;
+    background: var(--fill-color, #f5f5f5);
+    border-radius: 0.6rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.ticket-print-designer .ticket-print-setting {
+    padding: 1rem;
+}
+.ticket-print-designer .ticket-print-palette {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+}
+.ticket-print-designer .ticket-print-palette-search {
+    flex-shrink: 0;
+    padding: 1rem 1rem 0.8rem;
+}
+.ticket-print-designer .ticket-print-palette-search-input {
+    width: 100%;
+}
+.ticket-print-designer .ticket-print-palette-list {
+    flex: 1;
+    min-height: 0;
+    padding: 0 1rem 1rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.ticket-print-designer .ticket-print-palette .is-search-hidden {
+    display: none !important;
+}
+.ticket-print-designer .ticket-print-palette-search-empty {
+    text-align: center;
+    color: var(--text-weak-color, #999999);
+    font-size: 1.2rem;
+    padding: 1.5rem 0.5rem;
+}
+.ticket-print-designer .ticket-print-canvas-wrap {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.ticket-print-designer .ticket-print-toolbar {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-shrink: 0;
+}
+.ticket-print-designer .ticket-print-toolbar .ticket-print-reset-dropdown {
+    display: inline-block;
+}
+.ticket-print-designer .ticket-print-toolbar .ticket-print-reset-dropdown .am-dropdown-content {
+    min-width: 12rem;
+}
+.ticket-print-designer .ticket-print-width-group .ticket-print-width-btn.am-btn-primary {
+    color: var(--surface-color, #ffffff);
+}
+.ticket-print-designer .ticket-print-palette .group-title {
+    font-weight: 600;
+    margin: 0.8rem 0 0.6rem;
+    font-size: 1.3rem;
+}
+.ticket-print-designer .ticket-print-palette-list > .group-title:first-child {
+    margin-top: 0;
+}
+.ticket-print-designer .ticket-print-palette .item {
+    position: relative;
+    display: block;
+    text-align: center;
+    padding: 0.6rem 0.4rem;
+    margin-bottom: 0.6rem;
+    background: var(--surface-color, #ffffff);
+    border: 0.1rem dashed var(--border-strong-color, #dddddd);
+    border-radius: var(--border-radius, 0.4rem);
+    cursor: grab;
+    font-size: 1.2rem;
+    color: var(--text-muted-color, #666666);
+    user-select: none;
+}
+.ticket-print-designer .ticket-print-palette .item:hover {
+    border-color: var(--color-main);
+    color: var(--color-main);
+}
+.ticket-print-designer .ticket-print-palette .item.is-shake {
+    animation: ticket-print-palette-shake 0.55s ease;
+}
+@keyframes ticket-print-palette-shake {
+    0%, 100% { transform: translateX(0); }
+    15% { transform: translateX(-0.4rem); }
+    30% { transform: translateX(0.4rem); }
+    45% { transform: translateX(-0.3rem); }
+    60% { transform: translateX(0.3rem); }
+    75% { transform: translateX(-0.15rem); }
+    90% { transform: translateX(0.15rem); }
+}
+.ticket-print-ticket {
+    --ticket-print-hover-bg: var(--color-main-light);
+    background: var(--surface-color, #ffffff);
+    border: 0.1rem solid var(--border-color, #eeeeee);
+    box-shadow: var(--box-shadow-sm);
+    padding: 1rem 0.8rem;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 1.2rem;
+    line-height: 1.45;
+    min-height: 42rem;
+    height: auto;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    width: 28rem;
+}
+.ticket-print-ticket.is-80 {
+    width: 38rem;
+}
+.ticket-print-ticket .el {
+    position: relative;
+    padding: 0.3rem 0.6rem;
+    border: 0.1rem solid transparent;
+    cursor: grab;
+    word-break: break-all;
+    white-space: pre-wrap;
+    box-sizing: border-box;
+    user-select: none;
+    overflow: hidden;
+}
+.ticket-print-ticket .el.is-dragging {
+    height: 0 !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+.ticket-print-ticket .ticket-print-drop-hint {
+    box-sizing: border-box;
+    margin: 0;
+    border: 0.1rem dashed var(--color-main);
+    background: var(--color-main-light);
+    border-radius: var(--border-radius-sm, 0.2rem);
+    pointer-events: none;
+}
+.ticket-print-ticket .el:hover,
+.ticket-print-ticket .el.is-active {
+    border-color: var(--color-main);
+    background: var(--ticket-print-hover-bg);
+}
+.ticket-print-ticket .el.is-center {
+    text-align: center;
+}
+.ticket-print-ticket .el.is-right {
+    text-align: right;
+}
+.ticket-print-ticket .el.is-b {
+    font-size: 2.4rem;
+    line-height: 1.2;
+}
+.ticket-print-ticket .el.is-bold {
+    font-weight: 700;
+}
+.ticket-print-ticket .el.is-tall {
+    font-size: 1.8rem;
+    line-height: 1.2;
+}
+.ticket-print-ticket .el.is-b.is-tall {
+    font-size: 3.2rem;
+}
+.ticket-print-ticket .el.is-wide {
+    letter-spacing: 0.12em;
+}
+.ticket-print-designer .ticket-print-palette .item.is-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+.ticket-print-designer .ticket-print-palette .ticket-print-use-count {
+    position: absolute;
+    top: -0.6rem;
+    right: 0;
+    z-index: 1;
+    min-width: 1.6rem;
+    height: 1.6rem;
+    padding: 0 0.4rem;
+    line-height: 1.6rem;
+    text-align: center;
+    font-size: 1.1rem;
+    font-style: normal;
+    color: var(--surface-color, #ffffff);
+    background: var(--text-weak-color, #999999);
+    border-radius: var(--border-radius-lg, 0.8rem);
+    box-sizing: border-box;
+}
+.ticket-print-ticket .el-line {
+    height: 2.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.6rem;
+}
+.ticket-print-ticket .el-line .ticket-print-line {
+    display: block;
+    width: 100%;
+    height: 0;
+    border-top: 0.1rem dashed var(--text-weak-color, #999999);
+}
+.ticket-print-ticket .el-blank {
+    min-height: 2.4rem;
+    height: 2.4rem;
+    box-sizing: border-box;
+}
+.ticket-print-ticket .el-cut {
+    min-height: 2.4rem;
+    height: auto;
+    padding: 0.3rem 0.6rem;
+    box-sizing: border-box;
+    text-align: center;
+    color: var(--text-weak-color, #999999);
+    font-size: 1.2rem;
+    line-height: 1.45;
+}
+.ticket-print-ticket .el-qr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0;
+    min-height: 9.2rem;
+}
+.ticket-print-ticket .el-barcode {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0.8rem 0;
+    text-align: center;
+}
+.ticket-print-barcode-box {
+    display: block;
+    width: 14rem;
+    height: 3.6rem;
+    background: repeating-linear-gradient(
+        90deg,
+        var(--text-color, #333333) 0,
+        var(--text-color, #333333) 0.2rem,
+        var(--surface-color, #ffffff) 0.2rem,
+        var(--surface-color, #ffffff) 0.35rem,
+        var(--text-color, #333333) 0.35rem,
+        var(--text-color, #333333) 0.45rem,
+        var(--surface-color, #ffffff) 0.45rem,
+        var(--surface-color, #ffffff) 0.7rem
+    );
+    border: 0.1rem solid var(--text-color, #333333);
+}
+.ticket-print-barcode-text {
+    margin-top: 0.4rem;
+    font-size: 1.1rem;
+    color: var(--text-muted-color, #666666);
+}
+.ticket-print-qr-box {
+    position: relative;
+    display: inline-block;
+    width: 7.2rem;
+    height: 7.2rem;
+    background: repeating-conic-gradient(var(--text-color, #333333) 0 25%, var(--surface-color, #ffffff) 0 50%) 0 0 / 0.8rem 0.8rem;
+    border: 0.1rem solid var(--text-color, #333333);
+}
+.ticket-print-qr-box i {
+    position: absolute;
+    width: 1.8rem;
+    height: 1.8rem;
+    box-sizing: border-box;
+    border: 0.3rem solid var(--text-color, #333333);
+    background: var(--surface-color, #ffffff);
+}
+.ticket-print-qr-box i:nth-child(1) { top: 0.3rem; left: 0.3rem; }
+.ticket-print-qr-box i:nth-child(2) { top: 0.3rem; right: 0.3rem; }
+.ticket-print-qr-box i:nth-child(3) { bottom: 0.3rem; left: 0.3rem; }
+.ticket-print-ticket .el-remove {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 2;
+    display: none;
+    width: 2.2rem;
+    height: 2.2rem;
+    padding: 0;
+    line-height: 2.2rem;
+    text-align: center;
+    color: var(--color-red);
+    font-size: 1.6rem;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+.ticket-print-ticket .el:hover .el-remove,
+.ticket-print-ticket .el.is-active .el-remove {
+    display: block;
+}
+.ticket-print-setting .empty-tips {
+    color: var(--text-weak-color, #999999);
+    font-size: 1.2rem;
+    padding: 2rem 0;
+    text-align: center;
+}
+.ticket-print-setting .ticket-print-format-box {
+    margin: 0 0 1.2rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 0.1rem solid var(--border-color, #eeeeee);
+}
+.ticket-print-setting .ticket-print-format-title {
+    margin-bottom: 0.6rem;
+    font-size: 1.2rem;
+    color: var(--text-muted-color, #666666);
+}
+.ticket-print-setting .ticket-print-format-tabs {
+    display: flex;
+    margin: 0;
+    padding: 0.2rem;
+    list-style: none;
+    background: var(--surface-color, #ffffff);
+    border: 0.1rem solid var(--border-color, #eeeeee);
+    border-radius: var(--border-radius, 0.4rem);
+    box-sizing: border-box;
+}
+.ticket-print-setting .ticket-print-format-tabs .item {
+    flex: 1;
+    margin: 0;
+    padding: 0.5rem 0.2rem;
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--text-muted-color, #666666);
+    cursor: pointer;
+    border-radius: var(--border-radius-sm, 0.2rem);
+    user-select: none;
+}
+.ticket-print-setting .ticket-print-format-tabs .item:hover {
+    color: var(--color-main);
+}
+.ticket-print-setting .ticket-print-format-tabs .item.am-active {
+    color: #fff;
+    background: var(--color-main);
+}
+.ticket-print-setting .am-form-group {
+    margin-bottom: 1rem;
+}
+form.am-form .ticket-print-setting .am-form-group:has(+ .ticket-print-delete) {
+    padding-bottom: 0;
+    margin-bottom: 1rem;
+}
+form.am-form .ticket-print-setting .am-form-group:has(+ .ticket-print-delete) > .am-checkbox {
+    margin-bottom: 0;
+}
+.ticket-print-setting .ticket-print-delete {
+    display: block;
+    margin-top: 0.6rem;
+}
+.ticket-print-setting label {
+    font-size: 1.2rem;
+}
+.ticket-print-setting .ticket-print-radio-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.8rem;
+    margin-top: 0.4rem;
+}
+.ticket-print-setting .ticket-print-check-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.8rem;
+    margin-top: 0.4rem;
+}
+.ticket-print-setting .ticket-print-radio-list .am-radio-inline,
+.ticket-print-setting .ticket-print-check-list .am-checkbox-inline {
+    margin: 0;
+}
+.ticket-print-template-list.am-list > li {
+    max-width: 60rem;
+    margin-bottom: 0;
+    background: var(--surface-color, #ffffff);
+    border: 0.1rem solid var(--border-color, #f5f5f5) !important;
+    border-top: 0 !important;
+    border-radius: 0 !important;
+}
+.ticket-print-template-list.am-list > li:first-child {
+    border-top: 0.1rem solid var(--border-color, #f5f5f5) !important;
+    border-top-left-radius: var(--border-radius, 0.4rem) !important;
+    border-top-right-radius: var(--border-radius, 0.4rem) !important;
+}
+.ticket-print-template-list.am-list > li:last-child {
+    border-bottom-left-radius: var(--border-radius, 0.4rem) !important;
+    border-bottom-right-radius: var(--border-radius, 0.4rem) !important;
+}
+.ticket-print-template-list .ticket-print-list-empty {
+    text-align: center;
+    color: var(--text-weak-color, #999999);
+}
+.ticket-print-template-list .ticket-print-template-name-input {
+    flex: 1;
+    min-width: 0;
+    max-width: none;
+}
+#ticket-print-template-popup .am-popup-inner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+#ticket-print-template-popup .am-popup-bd {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0;
+}
+#ticket-print-template-popup .am-form-popup-container {
+    height: 100%;
+    overflow: hidden;
+}
+#ticket-print-template-popup form.am-form-popup-fixed {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+#ticket-print-template-popup .ticket-print-designer {
+    flex: 1;
+    min-height: 0;
+}

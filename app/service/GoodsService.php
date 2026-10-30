@@ -597,6 +597,12 @@ class GoodsService
                     $v['video'] = ResourcesService::AttachmentPathViewHandle($v['video']);
                 }
 
+                // 视频封面
+                if(isset($v['video_cover']))
+                {
+                    $v['video_cover'] = ResourcesService::AttachmentPathViewHandle($v['video_cover']);
+                }
+
                 // 分享图片
                 if(isset($v['share_images']))
                 {
@@ -1612,8 +1618,9 @@ class GoodsService
         }
 
         // 其它附件
-        $attachment = ResourcesService::AttachmentParams($params, ['images', 'video', 'share_images'], [
+        $attachment = ResourcesService::AttachmentParams($params, ['images', 'video', 'video_cover', 'share_images'], [
             'images'       => 'cover',
+            'video_cover'  => 'cover',
             'share_images' => 'cover',
         ]);
         if($attachment['code'] != 0)
@@ -1655,6 +1662,7 @@ class GoodsService
             'images'                  => $images,
             'brand_id'                => isset($params['brand_id']) ? intval($params['brand_id']) : 0,
             'video'                   => $attachment['data']['video'],
+            'video_cover'             => $attachment['data']['video_cover'],
             'seo_title'               => empty($params['seo_title']) ? '' : $params['seo_title'],
             'seo_keywords'            => empty($params['seo_keywords']) ? '' : $params['seo_keywords'],
             'seo_desc'                => empty($params['seo_desc']) ? '' : $params['seo_desc'],
@@ -2487,6 +2495,12 @@ class GoodsService
             if(!empty($goods_video))
             {
                 $del_attachment_data = array_unique(array_merge($del_attachment_data, $goods_video));
+            }
+            // 商品视频封面
+            $goods_video_cover = Db::name('Goods')->where([['id', 'in', $goods_ids], ['video_cover', '<>', '']])->column('video_cover');
+            if(!empty($goods_video_cover))
+            {
+                $del_attachment_data = array_unique(array_merge($del_attachment_data, $goods_video_cover));
             }
             // 商品分享图
             $goods_share_images = Db::name('Goods')->where([['id', 'in', $goods_ids], ['share_images', '<>', '']])->column('share_images');
