@@ -190,7 +190,7 @@
     width: 100%;
     max-width: 13rem;
 }
-/* åå0çº§åç±» */
+/* 商品0级分类 */
 .zero-item {
     display: inline-block;
     text-align: center;
@@ -418,7 +418,7 @@
     }
 }
 
-/* ??+?? ???/?????? */
+/* 风格二/四：商品卡改为上图下文，图片通栏，标题和价格在下方 */
 .category-goods-style-2-container .module-goods-list-base .item,
 .category-goods-style-4-container .module-goods-list-base .item {
     flex-flow: column nowrap;

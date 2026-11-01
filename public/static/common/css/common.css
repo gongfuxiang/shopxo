@@ -1,21 +1,21 @@
 /**
- * ???????????
+ * 公共样式（前后台共用）
  *
- * ?????/??/??? CSS ????? header :root??? admin-dark ????
- *       ?? AmazeUI ????????????? html body ????? A ????
+ * 原则：表面/字色/边框走 CSS 变量（浅色 header :root，深色 admin-dark 赋值）；
+ *       不改 AmazeUI 库文件，需要压过硬编码时用 html body 提权（文末 A 层块）。
  *
- * ???????????????????????
- *   1. ?? / ??? / ?? / ?? / ?? / ?? / ???
- *   2. ?????Chosen?Tagsinput?????
- *   3. ??? Prompt??? Popup/Modal?Offcanvas
- *   4. ??????plug-file-upload???????
- *   5. ?? / Alert / Tabs / Switch
- *   6. ???? form-table???????????????
- *   7. ??? #tree???????? sticky ???
- *   8. ????????????????
- *   9. ??? / ??????????
- *  10. ???????quick-time / echarts-where???????????
- *  11. AmazeUI ?? token ???html body ? !important?
+ * 分区导读（按出现顺序，同类业务尽量挨在一起）：
+ *   1. 基础 / 常用类 / 颜色 / 字号 / 边框 / 圆角 / 分割线
+ *   2. 表单控件、Chosen、Tagsinput、校验提示
+ *   3. 提示条 Prompt、弹窗 Popup/Modal、Offcanvas
+ *   4. 地图、上传（plug-file-upload）、颜色选择器
+ *   5. 面板 / Alert / Tabs / Switch
+ *   6. 数据表格 form-table（列表壳、滚动、操作列、搜索）
+ *   7. 分类树 #tree、平台列表、底部 sticky 提交条
+ *   8. 滚动条、列表操作按钮、级联选择器
+ *   9. 规格表 / 规格快捷（商品编辑）
+ *  10. 首页统计筛选（quick-time / echarts-where，后台与多商户等复用）
+ *  11. AmazeUI 表面 token 兜底（html body … !important）
  */
 * { outline:none !important; }
 
@@ -62,7 +62,7 @@ pre {
 }
 
 /**
- * ???
+ * 常用类
  */
 .am-wh-fit-content {
     width: fit-content;
@@ -89,7 +89,7 @@ pre {
 }
 
 /**
- * ????
+ * 常用颜色
  */
 .am-color-333,
 .am-color-black {
@@ -157,7 +157,7 @@ pre {
 }
 
 /**
- * ??????
+ * 公共背景颜色
  */
 .am-background-main {
     background: var(--color-main) !important;
@@ -205,10 +205,10 @@ pre {
 }
 
 /**
- * ????? 
+ * 公共外边距 
  */
 /**
- * ?? ??? 
+ * 布局 外边距 
  */
 .am-margin-auto {
     margin: 0 auto;
@@ -244,7 +244,7 @@ pre {
     margin-bottom: 2rem;
 }
 
-/* ????margin?? */
+/* 取消多余margin间距 */
 @media only screen and (min-width:1025px) {
     .am-margin-lr-clear {
         width: calc(100% + 1.2rem);
@@ -255,7 +255,7 @@ pre {
 }
 
 /**
- * ????? 
+ * 模块外边距 
  */
 .am-margin-top-module {
     margin-top: 1.2rem;
@@ -288,7 +288,7 @@ pre {
 }
 
 /**
-* ????? ??
+* 模块外边距 一半
 */
 .am-margin-top-module-half {
     margin-top: 0.6rem;
@@ -321,10 +321,10 @@ pre {
 }
 
 /**
- * ?????
+ * 公共内边距
  */
 /**
- * ?????
+ * 布局内边距
  */
 .am-padding-top-main {
     padding-top: 2rem;
@@ -357,7 +357,7 @@ pre {
 }
 
 /**
- * ?????
+ * 模块内边距
  */
 .am-padding-top-module {
     padding-top: 1.2rem;
@@ -390,7 +390,7 @@ pre {
 }
 
 /**
- * ????? ??
+ * 模块内边距 一半
  */
 .am-padding-top-module-half {
     padding-top: 0.6rem;
@@ -423,7 +423,7 @@ pre {
 }
 
 /**
- * ??????
+ * 公共主色边线
  */
 .am-border-main {
     border: 0.1rem solid var(--color-main);
@@ -450,7 +450,7 @@ pre {
 }
 
 /**
- * ??????
+ * 公共灰色边线
  */
 .am-border-grey {
     border: 0.1rem solid var(--border-color, #eeeeee);
@@ -553,7 +553,7 @@ pre {
 }
 
 /**
- * ??
+ * 行高
  */
 .am-line-height-xs {
     line-height: 1.2rem;
@@ -584,7 +584,7 @@ pre {
 }
 
 /**
- * ??
+ * 圆角
  */
 .am-radius-top-left {
     border-top-left-radius: var(--border-radius);
@@ -667,7 +667,7 @@ pre {
 }
 
 /**
- * ???
+ * 分割线
  */
 .am-divider-dashed-top {
     border-top: 0.1rem dashed var(--border-color, #E5E5E5);
@@ -702,7 +702,7 @@ pre {
 }
 
 /**
- * ???
+ * 阴影线
  */
 .am-hr-shadow {
     height: 0.2rem;
@@ -713,7 +713,7 @@ pre {
 }
 
 /**
- * ?????
+ * 隐藏伪元素
  */
 .before-none:before,
 .after-none:after {
@@ -721,7 +721,7 @@ pre {
 }
 
 /**
- * ??
+ * 闪光
  */
 .flash {
     position: relative;
@@ -741,7 +741,7 @@ pre {
 }
 
 /**
- * ?????
+ * 不允许换行
  */
 .nwarp,
 .am-white-space {
@@ -760,7 +760,7 @@ pre {
 }
 
 /**
- * ????
+ * 表单组件
  */
 .am-form select, .am-form textarea, .am-form input[type="text"], .am-form input[type="password"], .am-form input[type="datetime"], .am-form input[type="datetime-local"], .am-form input[type="date"], .am-form input[type="month"], .am-form input[type="time"], .am-form input[type="week"], .am-form input[type="number"], .am-form input[type="email"], .am-form input[type="url"], .am-form input[type="search"], .am-form input[type="tel"], .am-form input[type="color"], .am-form-field {
     line-height: 1.7rem;
@@ -770,7 +770,7 @@ select.chosen-select {
     height: 3.1rem !important;
 }
 
-/* ??? */
+/* 没数据 */
 .table-no {
     text-align: center;
     padding: 5rem 0;
@@ -788,7 +788,7 @@ select.chosen-select {
     display: block;
 }
 
-/* ??dl?? */
+/* 公共dl样式 */
 .dl-content > dt {
     float: left;
     padding-left: 0.5rem;
@@ -826,7 +826,7 @@ select.chosen-select {
     background: var(--hover-bg-color, #fcfcfc);
 }
 
-/* ??avg?? */
+/* 公共avg列表 */
 .data-avg-text-list,
 .data-avg-text-list li {
     border-color: var(--border-color, rgba(0,0,0,.03));
@@ -856,7 +856,7 @@ select.chosen-select {
 }
 
 /**
- * ????
+ * 表单优化
  */
 input[type="number"] {
   -moz-appearance: textfield;
@@ -1016,7 +1016,7 @@ form.am-form .am-form-group,
 }
 
 /**
- * ????
+ * 元素漂移
  */
 .drift {
     left: -999999999rem;
@@ -1024,14 +1024,14 @@ form.am-form .am-form-group,
 }
 
 /**
- * ?????????
+ * 图标表单不加内边距
  */
 form.am-form .am-form-group.am-form-icon {
     padding: 0 !important;
 }
 
 /**
- * ??
+ * 插件
  */
 .am-btn.am-btn-xs, .am-selected-btn {height: 3.1rem;line-height: 3.1rem;padding-top: 0;padding-bottom: 0;}
 
@@ -1134,7 +1134,7 @@ form.am-form .am-form-group.am-form-icon {
 }
 
 /**
- * ??????
+ * 公共提示信息
  */
 .common-prompt {
     position:fixed;
@@ -1191,7 +1191,7 @@ form.am-form .am-form-group.am-form-icon {
 }
 
 /**
- * ???#map / .map-popup / ??????????????
+ * 地图（#map / .map-popup / 拖拽提示；业务页可覆盖高度）
  */
 #map {
     width: 100%;
@@ -1203,7 +1203,7 @@ form.am-form .am-form-group.am-form-icon {
 }
 
 /**
- * ????????
+ * 弹窗页面设置白底
  */
 /* 压过后台 html body 的 page-bg !important，弹窗内页强制白底 */
 html body.iframe-popup-page,
@@ -1226,7 +1226,7 @@ body.iframe-alert-page .am-dimmer {
 }
 
 /**
- * ??
+ * 弹窗
  */
 .popup-not-title {
     padding: 2.5rem;
@@ -1319,7 +1319,7 @@ body.iframe-alert-page .am-dimmer {
     padding: 0 !important;
 }
 
-/* ?????? */
+/* 弹窗大小控制 */
 @media (min-width: 580px) and (min-height: 560px) {
     .am-popup.am-popup-sm {
       width: 50rem;
@@ -1348,7 +1348,7 @@ body.iframe-alert-page .am-dimmer {
 }
 
 /**
- * ???????pc??????
+ * 底部弹出选择，pc放到中间展示
  */
 .am-modal-actions-group .am-list > li {
     -webkit-box-shadow: none;
@@ -1366,7 +1366,7 @@ body.iframe-alert-page .am-dimmer {
 }
 
 /**
- * ??
+ * 侧边
  */
 .am-offcanvas-popup .am-offcanvas-bar {
     max-width: 90%;
@@ -1386,7 +1386,7 @@ body.iframe-alert-page .am-dimmer {
 }
 
 /**
- * ????iframe?????0
+ * 弹窗存在iframe则内容边距0
  */
 .am-popup .am-popup-bd {
     background: none;
@@ -1402,7 +1402,7 @@ body.iframe-alert-page .am-dimmer {
  */
 iframe { border: 0; }
 
-/* ???? */
+/* 表单全屏 */
 .am-popup .am-form-group,
 .am-modal .am-form-group,
 .am-form-popop .am-form-group,
@@ -1411,7 +1411,7 @@ iframe { border: 0; }
 }
 
 /**
- * ?????????
+ * 图标表单不加内边距
  */
 .am-modal .am-form-group.am-form-icon {
     padding: 0 !important;
@@ -1421,10 +1421,10 @@ iframe { border: 0; }
  * H5
  */
 @media only screen and (max-width: 640px) {
-    /* ???? */
+    /* 地址联动 */
     .region-linkage select:not(:first-child) { margin-bottom: 0.5rem; }
 
-    /* ?? */
+    /* 表单 */
     form.am-form .am-form-group, .plug-file-upload-view, .business-form-group, .business-form-block { padding: 0.5rem; border-bottom: 0; }
 
 }
@@ -1433,11 +1433,11 @@ iframe { border: 0; }
  * PC
  */
 @media only screen and (min-width: 641px) {
-    /* ???? */
+    /* 地址联动 */
     .region-linkage select { width: 33%; display: -webkit-inline-box; }
 
     /**
-     * ??iframe
+     * 弹窗iframe
      */
     .popup-iframe .am-popup-inner { overflow: hidden; }
 
@@ -1456,12 +1456,12 @@ iframe { border: 0; }
 }
 
 /**
- * ??????????
+ * 日期插件成对日期样式
  */
 .twain-date input { width: calc(50% - 0.9rem) !important; display: -webkit-inline-box !important; }
 
 /**
- * ??
+ * 公共
  */
 .data-error-tips { text-align: center; }
 
@@ -1534,7 +1534,7 @@ span.business-operations-submit {
 }
 
 /**
- * ??????
+ * 地图拖动提示
  */
 .map-dragging-tips { margin:0 0.6rem 0.6rem 0; background-color: var(--surface-color, #ffffff); box-shadow:0 0.1rem 0.6rem rgba(0,0,0,0.35); padding:0.3rem 0.5rem; border-radius: var(--border-radius); }
 /* 高德/腾讯/天地图：右下角拖动提示（仅高于地图瓦片；配合容器 isolation 不冲出页面） */
@@ -1550,7 +1550,7 @@ span.business-operations-submit {
 .map-dragging-tips span { font-size:1.2rem; font-weight:700; color:#f99797; }
 
 /**
- * ????????? file????????????????????
+ * 公共图片上传（原生 file；组合式上传见下方「公共文件上传插件」）
  */
 .am-form-file input[type="file"] { overflow:hidden; width: 9rem !important; height: 2.8rem; top: 0; }
 
@@ -1561,8 +1561,8 @@ span.business-operations-submit {
 .am-form-file input.original-images-url-delete {  padding-right: 3.5rem !important; }
 
 /**
- * ?????????plug-file-upload-*?
- * ?????? --alpha-checker-*????? sm/xs/xss ????
+ * 公共文件上传插件（plug-file-upload-*）
+ * 预览棋盘底走 --alpha-checker-*；尺寸变体 sm/xs/xss 紧随其后
  */
 .am-form-file-upload-container {
     display: flex;
@@ -1661,7 +1661,7 @@ ul.plug-file-upload-view li video {
 }
 
 /**
- * ????????
+ * 上传删除按钮样式
  */
 ul.plug-file-upload-view li > i.icon-close {
     font-style: normal;
@@ -1789,12 +1789,12 @@ ul.plug-file-upload-view-file li {
 }
 
 /**
- * ????
+ * 拖拽排序
  */
 .drag-sort-dotted { border: 0.1rem dashed #639BF6 !important; }
 
 /**
- * ??????
+ * 覆盖框架样式
  */
 .am-radio .am-icon-checked:before,
 .am-radio-inline .am-icon-checked:before {
@@ -1930,7 +1930,7 @@ input[type="checkbox"] {
 }
 
 /**
- * ?????Amaze default ?? rgba(0,0,0,.6)???? #fbfbfb??????? / ?????
+ * 折叠面板（Amaze default 标题 rgba(0,0,0,.6)、激活底 #fbfbfb，深色下看不清 / 上边发白）
  */
 html body .am-accordion-default {
     -webkit-box-shadow: 0 0 0 0.1rem var(--border-color, rgba(0, 0, 0, 0.06));
@@ -1968,18 +1968,18 @@ html body .am-accordion-gapped .am-accordion-title {
 }
 
 /**
- * ??????
+ * 切换选择组件
  */
 input[data-am-switch] {
     position: relative;
 }
 
 /**
- * ???????colorpicker / fcolorpicker?
- * ????????? --alpha-checker-*????? inline??? curbox ? !important
- * xncolorpicker ????? #fff ??? html body ????
+ * 颜色选择插件（colorpicker / fcolorpicker）
+ * 空色棋盘与上传共用 --alpha-checker-*；选中色靠 inline，勿对 curbox 加 !important
+ * xncolorpicker 运行时注入 #fff 底，需 html body 提权覆盖
  */
-/* ????????????? / ??? inline background */
+/* 勿铺实色，避免盖住空色棋盘 / 选中色 inline background */
 button.colorpicker-submit:hover, button.colorpicker-submit:active, button.colorpicker-submit:focus {
     background-color: transparent;
 }
@@ -2031,7 +2031,7 @@ html body .fcolorpicker {
     width: 100%;
     height: 100%;
     border-radius: var(--border-radius);
-    /* ???? --alpha-checker-*??? !important???????? inline */
+    /* 棋盘底走 --alpha-checker-*，勿加 !important，避免盖住选中色 inline */
     background:
         linear-gradient(45deg, var(--alpha-checker-color, #eee) 25%, transparent 0),
         linear-gradient(45deg, transparent 75%, var(--alpha-checker-color, #eee) 0),
@@ -2098,7 +2098,7 @@ html body .fcolorpicker .color-btn-group .confirm-color {
     color: #fff !important;
 }
 
-/* ??????????? */
+/* 颜色选择器独立清除按钮 */
 .fcolorpicker .color-btn-group .colorpicker-clear-color {
     background: var(--hover-bg-color, #f0f0f0);
     color: var(--text-muted-color, #666);
@@ -2139,14 +2139,14 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ????????
+ * 框架组件代码优化
  */
 .am-radio input[type="radio"], .am-radio-inline input[type="radio"], .am-checkbox input[type="checkbox"], .am-checkbox-inline input[type="checkbox"] {
     margin: -0.3rem;
 }
 
 /**
- * ??????????
+ * 图片响应式支持子元素
  */
 .am-img-responsive img,
 .am-img-responsive video {
@@ -2154,7 +2154,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ????
+ * 插件标记
  */
 .plugins-tag {
     background: #333;
@@ -2193,7 +2193,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ?????????
+ * 两行、超出字符省略
  */
 .am-text-truncate-2-sm {
     font-size: 1.2rem;
@@ -2288,7 +2288,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ??????view
+ * 公共加载页面view
  */
 .am-page-loading {
     opacity: 1;
@@ -2338,7 +2338,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ????
+ * 公共加载
  */
 .loading-container {
     padding-top: 2rem;
@@ -2346,7 +2346,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ??-?????form-table ????????/?????? + ?? A ????
+ * 表格-基础样式（form-table 列表滚动壳；表头/斑马线见下方 + 文末 A 层兜底）
  */
 .am-table-scrollable-horizontal {
     border: 0.1rem solid var(--border-color, rgba(0,0,0,.04));
@@ -2539,7 +2539,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ??-????
+ * 表格-用户信息
  */
 .am-form-table-data-container ul.user-base li {
     line-height: 1.4rem;
@@ -2555,14 +2555,14 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ??-?????
+ * 表格-无数据提示
  */
 .am-form-table-data-container .table-no {
     padding: 11rem 0;
 }
 
 /**
- * ??-????
+ * 表格-角标信息
  */
 .am-form-table-data-list-container .am-badge,
 .am-form-table-data-detail .am-badge {
@@ -2580,7 +2580,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ??-tab???????
+ * 表格-tab导航去掉高层级
  */
 .am-form-table-data-list-container .am-tabs .am-nav-tabs > li > a,
 .am-form-table-data-list-container .am-tabs .am-tabs-bd {
@@ -2588,7 +2588,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ??-?????
+ * 表格-数据进度条
  */
 .am-form-table-data-container .data-progress .am-progress {
     width: 100%;
@@ -2599,7 +2599,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ??-???????????
+ * 表格-操作栏更多操作列表样式
  */
 .am-table-scrollable-horizontal > .am-table tr .am-operate-grid-more-list .am-dropdown-content {
     padding: 0.2rem 0.5rem;
@@ -2629,7 +2629,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ??????
+ * 表格头部美化
  */
 .table-thead-beautify thead th {
     background-color: var(--table-header-bg, var(--fill-color-light, #f8f8f8)) !important;
@@ -2639,8 +2639,8 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ????????/??? token???????????????
- * ???????????????????????? am-operate-grid
+ * 表格列表壳（字色/边框跟 token；主卡片内背景透明见业务布局）
+ * 含：顶部操作、字段设置弹层、搜索、分页条、操作列 am-operate-grid
  */
 .form-table-content,
 .form-table-navigation,
@@ -2653,7 +2653,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ??-????????
+ * 表格-顶部操作相关样式
  */
  .form-table-operate-top > .am-btn:not(:last-child) {
     margin-right: 0.6rem;
@@ -2671,7 +2671,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ??-??????
+ * 表格-详情底部操作
  */
 .form-table-navigation-present-operate {
     padding-bottom: 3rem;
@@ -2699,7 +2699,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ??-????
+ * 表格-搜索条件
  */
 .form-table-search {
     background: var(--fill-color, #f5f5f5);
@@ -2739,7 +2739,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ??-???/???
+ * 表格-复选框/单选框
  */
 .form-table-operate-radio .am-radio,
 .form-table-operate-checkbox .am-checkbox {
@@ -2747,7 +2747,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ??-????
+ * 表格-字段选择
  */
 .form-table-fields-select-container {
     height: 100%;
@@ -2782,7 +2782,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ????
+ * 表格排序
  */
 .form-sort-container .sort-icon {
     display: block;
@@ -2810,7 +2810,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ????
+ * 内部表格
  */
 .form-inside-table-layer {
     max-height: 5.5rem;
@@ -2861,7 +2861,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ????
+ * 列表信息
  */
 .form-inside-dl-content dt,
 .form-inside-dl-content dd {
@@ -2881,7 +2881,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ????????
+ * 公共用户信息模块
  */
 .user-info-dropdown-data-container am-dropdown-btn>a {
     padding-right: 2rem;
@@ -2937,7 +2937,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ???????
+ * 页面详情选项卡
  */
 .detail-content-nav-switch-tabs {
     display: flex;
@@ -2978,7 +2978,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ??????????
+ * 公共联动地区组件样式
  */
 .region-linkage .chosen-select {
     display: -webkit-inline-box;
@@ -3009,7 +3009,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ??
+ * 分页
  */
 .am-pagination > li > a,
 .am-pagination > li > span,
@@ -3044,7 +3044,7 @@ html body .fcolorpicker .color-slidedown ul {
     color: #fff;
 }
 
-/* ?? AmazeUI ????? #fff */
+/* 覆盖 AmazeUI 禁用态白底 #fff */
 .am-pagination > .am-disabled > span,
 .am-pagination > .am-disabled > span:hover,
 .am-pagination > .am-disabled > span:focus,
@@ -3072,7 +3072,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ????????
+ * 编辑器宽度自适应
  */
 .edui-default .edui-editor,
 .edui-default .edui-editor-iframeholder {
@@ -3080,7 +3080,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ?????
+ * 图片验证码
  */
 @media only screen and (min-width: 641px) {
     #verify-img-value {
@@ -3099,7 +3099,7 @@ html body .fcolorpicker .color-slidedown ul {
 }
 
 /**
- * ?????
+ * 表单带面板
  */
 form .am-panel .am-form-group:last-child,
 form .am-panel .business-form-group:last-child,
@@ -3108,7 +3108,7 @@ form .am-tab-panel .am-form-group:last-child {
 }
 
 /**
- * ????
+ * 仓库信息
  */
 .warehouse-item-container * {
     vertical-align: middle;
@@ -3120,7 +3120,7 @@ form .am-tab-panel .am-form-group:last-child {
 }
 
 /**
- * ????+???????
+ * 平台类型+数据值组合列表
  */
 .platform-list-value-container > div.am-input-group:not(:first-child) {
     margin-top: 1rem;
@@ -3131,7 +3131,7 @@ form .am-tab-panel .am-form-group:last-child {
 }
 
 /**
- * ?????#tree ??/????????? --table-header-bg?
+ * 分类列表（#tree 权限/地区等树表；表头走 --table-header-bg）
  */
 #tree table,
 #tree table.am-table {
@@ -3204,7 +3204,7 @@ form .am-tab-panel .am-form-group:last-child {
 }
 
 /**
- * ????
+ * 卡片组件
  */
 #card ul li .item {
     background: var(--fill-color-light, #f8f8f8);
@@ -3284,7 +3284,7 @@ form .am-tab-panel .am-form-group:last-child {
 }
 
 /**
- * ???
+ * 弹出框
  */
 .am-popover {
     max-width: 32rem;
@@ -3292,7 +3292,7 @@ form .am-tab-panel .am-form-group:last-child {
 }
 
 /**
- * ????
+ * 二级导航
  */
 .second-nav {
     background: #90b9ff;
@@ -3314,14 +3314,14 @@ form .am-tab-panel .am-form-group:last-child {
 }
 
 /**
- * ????
+ * 三级导航
  */
 .table-nav {
     border-bottom: 0.1rem solid var(--border-color, #eeeeee);
 }
 
 /**
- * ???????
+ * 富文本默认样式
  */
 .richtext {
     font-family: sans-serif !important;
@@ -3347,7 +3347,7 @@ form .am-tab-panel .am-form-group:last-child {
 }
 
 /**
- * ????-????
+ * 表单基础-双输入框
  */
 .form-multiple-where-input {
     display: flex;
@@ -3357,7 +3357,7 @@ form .am-tab-panel .am-form-group:last-child {
 }
 
 /**
- * ??????????
+ * 表单内部顶部操作导航
  */
 .form-legend-fixed {
     position: sticky;
@@ -3375,8 +3375,8 @@ form .am-tab-panel .am-form-group:last-child {
 }
 
 /**
- * ????????
- * ?????????????????? sticky ???????
+ * 表单公共底部浮动
+ * 表单壳跟内容区同色（前后端共用，避免 sticky 区域透出白底）
  */
 .am-form-popup-fixed,
 form.am-form-popup-sticky {
@@ -3401,7 +3401,7 @@ form.am-form-popup-sticky .am-form-popup-submit {
     border: 0;
 }
 
-/* ?????? / ?? sticky ??????????????????????? */
+/* 弹窗固定底栏 / 页面 sticky 底栏：跟内容区同色，避免滚动时内容透出混在一起 */
 .am-form-popup-fixed .am-form-popup-submit,
 form.am-form-popup-sticky .am-form-popup-submit {
     background: var(--surface-color, #ffffff);
@@ -3458,7 +3458,7 @@ form.am-form-popup-sticky .am-form-popup-submit .am-btn>span.am-icon-circle-o-no
 }
 
 /**
- * ????????
+ * 表单公共底部浮动
  */
 .am-form-popup-fixed .am-form-popup-submit .am-btn.am-btn-warning,
 form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-warning,
@@ -3487,7 +3487,7 @@ form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-danger:active {
 }
 
 /**
-* ??????????????
+* 复选框，单选框的默认颜色修改
 */
 .am-ucheck-checkbox:checked + .am-ucheck-icons, .am-ucheck-radio:checked + .am-ucheck-icons,
 .am-ucheck-checkbox:hover:not(.am-nohover):not(:disabled) + .am-ucheck-icons, 
@@ -3496,7 +3496,7 @@ form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-danger:active {
 }
 
 /**
- * ????????
+ * 混合业务列表选择
  */
 .business-list-nbfc {
     overflow: hidden;
@@ -3563,7 +3563,7 @@ form.am-form-popup-sticky .am-form-popup-submit .am-btn.am-btn-danger:active {
 }
 
 /**
- * ???????????
+ * 输入框、选择框数据清除
  */
 a.input-clearout-submit {
     position: fixed !important;
@@ -3626,13 +3626,13 @@ a.input-clearout-submit:focus > i {
     display: none;
 }
 
-/* ????????????????????????? html body .fcolorpicker ??????? */
+/* 颜色选择器弹窗内：当前色值输入框描边与小圆角（上面 html body .fcolorpicker 已覆盖深浅色） */
 .fcolorpicker .current-color-value input {
     border: 0 !important;
 }
 
 /**
- * ??????????? common-goods-spec-choice??????????????????
+ * 商品可选规格（购买弹层 common-goods-spec-choice；编辑页规格表见文末「商品规格表」）
  */
 .common-goods-spec-choice-content {
     width: 36rem;
@@ -3720,7 +3720,7 @@ a.input-clearout-submit:focus > i {
 }
 
 /**
- * ??????
+ * 视频扫码组建
  */
 #common-video-scan-popup .scanner {
     position: relative;
@@ -3830,8 +3830,8 @@ a.input-clearout-submit:focus > i {
 }
 
 /**
- * ????????/??? --scrollbar-* / --surface-color?
- * ??? / ????????????????????? / ???
+ * 滚动条样式（轨道/滑块走 --scrollbar-* / --surface-color）
+ * 含弹窗 / 侧栏等滚动容器，避免深色下仍露出浅色系统条 / 白轨道
  */
 html,
 body,
@@ -3905,7 +3905,7 @@ body ::-webkit-scrollbar-resizer:vertical {
 }
 
 /**
- * ??
+ * 圆角
  */
 .am-radius, .am-form select.am-radius, .am-form textarea.am-radius, .am-form input[type="text"].am-radius, .am-form input[type="password"].am-radius, .am-form input[type="datetime"].am-radius, .am-form input[type="datetime-local"].am-radius, .am-form input[type="date"].am-radius, .am-form input[type="month"].am-radius, .am-form input[type="time"].am-radius, .am-form input[type="week"].am-radius, .am-form input[type="number"].am-radius, .am-form input[type="email"].am-radius, .am-form input[type="url"].am-radius, .am-form input[type="search"].am-radius, .am-form input[type="tel"].am-radius, .am-form input[type="color"].am-radius, .am-form-field.am-radius, .chosen-choices, .chosen-single, .am-badge.am-radius, .am-btn.am-radius {
     border-radius: var(--border-radius);
@@ -3934,8 +3934,8 @@ body ::-webkit-scrollbar-resizer:vertical {
 }
 
 /**
- * AmazeUI ?? .am-input-group-btn > .am-btn { border-color:#f0f0f0 }?
- * ???????????????????
+ * AmazeUI 写死 .am-input-group-btn > .am-btn { border-color:#f0f0f0 }，
+ * 主色等按钮会露出白边；按按钮语义色覆盖
  */
 .am-input-group-btn > .am-btn {
     border-color: var(--border-color, #f0f0f0);
@@ -3981,7 +3981,7 @@ body ::-webkit-scrollbar-resizer:vertical {
 }
 
 /**
-* ?????--?????????
+* 滚动条隐藏--出现按钮替代滚动条
 */
 .am-slider-horizontal {
     position: relative;
@@ -4010,7 +4010,7 @@ body ::-webkit-scrollbar-resizer:vertical {
 }
 
 /**
-* ??
+* 宽高
 */
 .am-width {
     width: 100%;
@@ -4041,7 +4041,7 @@ body ::-webkit-scrollbar-resizer:vertical {
 }
 
 /**
- * ??????
+ * 分页容器对齐
  */
 .am-pagination-container>li>a {
     text-align: center;
@@ -4062,7 +4062,7 @@ body ::-webkit-scrollbar-resizer:vertical {
 }
 
 /**
- * ????????????? am-operate-grid???? am-btn-default ???
+ * 列表操作按钮美化（表格行内 am-operate-grid；须压过 am-btn-default 底色）
  */
 table.am-table .am-operate-grid .am-btn,
 table.am-table .am-operate-grid .am-btn-default,
@@ -4131,7 +4131,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /**
- * ??????am-cascader???/????? token?
+ * 级联选择器（am-cascader；字色/边框跟表面 token）
  */
 .am-cascader {
     display: inline-block;
@@ -4355,7 +4355,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /**
- * ??????
+ * 地图详细地址
  */
 .am-map-positioning-input {
     padding-right: 3.5rem !important;
@@ -4370,7 +4370,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /**
-* flex ??
+* flex 布局
  */
 .am-flex {
     display: flex !important;
@@ -4479,7 +4479,7 @@ table.am-table .am-operate-grid .am-btn i {
     width: 50% !important;
 }
 
-/* ???? */
+/* 沾满空间 */
 .am-flex-shrink {
     flex-shrink: 0;
 }
@@ -4544,7 +4544,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /**
- * ??
+ * 定位
  */
 .am-pr {
     position: relative;
@@ -4662,14 +4662,14 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /**
-* ????
+* 字体加粗
 */
 .am-font-weight {
     font-weight: 500;
 }
 
 /**
-* ??????
+* 字体正常粗细
 */
 .am-font-normal {
     font-weight: 400;
@@ -4680,7 +4680,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /**
- * ??????????
+ * 操作可伸缩的提示信息
  */
 .am-operate-stretch-tips {
     background-color: var(--color-tips-warm-bg);
@@ -4734,7 +4734,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /**
- * ??icon??
+ * 按钮icon大小
  */
 .am-btn-icon-xs i {
     font-size: 0.8rem;
@@ -4749,7 +4749,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /**
- * amazeui AVG-Grid ????
+ * amazeui AVG-Grid 间隔设置
  */
 @media only screen and (min-width: 1024px) {
     .am-avg-gap-1 {
@@ -4791,7 +4791,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /**
- * ????????
+ * 详情弹窗样式公共
  */
 .am-scrollable-vertical.reply-content {
     max-height: 16rem;
@@ -4799,7 +4799,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /**
-* ??????
+* 后台页面导航
 */
 .detail-container {
     background-color: var(--surface-color, #ffffff);
@@ -4817,7 +4817,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /**
-* ????????
+* 后台页面一级导航
 */
 .nav-switch-tabs {
     margin-bottom: 2rem;
@@ -4865,7 +4865,7 @@ table.am-table .am-operate-grid .am-btn i {
     display: flex;
 }
 
-/* ?????? */
+/* 灰色背景卡片 */
 .card-grey {
     background-color: var(--fill-color-light, #f9f9f9);
     border-radius: var(--border-radius);
@@ -4879,7 +4879,7 @@ table.am-table .am-operate-grid .am-btn i {
     border-radius: var(--border-radius-lg);
 }
 
-/* ???? */
+/* 局部提示 */
 .am-tips-card {
     font-size: 1.2rem;
     color: var(--text-weak-color, #999999);
@@ -4890,7 +4890,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /**
-* ????????
+* 后台页面二级导航
 */
 .nav-switch-btn {
     display: flex;
@@ -4918,7 +4918,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /**
- * ????????
+ * 后台页面详情弹窗
  */
 .am-popup-hd .am-popup-title {
     text-align: left;
@@ -4928,7 +4928,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /**
- * ??
+ * 边框
  */
 
  .am-border-0 {
@@ -5012,7 +5012,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /**
- * ??-????????
+ * 表格-顶部操作相关样式
  */
 .form-table-operate-top .operate-right .am-btn {
     background-color: transparent;
@@ -5028,7 +5028,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /**
- * ????
+ * 商品参数
  */
  #parameters-quick-copy-modal textarea {
     resize: none;
@@ -5070,7 +5070,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /**
- * iconfont??
+ * iconfont字体
  */
 .iconfont {
     font-family: "iconfont" !important;
@@ -5098,7 +5098,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /**
- * ?? - ??????? form-table-operate-top ???????
+ * 按钮 - 空心（列表顶栏 form-table-operate-top 等前后端共用）
  */
 .am-btn-default-plain {
     border: 0.1rem solid var(--border-strong-color, #DCDFE6);
@@ -5233,7 +5233,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /**
- * ?? - ??
+ * 按钮 - 浅色
  */
  .am-btn-primary-light {
     border: 0.1rem solid var(--color-main-light);
@@ -5258,7 +5258,7 @@ table.am-table .am-operate-grid .am-btn i {
     border-color: var(--color-main-hover);
 }
 
-/* ?? */
+/* 空心 */
 .am-btn-primary-light-plain {
     border: 0.1rem solid var(--color-main);
     background: var(--color-main-light);
@@ -5283,7 +5283,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /**
- * ?????icon????? common-nav-bar???? surface?
+ * 手机端菜单icon（对齐后台 common-nav-bar，深色跟 surface）
  */
 .common-nav-bar,
 .user-menu {
@@ -5334,7 +5334,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /**
- * ??????
+ * 语音提醒标签
  */
 .common-voice-container {
     position: fixed;
@@ -5343,7 +5343,7 @@ table.am-table .am-operate-grid .am-btn i {
 }
 
 /* 
- * ?????????????
+ * 表单标题向上推显示效果样式
  */
 .am-form-input-material {
     position: relative;
@@ -5420,7 +5420,7 @@ table.am-table .am-operate-grid .am-btn i {
     z-index: 1;
 }
 
-/* ????????????? html body .am-btn-default */
+/* 材质输入框右侧按钮去底色，压过 html body .am-btn-default */
 html body .am-form-input-material .am-input-group-btn .am-btn,
 html body .am-form-input-material .am-input-group-btn .am-btn:hover,
 html body .am-form-input-material .am-input-group-btn .am-btn:focus,
@@ -5466,9 +5466,9 @@ html body .am-form-input-material .am-input-group-btn button:active {
     box-shadow: none;
 }
 
-/* css3???? */
+/* css3动画效果 */
 @media only screen and (min-width: 641px) {
-    /* ?????? */
+    /* 鼠标悬停放大 */
     .scale-md {
         transition: all .5s ease-in-out;
     }
@@ -5477,7 +5477,7 @@ html body .am-form-input-material .am-input-group-btn button:active {
         transform: scale(1.1);
     }
 
-    /* ?????? */
+    /* 鼠标悬停放大 */
     .scale-sm {
         transition: all .5s ease-in-out;
     }
@@ -5486,7 +5486,7 @@ html body .am-form-input-material .am-input-group-btn button:active {
         transform: scale(1.02);
     }
 
-    /* ?????? */
+    /* 鼠标悬停放大 */
     .scale-xs {
         transition: all .5s ease-in-out;
     }
@@ -5495,7 +5495,7 @@ html body .am-form-input-material .am-input-group-btn button:active {
         transform: scale(1.01);
     }
 
-    /* ?????--?? */
+    /* 放大再缩小--快速 */
     .scaleanimation,
     .scaleanimation-xs {
         position: relative;
@@ -5545,7 +5545,7 @@ html body .am-form-input-material .am-input-group-btn button:active {
 
     }
 
-    /* ?????????? */
+    /* 向上、下、左、右抖动 */
     .up-hover,
     .down-hover,
     .left-hover,
@@ -5569,7 +5569,7 @@ html body .am-form-input-material .am-input-group-btn button:active {
         transform: translateX(0.5rem);
     }
 
-    /* ????? ???????? */
+    /* 外边框阴影 大于手机端才生效 */
     .box-shadow-hover,
     .box-shadow-top-hover,
     .box-shadow-bottom-hover {
@@ -5594,7 +5594,7 @@ html body .am-form-input-material .am-input-group-btn button:active {
         box-shadow: 0rem 0.4rem 0.4rem 0rem rgba(0,0,0,0.08);
     }
 
-    /* ????? */
+    /* 滑过透明层 */
     .glideover-hover {
         overflow: hidden;
         position: relative;
@@ -5629,7 +5629,7 @@ html body .am-form-input-material .am-input-group-btn button:active {
         left: 100%;
     }
 
-    /* ?? */
+    /* 向上 */
     .animation-up {
         transition: all .3s;
     }
@@ -5638,7 +5638,7 @@ html body .am-form-input-material .am-input-group-btn button:active {
         transform: translateY(-0.5rem);
     }
 
-    /* ???? */
+    /* 旋转动画 */
     .rotate {
         animation: rotate 2s linear infinite;
     }
@@ -5654,7 +5654,7 @@ html body .am-form-input-material .am-input-group-btn button:active {
 
     }
 
-    /* ?????? */
+    /* 鼠标移入抖动 */
     .jitter {
         transition: all 0.3s ease-in-out;
     }
@@ -5691,7 +5691,7 @@ html body .am-form-input-material .am-input-group-btn button:active {
 
     }
 
-    /* ???? */
+    /* 流动边框 */
     .flow-border {
         position: relative;
         overflow: hidden;
@@ -5728,7 +5728,7 @@ html body .am-form-input-material .am-input-group-btn button:active {
 
     }
 
-    /* ???? */
+    /* 边框动画 */
     .animation-border {
         position: relative;
         overflow: hidden;
@@ -5766,7 +5766,7 @@ html body .am-form-input-material .am-input-group-btn button:active {
         opacity: 1;
     }
 
-    /* ????-----??????????? */
+    /* 呼吸效果-----呼吸大小使用时记得覆盖 */
     /* <div class="breathe"></div> */
     .breathe {
         background-color: var(--surface-color, #ffffff);
@@ -5821,7 +5821,7 @@ html body .am-form-input-material .am-input-group-btn button:active {
 
     }
 
-    /* ???????? */
+    /* 左右前进后退动画 */
     .forward {
         position: relative;
         animation: forward 1s linear infinite;
@@ -5841,7 +5841,7 @@ html body .am-form-input-material .am-input-group-btn button:active {
 }
 
 /**
- * ???url????
+ * 平台组url地址容器
  */
 .platform-group-url-container > div.am-input-group:not(:first-child) {
     margin-top: 0.5rem;
@@ -5853,7 +5853,7 @@ html body .am-form-input-material .am-input-group-btn button:active {
 }
 
 /**
- * ????????---??????????
+ * 上传文件弹窗样式---内部只有一个上传按钮
  */
  .am-upload-file .am-form-file {
     position: fixed;
@@ -5888,7 +5888,7 @@ html body .am-form-input-material .am-input-group-btn button:active {
 }
 
 /**
- * form?????? start
+ * form表单页面布局 start
  */
 .detail-container,
 .content-right,
@@ -5905,7 +5905,7 @@ html body .am-form-input-material .am-input-group-btn button:active {
     flex-grow: 1;
 }
 
-/* ???????????? > .content??? index.init ??? transparent? */
+/* 外壳跟页面底；主白卡片是 > .content（首页 index.init 再设为 transparent） */
 .content-right {
     background-color: var(--page-bg-color, #F4F3F7);
     color: var(--text-color, #333);
@@ -5919,7 +5919,7 @@ html body .am-form-input-material .am-input-group-btn button:active {
     padding: 2rem;
 }
 
-/* ?????????????????? .am-panel surface??????? */
+/* 主卡片内子级勿再铺底（选择器高于框架 .am-panel surface，两主题通用） */
 .content-right > .content .am-panel,
 .content-right > .content .am-panel-default,
 .content-right > .content .am-panel-bd,
@@ -6083,7 +6083,7 @@ form .am-form-group>label {
 }
 
 /**
- * ????????????
+ * 新增编辑带返回的头部显示
  */
 legend {
     margin-bottom: 1rem !important;
@@ -6103,7 +6103,7 @@ legend a i:hover {
 }
 
 /**
- * ???????
+ * 角色权限树结构
  */
 .tree-list li {
     list-style-type: none;
@@ -6151,7 +6151,7 @@ legend a i:hover {
 }
 
 /**
- * ????
+ * 打印组件
  */
 .hiprint-template-container {
     min-width: 125rem;
@@ -6215,7 +6215,7 @@ legend a i:hover {
 }
 
 /**
- * ??????parameters-container????????????
+ * 商品参数表（parameters-container；与规格表同属商品编辑）
  */
 .parameters-container {
     border: 0.1rem solid var(--border-color, #eeeeee);
@@ -6263,8 +6263,8 @@ legend a i:hover {
 }
 
 /**
- * ??????specifications-table / spec-images??? sticky ?? --table-header-bg?
- * ???? / ???? / ????????
+ * 商品规格表（specifications-table / spec-images；表头 sticky 列走 --table-header-bg）
+ * 快捷添加 / 扩展弹窗 / 模板选择紧随本段
  */
 .specifications-table .title-nav th input {
     width: calc(100% - 2.5rem);
@@ -6356,7 +6356,7 @@ legend a i:hover {
 }
 
 /**
- * ??????
+ * 规格快捷添加
  */
 .spec-quick table td,
 .spec-quick table .value-item {
@@ -6411,7 +6411,7 @@ legend a i:hover {
 }
 
 /**
- * ??????
+ * 规格扩展弹窗
  */
 @media only screen and (max-width: 629px) {
     #specifications-extends-popup {
@@ -6423,7 +6423,7 @@ legend a i:hover {
 }
 
 /**
- * ????????
+ * 规格模板快捷操作
  */
 #specifications-quick-container {
     padding: 0;
@@ -6463,8 +6463,8 @@ legend a i:hover {
 }
 
 /**
- * ???????quick-time ???? + echarts-where ??????
- * ???? / ???????????????? token
+ * 首页统计筛选（quick-time 快捷时间 + echarts-where 自定义区间）
+ * 后台首页 / 多商户商家中心等复用同一套样式与 token
  */
 .right-operate .quick-time {
     display: inline-flex;
@@ -6642,10 +6642,10 @@ legend a i:hover {
 }
 
 /**
- * AmazeUI / ?????????? token????? html[data-theme] ???
- * ???????????html body ???? Amaze ??? #fff
+ * AmazeUI / 公共控件表面：一律走 token（深色只改 html[data-theme] 赋值）
+ * 用不改库文件的前提下，html body 提权压过 Amaze 硬编码 #fff
  */
-/* ?? */
+/* 下拉 */
 html body .am-dropdown-content {
     background: var(--surface-elevated, #fff) !important;
     border-color: var(--border-color, #eee) !important;
@@ -6713,7 +6713,7 @@ html body .am-panel-default > .am-panel-hd {
     color: var(--text-color, #333) !important;
 }
 
-/* ?? */
+/* 表格 */
 html body .am-table,
 html body table {
     color: var(--text-color, #333);
@@ -6754,7 +6754,7 @@ html body .am-table-scrollable-horizontal > .am-table > tbody > tr > td {
     border-color: var(--table-row-border-color, var(--border-color, #eee)) !important;
 }
 
-/* ???? */
+/* 表单控件 */
 html body .am-form select,
 html body .am-form textarea,
 html body .am-form input[type="text"],
@@ -6781,7 +6781,7 @@ html body textarea.am-form-field {
     caret-color: var(--text-color, #333);
 }
 
-/* ???????/????????????????? */
+/* 浮动标题输入框保持透明，避免被上方实心输入框背景盖住 */
 html body .am-form-input-material input.am-form-field,
 html body .am-form-input-material input.am-form-field:hover,
 html body .am-form-input-material input.am-form-field:focus,
@@ -6794,7 +6794,7 @@ html body .am-form-input-material input.am-form-field:active {
 }
 
 /**
- * ??????????????? inset ????????? token ??
+ * 浏览器自动填充会强制浅色底；用 inset 阴影盖住，跟输入框 token 一致
  */
 html body input:-webkit-autofill,
 html body input:-webkit-autofill:hover,
@@ -6878,7 +6878,7 @@ html body .am-input-group-danger .am-input-group-label {
     border-color: var(--color-button-danger-border, #dd514c) !important;
     color: var(--color-button-danger-text, #fff) !important;
 }
-/* ???????? .am-form input[type=?]?????????? :disabled? */
+/* 禁用态需压过上方 .am-form input[type=…]（同权靠后声明，并补 :disabled） */
 html body input:disabled,
 html body input[disabled],
 html body textarea:disabled,
@@ -6908,7 +6908,7 @@ html body .am-form-field::placeholder {
     opacity: 1 !important;
 }
 
-/* ?? default */
+/* 按钮 default */
 html body .am-btn-default {
     background: var(--surface-elevated, #fff) !important;
     border-color: var(--border-strong-color, #ddd) !important;
@@ -7026,7 +7026,7 @@ html body button.eye-submit:active {
     color: var(--text-muted-color, #666) !important;
 }
 
-/* ?? / Modal */
+/* 弹窗 / Modal */
 html body .am-popup,
 html body .am-popup-inner,
 html body .am-popup-bd,
@@ -7038,12 +7038,12 @@ html body .am-modal-footer {
     color: var(--text-color, #333) !important;
     border-color: var(--border-color, #eee) !important;
 }
-/* ??????????? common-login-modal??????????? inner ??? */
+/* 无标题弹窗（如 common-login-modal）保持透明，不要给 inner 铺白底 */
 html body .am-popup.popup-not-title {
     background: transparent !important;
     background-color: transparent !important;
 }
-/* iframe ???????????? iframe ????? */
+/* iframe 弹窗内容区透明，避免 iframe 自带底色 */
 html body .am-popup.popup-iframe .am-popup-bd,
 html body .am-popup .am-popup-bd:has(iframe) {
     background: transparent !important;
@@ -7072,7 +7072,7 @@ html body .am-modal-btn:active {
     background: var(--hover-bg-color, #f5f5f5) !important;
 }
 
-/* Alert tips??????? token? */
+/* Alert tips（语义色见上方 token） */
 html body .am-alert:not(.am-alert-success):not(.am-alert-danger):not(.am-alert-warning):not(.am-alert-secondary),
 html body .am-alert-tips {
     background-color: var(--tips-bg-color, #ffffe9) !important;
@@ -7095,7 +7095,7 @@ html body .am-alert-warning {
     color: var(--alert-warning-color, #f37b1d) !important;
 }
 
-/* ?? / ??? / ?? / ???? */
+/* 列表 / 缩略图 / 画廊 / 选择列表 */
 html body .am-list,
 html body .am-list-news-bd,
 html body .am-list-news-hd,
@@ -7214,7 +7214,7 @@ html body .am-tabs-default .am-tabs-nav > .am-active a {
     border-color: transparent !important;
 }
 
-/* am-tabs-border???/???????????? default tabs ????? */
+/* am-tabs-border 导航和内容保持透明，避免吃到 default tabs 的实心底 */
 html body .am-tabs-border > .am-tabs-nav,
 html body .am-tabs-border > .am-nav-tabs,
 html body .am-tabs-border > .am-tabs-bd {
@@ -7307,7 +7307,7 @@ html body .am-selected-list {
     scrollbar-width: thin;
 }
 
-/* ???Amaze / My97 */
+/* 日期：Amaze / My97 */
 html body .am-datepicker {
     background: var(--surface-color, #fff) !important;
     color: var(--text-color, #333) !important;
@@ -7373,7 +7373,7 @@ html body .WdateDiv .Wtoday {
     color: var(--color-main) !important;
 }
 
-/* ?? */
+/* 开关 */
 html body .am-switch {
     border-color: var(--border-strong-color, #ddd) !important;
     background-color: var(--border-strong-color, #ddd) !important;
@@ -7392,7 +7392,7 @@ html body .am-switch-primary.am-active {
     background-color: var(--color-main) !important;
 }
 
-/* ?? */
+/* 杂项 */
 html body hr {
     border-top-color: var(--border-color, #eee) !important;
 }
@@ -7406,7 +7406,7 @@ html body .am-color-red {
 
 
 /**
- * ???????????????/?????/???/?????????
+ * 登录页右上角主题切换，固定定位，不随表单滚动
  */
 .admin-login-theme-mode {
     position: fixed;
