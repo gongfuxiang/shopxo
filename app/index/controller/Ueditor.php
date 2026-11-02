@@ -14,6 +14,7 @@ use app\index\controller\Common;
 use app\service\SeoService;
 use app\service\ApiService;
 use app\service\UeditorService;
+use app\service\AttachmentUploadLimitService;
 
 /**
  * 百度编辑器控制器入口
@@ -36,10 +37,15 @@ class Ueditor extends Common
         // 调用父类前置方法
         parent::__construct();
 
-        // 扫码上传页免登录；接口入口需用户登录（扫码上传会话除外）
+        // 扫码上传页免登录；扫码上传会话除外。上传必须登录关闭时，仅开放上传和配置
         if($this->action_name != 'scanupload' && !$this->IsAllowScanUpload())
         {
-            IsUserLogin();
+            $params = empty($this->data_request) ? input() : $this->data_request;
+            $action = (!empty($params['action']) && is_string($params['action'])) ? $params['action'] : '';
+            if(AttachmentUploadLimitService::LoginRequired() || !AttachmentUploadLimitService::IsOpenAction($action))
+            {
+                IsUserLogin();
+            }
         }
     }
 
@@ -76,7 +82,14 @@ class Ueditor extends Common
      */
     public function Index()
     {
-        return ApiService::ApiDataReturn(UeditorService::Run(input()));
+        $params = input();
+        $action = empty($params['action']) ? 'config' : $params['action'];
+        // 配置接口只读，尽早释放 session，避免页面并发请求阻塞编辑器初始化
+        if($action === 'config' && function_exists('session_write_close'))
+        {
+            session_write_close();
+        }
+        return ApiService::ApiDataReturn(UeditorService::Run($params));
     }
 
     /**

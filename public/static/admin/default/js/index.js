@@ -675,6 +675,8 @@ $(function () {
     var $empty = $root.find('.admin-menu-search-empty');
     // 上次已筛选关键字，避免失焦 change 重复渲染导致结果首次点击失效
     var last_filter_value = null;
+    // 中文等输入法组字过程中不筛选，避免下拉抖动/收回
+    var is_composing = false;
 
     function AdminMenuSearchRender(list) {
         $list.empty();
@@ -731,8 +733,30 @@ $(function () {
     $(document).on('opened.dropdown.amui', '.admin-menu-search', function () {
         $(this).find('.admin-menu-search-input').trigger('focus');
     });
-    $(document).on('input change', '.admin-menu-search-input', function () {
+    // 输入法组字开始/结束（中文拼音等）
+    $(document).on('compositionstart', '.admin-menu-search-input', function () {
+        is_composing = true;
+    });
+    $(document).on('compositionend', '.admin-menu-search-input', function () {
+        is_composing = false;
         AdminMenuSearchFilter();
+    });
+    $(document).on('input', '.admin-menu-search-input', function () {
+        if (is_composing) {
+            return;
+        }
+        AdminMenuSearchFilter();
+    });
+    // 失焦 change：组字中忽略，避免拼音阶段重复渲染
+    $(document).on('change', '.admin-menu-search-input', function () {
+        if (is_composing) {
+            return;
+        }
+        AdminMenuSearchFilter();
+    });
+    // 输入框聚焦时保持下拉打开（防止误触外部关闭）
+    $(document).on('mousedown', '.admin-menu-search-panel', function (e) {
+        e.stopPropagation();
     });
     // 用 mousedown 处理，早于 input blur/change，避免首次点击被吞
     $(document).on('mousedown', '.admin-menu-search-list a', function (e) {

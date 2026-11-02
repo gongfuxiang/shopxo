@@ -1,0 +1,24 @@
+<script type="text/javascript" src="{{$public_host}}static/common/js/ticket_print.js?v={{$static_cache_version}}"></script>
+<script type="text/javascript">
+    $(function()
+    {
+        var $boxes = $('.ticket-print-designer');
+        if($boxes.length == 0 && $('.ticket-print-list-box').length == 0)
+        {
+            return;
+        }
+        $boxes.each(function()
+        {
+            var $box = $(this);
+            $box.data('lang', JsonStringToJsonObject({{:json_encode(MyLang('ticket_print'), JSON_UNESCAPED_UNICODE)}}));
+            $box.data('type-data', JsonStringToJsonObject({{if empty($module_data['type_data'])}}{}{{else /}}{{:json_encode($module_data.type_data, JSON_UNESCAPED_UNICODE)}}{{/if}}));
+            $box.data('sample-data', JsonStringToJsonObject({{if empty($module_data['sample_data'])}}{}{{else /}}{{:json_encode($module_data.sample_data, JSON_UNESCAPED_UNICODE)}}{{/if}}));
+            $box.data('template-keys', JsonStringToJsonObject({{if empty($module_data['template_keys'])}}[]{{else /}}{{:json_encode($module_data.template_keys, JSON_UNESCAPED_UNICODE)}}{{/if}}));
+            $box.data('default-templates', JsonStringToJsonObject({{if empty($module_data['default_templates'])}}{}{{else /}}{{:json_encode($module_data.default_templates, JSON_UNESCAPED_UNICODE)}}{{/if}}));
+        });
+        if(typeof window.TicketPrintDesignerInit === 'function')
+        {
+            window.TicketPrintDesignerInit();
+        }
+    });
+</script>

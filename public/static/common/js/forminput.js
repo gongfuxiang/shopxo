@@ -41,6 +41,12 @@ $(function () {
     const filed_title_size_type = $forminput_data_config.style_settings.computer.filed_title_size_type;
     // 默认显隐规则逻辑触发
     ForminputShowHiddenChange();
+    // iframe / 预览场景下资源晚于 DOM 就绪时，load 再跑一次显隐
+    $(window).on('load', function () {
+        if ($forminput_data_config !== null && typeof ForminputShowHiddenChange === 'function') {
+            ForminputShowHiddenChange();
+        }
+    });
     // 输入框获取焦点时触发
     $(document).on('focus', '.forminput-input', function(e) {
         ForminputInputChange($(this), 'focus');
@@ -1886,9 +1892,58 @@ function ForminputHandlePhoneValidation(com_data) {
     com_data.common_config.format = com_data.is_telephone === '1' ? 'telephone-number' : 'phone-number';
     return ForminputGetFormatChecks(com_data, com_data.form_value, true);
 }
+function ForminputNormalizeShowHiddenId(id) {
+    return String(id);
+}
+function ForminputFormValueMatch(formValue, ruleValue) {
+    if (IsEmpty(ruleValue)) {
+        return false;
+    }
+    if (Array.isArray(formValue)) {
+        return formValue.includes(ruleValue);
+    }
+    return formValue === ruleValue;
+}
+function ForminputIsComponentVisibleByShowHidden(itemId, list_map, isRuleMatched) {
+    const controlledIds = new Set();
+    list_map.forEach(({ list }) => {
+        list.forEach((hidden_item) => {
+            hidden_item.is_show.forEach((id) => controlledIds.add(ForminputNormalizeShowHiddenId(id)));
+        });
+    });
+    const visiting = new Set();
+    const isVisible = (id) => {
+        const nid = ForminputNormalizeShowHiddenId(id);
+        if (visiting.has(nid)) {
+            return false;
+        }
+        if (!controlledIds.has(nid)) {
+            return true;
+        }
+        visiting.add(nid);
+        const visible = list_map.some((list_item) => {
+            const controllerId = ForminputNormalizeShowHiddenId(list_item.id);
+            const rulesForItem = list_item.list.filter((hidden_item) =>
+                hidden_item.is_show.some((showId) => ForminputNormalizeShowHiddenId(showId) === nid),
+            );
+            if (rulesForItem.length === 0) {
+                return false;
+            }
+            return rulesForItem.some((hidden_item) => {
+                if (controlledIds.has(controllerId) && !isVisible(controllerId)) {
+                    return false;
+                }
+                return isRuleMatched(controllerId, hidden_item.value);
+            });
+        });
+        visiting.delete(nid);
+        return visible;
+    };
+    return isVisible(itemId);
+}
 // 显隐规则逻辑处理
 function ForminputShowHiddenChange(type = 'show-hidden') {
-    const componentMap = new Map($forminput_data_list.map((item) => [item.id, item]));
+    const componentMap = new Map($forminput_data_list.map((item) => [ForminputNormalizeShowHiddenId(item.id), item]));
 
     // 取出所有设置显隐规则的组件
     const list = $forminput_data_list.filter((item) => ['single-text', 'select', 'radio-btns'].includes(item.key) && ['select', 'radio-btns'].includes(item.com_data.type) && item.com_data.show_hidden_list.length > 0);
@@ -1897,28 +1952,24 @@ function ForminputShowHiddenChange(type = 'show-hidden') {
         // 优先判断是否启用
         if (item.is_enable !== '1') return false;
         if (list_map.length === 0) return true;
-        // 将所有的内容的组件进行筛选
-        const isShownByRule = list_map.some((list_item) => {
-            const targetComponent = componentMap.get(list_item.id);
-            // 判断显隐规则对应的组件是否存在
+        return ForminputIsComponentVisibleByShowHidden(item.id, list_map, (controllerId, ruleValue) => {
+            const targetComponent = componentMap.get(ForminputNormalizeShowHiddenId(controllerId));
             if (!targetComponent) return false;
-            return list_item.list.some((hidden_item) => {
-                // 判断当前组件是否在显隐规则中，如果不在，直接显示，否则的话判断值是否存在
-                if (hidden_item.is_show.includes(item.id)) {
-                    return targetComponent.com_data.form_value.includes(hidden_item.value);
-                } else {
-                    return true;
-                }
-            });
+            return ForminputFormValueMatch(targetComponent.com_data.form_value, ruleValue);
         });
-        return isShownByRule;
     });
     if (type == 'show-hidden') {
         // 先隐藏所有组件
         $(document).find('.forminput-data-content .forminput-data-item').addClass('forminput-hidden');
-        // 所有隐藏的组件进行显示
-        show_data.forEach((item) => { 
-            $('#' + item.id).parent().removeClass("forminput-hidden"); 
+        // 所有应显示的组件取消隐藏（兼容 id 在内外层不同挂载方式）
+        show_data.forEach((item) => {
+            const el = document.getElementById(item.id);
+            if (el) {
+                const row = el.classList.contains('forminput-data-item') ? el : el.closest('.forminput-data-item');
+                if (row) {
+                    row.classList.remove('forminput-hidden');
+                }
+            }
         });
     } else {
         return show_data;
@@ -1926,7 +1977,7 @@ function ForminputShowHiddenChange(type = 'show-hidden') {
 }
 // 子表单的显隐处理
 function ForminputSubformShowHiddenTypeChange(childrenList = [], index, data_list, type = 'all') { 
-    const componentMap = new Map(childrenList.map((item) => [item.id, item]));
+    const componentMap = new Map(childrenList.map((item) => [ForminputNormalizeShowHiddenId(item.id), item]));
     // 取出所有设置显隐规则的组件
     const list = childrenList.filter((item) => ['single-text', 'select', 'radio-btns'].includes(item.key) && ['select', 'radio-btns'].includes(item.com_data.type) && item.com_data.show_hidden_list.length > 0);
     const list_map = list.map((item) => ({ id: item.id, list: item.com_data.show_hidden_list }));
@@ -1935,34 +1986,20 @@ function ForminputSubformShowHiddenTypeChange(childrenList = [], index, data_lis
         if (item.is_enable !== '1') return false;
 
         if (list_map.length === 0) return true;
-        // 将所有的内容的组件进行筛选
-        const isShownByRule = list_map.some((list_item) => {
-            const targetComponent = componentMap.get(list_item.id);
-            // 判断显隐规则对应的组件是否存在
+        return ForminputIsComponentVisibleByShowHidden(item.id, list_map, (controllerId, ruleValue) => {
+            const cid = ForminputNormalizeShowHiddenId(controllerId);
+            const targetComponent = componentMap.get(cid);
             if (!targetComponent) return false;
-            return list_item.list.some((hidden_item) => {
-                // 判断当前组件是否在显隐规则中，如果不在，直接显示，否则的话判断值是否存在
-                if (hidden_item.is_show.includes(item.id)) {
-                    if (type == 'all') {
-                        // 判断所有的是否满足条件
-                        const data = data_list.filter((form_item) => form_item.some((data_item_list) => data_item_list.id == list_item.id && data_item_list.com_data.form_value.includes(hidden_item.value)))
-                        return data.length > 0;
-                    } else {
-                        // 判断是单个还是多个内容
-                        if (index == null) {
-                            return false;
-                        } else {
-                            // 否则判断当前组件的值是否存在
-                            const data = data_list[index];
-                            return data.some((data_item_list) => data_item_list.id == list_item.id && data_item_list.com_data.form_value.includes(hidden_item.value))
-                        }
-                    }
-                } else {
-                    return true;
-                }
-            });
+            if (type == 'all') {
+                const data = data_list.filter((form_item) => form_item.some((data_item_list) => ForminputNormalizeShowHiddenId(data_item_list.id) === cid && ForminputFormValueMatch(data_item_list.com_data.form_value, ruleValue)));
+                return data.length > 0;
+            }
+            if (index == null) {
+                return false;
+            }
+            const data = data_list[index];
+            return data.some((data_item_list) => ForminputNormalizeShowHiddenId(data_item_list.id) === cid && ForminputFormValueMatch(data_item_list.com_data.form_value, ruleValue));
         });
-        return isShownByRule;
     });
 }
 /**
@@ -2840,7 +2877,7 @@ function ForminputSubformDataCheck(com_data) {
 * 子表单显隐规则数据处理
 */
 function ForminputFilteredData(children) {
-    const componentMap = new Map(children.map((item) => [item.id, item]));
+    const componentMap = new Map(children.map((item) => [ForminputNormalizeShowHiddenId(item.id), item]));
 
     // 取出所有设置显隐规则的组件
     const list = children.filter((item) => ['single-text', 'select', 'radio-btns'].includes(item.key) && ['select', 'radio-btns'].includes(item.com_data.type) && item.com_data.show_hidden_list.length > 0);
@@ -2850,21 +2887,11 @@ function ForminputFilteredData(children) {
         if (item.is_enable !== '1') return false;
 
         if (list_map.length === 0) return true;
-        // 将所有的内容的组件进行筛选
-        const isShownByRule = list_map.some((list_item) => {
-            const targetComponent = componentMap.get(list_item.id);
-            // 判断显隐规则对应的组件是否存在
+        return ForminputIsComponentVisibleByShowHidden(item.id, list_map, (controllerId, ruleValue) => {
+            const targetComponent = componentMap.get(ForminputNormalizeShowHiddenId(controllerId));
             if (!targetComponent) return false;
-            return list_item.list.some(hidden_item => {
-                // 判断当前组件是否在显隐规则中，如果不在，直接显示，否则的话判断值是否存在
-                if (hidden_item.is_show.includes(item.id)) {
-                    return targetComponent.com_data.form_value.includes(hidden_item.value);
-                } else {
-                    return true;
-                }
-            });
+            return ForminputFormValueMatch(targetComponent.com_data.form_value, ruleValue);
         });
-        return isShownByRule;
     });
 }
 /*

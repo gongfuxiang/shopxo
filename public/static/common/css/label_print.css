@@ -1,0 +1,453 @@
+/* 设计页铺满内容区，左右面板随页面高度拉伸，列表在面板内滚动 */
+.label-print-saveinfo-content,
+.content-right > .content.label-print-saveinfo-content {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 2rem);
+    max-height: calc(100vh - 2rem);
+    margin: 1rem;
+    padding: 1rem;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.label-print-designer-page {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+    box-sizing: border-box;
+}
+.label-print-designer-page > .label-print-designer-toolbar {
+    flex-shrink: 0;
+}
+.label-print-designer-page > .label-print-designer-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+.label-print-saveinfo-content .label-print-designer {
+    flex: 1;
+    min-height: 0;
+    height: auto;
+}
+.label-print-saveinfo-content .label-print-palette,
+.label-print-saveinfo-content .label-print-setting {
+    max-height: none;
+    overflow: hidden;
+}
+.label-print-saveinfo-content .label-print-palette-list,
+.label-print-saveinfo-content .label-print-setting-body {
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.label-print-saveinfo-content .label-print-stage,
+.label-print-saveinfo-content .label-print-canvas-wrap {
+    min-height: 0;
+}
+.label-print-designer {
+    display: flex;
+    align-items: stretch;
+    gap: 1.2rem;
+    min-height: 56rem;
+}
+.label-print-palette,
+.label-print-setting {
+    width: 24rem;
+    flex: 0 0 24rem;
+    background: var(--fill-color, #f5f5f5);
+    border-radius: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    max-height: 68rem;
+}
+.label-print-palette-search {
+    flex-shrink: 0;
+    padding: 1rem 1rem 0.8rem;
+}
+.label-print-palette-list,
+.label-print-setting-body {
+    overflow: auto;
+    padding: 0.8rem;
+    flex: 1;
+}
+.label-print-palette .group-title {
+    margin: 0.8rem 0 0.4rem;
+    color: var(--text-weak-color, #999999);
+    font-size: 1.2rem;
+}
+.label-print-palette .item {
+    position: relative;
+    display: block;
+    margin-bottom: 0.6rem;
+    padding: 0.6rem 0.8rem;
+    border: 0.1rem dashed var(--border-strong-color, #dddddd);
+    border-radius: var(--border-radius, 0.4rem);
+    color: var(--text-muted-color, #666666);
+    background: var(--surface-color, #ffffff);
+    cursor: grab;
+    font-size: 1.3rem;
+    user-select: none;
+}
+.label-print-palette .label-print-use-count {
+    position: absolute;
+    top: -0.6rem;
+    right: 0;
+    z-index: 1;
+    min-width: 1.6rem;
+    height: 1.6rem;
+    padding: 0 0.4rem;
+    line-height: 1.6rem;
+    text-align: center;
+    font-size: 1.1rem;
+    font-style: normal;
+    color: var(--surface-color, #ffffff);
+    background: var(--text-weak-color, #999999);
+    border-radius: var(--border-radius-lg, 0.8rem);
+    box-sizing: border-box;
+}
+.label-print-palette .item:hover {
+    border-color: var(--color-main);
+    color: var(--color-main);
+}
+.label-print-palette .item.is-shake {
+    animation: label-print-palette-shake 0.55s ease;
+}
+@keyframes label-print-palette-shake {
+    0%, 100% { transform: translateX(0); }
+    15% { transform: translateX(-0.4rem); }
+    30% { transform: translateX(0.4rem); }
+    45% { transform: translateX(-0.3rem); }
+    60% { transform: translateX(0.3rem); }
+    75% { transform: translateX(-0.15rem); }
+    90% { transform: translateX(0.15rem); }
+}
+.label-print-stage {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+.label-print-paper-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    align-items: center;
+    flex-shrink: 0;
+}
+.label-print-paper-bar label {
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--text-muted-color, #666666);
+}
+.am-form .label-print-paper-bar input[type="number"] {
+    flex: 0 0 10rem;
+    width: 10rem;
+    max-width: 10rem;
+}
+.label-print-paper-bar select.chosen-select {
+    width: 12rem;
+}
+.label-print-paper-bar .chosen-container {
+    width: 12rem !important;
+    vertical-align: middle;
+}
+.label-print-canvas-wrap {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.label-print-canvas {
+    position: relative;
+    flex-shrink: 0;
+    box-sizing: content-box;
+    background: var(--surface-color, #ffffff);
+    border: 0.1rem solid var(--border-color, #eeeeee);
+    border-radius: 1.2rem;
+    box-shadow: var(--box-shadow-sm);
+    color: var(--text-color, #333333);
+    overflow: hidden;
+}
+.label-print-canvas.is-over {
+    outline: 0.2rem dashed var(--color-main);
+}
+.label-print-guide {
+    position: absolute;
+    z-index: 6;
+    pointer-events: none;
+    background: #ebebeb;
+}
+.label-print-guide.is-v {
+    top: 0;
+    bottom: 0;
+    width: 1px;
+}
+.label-print-guide.is-h {
+    left: 0;
+    right: 0;
+    height: 1px;
+}
+html[data-theme="dark"] .label-print-guide {
+    background: #3a4250;
+}
+.label-print-el {
+    position: absolute;
+    min-width: 3.6rem;
+    max-width: 100%;
+    padding: 0.2rem 0.4rem;
+    border: 0.1rem dashed transparent;
+    cursor: move;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    user-select: none;
+}
+.label-print-el.is-text {
+    min-width: 0;
+    padding: 0;
+    max-width: none;
+    box-sizing: content-box;
+    overflow: visible;
+    line-height: 1;
+}
+.label-print-el.is-text .text-face {
+    display: inline-block;
+    white-space: nowrap;
+    transform-origin: left top;
+}
+.label-print-rot {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: center center;
+}
+.label-print-el.is-qr .label-print-rot,
+.label-print-el.is-barcode .label-print-rot {
+    display: flex;
+    flex-direction: column;
+}
+.label-print-el.is-aligned {
+    cursor: ns-resize;
+}
+.label-print-el.is-selected {
+    border-color: var(--color-main);
+    background: transparent;
+    z-index: 2;
+}
+.label-print-el.is-qr,
+.label-print-el.is-barcode {
+    min-width: 0;
+    max-width: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    background: var(--surface-color, #ffffff);
+    white-space: normal;
+}
+.label-print-el.is-qr .media-face,
+.label-print-el.is-barcode .media-face {
+    display: block;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+}
+.label-print-el.is-qr .media-face {
+    position: relative;
+    box-sizing: border-box;
+    background: repeating-conic-gradient(var(--text-color, #333333) 0 25%, var(--surface-color, #ffffff) 0 50%) 0 0 / 0.8rem 0.8rem;
+    border: 0.1rem solid var(--text-color, #333333);
+}
+.label-print-el.is-qr .media-face i {
+    position: absolute;
+    width: 22%;
+    height: 22%;
+    box-sizing: border-box;
+    border: 0.3rem solid var(--text-color, #333333);
+    background: var(--surface-color, #ffffff);
+}
+.label-print-el.is-qr .media-face i:nth-child(1) { top: 6%; left: 6%; }
+.label-print-el.is-qr .media-face i:nth-child(2) { top: 6%; right: 6%; }
+.label-print-el.is-qr .media-face i:nth-child(3) { bottom: 6%; left: 6%; }
+.label-print-el.is-barcode .media-face {
+    background: repeating-linear-gradient(
+        90deg,
+        var(--text-color, #333333) 0,
+        var(--text-color, #333333) 0.2rem,
+        var(--surface-color, #ffffff) 0.2rem,
+        var(--surface-color, #ffffff) 0.35rem,
+        var(--text-color, #333333) 0.35rem,
+        var(--text-color, #333333) 0.45rem,
+        var(--surface-color, #ffffff) 0.45rem,
+        var(--surface-color, #ffffff) 0.7rem
+    );
+    border: 0.1rem solid var(--text-color, #333333);
+}
+.label-print-el.is-barcode .media-text {
+    flex: 0 0 auto;
+    overflow: hidden;
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--text-muted-color, #666666);
+    background: var(--surface-color, #ffffff);
+}
+.label-print-el.is-qr.is-selected,
+.label-print-el.is-barcode.is-selected {
+    background: var(--surface-color, #ffffff);
+    border-color: var(--color-main);
+}
+.label-print-empty {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 40%;
+    text-align: center;
+    color: var(--text-weak-color, #999999);
+    pointer-events: none;
+}
+.label-print-setting .empty-tips {
+    color: var(--text-weak-color, #999999);
+    padding: 1.6rem 0.8rem;
+    font-size: 1.3rem;
+}
+.label-print-setting .am-form-group {
+    margin-bottom: 1rem;
+}
+form.am-form .label-print-setting .am-form-group:has(+ .label-print-delete) {
+    padding-bottom: 0;
+    margin-bottom: 1rem;
+}
+form.am-form .label-print-setting .am-form-group:has(+ .label-print-delete) > .am-checkbox {
+    margin-bottom: 0;
+}
+.label-print-setting .label-print-delete {
+    display: block;
+    margin-top: 0.6rem;
+}
+.label-print-setting label {
+    font-size: 1.2rem;
+}
+.label-print-setting .am-form-group .am-form-field {
+    width: 100%;
+    max-width: 100%;
+}
+.label-print-setting .label-print-radio-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.8rem;
+    margin-top: 0.4rem;
+}
+.label-print-setting .label-print-radio-list .am-radio-inline {
+    margin: 0;
+}
+.label-print-format-box {
+    margin: 0 0 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 0.1rem solid var(--border-color, #eeeeee);
+}
+.label-print-format-title {
+    margin-bottom: 0.6rem;
+    font-size: 1.2rem;
+    color: var(--text-muted-color, #666666);
+}
+.label-print-format-tabs {
+    display: flex;
+    margin: 0;
+    padding: 0.2rem;
+    list-style: none;
+    background: var(--surface-color, #ffffff);
+    border: 0.1rem solid var(--border-color, #eeeeee);
+    border-radius: var(--border-radius, 0.4rem);
+}
+.label-print-format-tabs .item {
+    flex: 1;
+    margin: 0;
+    padding: 0.5rem 0.2rem;
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--text-muted-color, #666666);
+    cursor: pointer;
+    border-radius: var(--border-radius-sm, 0.2rem);
+    user-select: none;
+}
+.label-print-format-tabs .item:hover {
+    color: var(--color-main);
+}
+.label-print-format-tabs .item.am-active {
+    color: #fff;
+    background: var(--color-main);
+}
+.label-print-popup .am-popup-inner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.label-print-popup .am-popup-bd {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0;
+}
+.label-print-popup .am-form-popup-container {
+    height: 100%;
+    overflow: hidden;
+}
+.label-print-popup form.am-form-popup-fixed {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+.label-print-popup .label-print-designer-box {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+.label-print-popup .label-print-designer {
+    flex: 1;
+    min-height: 0;
+    height: auto;
+}
+.label-print-popup .label-print-palette,
+.label-print-popup .label-print-setting {
+    max-height: none;
+    overflow: hidden;
+}
+.label-print-popup .label-print-palette-list,
+.label-print-popup .label-print-setting-body {
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.label-print-block {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.8rem 1.2rem;
+    margin-bottom: 1.8rem;
+}
+.label-print-block .block-title {
+    margin: 0;
+    font-size: 1.5rem;
+}
+.label-print-popup-entry {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+.label-print-designed {
+    color: var(--color-main);
+    font-size: 1.2rem;
+    line-height: 1;
+}

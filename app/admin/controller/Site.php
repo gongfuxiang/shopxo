@@ -116,6 +116,18 @@ class Site extends Base
 
             // 网站设置
             case 'siteset' :
+                // 商品分类：PC/手机分端层级与风格配置兜底
+                if($this->view_type == 'goodscategory')
+                {
+                    $old_level = MyC('common_show_goods_category_level', 0, true);
+                    ConfigService::ConfigEnsure('common_show_goods_category_level_pc', strval($old_level));
+                    ConfigService::ConfigEnsure('common_goods_category_goods_style', '1');
+                    ConfigService::ConfigEnsure('common_goods_category_goods_style_pc', '1');
+                    // Ensure 后重新取配置，保证表单有新字段
+                    $data = ConfigService::ConfigList();
+                    $assign['data'] = $data;
+                }
+
                 // 获取商品一级分类
                 $where = [
                     ['pid', '=', 0],
@@ -234,6 +246,7 @@ class Site extends Base
             'common_multilingual_list'                   => MyConst('common_multilingual_list'),
             // 商品分类
             'common_show_goods_category_level_list'      => MyConst('common_show_goods_category_level_list'),
+            'common_goods_category_goods_style_list'     => MyConst('common_goods_category_goods_style_list'),
             'common_goods_category_model_icon_type_list' => MyConst('common_goods_category_model_icon_type_list'),
             // 商品基础字段对
             'common_goods_base_fields_list'              => MyConst('common_goods_base_fields_list'),

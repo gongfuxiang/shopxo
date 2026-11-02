@@ -17,58 +17,85 @@
 {{:ModuleInclude('public/goods_category')}}
 
 <!-- content -->
-<div class="am-container category-list-container category-list-level-{{$category_level}}-container am-radius">
+<div class="am-container category-list-container category-list-level-{{$category_level}}-container category-goods-style-{{if isset($category_goods_style)}}{{$category_goods_style}}{{else /}}1{{/if}}-container am-radius">
     {{if !empty($goods_category_list)}}
         {{if $category_level eq 0}}
-            <div class="am-container zero-search" data-url="{{:MyUrl('index/category/datalist')}}" data-all-name="{{:MyLang('all_title')}}">
-                <div class="zero-search-top">
-                    <div class="am-avg-sm-12 am-avg-md-12 am-avg-lg-12 zero-title am-radius am-scrollable-horizontal" data-am-sticky>
-                        <div class="am-slider am-slider-default am-slider-carousel title-slider" data-am-flexslider="{itemWidth: {{if IsMobile()}}80{{else /}}108{{/if}}, itemMargin: 0, slideshow: false,controlNav:false}">
-                            <!-- 第一级菜单 -->
-                            <ul class="am-slides am-text-nowrap">
+            <div class="am-container zero-search zero-search-style-{{$category_goods_style}}" data-url="{{:MyUrl('index/category/datalist')}}" data-all-name="{{:MyLang('all_title')}}" data-style="{{$category_goods_style}}">
+                {{if in_array($category_goods_style, [3, 4])}}
+                    <!-- 风格三/四：一级左侧，二级右侧顶部，三级点击二级后块状展示（无顶部一级，sticky 不预留一级高度） -->
+                    <div class="zero-search-left">
+                        <div class="zero-left am-radius" data-am-sticky="{top:10}">
+                            <ul class="category-nav zero-level-one-nav">
                                 {{foreach $goods_category_list as $k=>$v}}
-                                    <li class="am-text-truncate {{if $k eq 0}} active{{/if}}" data-id="{{$v.id}}" data-json="{{if !empty($v['items'])}}{{:urlencode(base64_encode(json_encode($v['items'])))}}{{/if}}">
-                                        <div class="zero-item">
-                                            {{if !empty($v['icon'])}}
-                                                <a style="background-image: url({{if empty($v['realistic_images'])}}{{$v.icon}}{{else /}}{{$v.realistic_images}}{{/if}})" alt="{{$v.name}}"></a>
-                                            {{/if}}
-                                            <p>{{$v.name}}</p>
-                                        </div>
-                                    </li>
+                                    <li class="am-text-break {{if $k eq 0}}active{{/if}}" data-id="{{$v.id}}" data-json="{{if !empty($v['items'])}}{{:urlencode(base64_encode(json_encode($v['items'])))}}{{/if}}">{{$v.name}}</li>
                                 {{/foreach}}
                             </ul>
                         </div>
                     </div>
-                </div>
-                <!-- 如果所有一级分类都没有二级则不展示左侧菜单 -->
-                {{if count(array_filter(array_column($goods_category_list, 'items'))) gt 0}}
-                    <div class="zero-search-left">
-                        <div class="zero-left am-radius" data-am-sticky="{top:130}"> 
-                            <!-- 第二级菜单 -->
-                            <ul class="category-nav">
-                                <li class="am-text-break active" data-id="">{{:MyLang('all_title')}}</li>
-                                {{if !empty($goods_category_list[0]) and !empty($goods_category_list[0]['items'])}}
-                                    {{foreach $goods_category_list[0]['items'] as $v}}
-                                        <li class="am-text-break" data-json="{{if !empty($v['items'])}}{{:urlencode(base64_encode(json_encode($v['items'])))}}{{/if}}" data-id="{{$v.id}}">{{$v.name}}</li>
+                    <div class="zero-search-right">
+                        <div class="zero-right am-radius">
+                            <div class="zero-right-l2 am-scrollable-horizontal">
+                                <div class="am-text-nowrap">
+                                    <a class="am-radius active" data-id="">{{:MyLang('all_title')}}</a>
+                                    {{if !empty($goods_category_list[0]) and !empty($goods_category_list[0]['items'])}}
+                                        {{foreach $goods_category_list[0]['items'] as $v}}
+                                            <a class="am-radius" data-id="{{$v.id}}" data-json="{{if !empty($v['items'])}}{{:urlencode(base64_encode(json_encode($v['items'])))}}{{/if}}">{{$v.name}}</a>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </div>
+                            </div>
+                            <div class="zero-right-l3 am-scrollable-horizontal am-hide">
+                                <div class="zero-right-l3-inner am-text-nowrap"></div>
+                            </div>
+                            <div class="zero-right-item"></div>
+                            <div class="zero-right-page" data-page="1"></div>
+                        </div>
+                    </div>
+                {{else /}}
+                    <!-- 风格一/二：顶部一级 + 左侧二级 + 右侧三级标签 -->
+                    <div class="zero-search-top">
+                        <div class="am-avg-sm-12 am-avg-md-12 am-avg-lg-12 zero-title am-radius am-scrollable-horizontal" data-am-sticky>
+                            <div class="am-slider am-slider-default am-slider-carousel title-slider" data-am-flexslider="{itemWidth: {{if IsMobile()}}80{{else /}}108{{/if}}, itemMargin: 0, slideshow: false,controlNav:false}">
+                                <ul class="am-slides am-text-nowrap">
+                                    {{foreach $goods_category_list as $k=>$v}}
+                                        <li class="am-text-truncate {{if $k eq 0}} active{{/if}}" data-id="{{$v.id}}" data-json="{{if !empty($v['items'])}}{{:urlencode(base64_encode(json_encode($v['items'])))}}{{/if}}">
+                                            <div class="zero-item">
+                                                {{if !empty($v['icon'])}}
+                                                    <a style="background-image: url({{if empty($v['realistic_images'])}}{{$v.icon}}{{else /}}{{$v.realistic_images}}{{/if}})" alt="{{$v.name}}"></a>
+                                                {{/if}}
+                                                <p>{{$v.name}}</p>
+                                            </div>
+                                        </li>
                                     {{/foreach}}
-                                {{/if}}
-                            </ul>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {{if count(array_filter(array_column($goods_category_list, 'items'))) gt 0}}
+                        <div class="zero-search-left">
+                            <div class="zero-left am-radius" data-am-sticky="{top:130}">
+                                <ul class="category-nav">
+                                    <li class="am-text-break active" data-id="">{{:MyLang('all_title')}}</li>
+                                    {{if !empty($goods_category_list[0]) and !empty($goods_category_list[0]['items'])}}
+                                        {{foreach $goods_category_list[0]['items'] as $v}}
+                                            <li class="am-text-break" data-json="{{if !empty($v['items'])}}{{:urlencode(base64_encode(json_encode($v['items'])))}}{{/if}}" data-id="{{$v.id}}">{{$v.name}}</li>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </ul>
+                            </div>
+                        </div>
+                    {{/if}}
+                    <div class="zero-search-right {{if count(array_filter(array_column($goods_category_list, 'items'))) eq 0}}category-one-subset-content{{/if}}">
+                        <div class="zero-right am-radius">
+                            <div class="zero-right-title am-scrollable-horizontal">
+                                <div class="am-text-nowrap"></div>
+                            </div>
+                            <div class="zero-right-item"></div>
+                            <div class="zero-right-page" data-page="1"></div>
                         </div>
                     </div>
                 {{/if}}
-                <div class="zero-search-right {{if count(array_filter(array_column($goods_category_list, 'items'))) eq 0}}category-one-subset-content{{/if}}">
-                    <div class="zero-right am-radius">
-                        <!-- 第三级菜单 -->
-                        <div class="zero-right-title am-scrollable-horizontal">
-                            <div class="am-text-nowrap"></div>
-                        </div>
-                        <!-- 查询的内容 -->
-                        <div class="zero-right-item"></div>
-                        <!-- 分页 -->
-                        <div class="zero-right-page" data-page="1"></div>
-                    </div>
-                </div>
-            </div>   
+            </div>
         {{elseif $category_level eq 1}}
             <div class="model-one">
                 <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-5">

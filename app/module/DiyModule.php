@@ -20,6 +20,7 @@ use app\service\MessageService;
 use app\service\GoodsCartService;
 use app\service\GoodsFavorService;
 use app\service\GoodsBrowseService;
+use app\service\OrderService;
 
 /**
  * DIY装修处理服务层
@@ -74,32 +75,39 @@ class DiyModule
         // 头，唯一key生成
         if(!empty($config['header']))
         {
-            // 角标数量处理
-            if(!empty($config['header']['com_data']) && !empty($config['header']['com_data']['content']) && !empty($config['header']['com_data']['content']['icon_setting']))
+            // 角标数量处理（右侧 / 左侧顶部图标）
+            if(!empty($config['header']['com_data']) && !empty($config['header']['com_data']['content']))
             {
                 $user = UserService::LoginUserInfo();
-                foreach($config['header']['com_data']['content']['icon_setting'] as $k=>$v)
+                foreach(['icon_setting', 'left_icon_setting'] as $icon_field)
                 {
-                    $badge = '';
-                    if(!empty($user) && !empty($v['link']) && !empty($v['link']['page']))
+                    if(empty($config['header']['com_data']['content'][$icon_field]) || !is_array($config['header']['com_data']['content'][$icon_field]))
                     {
-                        switch($v['link']['page'])
-                        {
-                            // 消息
-                            case '/pages/message/message' :
-                                $message_total = MessageService::UserMessageTotal(['user'=>$user, 'is_more'=>1, 'is_read'=>0, 'user_type'=>'user']);
-                                $badge = $message_total;
-                                break;
-
-                            // 购物车
-                            case '/pages/cart/cart' :
-                            case '/pages/cart-page/cart-page' :
-                                $cart_res = GoodsCartService::UserGoodsCartTotal(['user'=>$user]);
-                                $badge = $cart_res['buy_number'];
-                                break;
-                        }
+                        continue;
                     }
-                    $config['header']['com_data']['content']['icon_setting'][$k]['badge'] = $badge;
+                    foreach($config['header']['com_data']['content'][$icon_field] as $k=>$v)
+                    {
+                        $badge = '';
+                        if(!empty($user) && !empty($v['link']) && !empty($v['link']['page']))
+                        {
+                            switch($v['link']['page'])
+                            {
+                                // 消息
+                                case '/pages/message/message' :
+                                    $message_total = MessageService::UserMessageTotal(['user'=>$user, 'is_more'=>1, 'is_read'=>0, 'user_type'=>'user']);
+                                    $badge = $message_total;
+                                    break;
+
+                                // 购物车
+                                case '/pages/cart/cart' :
+                                case '/pages/cart-page/cart-page' :
+                                    $cart_res = GoodsCartService::UserGoodsCartTotal(['user'=>$user]);
+                                    $badge = $cart_res['buy_number'];
+                                    break;
+                            }
+                        }
+                        $config['header']['com_data']['content'][$icon_field][$k]['badge'] = $badge;
+                    }
                 }
             }
 
@@ -115,6 +123,11 @@ class DiyModule
         // 处理数据
         if($is_config_data_handle)
         {
+            // 新建商品详情只带购买导航标记时，模块列表还不存在
+            if(empty($config['diy_data']) || !is_array($config['diy_data']))
+            {
+                $config['diy_data'] = [];
+            }
             // 指定数据id
             $goods_ids = [];
             $article_ids = [];
@@ -583,11 +596,8 @@ class DiyModule
                                                             }
                                                         }
 
-                                                        // 固定数据、用户信息
-                                                        if($tabs_data_config['content']['data_source'] == 'user-info' && isset($tabs_data_config['content']['data_source_content']))
-                                                        {
-                                                            $tabs_data_config['content']['data_source_content']['data_list'][] = self::UserHeadDataHandle($params);
-                                                        }
+                                                        // 固定数据、用户信息（余额、优惠券由插件钩子写进同一条数据）
+                                                        self::UserInfoSourceFill($tabs_data_config['content']);
                                                     }
                                                     break;
                                             }
@@ -646,11 +656,8 @@ class DiyModule
                                                         }
                                                     }
 
-                                                    // 固定数据、用户信息
-                                                    if($dmv['data_content']['data_source'] == 'user-info' && isset($dmv['data_content']['data_source_content']))
-                                                    {
-                                                        $dmv['data_content']['data_source_content']['data_list'][] = self::UserHeadDataHandle($params);
-                                                    }
+                                                    // 固定数据、用户信息（余额、优惠券由插件钩子写进同一条数据）
+                                                    self::UserInfoSourceFill($dmv['data_content']);
                                                 }
                                                 break;
                                         }
@@ -685,11 +692,8 @@ class DiyModule
                                     }
                                 }
 
-                                // 固定数据、用户信息
-                                if($v['com_data']['content']['data_source'] == 'user-info' && isset($v['com_data']['content']['data_source_content']))
-                                {
-                                    $v['com_data']['content']['data_source_content']['data_list'][] = self::UserHeadDataHandle($params);
-                                }
+                                // 固定数据、用户信息（余额、优惠券由插件钩子写进同一条数据）
+                                self::UserInfoSourceFill($v['com_data']['content']);
                             }
                             break;
 
@@ -698,6 +702,14 @@ class DiyModule
                             if(!empty($v['com_data']['content']))
                             {
                                 $v['com_data']['content']['data'] = self::UserHeadDataHandle($params);
+                            }
+                            break;
+
+                        // 我的订单：把各状态数量写进状态项，手机端不再单独请求
+                        case 'user-order-nav' :
+                            if($is_view && !empty($v['com_data']['content']))
+                            {
+                                $v['com_data']['content'] = self::OrderNavCountHandle($v['com_data']['content'], self::OrderNavMallRows());
                             }
                             break;
                     }
@@ -752,11 +764,8 @@ class DiyModule
                                             }
                                         }
 
-                                        // 固定数据、用户信息
-                                        if($home_data['custom']['content']['data_source'] == 'user-info' && isset($home_data['custom']['content']['data_source_content']))
-                                        {
-                                            $tabsv['com_data']['content']['home_data']['custom']['content']['data_source_content']['data_list'][] = self::UserHeadDataHandle($params);
-                                        }
+                                        // 固定数据、用户信息（余额、优惠券由插件钩子写进同一条数据）
+                                        self::UserInfoSourceFill($tabsv['com_data']['content']['home_data']['custom']['content']);
                                     }
                                     break;
 
@@ -826,11 +835,8 @@ class DiyModule
                                                     }
                                                 }
 
-                                                // 固定数据、用户信息
-                                                if($tabsvs['custom']['content']['data_source'] == 'user-info' && isset($tabsvs['custom']['content']['data_source_content']))
-                                                {
-                                                    $tabsvs['custom']['content']['data_source_content']['data_list'][] = self::UserHeadDataHandle($params);
-                                                }
+                                                // 固定数据、用户信息（余额、优惠券由插件钩子写进同一条数据）
+                                                self::UserInfoSourceFill($tabsvs['custom']['content']);
                                             }
                                             break;
 
@@ -913,6 +919,120 @@ class DiyModule
     {
         $ret = DiyApiService::UserHeadData();
         return $ret['data'];
+    }
+
+    /**
+     * 用户信息数据源：把当前用户数据合并进已有记录
+     * 自定义、数据魔方、数据选项卡、选项卡魔方都走这里
+     * 余额、优惠券由插件钩子写在用户数据上，不能只追加一条，否则设计时那条仍是 0
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-10-28
+     * @desc    description
+     * @param   [array]          $content [组件内容]
+     */
+    public static function UserInfoSourceFill(&$content)
+    {
+        if(empty($content) || !is_array($content) || empty($content['data_source']) || $content['data_source'] != 'user-info' || !isset($content['data_source_content']) || !is_array($content['data_source_content']))
+        {
+            return;
+        }
+        $live = self::UserHeadDataHandle();
+        if(empty($live) || !is_array($live))
+        {
+            return;
+        }
+        $list = (isset($content['data_source_content']['data_list']) && is_array($content['data_source_content']['data_list'])) ? $content['data_source_content']['data_list'] : [];
+        if(empty($list))
+        {
+            $content['data_source_content']['data_list'] = [$live];
+            return;
+        }
+        foreach($list as &$row)
+        {
+            if(!is_array($row))
+            {
+                continue;
+            }
+            if(isset($row['data']) && is_array($row['data']))
+            {
+                $row['data'] = array_merge($row['data'], $live);
+            } else {
+                $row = array_merge($row, $live);
+            }
+        }
+        unset($row);
+        $content['data_source_content']['data_list'] = $list;
+    }
+
+    /**
+     * 我的订单各状态数量
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-10-27
+     * @desc    description
+     */
+    public static function OrderNavMallRows()
+    {
+        $ret = OrderService::OrderStatusStepTotal([
+            'user_type'    => 'user',
+            'user'         => UserService::LoginUserInfo(),
+            'is_aftersale' => 1,
+        ]);
+        return (!empty($ret['data']) && is_array($ret['data'])) ? $ret['data'] : [];
+    }
+
+    /**
+     * 按状态码把数量写到订单导航项上
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-10-27
+     * @desc    description
+     * @param   [array]          $content [组件内容]
+     * @param   [array]          $rows    [状态数量]
+     */
+    public static function OrderNavCountHandle($content, $rows = [])
+    {
+        if(empty($content) || !is_array($content) || empty($content['status_list']) || !is_array($content['status_list']))
+        {
+            return $content;
+        }
+        $map = [];
+        $aftersale = 0;
+        if(!empty($rows) && is_array($rows))
+        {
+            foreach($rows as $row)
+            {
+                if(!is_array($row))
+                {
+                    continue;
+                }
+                if(array_key_exists('status', $row) && $row['status'] !== '' && $row['status'] !== null)
+                {
+                    $map[strval($row['status'])] = intval($row['count']);
+                } else {
+                    $aftersale = intval(isset($row['count']) ? $row['count'] : 0);
+                }
+            }
+        }
+        if(!array_key_exists('101', $map))
+        {
+            $map['101'] = $aftersale;
+        }
+        foreach($content['status_list'] as &$item)
+        {
+            if(!is_array($item))
+            {
+                continue;
+            }
+            $status = isset($item['status']) ? strval($item['status']) : '';
+            $item['count'] = array_key_exists($status, $map) ? $map[$status] : 0;
+        }
+        unset($item);
+        return $content;
     }
 
     /**

@@ -494,9 +494,10 @@ class OrderService
             return DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -1);
         }
         $operate = self::OrderOperateData($order, 'admin');
-        if($operate['is_pay'] != 1)
+        if(empty($operate) || !is_array($operate) || ($operate['is_pay'] ?? 0) != 1)
         {
-            $status_text = MyConst('common_order_status')[$order['status']]['name'];
+            $status_list = MyConst('common_order_status');
+            $status_text = (is_array($status_list) && isset($status_list[$order['status']]) && is_array($status_list[$order['status']]) && isset($status_list[$order['status']]['name'])) ? $status_list[$order['status']]['name'] : strval($order['status']);
             return DataReturn(MyLang('status_not_can_operate_tips').'['.$status_text.'-'.$order['order_no'].']', -1);
         }
 
@@ -1599,7 +1600,41 @@ class OrderService
                 {
                     $v['items'] = (!empty($detail) && array_key_exists($v['id'], $detail)) ? $detail[$v['id']] : [];
                     $v['items_count'] = count($v['items']);
+                    // 规格重量/体积汇总（按购买数量）
+                    $weight_total = 0;
+                    $volume_total = 0;
+                    if(!empty($v['items']) && is_array($v['items']))
+                    {
+                        foreach($v['items'] as $it)
+                        {
+                            $buy_num = empty($it['buy_number']) ? 1 : intval($it['buy_number']);
+                            if(isset($it['spec_weight']) && floatval($it['spec_weight']) > 0)
+                            {
+                                $weight_total += floatval($it['spec_weight']) * $buy_num;
+                            }
+                            if(isset($it['spec_volume']) && floatval($it['spec_volume']) > 0)
+                            {
+                                $volume_total += floatval($it['spec_volume']) * $buy_num;
+                            }
+                        }
+                    }
+                    $v['spec_weight_total'] = PriceNumberFormat($weight_total);
+                    $v['spec_volume_total'] = PriceNumberFormat($volume_total);
                     $v['describe'] = MyLang('common_service.order.order_item_summary_desc', ['buy_number_count'=>$v['buy_number_count'], 'currency_symbol'=>$v['currency_data']['currency_symbol'], 'total_price'=>$v['total_price']]);
+                    // 有重量/体积时追加到合计描述
+                    $wv_tips = [];
+                    if($weight_total > 0)
+                    {
+                        $wv_tips[] = MyLang('common_service.order.order_item_summary_weight', ['weight'=>$v['spec_weight_total']]);
+                    }
+                    if($volume_total > 0)
+                    {
+                        $wv_tips[] = MyLang('common_service.order.order_item_summary_volume', ['volume'=>$v['spec_volume_total']]);
+                    }
+                    if(!empty($wv_tips))
+                    {
+                        $v['describe'] .= ' '.implode(' ', $wv_tips);
+                    }
                     // 使用指南
                     if(!empty($v['items']) && !empty($use_guide_config))
                     {
@@ -1920,6 +1955,9 @@ class OrderService
             $produce_region = RegionService::RegionName(array_filter(array_column($detail, 'produce_region')));
             // 品牌
             $brand = BrandService::BrandName(array_filter(array_column($detail, 'brand_id')));
+            // 商品标题 i18n（强制：后台/前台非默认语言均按 goods_id 读取）
+            $goods_ids = array_unique(array_filter(array_map('intval', array_column($detail, 'goods_id'))));
+            $goods_title_map = I18nService::GoodsTitleMap($goods_ids, true);
 
             // 数据处理
             foreach($detail as $v)
@@ -1936,6 +1974,16 @@ class OrderService
                     // 商品封面图片
                     $v['images'] = empty($v['images']) ? '' : ResourcesService::AttachmentPathViewHandle($v['images']);
 
+                    // 下单快照标题（多语言覆盖前保留，供商品基础参数展示）
+                    $gid = empty($v['goods_id']) ? 0 : intval($v['goods_id']);
+                    $title_origin = array_key_exists('title', $v) ? strval($v['title']) : '';
+                    $v['title_origin'] = $title_origin;
+                    // 商品标题 i18n（列表/主展示用当前语言）
+                    if($gid > 0 && !empty($goods_title_map[$gid]))
+                    {
+                        $v['title'] = $goods_title_map[$gid];
+                    }
+
                     // 规格（spec_text快照默认语言、spec_show当前语言展示：按key翻译、商品删除或未翻译回退快照）
                     $v['spec_text'] = '';
                     $v['spec_show'] = [];
@@ -1946,11 +1994,8 @@ class OrderService
                         $v['spec'] = json_decode($v['spec'], true);
                         if(!empty($v['spec']) && is_array($v['spec']))
                         {
-                            $v['spec_text'] = implode('，', array_map(function($spec)
-                            {
-                                return (isset($spec['type']) ? $spec['type'] : '').':'.(isset($spec['value']) ? $spec['value'] : '');
-                            }, $v['spec']));
-                            $v['spec_show'] = \app\service\I18nService::SpecShowData($v['goods_id'], $v['spec']);
+                            $v['spec_show'] = I18nService::SpecShowData($gid, $v['spec'], true);
+                            $v['spec_text'] = I18nService::SpecTextShow($gid, $v['spec'], true);
                         }
                     }
 
@@ -1993,12 +2038,24 @@ class OrderService
                     // 产地
                     $v['produce_region_name'] = (!empty($v['produce_region']) && !empty($produce_region) && array_key_exists($v['produce_region'], $produce_region)) ? $produce_region[$v['produce_region']] : '';
 
-                    // 基础数据
+                    // 基础数据（标题用下单快照，避免多语言覆盖后与当时不一致）
                     if(!empty($base_fields) && is_array($base_fields))
                     {
                         $base_data = [];
+                        if($title_origin !== '')
+                        {
+                            $base_data[] = [
+                                'field'  => 'title',
+                                'name'   => MyLang('common_goods_base_data_fields.title'),
+                                'value'  => $title_origin,
+                            ];
+                        }
                         foreach($base_fields as $bfk=>$bfv)
                         {
+                            if($bfk === 'title')
+                            {
+                                continue;
+                            }
                             if(array_key_exists($bfk, $v) && $v[$bfk] != 0 && $v[$bfk] != '')
                             {
                                 $base_data[] = [
@@ -2056,6 +2113,7 @@ class OrderService
             // 订单商品明细
             $detail_ids = array_unique(array_filter(array_column($data, 'order_detail_id')));
             $detail_group = empty($detail_ids) ? [] : Db::name('OrderDetail')->where(['id'=>$detail_ids])->column('id,goods_id,title,images,buy_number', 'id');
+            $goods_title_map = I18nService::GoodsTitleMap(array_column($detail_group, 'goods_id'), true);
 
             $group = [];
             foreach($data as $v)
@@ -2070,6 +2128,11 @@ class OrderService
                 $verify_number = max(0, intval($v['verify_number']));
                 $remain_number = max(0, $total_number - $verify_number);
                 $goods_id = empty($detail['goods_id']) ? 0 : intval($detail['goods_id']);
+                $goods_title = empty($detail['title']) ? '' : $detail['title'];
+                if($goods_id > 0 && !empty($goods_title_map[$goods_id]))
+                {
+                    $goods_title = $goods_title_map[$goods_id];
+                }
 
                 // 生成二维码参数
                 $qrcode_params = [
@@ -2092,7 +2155,7 @@ class OrderService
                     'images'            => $images,
                     'goods_id'          => $goods_id,
                     'goods_url'         => empty($goods_id) ? '' : GoodsService::GoodsUrlCreate($goods_id),
-                    'goods_title'       => empty($detail['title']) ? '' : $detail['title'],
+                    'goods_title'       => $goods_title,
                     'goods_images'      => empty($detail['images']) ? '' : ResourcesService::AttachmentPathViewHandle($detail['images']),
                     'buy_number'        => empty($detail['buy_number']) ? $total_number : intval($detail['buy_number']),
                 ];
@@ -2641,6 +2704,16 @@ class OrderService
             $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
             self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], MyLang('cancel_title'), $creator, $creator_name);
 
+            // 订单取消成功钩子
+            $hook_name = 'plugins_service_order_cancel_success_handle';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'order_id'      => $order['id'],
+                'order'         => $order,
+                'params'        => $params,
+            ]);
+
             return DataReturn(MyLang('cancel_success'), 0);
         }
         return DataReturn(MyLang('cancel_fail'), -1);
@@ -3049,8 +3122,8 @@ class OrderService
                 break;
         }
 
-        // 待发货则处理
-        if($order['status'] != 3)
+        // 仅待发货推进状态；待收货/已完成只更新快递或服务信息
+        if(intval($order['status']) == 2)
         {
             // 订单更新
             $upd_data = [
@@ -3086,6 +3159,16 @@ class OrderService
         {
             return $ret;
         }
+
+        // 发货/服务信息更新成功钩子（含待收货仅改快递/服务、状态不变的场景）
+        $hook_name = 'plugins_service_order_delivery_success_handle';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'order_id'      => $order['id'],
+            'order'         => $order,
+            'params'        => $params,
+        ]);
 
         // 完成
         $msg = ($order['order_model'] == 1) ? MyLang('service_success') : ($order['order_model'] == 2 ? MyLang('verification_success') : MyLang('delivery_success'));
@@ -3249,6 +3332,16 @@ class OrderService
             $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
             self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], MyLang('collect_title'), $creator, $creator_name);
 
+            // 收货成功钩子
+            $hook_name = 'plugins_service_order_collect_success_handle';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'order_id'      => $order['id'],
+                'order'         => $order,
+                'params'        => $params,
+            ]);
+
             return DataReturn(MyLang('collect_success'), 0);
         }
         return DataReturn(MyLang('collect_fail'), -1);
@@ -3332,6 +3425,16 @@ class OrderService
             $creator = isset($params['creator']) ? intval($params['creator']) : 0;
             $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
             self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], MyLang('confirm_title'), $creator, $creator_name);
+
+            // 订单确认成功钩子
+            $hook_name = 'plugins_service_order_confirm_success_handle';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'order_id'      => $order['id'],
+                'order'         => $order,
+                'params'        => $params,
+            ]);
 
             // 完成
             Db::commit();

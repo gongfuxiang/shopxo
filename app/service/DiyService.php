@@ -16,6 +16,7 @@ use app\service\ResourcesService;
 use app\service\AttachmentService;
 use app\service\StoreService;
 use app\service\AppMiniUserService;
+use app\service\GoodsCategoryService;
 
 /**
  * DIY装修服务层
@@ -39,23 +40,44 @@ class DiyService
      */
     public static function AppClientHomeDiyData($params = [])
     {
-        // 是否指定了首页diy数据
-        $diy_id = self::AppClientHomeDiyId($params);
+        return self::AppClientPageDiyData('common_app_home_data_diy_mode', $params, true);
+    }
 
-        // 手机端首页diy数据钩子
-        $hook_name = 'plugins_service_diy_app_client_home_diy_data';
-        MyEventTrigger($hook_name, [
-            'hook_name'   => $hook_name,
-            'is_backend'  => true,
-            'params'      => $params,
-            'diy_id'      => &$diy_id,
-        ]);
-
-        return empty($diy_id) ? '' : self::DiyData(['id'=>$diy_id]);
+    /**
+     * 手机端页面diy数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-10-27
+     * @desc    未配置或已过期时返回空，调用方继续用系统默认页
+     * @param   [string]          $config_key [配置标记]
+     * @param   [array]           $params     [输入参数]
+     * @param   [boolean]         $is_home    [是否首页，保留首页钩子]
+     */
+    public static function AppClientPageDiyData($config_key, $params = [], $is_home = false)
+    {
+        if($is_home || $config_key === 'common_app_home_data_diy_mode')
+        {
+            $diy_id = self::AppClientHomeDiyId($params);
+        } elseif($config_key === 'common_app_goods_detail_data_diy_mode')
+        {
+            $diy_id = self::AppClientGoodsDetailDiyId($params);
+        } elseif($config_key === 'common_app_user_center_data_diy_mode')
+        {
+            $diy_id = self::AppClientUserCenterDiyId($params);
+        } else {
+            $diy_id = self::AppClientDiyId($config_key);
+        }
+        if(empty($diy_id))
+        {
+            return '';
+        }
+        return self::DiyData(array_merge($params, ['id'=>intval($diy_id), 'diy_id'=>intval($diy_id)]));
     }
 
     /**
      * 手机端首页diyid
+     * 插件可通过 plugins_service_diy_app_client_home_diy_data 改写 diy_id
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -65,9 +87,257 @@ class DiyService
      */
     public static function AppClientHomeDiyId($params = [])
     {
-        // 是否指定了首页diy数据
+        $diy_id = self::AppClientDiyId('common_app_home_data_diy_mode');
+        return self::AppClientDiyIdHook('plugins_service_diy_app_client_home_diy_data', $diy_id, $params);
+    }
+
+    /**
+     * 手机端商品详情diyid
+     * 有 goods_id 时：第一品类→向上找→默认 DIY；公共 init 无 goods_id 时只返回默认
+     * 插件可通过 plugins_service_diy_app_client_goods_detail_diy_data 改写 diy_id
+     * @param   [array]           $params [输入参数]
+     */
+    public static function AppClientGoodsDetailDiyId($params = [])
+    {
         $diy_id = 0;
-        $diy_mode = MyC('common_app_home_data_diy_mode');
+        $goods_id = empty($params['goods_id']) ? 0 : intval($params['goods_id']);
+        if($goods_id > 0)
+        {
+            $diy_id = self::AppClientGoodsDetailCategoryDiyId($goods_id);
+        }
+        if(empty($diy_id))
+        {
+            $diy_id = self::AppClientDiyId('common_app_goods_detail_data_diy_mode');
+        }
+        return self::AppClientDiyIdHook('plugins_service_diy_app_client_goods_detail_diy_data', $diy_id, $params);
+    }
+
+    /**
+     * 商品详情是否启用 DIY（公共 init：默认已配或任意品类已配当前端）
+     * 手机端用此状态决定是否先出骨架，最终模板以详情接口为准
+     * @param   [array]           $params [输入参数]
+     */
+    public static function AppClientGoodsDetailDiyEnable($params = [])
+    {
+        if(!empty(self::AppClientDiyId('common_app_goods_detail_data_diy_mode')))
+        {
+            return 1;
+        }
+        $mode = MyC('common_app_goods_detail_category_diy_mode');
+        if(empty($mode) || !is_array($mode))
+        {
+            return 0;
+        }
+        $client = APPLICATION_CLIENT_TYPE;
+        foreach($mode as $clients)
+        {
+            if(empty($clients) || !is_array($clients) || empty($clients[$client]))
+            {
+                continue;
+            }
+            if(self::DiyModeClientDiyId($clients[$client]) > 0)
+            {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * 按商品第一品类向上匹配 DIY
+     * @param   [int]          $goods_id [商品id]
+     */
+    public static function AppClientGoodsDetailCategoryDiyId($goods_id)
+    {
+        $goods_id = intval($goods_id);
+        if($goods_id <= 0)
+        {
+            return 0;
+        }
+        $mode = MyC('common_app_goods_detail_category_diy_mode');
+        if(empty($mode) || !is_array($mode))
+        {
+            return 0;
+        }
+        // 多品类取关联表第一条（按 join.id 升序）
+        $category_id = intval(Db::name('GoodsCategoryJoin')->where(['goods_id'=>$goods_id])->order('id asc')->value('category_id'));
+        if($category_id <= 0)
+        {
+            return 0;
+        }
+        $client = APPLICATION_CLIENT_TYPE;
+        $guard = 0;
+        while($category_id > 0 && $guard < 5)
+        {
+            $guard++;
+            $key = (string) $category_id;
+            if(!empty($mode[$key]) && is_array($mode[$key]) && !empty($mode[$key][$client]))
+            {
+                $diy_id = self::DiyModeClientDiyId($mode[$key][$client]);
+                if($diy_id > 0)
+                {
+                    return $diy_id;
+                }
+            }
+            $category_id = intval(Db::name('GoodsCategory')->where(['id'=>$category_id])->value('pid'));
+        }
+        return 0;
+    }
+
+    /**
+     * 解析单端 DIY 配置（含有效期校验）
+     * @param   [mixed]          $diy [diy_id 或 [diy_id,time_start,time_end]]
+     */
+    public static function DiyModeClientDiyId($diy)
+    {
+        $diy_id = 0;
+        if(empty($diy))
+        {
+            return 0;
+        }
+        if(is_array($diy))
+        {
+            if(!empty($diy['diy_id']))
+            {
+                $diy_id = intval($diy['diy_id']);
+                if(!empty($diy['time_start']) && strtotime($diy['time_start']) > time())
+                {
+                    $diy_id = 0;
+                }
+                if(!empty($diy['time_end']) && strtotime($diy['time_end']) < time())
+                {
+                    $diy_id = 0;
+                }
+            }
+        } else {
+            $diy_id = intval($diy);
+        }
+        if($diy_id > 0)
+        {
+            $diy_id = intval(Db::name('Diy')->where([
+                ['is_enable', '=', 1],
+                ['id', '=', $diy_id],
+            ])->value('id'));
+        }
+        return empty($diy_id) ? 0 : $diy_id;
+    }
+
+    /**
+     * 后台：商品详情品类 DIY 列表（含分类路径、模板名）
+     */
+    public static function GoodsDetailCategoryDiyAdminList()
+    {
+        $mode = MyC('common_app_goods_detail_category_diy_mode');
+        if(empty($mode) || !is_array($mode))
+        {
+            return [];
+        }
+        $diy_ids = [];
+        foreach($mode as $clients)
+        {
+            if(empty($clients) || !is_array($clients))
+            {
+                continue;
+            }
+            foreach($clients as $client_cfg)
+            {
+                $id = is_array($client_cfg) ? (empty($client_cfg['diy_id']) ? 0 : intval($client_cfg['diy_id'])) : intval($client_cfg);
+                if($id > 0)
+                {
+                    $diy_ids[] = $id;
+                }
+            }
+        }
+        $diy_names = empty($diy_ids) ? [] : Db::name('Diy')->where([['id', 'in', array_unique($diy_ids)]])->column('name', 'id');
+        $platform = MyConst('common_platform_type');
+        $list = [];
+        foreach($mode as $category_id=>$clients)
+        {
+            $category_id = intval($category_id);
+            if($category_id <= 0 || empty($clients) || !is_array($clients))
+            {
+                continue;
+            }
+            $level = GoodsCategoryService::GoodsCategoryLevel($category_id);
+            $client_text = [];
+            $field_list = [];
+            foreach($platform as $pv)
+            {
+                if(in_array($pv['value'], ['pc']))
+                {
+                    continue;
+                }
+                $cfg = empty($clients[$pv['value']]) ? [] : $clients[$pv['value']];
+                $diy_id = is_array($cfg) ? (empty($cfg['diy_id']) ? 0 : intval($cfg['diy_id'])) : intval($cfg);
+                if($diy_id <= 0)
+                {
+                    continue;
+                }
+                $name = empty($diy_names[$diy_id]) ? ('#'.$diy_id) : $diy_names[$diy_id];
+                $client_text[] = $pv['name'].'：'.$name;
+                $field_list[] = [
+                    'client'     => $pv['value'],
+                    'diy_id'     => $diy_id,
+                    'time_start' => (is_array($cfg) && !empty($cfg['time_start'])) ? $cfg['time_start'] : '',
+                    'time_end'   => (is_array($cfg) && !empty($cfg['time_end'])) ? $cfg['time_end'] : '',
+                ];
+            }
+            if(empty($field_list))
+            {
+                continue;
+            }
+            $list[] = [
+                'category_id'   => $category_id,
+                'category_name' => empty($level['text']) ? ('#'.$category_id) : $level['text'],
+                'clients'       => $clients,
+                'client_text'   => implode('；', $client_text),
+                'field_list'    => $field_list,
+            ];
+        }
+        return $list;
+    }
+
+    /**
+     * 手机端用户中心diyid
+     * 插件可通过 plugins_service_diy_app_client_user_center_diy_data 改写 diy_id
+     * @param   [array]           $params [输入参数]
+     */
+    public static function AppClientUserCenterDiyId($params = [])
+    {
+        $diy_id = self::AppClientDiyId('common_app_user_center_data_diy_mode');
+        return self::AppClientDiyIdHook('plugins_service_diy_app_client_user_center_diy_data', $diy_id, $params);
+    }
+
+    /**
+     * 装修id钩子，插件给 diy_id 赋值后，公共接口和页面数据用的是同一个结果
+     * @param   [string]          $hook_name [钩子名称]
+     * @param   [int]             $diy_id    [装修id]
+     * @param   [array]           $params    [输入参数]
+     */
+    private static function AppClientDiyIdHook($hook_name, $diy_id, $params = [])
+    {
+        MyEventTrigger($hook_name, [
+            'hook_name'   => $hook_name,
+            'is_backend'  => true,
+            'params'      => $params,
+            'diy_id'      => &$diy_id,
+        ]);
+        return intval($diy_id);
+    }
+
+    /**
+     * 按配置读取当前客户端可用的diy页面id
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2026-10-27
+     * @desc    description
+     * @param   [string]          $config_key [配置标记]
+     */
+    public static function AppClientDiyId($config_key)
+    {
+        $diy_id = 0;
+        $diy_mode = MyC($config_key);
         if(!empty($diy_mode) && is_array($diy_mode) && !empty($diy_mode[APPLICATION_CLIENT_TYPE]))
         {
             $diy = $diy_mode[APPLICATION_CLIENT_TYPE];
@@ -207,6 +477,10 @@ class DiyService
                     $v['config'] = DiyModule::ConfigViewHandle($v['config'], $params);
                 }
 
+                // 类型：公共 / 商品详情（按购买导航识别，供列表展示与编辑入口）
+                $v['page_type'] = self::IsGoodsDetailDesign($v) ? 'goods-detail' : 'common';
+                $v['page_type_name'] = $v['page_type'] === 'goods-detail' ? MyLang('diy.nav_goods_detail_diy_name') : MyLang('diy.nav_common_diy_name');
+
                 // 时间
                 if(array_key_exists('upd_time', $v))
                 {
@@ -219,6 +493,32 @@ class DiyService
             }
         }
         return $data;
+    }
+
+    /**
+     * 是否商品详情装修
+     * 底部为购买导航时，编辑要进入商品详情设计页
+     */
+    public static function IsGoodsDetailDesign($data = [])
+    {
+        $config = '';
+        if(is_array($data) && array_key_exists('config', $data))
+        {
+            $config = $data['config'];
+        } elseif(!empty($data['id']))
+        {
+            $config = Db::name('Diy')->where(['id'=>intval($data['id'])])->value('config');
+        }
+        if(empty($config))
+        {
+            return false;
+        }
+        if(!is_array($config))
+        {
+            $config = json_decode($config, true);
+        }
+        $key = empty($config['footer']['key']) ? '' : $config['footer']['key'];
+        return $key === 'goods-detail-buy-nav' || $key === 'goods-bottom-nav';
     }
 
     /**

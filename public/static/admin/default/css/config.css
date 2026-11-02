@@ -21,6 +21,19 @@
     padding: 0.6rem 1.2rem;
 }
 
+.attachment-limit-list>ul {
+    max-width: 90rem;
+}
+
+.attachment-limit-list>ul li input,
+.attachment-limit-list>ul li .item-attachment-limit-unit {
+    width: calc(25% - 3rem) !important;
+}
+
+.attachment-limit-list .delete-btn {
+    padding: 0.6rem 1.2rem;
+}
+
 /**
  * 多语言图标
  */
@@ -37,6 +50,6 @@
 /* 扩展-多语言 */
 .multilingual-content {
     padding: 1rem;
-    background: #F9F9F9;
+    background: var(--fill-color-light, #F9F9F9);
     border-radius: var(--border-radius);
 }

@@ -79,16 +79,42 @@ class Diy extends Base
      */
     public function SaveInfo()
     {
+        $page = isset($this->data_request['page']) ? $this->data_request['page'] : '';
         $data = $this->data_detail;
+        // 列表里点编辑时地址不带页面类型，商品详情记录仍要进商品详情设计（hash 与底部菜单 #/tabbar 一致）
+        if(!empty($data) && $page !== 'goods-detail' && DiyService::IsGoodsDetailDesign($data))
+        {
+            return MyRedirect(MyUrl('admin/diy/saveinfo', ['id'=>$data['id'], 'page'=>'goods-detail']).'#/goods-detail');
+        }
         if(empty($data))
         {
             $is_auto_create = isset($this->data_request['is_auto_create']) ? intval($this->data_request['is_auto_create']) : 1;
             if($is_auto_create == 1)
             {
-                $ret = DiyService::DiySave();
+                $save_params = [];
+                if($page === 'goods-detail')
+                {
+                    $save_params['name'] = '商品详情'.date('mdHi');
+                    // 记下购买导航 + 空结构，列表/编辑可识别为商品详情类型
+                    $save_params['config'] = [
+                        'header'   => ['key' => 'page-settings', 'name' => '页面设置', 'show_tabs' => '1'],
+                        'footer'   => ['key' => 'goods-detail-buy-nav', 'name' => '购买导航', 'show_tabs' => '0'],
+                        'diy_data' => [],
+                        'tabs_data'=> [],
+                    ];
+                }
+                $ret = DiyService::DiySave($save_params);
                 if($ret['code'] == 0)
                 {
-                    return MyRedirect(MyUrl('admin/diy/saveinfo', ['id'=>$ret['data']]));
+                    $redirect = ['id'=>$ret['data']];
+                    $hash = '';
+                    if($page === 'goods-detail')
+                    {
+                        $redirect['page'] = 'goods-detail';
+                        $hash = '#/goods-detail';
+                    }
+                    // 部分环境 Location 会丢 hash，前端路由守卫仍会根据 page=goods-detail 跳转
+                    return MyRedirect(MyUrl('admin/diy/saveinfo', $redirect).$hash);
                 }
                 return MyView('public/tips_error', ['msg'=>$ret['msg']]);
             }

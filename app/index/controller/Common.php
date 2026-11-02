@@ -440,7 +440,7 @@ class Common extends BaseController
         // 默认不加载页面加载层、是否加载图片动画
         $assign['is_page_loading'] = 0;
         $assign['is_page_loading_images'] = 0;
-        $assign['page_loading_logo'] = $assign['home_site_logo_square'];
+        $assign['page_loading_logo'] = empty($assign['home_site_logo_square']) ? $assign['home_site_logo'] : $assign['home_site_logo_square'];
         $assign['page_loading_images_url'] = StaticAttachmentUrl('loading.gif');
         $assign['page_loading_logo_border'] = StaticAttachmentUrl('loading-border.svg', 'svg');
 
@@ -453,8 +453,8 @@ class Common extends BaseController
         // 编辑器文件存放地址
         $assign['editor_path_type'] = ResourcesService::EditorPathTypeValue(empty($this->user['id']) ? 'public' : 'user-'.$this->user['id']);
 
-        // 分类展示层级模式
-        $assign['category_show_level'] = MyC('common_show_goods_category_level', 3, true);
+        // 分类展示层级模式（公共导航等沿用 PC 配置）
+        $assign['category_show_level'] = MyC('common_show_goods_category_level_pc', MyC('common_show_goods_category_level', 3, true), true);
 
         // 备案信息
         $filing = ConfigService::SiteFilingList();
@@ -505,6 +505,9 @@ class Common extends BaseController
 
         // 是否加载webuploader
         $assign['is_load_webuploader'] = 0;
+
+        // 外观模式（深色/浅色，用户端默认不引入、商家中心等页面自行开启）
+        $assign['is_load_theme_mode'] = 0;
 
         // 是否加载uniapp webview js
         $assign['is_load_uniapp_webview'] = 0;

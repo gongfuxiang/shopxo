@@ -47,7 +47,7 @@
 }
 
 .wrapper-page-content {
-    background-color: #fff;
+    background-color: var(--surface-color, #ffffff);
     box-shadow: 0.1rem 0.2rem 0.9rem 0rem rgba(0, 140, 255, 0.3);
     border-radius: 2rem;
     overflow: hidden;
@@ -55,8 +55,9 @@
 }
 
 .wrapper-page .am-tabs-bd {
-    border: 0;
+    border: 0 !important;
     padding: 0 !important;
+    background: transparent !important;
 }
 
 .wrapper-page .am-tabs-bd .am-tab-panel {
@@ -66,7 +67,8 @@
 .wrapper-page-left {
     max-width: 57rem;
     width: 100%;
-    background-size: auto 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
     padding: 4.4rem 4.5rem;
 }
 
@@ -108,32 +110,39 @@
 .admin-login .am-form-group {
     padding: 0 !important;
     margin-bottom: 1.6rem !important;
+    border: 0 !important;
 }
 
+/* 登录输入：单层细边，压过全局 am-form input 的 border-strong */
 .admin-login .am-form-group input {
     height: 4rem;
-    background: #F6F8FB;
+    background: var(--fill-color, #F6F8FB) !important;
     border-radius: var(--border-radius-lg) !important;
-    border: 0.1rem solid #F6F8FB;
+    border: 0.1rem solid var(--fill-color, #F6F8FB) !important;
     padding: 0.6rem 1.2rem;
+    box-shadow: none !important;
 }
 
-.admin-login .am-form-group button {
+.admin-login .am-form-group.input-compose button {
+    height: 4rem;
+    border-radius: var(--border-radius-lg);
+}
+
+.admin-login .am-form-group button.am-btn-sub {
     height: 4rem;
     background: var(--color-main);
     border-radius: var(--border-radius-lg);
     border: 0;
-}
-.admin-login .am-form-group button.am-btn-sub {
     margin-top: 1.4rem;
+    color: #fff;
 }
 
 .admin-login .am-form-group input:hover,
 .admin-login .am-form-group input:focus,
 .admin-login .am-form-group input:active {
-    background: #F6F8FB;
-    border: 0.1rem solid #F6F8FB;
-    box-shadow: none;
+    background: var(--fill-color, #F6F8FB) !important;
+    border-color: var(--color-main) !important;
+    box-shadow: none !important;
 }
 
 .admin-login .form-verify a.form-verify-tips {
@@ -178,7 +187,7 @@
 }
 
 .input-compose .am-input-group-btn.verify-img {
-    right: 10.5rem;
+    right: 10.2rem;
 }
 
 .input-compose .am-input-group-btn.verify-sms,
@@ -186,6 +195,7 @@
     right: 9.5rem;
 }
 
+/* 仅去掉按钮边框/底色，避免盖住输入框上下线；定位保持原样 */
 .input-compose .am-input-group-btn.eye .am-btn,
 .input-compose .am-input-group-btn.eye .am-btn:hover,
 .input-compose .am-input-group-btn.eye .am-btn:focus,
@@ -202,21 +212,25 @@
 .input-compose .am-input-group-btn.verify-email .am-btn:hover,
 .input-compose .am-input-group-btn.verify-email .am-btn:focus,
 .input-compose .am-input-group-btn.verify-email .am-btn:active {
-    background-color: transparent;
-    box-shadow: none;
-    border: 0;
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: 0 !important;
+    color: var(--text-weak-color, #999) !important;
 }
 
 .input-compose .am-input-group-btn.verify-img .am-btn.form-verify,
 .input-compose .am-input-group-btn.verify-img .am-btn.form-verify:hover,
 .input-compose .am-input-group-btn.verify-img .am-btn.form-verify:focus,
 .input-compose .am-input-group-btn.verify-img .am-btn.form-verify:active {
-    margin-top: 0.5rem;
+    margin-top: 0.6rem;
+    height: 2.8rem;
+    color: inherit !important;
 }
 
 .input-compose .am-input-group-btn.verify-sms .am-btn,
 .input-compose .am-input-group-btn.verify-email .am-btn {
-    color: var(--color-main);
+    color: var(--color-main) !important;
 }
 
 @media only screen and (min-width: 641px) {
@@ -258,10 +272,12 @@
 }
 
 /**
- * 选项卡下边线动画
+ * 选项卡下边线动画（压过全局 html body .am-tabs-nav 的 !important）
  */
-.am-nav-tabs {
-    border: 0;
+html body .admin-login .am-nav-tabs,
+html body .admin-login .am-tabs-nav {
+    border: 0 !important;
+    background: transparent !important;
 }
 
 .am-tabs-border>.am-tabs-nav {
@@ -274,21 +290,31 @@
     background: var(--color-main);
     position: absolute;
     left: 0;
-    bottom: -0.1rem;
+    bottom: 0;
     -webkit-transition: all 0.33s cubic-bezier(0.38, 0.8, 0.32, 1.07);
     transition: all 0.33s cubic-bezier(0.38, 0.8, 0.32, 1.07);
-    z-index: 1;
+    z-index: 2;
 }
 
-.am-tabs-border>.am-nav-tabs>li.am-active>a,
-.am-tabs-border>.am-nav-tabs>li.am-active>a:hover,
-.am-tabs-border>.am-nav-tabs>li.am-active>a:focus,
-.am-tabs-border>.am-nav-tabs>li>a:hover,
-.am-tabs-border>.am-nav-tabs>li>a:focus {
-    color: var(--color-main) !important;
-    background: none;
-    border-color: transparent;
+html body .admin-login .am-tabs-border>.am-nav-tabs>li>a,
+html body .admin-login .am-tabs-border>.am-nav-tabs>li.am-active>a,
+html body .admin-login .am-tabs-border>.am-nav-tabs>li.am-active>a:hover,
+html body .admin-login .am-tabs-border>.am-nav-tabs>li.am-active>a:focus,
+html body .admin-login .am-tabs-border>.am-nav-tabs>li>a:hover,
+html body .admin-login .am-tabs-border>.am-nav-tabs>li>a:focus {
+    color: var(--text-muted-color, #666) !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-color: transparent !important;
     cursor: pointer;
+}
+
+html body .admin-login .am-tabs-border>.am-nav-tabs>li.am-active>a,
+html body .admin-login .am-tabs-border>.am-nav-tabs>li.am-active>a:hover,
+html body .admin-login .am-tabs-border>.am-nav-tabs>li.am-active>a:focus,
+html body .admin-login .am-tabs-border>.am-nav-tabs>li>a:hover,
+html body .admin-login .am-tabs-border>.am-nav-tabs>li>a:focus {
+    color: var(--color-main) !important;
 }
 
 .am-tabs-border>.am-nav-tabs>li.am-active>a {
@@ -298,12 +324,7 @@
 .am-tabs-border>.am-tabs-nav>li>a {
     border-bottom: 0;
     margin: 0;
-    color: #666666;
     font-size: 1.6rem;
-}
-
-.am-tabs-border>.am-tabs-nav>li>a {
-    border: 0 !important;
 }
 
 .am-tabs-border>.am-tabs-bd {
@@ -338,18 +359,19 @@
 
 .input-compose.base input {
     height: 4rem;
-    background: #F6F8FB;
+    background: var(--fill-color, #F6F8FB) !important;
     border-radius: var(--border-radius-lg) !important;
-    border: 0.1rem solid #F6F8FB;
+    border: 0.1rem solid var(--fill-color, #F6F8FB) !important;
     padding: 0.6rem 1.2rem;
+    box-shadow: none !important;
 }
 
 .input-compose.base input,
 .input-compose.base input:hover,
 .input-compose.base input:active,
 .input-compose.base input:focus {
-    box-shadow: none;
-    border: 0.1rem solid #F6F8FB;
+    box-shadow: none !important;
+    border: 0.1rem solid var(--fill-color, #F6F8FB) !important;
 }
 
 .input-compose.base .verify-img img {
@@ -357,4 +379,41 @@
     border: 0;
     background-color: transparent;
     cursor: pointer;
+}
+
+/**
+ * 登录页外观切换
+ */
+.admin-login-theme-mode {
+    position: fixed;
+    top: 1.6rem;
+    right: 1.6rem;
+    z-index: 1000;
+}
+.admin-login-theme-mode .admin-login-theme-mode-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.6rem;
+    height: 3.6rem;
+    border-radius: 50%;
+    background: var(--surface-elevated, #ffffff);
+    color: var(--text-color, #333);
+    box-shadow: 0 0 0.5rem 0.1rem var(--border-color, rgba(0, 0, 0, 0.08));
+    text-decoration: none;
+}
+.admin-login-theme-mode .admin-login-theme-mode-toggle:hover,
+.admin-login-theme-mode .admin-login-theme-mode-toggle:focus {
+    color: var(--color-main, #2A94FF);
+    text-decoration: none;
+}
+.admin-login-theme-mode .admin-login-theme-mode-toggle .iconfont {
+    font-size: 1.8rem;
+    line-height: 1;
+}
+.admin-login-theme-mode .am-dropdown-content {
+    min-width: 12rem;
+}
+.admin-login-theme-mode .am-dropdown-content > li.am-active > a {
+    color: var(--color-main, #2A94FF);
 }

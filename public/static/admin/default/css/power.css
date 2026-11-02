@@ -1,3 +1,7 @@
+.tree-plugins {
+    color: var(--text-color, #333);
+}
+
 .tree-list li .stretch {
     cursor: pointer;
 }
@@ -7,7 +11,7 @@
 }
 
 .tree-list>li {
-    background: #F0F9FF;
+    background: var(--tips-bg-color, #F0F9FF);
 }
 
 .tree-list li label,
@@ -22,12 +26,12 @@
 }
 
 .list-find {
-    background-color: #fbfeff;
+    background-color: var(--surface-color, #fbfeff);
     margin: 0;
 }
 
 .list-find>li {
-    border-bottom: 0.1rem solid #EBF4FA;
+    border-bottom: 0.1rem solid var(--border-color, #EBF4FA);
     padding: 1rem 2rem 1rem 3.2rem;
 }
 
@@ -49,15 +53,15 @@
 }
 
 .tree-list li a {
-    color: #2A94FF;
+    color: var(--color-main, #2A94FF);
 }
 
 .tree-list li a:hover {
-    color: 2A94FF;
+    color: var(--color-main, #2A94FF);
 }
 
 .oprate-btn {
-    background-color: #fafafa;
+    background-color: var(--table-stripe-bg, #fafafa);
     border-radius: 1rem;
     overflow: hidden;
 }

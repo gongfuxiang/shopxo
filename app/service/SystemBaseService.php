@@ -172,6 +172,9 @@ class SystemBaseService
             
             // 商品分类相关
             'common_show_goods_category_level'                   => (int) MyC('common_show_goods_category_level', 0, true),
+            'common_goods_category_goods_style'                  => (int) MyC('common_goods_category_goods_style', 1, true),
+            'common_show_goods_category_level_pc'                => (int) MyC('common_show_goods_category_level_pc', 0, true),
+            'common_goods_category_goods_style_pc'               => (int) MyC('common_goods_category_goods_style_pc', 1, true),
             'common_goods_category_model_icon_type'              => (int) MyC('common_goods_category_model_icon_type', 0, true),
             'common_goods_category_is_search_alone'              => (int) MyC('common_goods_category_is_search_alone', 0, true),
             'common_goods_category_is_show_cart_nav'             => (int) MyC('common_goods_category_is_show_cart_nav', 0, true),
@@ -234,12 +237,12 @@ class SystemBaseService
             'common_app_mini_kuaishou_describe'                  => AppMiniUserService::AppMiniConfig('common_app_mini_kuaishou_describe'),
         ];
 
-        // 首页数据模式、存在diy则等于3
-        $diy_id = DiyService::AppClientHomeDiyId();
-        if(!empty($diy_id))
-        {
-            $config['home_index_floor_data_type'] = 3;
-        }
+        // 当前端实际生效的装修 id，0 表示未使用 DIY
+        $config['common_app_home_diy_id'] = (int) DiyService::AppClientHomeDiyId($params);
+        // 商品详情：公共只返回是否启用 DIY（默认或任意品类）；具体模板在详情接口按商品解析
+        $config['common_app_goods_detail_diy_enable'] = (int) DiyService::AppClientGoodsDetailDiyEnable($params);
+        $config['common_app_goods_detail_diy_id'] = 0;
+        $config['common_app_user_center_diy_id'] = (int) DiyService::AppClientUserCenterDiyId($params);
 
         // 支付宝小程序在线客服
         if(APPLICATION_CLIENT_TYPE == 'alipay')

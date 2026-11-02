@@ -50,7 +50,49 @@
                     </div>
                 </div>
 
-                <div class="am-form-group">
+                <!-- PC端分类层级 -->
+                <div class="am-form-group goods-category-level-box" data-client="pc">
+                    <label>{{$data.common_show_goods_category_level_pc.name}}<span class="am-form-group-label-tips">{{$data.common_show_goods_category_level_pc.describe}}</span></label>
+                    <div class="am-radio-group level-type">
+                        {{foreach $common_show_goods_category_level_list as $v}}
+                            <label class="am-radio-inline">
+                                <input type="radio" value="{{$v.value}}" name="{{$data.common_show_goods_category_level_pc.only_tag}}" data-validation-message="{{$data.common_show_goods_category_level_pc.error_tips}}" {{if isset($data['common_show_goods_category_level_pc']['value']) and $data['common_show_goods_category_level_pc']['value'] eq $v['value']}}checked{{/if}} data-am-ucheck required>{{$v.name}}
+                            </label>
+                        {{/foreach}}
+                    </div>
+                    <div class="goods-category-style-box am-margin-top {{if !(isset($data['common_show_goods_category_level_pc']['value']) and $data['common_show_goods_category_level_pc']['value'] eq 0)}}am-hide{{/if}}">
+                        <label>{{$data.common_goods_category_goods_style_pc.name}}<span class="am-form-group-label-tips">{{$data.common_goods_category_goods_style_pc.describe}}</span></label>
+                        <div class="am-radio-group goods-category-style-type">
+                            {{foreach $common_goods_category_goods_style_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.value}}" name="{{$data.common_goods_category_goods_style_pc.only_tag}}" data-validation-message="{{$data.common_goods_category_goods_style_pc.error_tips}}" {{if (isset($data['common_goods_category_goods_style_pc']['value']) and $data['common_goods_category_goods_style_pc']['value'] eq $v['value']) or ((!isset($data['common_goods_category_goods_style_pc']['value']) or $data['common_goods_category_goods_style_pc']['value'] eq '' or $data['common_goods_category_goods_style_pc']['value'] eq 0) and $v['value'] eq 1)}}checked{{/if}} data-am-ucheck required>{{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
+                    <div class="level-type-content am-margin-top">
+                        {{foreach $common_show_goods_category_level_list as $v}}
+                            <div class="item {{if isset($data['common_show_goods_category_level_pc']['value']) and $data['common_show_goods_category_level_pc']['value'] eq $v['value']}}am-active{{/if}}" data-key="{{$v.value}}">
+                                <div class="am-flex am-flex-warp">
+                                    <div class="am-flex am-flex-col am-gap-1">
+                                        {{if $v.value eq 0}}
+                                            <div class="goods-category-style-preview-list">
+                                                {{foreach $common_goods_category_goods_style_list as $sv}}
+                                                    <img class="am-radius-lg goods-category-style-preview {{if (isset($data['common_goods_category_goods_style_pc']['value']) and $data['common_goods_category_goods_style_pc']['value'] eq $sv['value']) or ((!isset($data['common_goods_category_goods_style_pc']['value']) or $data['common_goods_category_goods_style_pc']['value'] eq '' or $data['common_goods_category_goods_style_pc']['value'] eq 0) and $sv['value'] eq 1)}}{{else /}}am-hide{{/if}}" data-style="{{$sv.value}}" src="{{:StaticAttachmentUrl('site/siteset/website/web_style_'.$sv['value'].'.png')}}" />
+                                                {{/foreach}}
+                                            </div>
+                                        {{else /}}
+                                            <img class="am-radius-lg" src="{{:StaticAttachmentUrl('site/siteset/website/web_level_'.$v['value'].'.png')}}" />
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </div>
+                        {{/foreach}}
+                    </div>
+                </div>
+
+                <!-- 手机端分类层级 -->
+                <div class="am-form-group goods-category-level-box" data-client="app">
                     <label>{{$data.common_show_goods_category_level.name}}<span class="am-form-group-label-tips">{{$data.common_show_goods_category_level.describe}}</span></label>
                     <div class="am-radio-group level-type">
                         {{foreach $common_show_goods_category_level_list as $v}}
@@ -59,28 +101,37 @@
                             </label>
                         {{/foreach}}
                     </div>
+                    <div class="goods-category-style-box am-margin-top {{if !(isset($data['common_show_goods_category_level']['value']) and $data['common_show_goods_category_level']['value'] eq 0)}}am-hide{{/if}}">
+                        <label>{{$data.common_goods_category_goods_style.name}}<span class="am-form-group-label-tips">{{$data.common_goods_category_goods_style.describe}}</span></label>
+                        <div class="am-radio-group goods-category-style-type">
+                            {{foreach $common_goods_category_goods_style_list as $v}}
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="{{$v.value}}" name="{{$data.common_goods_category_goods_style.only_tag}}" data-validation-message="{{$data.common_goods_category_goods_style.error_tips}}" {{if (isset($data['common_goods_category_goods_style']['value']) and $data['common_goods_category_goods_style']['value'] eq $v['value']) or ((!isset($data['common_goods_category_goods_style']['value']) or $data['common_goods_category_goods_style']['value'] eq '' or $data['common_goods_category_goods_style']['value'] eq 0) and $v['value'] eq 1)}}checked{{/if}} data-am-ucheck required>{{$v.name}}
+                                </label>
+                            {{/foreach}}
+                        </div>
+                    </div>
                     <div class="level-type-content am-margin-top">
                         {{foreach $common_show_goods_category_level_list as $v}}
                             <div class="item {{if isset($data['common_show_goods_category_level']['value']) and $data['common_show_goods_category_level']['value'] eq $v['value']}}am-active{{/if}}" data-key="{{$v.value}}">
                                 <div class="am-flex am-flex-warp">
                                     <div class="am-flex am-flex-col am-gap-1">
-                                        <img class="am-radius-lg" src="{{:StaticAttachmentUrl('site/siteset/website/web_level_'.$v['value'].'.png')}}" />
-                                        <p>{{:MyLang('web_title')}}</p>
-                                    </div>
-                                    <div class="am-flex am-flex-col am-gap-1">
-                                        <img class="am-radius-lg" src="{{:StaticAttachmentUrl('site/siteset/website/app_level_'.$v['value'].'.png')}}" />
-                                        <p>{{:MyLang('app_title')}}</p>
+                                        {{if $v.value eq 0}}
+                                            <div class="goods-category-style-preview-list">
+                                                {{foreach $common_goods_category_goods_style_list as $sv}}
+                                                    <img class="am-radius-lg goods-category-style-preview {{if (isset($data['common_goods_category_goods_style']['value']) and $data['common_goods_category_goods_style']['value'] eq $sv['value']) or ((!isset($data['common_goods_category_goods_style']['value']) or $data['common_goods_category_goods_style']['value'] eq '' or $data['common_goods_category_goods_style']['value'] eq 0) and $sv['value'] eq 1)}}{{else /}}am-hide{{/if}}" data-style="{{$sv.value}}" src="{{:StaticAttachmentUrl('site/siteset/website/app_style_'.$sv['value'].'.png')}}" />
+                                                {{/foreach}}
+                                            </div>
+                                        {{else /}}
+                                            <img class="am-radius-lg" src="{{:StaticAttachmentUrl('site/siteset/website/app_level_'.$v['value'].'.png')}}" />
+                                        {{/if}}
                                     </div>
                                 </div>
                             </div>
                         {{/foreach}}
                     </div>
-                    {{if is_array(MyLang('site.goods_tips_list'))}}
-                        <div class="am-tips-card">
-                            <p>{{:implode('</p><p>', MyLang('site.goods_tips_list'))}}</p>
-                        </div>
-                    {{/if}}
                 </div>
+
             </div>
             <div class="am-form-popup-submit">
                 <input type="hidden" name="nav_type" value="{{$nav_type}}" />

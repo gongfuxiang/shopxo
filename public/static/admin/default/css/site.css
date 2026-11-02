@@ -3,15 +3,15 @@
  */
 .address-list li {
     padding: 1rem 1.2rem;
-    color: #333;
+    color: var(--text-color, #333);
 }
 
 .address-list li:nth-child(odd) {
-    background-color: #fff;
+    background-color: var(--surface-color, #ffffff);
 }
 
 .address-list li:nth-child(even) {
-    background: #F6F6F6;
+    background: var(--fill-color, #F6F6F6);
 }
 
 .address-list .address-logo {
@@ -55,15 +55,15 @@
  */
 .filing-list li {
     padding: 1rem 1.2rem;
-    color: #333;
+    color: var(--text-color, #333);
 }
 
 .filing-list li:nth-child(odd) {
-    background-color: #fff;
+    background-color: var(--surface-color, #ffffff);
 }
 
 .filing-list li:nth-child(even) {
-    background: #F6F6F6;
+    background: var(--fill-color, #F6F6F6);
 }
 
 .filing-list .filing-icon {
@@ -107,7 +107,7 @@
  */
 .manual-mode-goods-container li {
     position: relative;
-    background: #FFFFFF;
+    background: var(--surface-color, #ffffff);
 }
 
 .manual-mode-goods-container li button.am-close {
@@ -115,11 +115,11 @@
     top: 0;
     right: 0;
     padding: 1.1rem 2.5rem 1.1rem 1.5rem;
-    color: #ddd;
+    color: var(--border-strong-color, #ddd);
 }
 
 .manual-mode-goods-container li:hover {
-    background: #F6F6F6;
+    background: var(--fill-color, #F6F6F6);
 }
 
 .manual-mode-goods-container li:hover button.am-close {
@@ -127,7 +127,7 @@
 }
 
 .manual-mode-goods-container li a {
-    color: #333;
+    color: var(--text-color, #333);
     padding: 1rem 1.2rem;
     transition: all 0.3s ease-in-out;
 }
@@ -169,7 +169,16 @@
 .goods-list-container {
     height: calc(100% - 9.2rem);
     max-height: 100%;
-    border: 0.1rem solid #eee;
+    border: 0.1rem solid var(--border-color, #eeeeee);
+    background: var(--surface-color, #ffffff);
+}
+
+/* 高于 A 层 html[data-theme] .am-gallery-bordered .am-gallery-item */
+html body .goods-list-container .am-gallery-bordered .am-gallery-item,
+html body .goods-list-container .am-gallery-item {
+    background: var(--surface-elevated, #ffffff) !important;
+    border-color: var(--border-color, #eeeeee) !important;
+    color: var(--text-color, #333) !important;
 }
 
 .goods-list-container .am-gallery-bordered .am-gallery-title {
@@ -244,7 +253,7 @@
     font-family: PingFangSC,
     PingFang SC;
     font-weight: 500;
-    color: #666666;
+    color: var(--text-muted-color, #666666);
 }
 
 .level-type-content .item img {

@@ -15,6 +15,28 @@
     <meta name="apple-mobile-web-app-title" content="{{$home_site_name}}">
     <link rel="apple-touch-icon" href="{{$home_site_logo_square}}">
     <link rel="apple-touch-icon-precomposed" href="{{$home_site_logo_square}}">
+    <!-- 外观模式：首屏前设置，避免闪白（is_load_theme_mode 开关控制、用户端默认不引入） -->
+    {{if isset($is_load_theme_mode) and $is_load_theme_mode eq 1}}
+        <script type="text/javascript">
+            (function () {
+                try {
+                    var KEY = '{{if !empty($theme_mode_storage_key)}}{{$theme_mode_storage_key}}{{else /}}theme_mode{{/if}}';
+                    var LEGACY = '{{if !empty($theme_mode_storage_key)}}{{else /}}admin_theme_mode{{/if}}';
+                    document.documentElement.setAttribute('data-theme-storage-key', KEY);
+                    var mode = localStorage.getItem(KEY) || (LEGACY ? localStorage.getItem(LEGACY) : '') || 'light';
+                    if (mode !== 'light' && mode !== 'dark' && mode !== 'system') {
+                        mode = 'light';
+                    }
+                    var theme = mode;
+                    if (mode === 'system') {
+                        theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+                    }
+                    document.documentElement.setAttribute('data-theme', theme);
+                    document.documentElement.setAttribute('data-theme-mode', mode);
+                } catch (e) {}
+            })();
+        </script>
+    {{/if}}
     <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/iconfont/iconfont.css?v={{$static_cache_version}}" />
     <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/assets/css/amazeui.css?v={{$static_cache_version}}" />
     <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-switch/amazeui.switch.css?v={{$static_cache_version}}" />
@@ -77,7 +99,11 @@
         <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/ueditor/third-party/webuploader/webuploader.css?v={{$static_cache_version}}" />
     {{/if}}
 
-    <!-- 插件 -->
+    <!-- 插件前后端共用 -->
+    {{if !empty($static_path_data['plugins_common_css'])}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$static_path_data.plugins_common_css}}?v={{$static_cache_version}}" />
+    {{/if}}
+    <!-- 插件端公共 -->
     {{if !empty($static_path_data['plugins_css'])}}
         <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$static_path_data.plugins_css}}?v={{$static_cache_version}}" />
     {{/if}}
@@ -117,6 +143,11 @@
         {{/foreach}}
     {{/if}}
 
+    <!-- 深色模式 Token（is_load_theme_mode 开关控制、用户端默认不引入、必须放在页面/插件 CSS 之后） -->
+    {{if isset($is_load_theme_mode) and $is_load_theme_mode eq 1}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/theme-dark.css?v={{$static_cache_version}}" />
+    {{/if}}
+
     <!-- 公共header内钩子 -->
     {{if !empty($plugins_common_header_data) and is_array($plugins_common_header_data)}}
         {{foreach $plugins_common_header_data as $hook}}
@@ -126,7 +157,7 @@
         {{/foreach}}
     {{/if}}
 
-    <!-- 主题配色 -->
+    <!-- 主题配色 + 表面色 Token（深浅模式由 data-theme 覆盖表面） -->
     <style type="text/css">
         :root {
             {{if !empty($theme_style_data) and is_array($theme_style_data)}}
@@ -136,6 +167,62 @@
             {{else /}}
                 {{:ModuleInclude('public/header_style_root')}}
             {{/if}}
+            /* 浅色表面默认（深色在 theme-dark.css 覆盖同一键；前端整页底为浅灰，卡片面为白） */
+            --body-bg-color: #f7f7f7;
+            --page-bg-color: #f7f7f7;
+            --surface-color: #ffffff;
+            --surface-elevated: #ffffff;
+            --text-color: #333333;
+            --text-muted-color: #666666;
+            --text-weak-color: #999999;
+            --placeholder-color: #999999;
+            --border-color: #eeeeee;
+            --border-strong-color: #dddddd;
+            --header-bg-color: #ffffff;
+            --table-stripe-bg: #fafafa;
+            --table-header-bg: #f8f8f8;
+            --table-row-border-color: #f5f5f5;
+            --input-bg-color: #ffffff;
+            --input-disabled-bg-color: #f0f0f0;
+            --hover-bg-color: #f5f5f5;
+            --fill-color: #f5f5f5;
+            --fill-color-light: #f8f8f8;
+            /* 透明色棋盘（上传预览 / 颜色选择器等共用） */
+            --alpha-checker-color: #eeeeee;
+            --alpha-checker-bg: transparent;
+            /* 抽屉遮罩（Amaze 默认 0.15；深色在 theme-dark 加深） */
+            --offcanvas-mask-bg: rgba(0, 0, 0, 0.15);
+            --tips-bg-color: #ffffe9;
+            --tips-border-color: #faebd2;
+            --scrollbar-thumb: #f0f0f0;
+            --scrollbar-thumb-hover: #cccccc;
+            --scrollbar-corner: #e5e5e5;
+            --switch-handle-bg: #ffffff;
+            --badge-danger-soft-bg: #dd514c;
+            --badge-danger-soft-color: #ffffff;
+            /* Alert / Prompt 语义底（深色在 theme-dark 改为半透明） */
+            --alert-default-bg: #fafcff;
+            --alert-default-border: #f2faff;
+            --alert-default-color: #666666;
+            --alert-success-bg: #f9fff6;
+            --alert-success-border: #f0fde5;
+            --alert-success-color: #468847;
+            --alert-danger-bg: #fff9f9;
+            --alert-danger-border: #fff3f2;
+            --alert-danger-color: #dd514c;
+            --alert-warning-bg: #fffbf8;
+            --alert-warning-border: #fff5ed;
+            --alert-warning-color: #f37b1d;
+            --prompt-success-bg: #E9FFF0;
+            --prompt-success-border: #38b865;
+            --prompt-success-color: #38B865;
+            --prompt-danger-bg: #FFEBE0;
+            --prompt-danger-border: #EB5E12;
+            --prompt-danger-color: #EB5E12;
+            --prompt-warning-bg: #FFF6E3;
+            --prompt-warning-border: #FAAD14;
+            --prompt-warning-color: #FAAD14;
+            --box-shadow-sm: 0px 3px 4px 0px rgba(134, 142, 192, 0.08);
         }
         /* 公共header内js钩子 */
         {{if !empty($plugins_common_header_css_data) and is_array($plugins_common_header_css_data)}}

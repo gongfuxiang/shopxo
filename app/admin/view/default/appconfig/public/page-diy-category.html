@@ -1,0 +1,54 @@
+<div class="goods-detail-category-diy-box am-margin-top-sm" id="goods-detail-category-diy-box"
+    data-exist-tips="{{:MyLang('diy.goods_detail_category_diy_exist_tips')}}"
+    data-choice-tips="{{:MyLang('diy.goods_detail_category_diy_choice_tips')}}"
+    data-diy-tips="{{:MyLang('diy.goods_detail_category_diy_diy_tips')}}"
+    data-empty-tips="{{:MyLang('diy.goods_detail_category_diy_empty')}}"
+    data-delete-title="{{:MyLang('delete_title')}}"
+    data-edit-title="{{:MyLang('edit_title')}}">
+    <div class="am-margin-bottom-sm">
+        <span class="business-operations-submit goods-detail-category-diy-open" data-am-modal="{target: '#goods-detail-category-diy-popup'}">
+            <i class="iconfont icon-add"></i>
+            {{:MyLang('diy.goods_detail_category_diy_btn')}}
+        </span>
+    </div>
+
+    <!-- 已配置列表（表单字段同步提交） -->
+    <div class="am-scrollable-horizontal">
+        <table class="am-table am-table-striped am-table-hover am-text-nowrap am-margin-bottom-0 goods-detail-category-diy-table">
+            <thead>
+                <tr>
+                    <th>{{:MyLang('diy.goods_detail_category_diy_category')}}</th>
+                    <th>{{:MyLang('diy.goods_detail_category_diy_clients')}}</th>
+                    <th class="am-text-center">{{:MyLang('operate_title')}}</th>
+                </tr>
+            </thead>
+            <tbody class="goods-detail-category-diy-list">
+                {{if !empty($goods_detail_category_diy_list)}}
+                    {{foreach $goods_detail_category_diy_list as $item}}
+                        <tr data-category-id="{{$item.category_id}}">
+                            <td class="category-name">{{$item.category_name}}</td>
+                            <td class="client-text">{{$item.client_text}}</td>
+                            <td class="am-text-center">
+                                <a href="javascript:;" class="am-color-blue goods-detail-category-diy-edit">{{:MyLang('edit_title')}}</a>
+                                <a href="javascript:;" class="am-color-red am-margin-left-sm goods-detail-category-diy-remove">{{:MyLang('delete_title')}}</a>
+                                <div class="goods-detail-category-diy-fields">
+                                    {{if !empty($item['field_list'])}}
+                                        {{foreach $item.field_list as $fv}}
+                                            <input type="hidden" name="common_app_goods_detail_category_diy_mode[{{$item.category_id}}][{{$fv.client}}][diy_id]" value="{{$fv.diy_id}}" data-client="{{$fv.client}}" data-field="diy_id" />
+                                            <input type="hidden" name="common_app_goods_detail_category_diy_mode[{{$item.category_id}}][{{$fv.client}}][time_start]" value="{{$fv.time_start}}" data-client="{{$fv.client}}" data-field="time_start" />
+                                            <input type="hidden" name="common_app_goods_detail_category_diy_mode[{{$item.category_id}}][{{$fv.client}}][time_end]" value="{{$fv.time_end}}" data-client="{{$fv.client}}" data-field="time_end" />
+                                        {{/foreach}}
+                                    {{/if}}
+                                </div>
+                            </td>
+                        </tr>
+                    {{/foreach}}
+                {{else /}}
+                    <tr class="goods-detail-category-diy-empty">
+                        <td colspan="3" class="am-text-center am-color-grey">{{:MyLang('diy.goods_detail_category_diy_empty')}}</td>
+                    </tr>
+                {{/if}}
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,239 @@
+/**
+ * 深色模式 Token（后台 / 多商户等共用，由 header 引入）
+ *
+ * 原则：
+ *   - 业务 / 公共 CSS 只写 var(--token)，用 html body 提权压 Amaze 硬编码
+ *   - 本文件原则上只做 html[data-theme="dark"] 下的 token 赋值
+ *   - 例外：无官方表面变量的第三方外壳（UEditor / wangEditor 强制节点）
+ *
+ * 不改 AmazeUI / Chosen / My97 等库源文件
+ */
+
+/* ==========================================================================
+ * 1. Token 赋值（浅色默认在 header.html :root）
+ * ========================================================================== */
+html[data-theme="dark"] {
+    /* 表面层级 */
+    --body-bg-color: #12151c;
+    --page-bg-color: #12151c;
+    --surface-color: #1c212b;
+    --surface-elevated: #222833;
+    --text-color: #e8eaed;
+    --text-muted-color: #9aa0a6;
+    --text-weak-color: #7a8088;
+    /* 提示字应弱于正文，勿接近 #e8eaed */
+    --placeholder-color: #6b7280;
+    --border-color: #2f3643;
+    --border-strong-color: #3d4656;
+    --header-bg-color: #1c212b;
+    --table-stripe-bg: #181d26;
+    /* 列表表头：略抬于内容 surface */
+    --table-header-bg: #222833;
+    --table-row-border-color: #262d38;
+    --input-bg-color: #161b24;
+    /* 禁用输入：略抬于可编辑底，和 #161b24 拉开层次 */
+    --input-disabled-bg-color: #252b36;
+    --hover-bg-color: #2a3140;
+    /* 店铺等级介绍页：浅色米色氛围在深色下跟页面底 */
+    --shop-level-page-bg: var(--page-bg-color);
+    /* fill 介于 page 与 surface 之间；fill-light 须深于 surface，避免详情顶栏等与内容同色 */
+    --fill-color: #181c26;
+    --fill-color-light: #161a22;
+    /* 默认按钮 / 输入组 addon：浅色 #eee 在深色下换成抬底，避免仍是浅灰 */
+    --color-button-default: #252b36;
+    --color-button-default-hover: #2a3140;
+    --color-button-default-focus: #2a3140;
+    --color-button-default-active: #2a3140;
+    --color-button-default-disabled: #1c212b;
+    --color-button-default-border: #3d4656;
+    --color-button-default-hover-border: #3d4656;
+    --color-button-default-focus-border: #3d4656;
+    --color-button-default-active-border: #3d4656;
+    --color-button-default-disabled-border: #2f3643;
+    --color-button-default-text: #e8eaed;
+    --color-button-default-hover-text: #e8eaed;
+    --color-button-default-focus-text: #e8eaed;
+    --color-button-default-active-text: #e8eaed;
+    --color-button-default-disabled-text: #7a8088;
+    /* 透明色棋盘（上传 / 取色共用，源码 common 已引用） */
+    --alpha-checker-color: #2a3140;
+    --alpha-checker-bg: #1a1f28;
+    /* 抽屉遮罩加深（浅色保持 Amaze 0.15） */
+    --offcanvas-mask-bg: rgba(0, 0, 0, 0.55);
+    --tips-bg-color: #243044;
+    --tips-border-color: #2f4260;
+    --color-left-menu-bg: #131927;
+    --scrollbar-thumb: #3d4656;
+    --scrollbar-thumb-hover: #3d4656;
+    --scrollbar-corner: #1c212b;
+    --switch-handle-bg: #e8eaed;
+    /* 主色浅底在深色下降低刺眼 */
+    --color-main-light: rgba(42, 148, 255, 0.16);
+    --color-tips-warm-bg: #243044;
+    --color-tips-warm-br: #2f4260;
+    /* 价格 / 危险色：降低 #E22C08 刺眼度 */
+    --color-price: #ff8a6b;
+    --color-red: #f07178;
+    /* 待办角标：软红（浅色实心在 header） */
+    --badge-danger-soft-bg: rgba(240, 113, 120, 0.22);
+    --badge-danger-soft-color: #ffb4b8;
+    /* Alert：半透明语义底（浅色粉彩在 header，勿与浅色共用硬编码） */
+    --alert-default-bg: #243044;
+    --alert-default-border: #2f4260;
+    --alert-default-color: #9aa0a6;
+    --alert-success-bg: rgba(56, 184, 101, 0.16);
+    --alert-success-border: #38b865;
+    --alert-success-color: #6dce8f;
+    --alert-danger-bg: rgba(240, 113, 120, 0.16);
+    --alert-danger-border: #f07178;
+    --alert-danger-color: #ff8a8f;
+    --alert-warning-bg: rgba(201, 162, 39, 0.10);
+    --alert-warning-border: #5c4e22;
+    --alert-warning-color: #c9a55a;
+    /* Prompt 与 Alert 深色同套软语义 */
+    --prompt-success-bg: rgba(56, 184, 101, 0.16);
+    --prompt-success-border: #38b865;
+    --prompt-success-color: #6dce8f;
+    --prompt-danger-bg: rgba(240, 113, 120, 0.16);
+    --prompt-danger-border: #f07178;
+    --prompt-danger-color: #ff8a8f;
+    --prompt-warning-bg: rgba(201, 162, 39, 0.10);
+    --prompt-warning-border: #5c4e22;
+    --prompt-warning-color: #c9a55a;
+    --box-shadow: 0 5px 20px rgba(0, 0, 0, 0.35);
+    --box-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --box-shadow-lg: 0 8px 34px rgba(0, 0, 0, 0.4);
+
+    /* wangEditor：覆盖官方 CSS 变量（库本身读这些键） */
+    --w-e-textarea-bg-color: #161b24;
+    --w-e-textarea-color: #e8eaed;
+    --w-e-textarea-border-color: #2f3643;
+    --w-e-textarea-slight-border-color: #3d4656;
+    --w-e-textarea-slight-color: #7a8088;
+    --w-e-textarea-slight-bg-color: #1c212b;
+    --w-e-textarea-selected-border-color: rgba(42, 148, 255, 0.45);
+    --w-e-toolbar-color: #9aa0a6;
+    --w-e-toolbar-bg-color: #1c212b;
+    --w-e-toolbar-active-color: #e8eaed;
+    --w-e-toolbar-active-bg-color: #2a3140;
+    --w-e-toolbar-disabled-color: #7a8088;
+    --w-e-toolbar-border-color: #2f3643;
+    --w-e-modal-button-bg-color: #242a36;
+    --w-e-modal-button-border-color: #3d4656;
+
+    color-scheme: dark;
+}
+
+/* 正文弱化色（个别页面仍写死 #333） */
+html[data-theme="dark"] body {
+    color: var(--text-muted-color) !important;
+}
+
+/* ==========================================================================
+ * 2. 第三方：wangEditor
+ *    官方已用 --w-e-*；个别节点仍写死背景，需强制跟变量
+ * ========================================================================== */
+html[data-theme="dark"] .w-e-text-container,
+html[data-theme="dark"] .w-e-toolbar,
+html[data-theme="dark"] .w-e-bar,
+html[data-theme="dark"] .w-e-scroll {
+    background-color: var(--w-e-toolbar-bg-color) !important;
+    color: var(--w-e-textarea-color) !important;
+    border-color: var(--w-e-toolbar-border-color) !important;
+}
+
+/* ==========================================================================
+ * 3. 第三方：UEditor
+ *    无表面 token，只能组件级覆盖；内容区 iframe 仍由 theme-mode.js 注入
+ * ========================================================================== */
+html[data-theme="dark"] .edui-default .edui-editor {
+    background: var(--surface-color) !important;
+    border-color: var(--border-color) !important;
+}
+html[data-theme="dark"] .edui-default .edui-editor-toolbarbox,
+html[data-theme="dark"] .edui-default .edui-editor-toolbarboxouter,
+html[data-theme="dark"] .edui-default .edui-editor-toolbarboxinner,
+html[data-theme="dark"] .edui-default .edui-toolbar {
+    background: var(--surface-elevated) !important;
+    background-image: none !important;
+    border-color: var(--border-color) !important;
+    box-shadow: none !important;
+    filter: none !important;
+}
+html[data-theme="dark"] .edui-default .edui-editor-iframeholder {
+    background: var(--input-bg-color) !important;
+    border-color: var(--border-color) !important;
+    scrollbar-color: var(--scrollbar-thumb) var(--surface-color);
+    scrollbar-width: thin;
+}
+html[data-theme="dark"] .edui-default .edui-editor-iframeholder::-webkit-scrollbar-thumb,
+html[data-theme="dark"] .edui-default .edui-editor-iframeholder iframe::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb) !important;
+}
+html[data-theme="dark"] .edui-default .edui-editor-iframeholder::-webkit-scrollbar-track,
+html[data-theme="dark"] .edui-default .edui-editor-iframeholder::-webkit-scrollbar-track-piece,
+html[data-theme="dark"] .edui-default .edui-editor-iframeholder iframe::-webkit-scrollbar-track,
+html[data-theme="dark"] .edui-default .edui-editor-iframeholder iframe::-webkit-scrollbar-track-piece {
+    background: var(--surface-color) !important;
+}
+html[data-theme="dark"] .edui-default .edui-editor-bottomContainer {
+    background: var(--surface-elevated) !important;
+    border-top: 1px solid var(--border-color) !important;
+}
+html[data-theme="dark"] .edui-default .edui-editor-bottomContainer table,
+html[data-theme="dark"] .edui-default .edui-editor-bottomContainer td,
+html[data-theme="dark"] .edui-default .edui-editor-bottombar,
+html[data-theme="dark"] .edui-default .edui-editor-wordcount,
+html[data-theme="dark"] .edui-default .edui-editor-breadcrumb,
+html[data-theme="dark"] .edui-default .edui-editor-scale {
+    background: var(--surface-elevated) !important;
+    background-color: var(--surface-elevated) !important;
+    color: var(--text-muted-color) !important;
+}
+html[data-theme="dark"] .edui-default .edui-editor-bottomContainer td {
+    border-top-color: transparent !important;
+}
+html[data-theme="dark"] .edui-default .edui-editor-wordcount {
+    color: var(--text-weak-color) !important;
+}
+html[data-theme="dark"] .edui-default .edui-popup,
+html[data-theme="dark"] .edui-default .edui-popup-content,
+html[data-theme="dark"] .edui-default .edui-dialog,
+html[data-theme="dark"] .edui-default .edui-dialog-wrap,
+html[data-theme="dark"] .edui-default .edui-dialog-body,
+html[data-theme="dark"] .edui-default .edui-dialog-content,
+html[data-theme="dark"] .edui-default .edui-dialog-shadow,
+html[data-theme="dark"] .edui-default .edui-dialog-titlebar,
+html[data-theme="dark"] .edui-default .edui-dialog-foot,
+html[data-theme="dark"] .edui-default .edui-dialog-caption,
+html[data-theme="dark"] .edui-default .edui-menu-body,
+html[data-theme="dark"] .edui-default .edui-list-body,
+html[data-theme="dark"] .edui-default .edui-combox-body {
+    background: var(--surface-elevated) !important;
+    background-color: var(--surface-elevated) !important;
+    background-image: none !important;
+    color: var(--text-color) !important;
+    border-color: var(--border-color) !important;
+    box-shadow: var(--box-shadow-sm) !important;
+}
+html[data-theme="dark"] .edui-default .edui-dialog-titlebar {
+    border-bottom: 1px solid var(--border-color) !important;
+}
+html[data-theme="dark"] .edui-default .edui-dialog-body {
+    padding: 0 !important;
+    background: var(--surface-elevated) !important;
+}
+html[data-theme="dark"] .edui-default .edui-dialog-shadow {
+    background: var(--surface-elevated) !important;
+    background-color: var(--surface-elevated) !important;
+}
+html[data-theme="dark"] .edui-default .edui-dialog-buttons .edui-button .edui-button-body {
+    background: var(--surface-color) !important;
+    border-color: var(--border-strong-color) !important;
+    color: var(--text-color) !important;
+}
+html[data-theme="dark"] .edui-default .edui-dialog iframe,
+html[data-theme="dark"] .edui-default .edui-popup iframe {
+    background: var(--surface-elevated) !important;
+    border: 0 !important;
+}

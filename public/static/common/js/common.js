@@ -2425,13 +2425,13 @@ function MapInit (lng, lat, level, is_dragend, mapid) {
                 var cr = new BMap.CopyrightControl({ anchor: BMAP_ANCHOR_BOTTOM_RIGHT });
                 map.addControl(cr); //添加版权控件
                 var bs = map.getBounds();   //返回地图可视区域
-                cr.addCopyright({ id: 1, content: '<div class="map-dragging-tips"><span>' + (window['lang_map_dragging_icon_tips'] || '拖动红色图标直接定位') + '</span></div>', bounds: bs });
+                cr.addCopyright({ id: 1, content: '<div class="map-dragging-tips"><span>' + (window['lang_map_dragging_icon_tips'] || '拖动图标直接定位') + '</span></div>', bounds: bs });
             }
             break;
 
-        // 高德地图
+        // 高德地图（JSAPI 2.0）
         case 'amap':
-            var map = new AMap.Map(mapid, { zoomEnable: true, resizeEnable: false, scrollWheel: false, zoom: level, center: [lng, lat] });
+            var map = new AMap.Map(mapid, { zoomEnable: true, resizeEnable: true, scrollWheel: false, zoom: level, center: [lng, lat] });
             // 插件控件
             AMap.plugin([
                 'AMap.ToolBar',
@@ -2440,27 +2440,117 @@ function MapInit (lng, lat, level, is_dragend, mapid) {
                 map.addControl(new AMap.ToolBar());
             });
 
-            // 创建标注
-            var marker_config = {
+            // 钉尖锚定底部；不用原生 draggable（会把尖尖吸到鼠标下挡住落点）
+            var marker = new AMap.Marker({
                 position: map.getCenter(),
-                offset: new AMap.Pixel(-13, -30)
-            };
-            // 标注是否可拖拽
-            if (is_dragend) {
-                marker_config['draggable'] = true;
-            }
-            var marker = new AMap.Marker(marker_config);
+                anchor: 'bottom-center',
+                offset: new AMap.Pixel(0, 0),
+                cursor: is_dragend ? 'grab' : 'default',
+                zIndex: 100
+            });
             marker.setMap(map);
 
-            // 标注可拖拽回调
+            var amapSyncLngLat = function (ll) {
+                if (!ll) {
+                    return;
+                }
+                if ($('#form-lng').length > 0 && $('#form-lat').length > 0) {
+                    $('#form-lng').val(ll.lng);
+                    $('#form-lat').val(ll.lat);
+                }
+            };
+            var amapPixelXY = function (pixel) {
+                if (!pixel) {
+                    return null;
+                }
+                return {
+                    x: typeof pixel.getX === 'function' ? pixel.getX() : pixel.x,
+                    y: typeof pixel.getY === 'function' ? pixel.getY() : pixel.y
+                };
+            };
+
             if (is_dragend) {
-                marker.on('dragend', function (e) {
-                    map.panTo(e.lnglat);
-                    if ($('#form-lng').length > 0 && $('#form-lat').length > 0) {
-                        $('#form-lng').val(e.lnglat.lng);
-                        $('#form-lat').val(e.lnglat.lat);
+                // 自定义拖拽：保持按下时相对尖尖的偏移，按住圆头拖时尖尖仍在鼠标下方可见
+                var amap_marker_dragging = false;
+                var amap_marker_moved = false;
+                var amap_grab_offset = null;
+                var amapEndMarkerDrag = function () {
+                    if (!amap_marker_dragging) {
+                        return;
+                    }
+                    amap_marker_dragging = false;
+                    amap_grab_offset = null;
+                    marker.setCursor('grab');
+                    try {
+                        map.setStatus({ dragEnable: true });
+                    } catch (err) {}
+                    var ll = marker.getPosition();
+                    if (ll) {
+                        map.panTo(ll);
+                        amapSyncLngLat(ll);
+                    }
+                };
+
+                marker.on('mousedown', function (e) {
+                    if (!e || !e.pixel) {
+                        return;
+                    }
+                    var tip_pixel = amapPixelXY(map.lngLatToContainer(marker.getPosition()));
+                    var mouse_pixel = amapPixelXY(e.pixel);
+                    if (!tip_pixel || !mouse_pixel) {
+                        return;
+                    }
+                    amap_marker_dragging = true;
+                    amap_marker_moved = false;
+                    amap_grab_offset = {
+                        x: mouse_pixel.x - tip_pixel.x,
+                        y: mouse_pixel.y - tip_pixel.y
+                    };
+                    marker.setCursor('grabbing');
+                    try {
+                        map.setStatus({ dragEnable: false });
+                    } catch (err) {}
+                    if (e.originEvent && e.originEvent.preventDefault) {
+                        e.originEvent.preventDefault();
                     }
                 });
+
+                map.on('mousemove', function (e) {
+                    if (!amap_marker_dragging || !amap_grab_offset || !e || !e.pixel) {
+                        return;
+                    }
+                    var mouse_pixel = amapPixelXY(e.pixel);
+                    if (!mouse_pixel) {
+                        return;
+                    }
+                    amap_marker_moved = true;
+                    var tip_ll = map.containerToLngLat(new AMap.Pixel(
+                        mouse_pixel.x - amap_grab_offset.x,
+                        mouse_pixel.y - amap_grab_offset.y
+                    ));
+                    marker.setPosition(tip_ll);
+                    amapSyncLngLat(tip_ll);
+                });
+
+                map.on('mouseup', amapEndMarkerDrag);
+                $(document).off('mouseup.shopxoAmapMarker').on('mouseup.shopxoAmapMarker', amapEndMarkerDrag);
+
+                // 点击地图空白处：尖尖直接落到点击位置
+                map.on('click', function (e) {
+                    if (amap_marker_moved) {
+                        amap_marker_moved = false;
+                        return;
+                    }
+                    if (!e || !e.lnglat) {
+                        return;
+                    }
+                    marker.setPosition(e.lnglat);
+                    map.panTo(e.lnglat);
+                    amapSyncLngLat(e.lnglat);
+                });
+
+                // 右下角拖动提示
+                MapDraggingTipsAppend(mapid);
             }
             break;
 
@@ -2484,7 +2574,9 @@ function MapInit (lng, lat, level, is_dragend, mapid) {
                     $('#form-lat').val(e.latLng.lat);
                 }
             });
-
+            if (is_dragend) {
+                MapDraggingTipsAppend(mapid);
+            }
 
             // // GL v1版本
             // var point = new TMap.LatLng(lat, lng);
@@ -2541,6 +2633,10 @@ function MapInit (lng, lat, level, is_dragend, mapid) {
                         $('#form-lat').val(e.lnglat.lat);
                     }
                 });
+                MapDraggingTipsAppend(mapid);
+                // 天地图瓦片异步加载后易盖住提示，延迟再置顶一次
+                setTimeout(function () { MapDraggingTipsAppend(mapid); }, 300);
+                setTimeout(function () { MapDraggingTipsAppend(mapid); }, 1000);
             }
             break;
 
@@ -2554,6 +2650,361 @@ function MapInit (lng, lat, level, is_dragend, mapid) {
         $('#form-lng').val(lng);
         $('#form-lat').val(lat);
     }
+
+    // 容器刚显示/弹窗内初始化后校正尺寸，减少标注拖拽偏移
+    if (typeof map !== 'undefined' && map) {
+        window.__shopxo_map_instance__ = map;
+        setTimeout(function () {
+            try {
+                if (typeof map.checkResize === 'function') {
+                    map.checkResize();
+                } else if (typeof map.resize === 'function') {
+                    map.resize();
+                }
+            } catch (e) {}
+        }, 200);
+    }
+}
+
+/**
+ * 多点轨迹地图初始化（寄件/骑手/收件等）
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2026-04-10
+ * @desc    依赖页脚 is_load_map_api 引入的地图 SDK；无轨迹点时返回 false
+ * @param   {Array}  points  [{lng, lat, title, role, color}]
+ * @param   {Object|String} options mapid 或 {mapid, level, lineColor, lineWeight, driving}
+ * @desc    点位可传 icon/iconPath（有则自定义图标，无则地图 SDK 默认标）
+ */
+function MapTrackInit (points, options) {
+    options = options || {};
+    if (typeof options === 'string') {
+        options = { mapid: options };
+    }
+    var mapid = options.mapid || 'map';
+    var level = options.level || $('#' + mapid).data('level') || 15;
+    var line_color = options.lineColor || '#0e90d2';
+    var line_weight = options.lineWeight || 4;
+    var use_driving = options.driving === undefined ? true : !!options.driving;
+    var role_colors = { send: '#5eb95e', courier: '#0e90d2', rec: '#F37B1D' };
+    var role_order = { send: 1, courier: 2, rec: 3 };
+    var default_icon_w = parseInt(options.iconWidth || 24) || 24;
+    var default_icon_h = parseInt(options.iconHeight || 24) || 24;
+
+    // 过滤有效坐标并按角色排序（同坐标优先保留权重更高角色）
+    var list = [];
+    var seen = {};
+    var weight = { courier: 3, send: 2, rec: 1 };
+    (points || []).forEach(function (p) {
+        var lng = parseFloat(p.lng);
+        var lat = parseFloat(p.lat);
+        if (!lng || !lat || isNaN(lng) || isNaN(lat)) {
+            return;
+        }
+        var key = lng.toFixed(6) + ',' + lat.toFixed(6);
+        var icon = (p.icon || p.iconPath || '').toString().trim();
+        var item = {
+            lng: lng,
+            lat: lat,
+            title: p.title || '',
+            role: p.role || '',
+            color: p.color || role_colors[p.role] || '#666',
+            icon: icon,
+            icon_w: parseInt(p.icon_w || p.iconWidth || default_icon_w) || default_icon_w,
+            icon_h: parseInt(p.icon_h || p.iconHeight || default_icon_h) || default_icon_h
+        };
+        if (!seen[key] || (weight[item.role] || 0) > (weight[seen[key].role] || 0)) {
+            seen[key] = item;
+        }
+    });
+    Object.keys(seen).forEach(function (k) { list.push(seen[k]); });
+    list.sort(function (a, b) { return (role_order[a.role] || 9) - (role_order[b.role] || 9); });
+    if (list.length === 0) {
+        return false;
+    }
+
+    var find_role = function (role) {
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].role === role) {
+                return list[i];
+            }
+        }
+        return null;
+    };
+    var center = find_role('courier') || list[0];
+    var send = find_role('send');
+    var rec = find_role('rec');
+
+    $('#' + mapid).html('');
+
+    switch (__load_map_type__) {
+        // 百度
+        case 'baidu':
+            if (typeof BMap === 'undefined') {
+                return false;
+            }
+            (function () {
+                var map = new BMap.Map(mapid, { enableMapClick: false });
+                map.centerAndZoom(new BMap.Point(center.lng, center.lat), level);
+                map.enableScrollWheelZoom(true);
+                map.addControl(new BMap.NavigationControl({
+                    anchor: BMAP_ANCHOR_TOP_LEFT,
+                    type: BMAP_NAVIGATION_CONTROL_LARGE
+                }));
+                var view = list.map(function (p) { return new BMap.Point(p.lng, p.lat); });
+                var draw_line = function () {
+                    if (view.length < 2) {
+                        return;
+                    }
+                    map.addOverlay(new BMap.Polyline(view, {
+                        strokeColor: line_color,
+                        strokeWeight: line_weight,
+                        strokeOpacity: 0.9
+                    }));
+                    map.setViewport(view);
+                };
+                if (use_driving && send && rec && typeof BMap.DrivingRoute === 'function') {
+                    var driving = new BMap.DrivingRoute(map, {
+                        renderOptions: {
+                            map: map,
+                            autoViewport: true,
+                            polylineOptions: {
+                                strokeColor: line_color,
+                                strokeWeight: line_weight + 1,
+                                strokeOpacity: 0.85
+                            }
+                        },
+                        onSearchComplete: function () {
+                            if (typeof BMAP_STATUS_SUCCESS === 'undefined' || driving.getStatus() != BMAP_STATUS_SUCCESS) {
+                                draw_line();
+                            }
+                        }
+                    });
+                    driving.search(new BMap.Point(send.lng, send.lat), new BMap.Point(rec.lng, rec.lat));
+                } else {
+                    draw_line();
+                }
+                list.forEach(function (p) {
+                    var pt = new BMap.Point(p.lng, p.lat);
+                    var marker;
+                    if (p.icon) {
+                        var bicon = new BMap.Icon(p.icon, new BMap.Size(p.icon_w, p.icon_h), {
+                            imageSize: new BMap.Size(p.icon_w, p.icon_h)
+                        });
+                        marker = new BMap.Marker(pt, { icon: bicon });
+                    } else {
+                        marker = new BMap.Marker(pt);
+                    }
+                    map.addOverlay(marker);
+                    if (p.title) {
+                        var label = new BMap.Label(p.title, { offset: new BMap.Size(16, -18) });
+                        label.setStyle({
+                            color: '#fff',
+                            background: p.color,
+                            border: '0',
+                            padding: '2px 6px',
+                            borderRadius: '3px',
+                            fontSize: '12px'
+                        });
+                        marker.setLabel(label);
+                    }
+                });
+                window.__shopxo_map_instance__ = map;
+            })();
+            break;
+
+        // 高德
+        case 'amap':
+            if (typeof AMap === 'undefined') {
+                return false;
+            }
+            (function () {
+                var map = new AMap.Map(mapid, {
+                    zoom: level,
+                    center: [center.lng, center.lat],
+                    viewMode: '2D',
+                    resizeEnable: true
+                });
+                AMap.plugin(['AMap.ToolBar'], function () {
+                    map.addControl(new AMap.ToolBar());
+                });
+                var fit = [];
+                var path = list.map(function (p) { return [p.lng, p.lat]; });
+                var draw_line = function () {
+                    if (path.length < 2) {
+                        return;
+                    }
+                    map.add(new AMap.Polyline({
+                        path: path,
+                        strokeColor: line_color,
+                        strokeWeight: line_weight,
+                        strokeOpacity: 0.9
+                    }));
+                    map.setFitView(fit);
+                };
+                list.forEach(function (p) {
+                    var mopt = {
+                        position: [p.lng, p.lat],
+                        label: p.title ? {
+                            content: '<span style="background:' + p.color + ';color:#fff;padding:2px 6px;border-radius:3px;font-size:12px;">' + p.title + '</span>',
+                            direction: 'top'
+                        } : undefined
+                    };
+                    if (p.icon) {
+                        mopt.icon = new AMap.Icon({
+                            image: p.icon,
+                            size: new AMap.Size(p.icon_w, p.icon_h),
+                            imageSize: new AMap.Size(p.icon_w, p.icon_h)
+                        });
+                        mopt.offset = new AMap.Pixel(-Math.round(p.icon_w / 2), -Math.round(p.icon_h / 2));
+                    }
+                    var m = new AMap.Marker(mopt);
+                    map.add(m);
+                    fit.push(m);
+                });
+                if (use_driving && send && rec) {
+                    AMap.plugin('AMap.Driving', function () {
+                        var driving = new AMap.Driving({ map: map, policy: AMap.DrivingPolicy.LEAST_TIME });
+                        driving.search([send.lng, send.lat], [rec.lng, rec.lat], function (status) {
+                            if (status !== 'complete') {
+                                draw_line();
+                            } else {
+                                map.setFitView(fit);
+                            }
+                        });
+                    }, function () {
+                        draw_line();
+                    });
+                } else {
+                    draw_line();
+                    if (fit.length) {
+                        map.setFitView(fit);
+                    }
+                }
+                window.__shopxo_map_instance__ = map;
+                setTimeout(function () {
+                    try { map.resize(); } catch (e) {}
+                }, 200);
+            })();
+            break;
+
+        // 腾讯
+        case 'tencent':
+            if (typeof qq === 'undefined' || !qq.maps) {
+                return false;
+            }
+            (function () {
+                var center_pt = new qq.maps.LatLng(center.lat, center.lng);
+                var map = new qq.maps.Map(document.getElementById(mapid), {
+                    center: center_pt,
+                    zoom: level
+                });
+                var path = [];
+                var bounds = new qq.maps.LatLngBounds();
+                list.forEach(function (p) {
+                    var pt = new qq.maps.LatLng(p.lat, p.lng);
+                    path.push(pt);
+                    bounds.extend(pt);
+                    var mopt = { position: pt, map: map };
+                    if (p.icon) {
+                        mopt.icon = new qq.maps.MarkerImage(
+                            p.icon,
+                            new qq.maps.Size(p.icon_w, p.icon_h),
+                            new qq.maps.Point(0, 0),
+                            new qq.maps.Point(Math.round(p.icon_w / 2), Math.round(p.icon_h / 2)),
+                            new qq.maps.Size(p.icon_w, p.icon_h)
+                        );
+                    }
+                    var marker = new qq.maps.Marker(mopt);
+                    if (p.title) {
+                        var label = new qq.maps.Label({
+                            position: pt,
+                            map: map,
+                            content: p.title,
+                            offset: new qq.maps.Size(16, -30),
+                            style: {
+                                color: '#fff',
+                                background: p.color,
+                                border: '0',
+                                padding: '2px 6px',
+                                borderRadius: '3px',
+                                fontSize: '12px'
+                            }
+                        });
+                    }
+                });
+                if (path.length > 1) {
+                    new qq.maps.Polyline({
+                        path: path,
+                        strokeColor: line_color,
+                        strokeWeight: line_weight,
+                        strokeOpacity: 0.9,
+                        map: map
+                    });
+                    map.fitBounds(bounds);
+                }
+                window.__shopxo_map_instance__ = map;
+            })();
+            break;
+
+        // 天地图
+        case 'tianditu':
+            if (typeof T === 'undefined') {
+                return false;
+            }
+            (function () {
+                var map = new T.Map(mapid);
+                map.centerAndZoom(new T.LngLat(center.lng, center.lat), level);
+                map.enableScrollWheelZoom();
+                var control = new T.Control.Zoom();
+                control.setPosition(T_ANCHOR_TOP_RIGHT);
+                map.addControl(control);
+                var path = [];
+                var points_arr = [];
+                list.forEach(function (p) {
+                    var pt = new T.LngLat(p.lng, p.lat);
+                    path.push(pt);
+                    points_arr.push(pt);
+                    var marker;
+                    if (p.icon) {
+                        var ticon = new T.Icon({
+                            iconUrl: p.icon,
+                            iconSize: new T.Point(p.icon_w, p.icon_h),
+                            iconAnchor: new T.Point(Math.round(p.icon_w / 2), Math.round(p.icon_h / 2))
+                        });
+                        marker = new T.Marker(pt, { icon: ticon });
+                    } else {
+                        marker = new T.Marker(pt);
+                    }
+                    map.addOverLay(marker);
+                    if (p.title) {
+                        var label = new T.Label({
+                            text: p.title,
+                            position: pt,
+                            offset: new T.Point(16, -30)
+                        });
+                        map.addOverLay(label);
+                    }
+                });
+                if (path.length > 1) {
+                    var line = new T.Polyline(path, {
+                        color: line_color,
+                        weight: line_weight,
+                        opacity: 0.9
+                    });
+                    map.addOverLay(line);
+                    map.setViewport(points_arr);
+                }
+                window.__shopxo_map_instance__ = map;
+            })();
+            break;
+
+        default:
+            Prompt((window['lang_map_type_not_exist_tips'] || '该地图功能未定义') + '(' + __load_map_type__ + ')');
+            return false;
+    }
+    return true;
 }
 
 /**
@@ -2898,6 +3349,34 @@ function OpenWindow (url, name = '', width = 850, height = 600) {
 }
 
 /**
+ * 地图右下角拖动提示
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2026-10-09
+ * @desc    高德/腾讯/天地图等容器内叠加提示（百度仍用自身 CopyrightControl）
+ * @param   {[string]}        mapid [地图容器id]
+ */
+function MapDraggingTipsAppend (mapid) {
+    var $map_box = $('#' + (mapid || 'map'));
+    if ($map_box.length == 0) {
+        return;
+    }
+    // isolation 把提示层级锁在地图容器内，避免盖住弹窗/下拉等页面元素
+    $map_box.css({ position: 'relative', isolation: 'isolate' });
+    var $tips = $map_box.children('.map-dragging-tips-float');
+    if ($tips.length == 0) {
+        $tips = $('<div class="map-dragging-tips map-dragging-tips-float"><span>' +
+            (window['lang_map_dragging_icon_tips'] || '拖动图标直接定位') +
+            '</span></div>');
+        $map_box.append($tips);
+    } else {
+        // 地图异步渲染后可能盖住提示，重新置顶
+        $map_box.append($tips);
+    }
+}
+
+/**
  * 地址联动初始化
  * @author  Devil
  * @blog    http://gong.gg/
@@ -3083,6 +3562,201 @@ function JsonObjectToJsonString (value) {
  */
 function PopoverContentHandle (content) {
     return content.replace(new RegExp("\n", 'g'), '<br />').replace(new RegExp("\r", 'g'), '').replace(new RegExp("'", 'g'), '').replace(new RegExp('"', 'g'), '');
+}
+
+/**
+ * 小票打印处理（多模板时弹窗选择，交互对齐数据打印）
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2026-10-08
+ * @param   [object]     e            [按钮对象]
+ * @param   {int|null}   template_id  [已选模板id]
+ */
+function DataTicketPrintHandle (e, template_id) {
+    if ((e || null) == null || typeof e != 'object') {
+        Prompt(window['lang_operate_params_error'] || '操作参数有误');
+        return false;
+    }
+    var url = e.data('url') || null;
+    if (url == null) {
+        Prompt(window['lang_operate_params_error'] || 'url参数有误');
+        return false;
+    }
+    var form = e.data('form') || 'form_checkbox_value';
+    var values = FromTableCheckedValues(form, '.am-table-scrollable-horizontal');
+    if (values.length <= 0) {
+        Prompt(window['lang_before_choice_data_tips'] || '请先选择数据');
+        return false;
+    }
+
+    // 模板列表：页面注入 ticket_print_template，与数据打印 print_template 一致
+    var templates = window['ticket_print_template'] || [];
+    if (!Array.isArray(templates)) {
+        templates = [];
+    }
+    if (templates.length > 1 && (template_id === undefined || template_id === null || template_id === '')) {
+        var items = [];
+        templates.forEach(function (v) {
+            if ((v.name || null) != null) {
+                items.push({ content: v.name });
+            } else {
+                items.push({ content: '#' + (v.id || '') });
+            }
+        });
+        AMUI.dialog.actions({
+            title: e.data('select-title') || '',
+            config: {
+                closeViaDimmer: false
+            },
+            items: items,
+            onSelected: function (index, obj, modal) {
+                var row = templates[parseInt(index)] || null;
+                if (row != null && (row.id || null) != null) {
+                    DataTicketPrintHandle(e, row.id);
+                }
+                modal.modal('close');
+            }
+        });
+        return false;
+    }
+
+    var key = e.data('key') || 'ids';
+    var timeout = e.data('timeout') || 60000;
+    var title = e.data('confirm-title') || window['lang_reminder_title'] || '温馨提示';
+    var msg = e.data('confirm-msg') || window['lang_confirm_confirm_tips'] || '确定继续吗？';
+    var tid = template_id;
+    if ((tid === undefined || tid === null || tid === '') && templates.length == 1 && (templates[0].id || null) != null) {
+        tid = templates[0].id;
+    }
+    AMUI.dialog.confirm({
+        title: title,
+        content: msg,
+        onConfirm: function () {
+            var data = {};
+            data[key] = values.join(',');
+            if ((tid || null) != null && tid !== '') {
+                data['template_id'] = tid;
+            }
+            $.AMUI.progress.start();
+            $.ajax({
+                url: RequestUrlHandle(url),
+                type: 'POST',
+                dataType: 'json',
+                timeout: timeout,
+                data: data,
+                success: function (result) {
+                    $.AMUI.progress.done();
+                    if (result.code == 0) {
+                        Prompt(result.msg, 'success');
+                    } else {
+                        Prompt(result.msg);
+                    }
+                },
+                error: function (xhr) {
+                    $.AMUI.progress.done();
+                    Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
+                }
+            });
+        },
+        onCancel: function () {}
+    });
+}
+
+/**
+ * 标签打印处理（多模板时弹窗选择，与小票打印分开）
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2026-10-14
+ * @param   [object]     e            [按钮对象]
+ * @param   {int|null}   template_id  [已选模板id]
+ */
+function DataLabelPrintHandle (e, template_id) {
+    if ((e || null) == null || typeof e != 'object') {
+        Prompt(window['lang_operate_params_error'] || '操作参数有误');
+        return false;
+    }
+    var url = e.data('url') || null;
+    if (url == null) {
+        Prompt(window['lang_operate_params_error'] || 'url参数有误');
+        return false;
+    }
+    var form = e.data('form') || 'form_checkbox_value';
+    var values = FromTableCheckedValues(form, '.am-table-scrollable-horizontal');
+    if (values.length <= 0) {
+        Prompt(window['lang_before_choice_data_tips'] || '请先选择数据');
+        return false;
+    }
+    var templates = window['label_print_template'] || [];
+    if (!Array.isArray(templates)) {
+        templates = [];
+    }
+    if (templates.length > 1 && (template_id === undefined || template_id === null || template_id === '')) {
+        var items = [];
+        templates.forEach(function (v) {
+            if ((v.name || null) != null) {
+                items.push({ content: v.name });
+            } else {
+                items.push({ content: '#' + (v.id || '') });
+            }
+        });
+        AMUI.dialog.actions({
+            title: e.data('select-title') || '',
+            config: {
+                closeViaDimmer: false
+            },
+            items: items,
+            onSelected: function (index, obj, modal) {
+                var row = templates[parseInt(index)] || null;
+                if (row != null && (row.id || null) != null) {
+                    DataLabelPrintHandle(e, row.id);
+                }
+                modal.modal('close');
+            }
+        });
+        return false;
+    }
+    var key = e.data('key') || 'ids';
+    var timeout = e.data('timeout') || 60000;
+    var title = e.data('confirm-title') || window['lang_reminder_title'] || '温馨提示';
+    var msg = e.data('confirm-msg') || window['lang_confirm_confirm_tips'] || '确定继续吗？';
+    var tid = template_id;
+    if ((tid === undefined || tid === null || tid === '') && templates.length == 1 && (templates[0].id || null) != null) {
+        tid = templates[0].id;
+    }
+    AMUI.dialog.confirm({
+        title: title,
+        content: msg,
+        onConfirm: function () {
+            var data = {};
+            data[key] = values.join(',');
+            if ((tid || null) != null && tid !== '') {
+                data['template_id'] = tid;
+            }
+            $.AMUI.progress.start();
+            $.ajax({
+                url: RequestUrlHandle(url),
+                type: 'POST',
+                dataType: 'json',
+                timeout: timeout,
+                data: data,
+                success: function (result) {
+                    $.AMUI.progress.done();
+                    if (result.code == 0) {
+                        Prompt(result.msg, 'success');
+                    } else {
+                        Prompt(result.msg);
+                    }
+                },
+                error: function (xhr) {
+                    $.AMUI.progress.done();
+                    Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
+                }
+            });
+        },
+        onCancel: function () {}
+    });
 }
 
 /**
@@ -3294,6 +3968,31 @@ function InputClearOutHandle (e) {
 }
 
 /**
+ * 颜色选择器：给目标节点写 style（带 !important，避免被表单 token 色盖住）
+ * @param {jQuery|HTMLElement|string} tag  目标选择器或节点
+ * @param {Object} style_value  { color: '#xxx', ... }；空字符串则 removeProperty
+ */
+function ColorPickerApplyStyle (tag, style_value) {
+    var $el = $(tag);
+    if ($el.length == 0 || !style_value) {
+        return;
+    }
+    $el.each(function () {
+        for (var prop in style_value) {
+            if (!Object.prototype.hasOwnProperty.call(style_value, prop)) {
+                continue;
+            }
+            var val = style_value[prop];
+            if (val === '' || val == null) {
+                this.style.removeProperty(prop);
+            } else {
+                this.style.setProperty(prop, val, 'important');
+            }
+        }
+    });
+}
+
+/**
  * 颜色选择器初始化
  * @author  Devil
  * @blog    http://gong.gg/
@@ -3317,8 +4016,8 @@ function ColorPickerInit () {
             }
             // input 赋值
             $($(this).data('color-tag')).val(init_color);
-            // 其他dom赋值
-            $($(this).data('input-tag')).css(style_value);
+            // 其他dom赋值（标题预览等，需 !important）
+            ColorPickerApplyStyle($(this).data('input-tag'), style_value);
             // 当前元素初始背景
             $(this).css('background', init_color);
             // 当前元素已初始的组件背景
@@ -3345,7 +4044,7 @@ function ColorPickerInit () {
                         style_value[color_style_arr[i]] = '';
                     }
                     $($self.data('color-tag')).val('');
-                    $($self.data('input-tag')).css(style_value);
+                    ColorPickerApplyStyle($self.data('input-tag'), style_value);
                     $($self.data('color-tag')).trigger('change');
                     $self.css('background', '');
                     $self.find('.fcolorpicker-curbox').css('background', '');
@@ -3396,7 +4095,7 @@ function ColorPickerInit () {
                             $self.css('background', color.color[color_format]);
                         }
                         // 其他dom赋值
-                        $($self.data('input-tag')).css(style_value);
+                        ColorPickerApplyStyle($self.data('input-tag'), style_value);
                         $($self.data('color-tag')).trigger('change');
                     },
                     onConfirm: function (color) {
@@ -3422,7 +4121,7 @@ function ColorPickerInit () {
                             $self.css('background', color.color[color_format]);
                         }
                         // 其他dom赋值
-                        $($self.data('input-tag')).css(style_value);
+                        ColorPickerApplyStyle($self.data('input-tag'), style_value);
                         $($self.data('color-tag')).trigger('change');
                     }
                 });
@@ -5173,9 +5872,19 @@ $(function () {
         window.open(request_value);
     });
 
-    // 表格公共pdf导出和打印操作
+    // 表格公共pdf导出和打印操作（数据打印 / hiprint，与小票打印无关）
     $(document).on('click', '.form-table-operate-top-data-print-submit,.common-print-submit', function () {
         DataPrintHandle($(this), $(this).data('is-pdf'));
+    });
+
+    // 表格公共小票打印（云小票机，独立接口，不走 hiprint 数据打印）
+    $(document).on('click', '.form-table-operate-top-data-ticket-print-submit', function () {
+        DataTicketPrintHandle($(this));
+    });
+
+    // 表格公共标签打印（云标签机，与小票打印分开）
+    $(document).on('click', '.form-table-operate-top-data-label-print-submit', function () {
+        DataLabelPrintHandle($(this));
     });
 
     // 表格内部表格伸缩事件
@@ -6033,6 +6742,7 @@ $(function () {
             }
         }
         AnnexView(type, value, $(this));
+        return false;
     });
 
     // 公共文件预览
@@ -6913,12 +7623,43 @@ $(function () {
         }
     });
 
-    // 后台页面二级导航
+    // 后台页面二级导航：同步内容区选中（兼容快捷搜索带 switch 进入）
+    function AdminNavSwitchContentSync($btn)
+    {
+        if(!$btn || $btn.length == 0)
+        {
+            return;
+        }
+        var key = $btn.data('key');
+        if(key === undefined || key === '')
+        {
+            return;
+        }
+        $btn.addClass('am-active').siblings('.item').removeClass('am-active');
+        var $content = $btn.closest('.nav-switch-btn').nextAll('.nav-content').first();
+        if($content.length == 0)
+        {
+            $content = $btn.closest('form').find('> .nav-content, .nav-content').first();
+        }
+        if($content.length == 0)
+        {
+            $content = $('.nav-content').first();
+        }
+        $content.children('.item').removeClass('am-active');
+        $content.children('.item[data-key="' + key + '"]').addClass('am-active');
+        $content.children('.item.am-active').find('select.chosen-select').trigger('chosen:updated');
+    }
     $(document).on('click', '.nav-switch-btn .item', function () {
-        $(this).addClass('am-active').siblings().removeClass('am-active');
-        var key = $(this).data('key');
-        $("[data-key='" + key + "']").addClass('am-active').siblings('.item').removeClass('am-active');
-        $("[data-key='" + key + "'].item.am-active select.chosen-select").trigger('chosen:updated');
+        AdminNavSwitchContentSync($(this));
+    });
+    // 页面加载时按已选中的二级导航同步内容（快捷搜索 switch 参数）
+    $('.nav-switch-btn').each(function() {
+        var $active = $(this).find('.item.am-active').first();
+        if($active.length == 0)
+        {
+            $active = $(this).find('.item').first();
+        }
+        AdminNavSwitchContentSync($active);
     });
 
     // 表单标题向上推显示效果
@@ -7390,11 +8131,12 @@ $(function () {
         var temp_class = 'spec-images-items-'+index;
         var html = '<li class="spec-images-items '+temp_class+'">';
             html += '<input type="text" name="spec_images_name['+index+']" placeholder="'+($spec_table.data('spec-type-name') || '规格名')+'" class="am-radius am-text-center" data-validation-message="'+($spec_table.data('spec-type-message') || '请填写规格名')+'" data-is-clearout="0" required />'
-            html += '<ul class="plug-file-upload-view spec-images-view-'+index+'" data-form-name="spec_images['+index+']" data-max-number="1" data-dialog-type="images">';
+            html += '<ul class="plug-file-upload-view spec-images-view-'+index+'" data-form-name="spec_images['+index+']" data-max-number="1" data-dialog-type="images" data-is-eye="1">';
             html += '<li>';
             html += '<input type="text" name="spec_images['+index+']" data-validation-message="'+($spec_table.data('spec-images-message') || '请上传规格图片')+'" required />';
             html += '<img src="'+__attachment_host__+'/static/common/images/default-images.jpg" />';
             html += '<i class="iconfont icon-close"></i>';
+            html += '<i class="iconfont icon-eye"></i>';
             html += '</li>';
             html += '</ul>';
             html += '<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-'+index+'">+'+($spec_table.data('spec-images-name') || '上传图片')+'</div>';
@@ -7402,8 +8144,8 @@ $(function () {
         $('.spec-images-list ul.spec-images-content').append(html);
     });
 
-    // 规格图片删除
-    $(document).on('click', '.spec-images-list ul.spec-images-content ul.plug-file-upload-view li i', function()
+    // 规格图片删除（仅关闭图标，避免预览眼睛误删整项）
+    $(document).on('click', '.spec-images-list ul.spec-images-content ul.plug-file-upload-view li i.icon-close', function()
     {
         $(this).parents('li.spec-images-items').remove();
     });
@@ -7469,11 +8211,12 @@ $(function () {
                 var temp_class = 'spec-images-items-'+index;
                 var html = '<li class="spec-images-items '+temp_class+'">';
                     html += '<input type="text" name="spec_images_name['+index+']" value="'+data[i]+'" placeholder="'+($spec_table.data('spec-type-name') || '规格名')+'" class="am-radius am-text-center" data-validation-message="'+($spec_table.data('spec-type-message') || '请填写规格名')+'" data-is-clearout="0" required />'
-                    html += '<ul class="plug-file-upload-view spec-images-view-'+index+'" data-form-name="spec_images['+index+']" data-max-number="1" data-dialog-type="images">';
+                    html += '<ul class="plug-file-upload-view spec-images-view-'+index+'" data-form-name="spec_images['+index+']" data-max-number="1" data-dialog-type="images" data-is-eye="1">';
                     html += '<li>';
                     html += '<input type="text" name="spec_images['+index+']" data-validation-message="'+($spec_table.data('spec-images-message') || '请上传规格图片')+'" required />';
                     html += '<img src="'+__attachment_host__+'/static/common/images/default-images.jpg" />';
                     html += '<i class="iconfont icon-close"></i>';
+                    html += '<i class="iconfont icon-eye"></i>';
                     html += '</li>';
                     html += '</ul>';
                     html += '<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-'+index+'">+'+($spec_table.data('spec-images-name') || '上传图片')+'</div>';

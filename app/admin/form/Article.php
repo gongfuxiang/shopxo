@@ -95,7 +95,7 @@ class Article
                     'view_key'      => 'describe',
                     'grid_size'     => 'sm',
                     'text_truncate' => 2,
-                    'is_popover'    => 1,
+                    'is_truncate_detail' => 0,
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',

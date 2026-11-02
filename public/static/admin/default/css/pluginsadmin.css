@@ -32,14 +32,14 @@
 .plugins-data-list>ul .item {
     box-shadow: none;
     border-radius: var(--border-radius-lg);
-    background-color: #f9f9f9;
-    border: 0.1rem solid #f9f9f9;
+    background-color: var(--fill-color-light, #f9f9f9);
+    border: 0.1rem solid var(--border-color, #f9f9f9);
     transition: all 0.3s ease-in-out;
 }
 
 .plugins-data-list>ul.not-install .item {
-    background: #F4F4F4;
-    border: 0.1rem solid #F4F4F4 !important;
+    background: var(--fill-color, #F4F4F4);
+    border: 0.1rem solid var(--border-color, #F4F4F4) !important;
 }
 
 .plugins-data-list>ul .item:hover {
@@ -59,7 +59,7 @@
 
 .plugins-data-list>ul>li .base h3 {
     font-weight: 700;
-    color: #333;
+    color: var(--text-color, #333);
     font-size: 1.6rem;
     margin: 0 0 1rem 0;
 }
@@ -70,7 +70,7 @@
     margin: 0;
     font-size: 1.2rem;
     font-weight: 300;
-    color: #999;
+    color: var(--text-weak-color, #999);
 }
 
 .plugins-data-list>ul>li .base h3,
@@ -89,7 +89,7 @@
     font-size: 1.4rem;
     -webkit-box-orient: vertical;
     margin-top: 1.2rem;
-    color: #333;
+    color: var(--text-muted-color, #999);
     height: 4rem;
     line-height: 2rem;
 }
@@ -115,7 +115,7 @@
 }
 
 .plugins-data-list>ul .item .operation .am-btn:hover {
-    color: #2A94FF;
+    color: var(--color-main);
 }
 
 .plugins-data-list>ul .item .operation .am-btn:first-child::before {
@@ -133,14 +133,14 @@
     content: '';
     width: 1px;
     height: 30px;
-    background: #EEEEEE;
+    background: var(--fill-color, #eeeeee);
     position: absolute;
     left: 0;
     top: 50%;
     transform: translateY(-50%);
 }
 .plugins-data-list>ul.not-install .item .operation .am-btn::before {
-    background: #DDDDDD;
+    background: var(--border-strong-color, #DDDDDD);
 }
 
 .plugins-data-list>ul>li .operation a,
@@ -151,14 +151,14 @@
     align-items: center;
     width: auto !important;
     gap: 0.5rem;
-    color: #666;
+    color: var(--text-muted-color, #666);
     background-color: transparent !important;
     border: 0 !important;
     height: auto;
     line-height: normal;
 }
 .plugins-data-list>ul>li .operation button.am-btn-danger {
-    color: var(--color-red);   
+    color: var(--color-red) !important;
 }
 
 .plugins-data-list>ul>li .operation a i,
@@ -180,8 +180,12 @@
     width: 3.5rem;
 }
 
-.plugins-data-list>ul>li .plugins-status-event.am-success {
-    color: #52C41A;
+/* 压过 html body .am-btn-default 的 !important，开启态保持绿色 */
+.plugins-data-list>ul>li .plugins-status-event.am-success,
+.plugins-data-list>ul>li .plugins-status-event.am-success:hover,
+.plugins-data-list>ul>li .plugins-status-event.am-success:focus,
+.plugins-data-list>ul>li .plugins-status-event.am-success:active {
+    color: var(--color-green, #52C41A) !important;
 }
 
 .plugins-data-list>ul>li .submit-move {
@@ -203,7 +207,7 @@
 .content .middle-divider strong {
     position: absolute;
     top: 0.4rem;
-    background: #fff;
+    background: var(--surface-color, #ffffff);
     padding: 0.4rem 2rem;
     left: calc(50% - 8.3rem);
     border: 0.1rem dashed #ccc;
@@ -345,7 +349,7 @@
     border-bottom-right-radius: 0.7rem;
     -webkit-box-shadow: 0 -0.5rem 0.5rem rgb(50 55 58 / 6%);
     box-shadow: 0 -0.5rem 0.5rem rgb(50 55 58 / 6%);
-    background: #f9f9f9;
+    background: var(--fill-color-light, #f9f9f9);
 }
 
 .plugins-data-list .plugins-setup-container .chosen-select-item {
@@ -354,10 +358,12 @@
 }
 
 .plugins-data-list .plugins-setup-container .chosen-select-item.second-domain {
-    border: 0.1rem solid #f0f0f0;
+    border: 0.1rem solid var(--border-color, #f0f0f0);
     border-radius: var(--border-radius);
     padding: 0.48rem 0.8rem;
     height: 3.1rem;
+    background: var(--input-bg-color, #fff);
+    color: var(--text-color, #333);
 }
 
 .plugins-data-list .plugins-setup-container .chosen-select-item.second-domain,
@@ -370,7 +376,7 @@
  * 插件应用分类
  */
 .plugins-category-nav button.am-btn-default {
-    background: #F5F5F5;
+    background: var(--fill-color, #f5f5f5);
     border: 0;
 }
 

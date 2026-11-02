@@ -417,3 +417,114 @@
         display: none;
     }
 }
+
+/* 风格二/四：商品卡改为上图下文，图片通栏，标题和价格在下方 */
+.category-goods-style-2-container .module-goods-list-base .item,
+.category-goods-style-4-container .module-goods-list-base .item {
+    flex-flow: column nowrap;
+}
+.category-goods-style-2-container .module-goods-list-base .item .goods-info,
+.category-goods-style-4-container .module-goods-list-base .item .goods-info {
+    width: 100%;
+    height: auto;
+    max-height: none;
+}
+.category-goods-style-2-container .module-goods-list-base .item .goods-info img,
+.category-goods-style-4-container .module-goods-list-base .item .goods-info img {
+    width: 100%;
+    height: auto;
+}
+.category-goods-style-2-container .module-goods-list-base .item .item-content,
+.category-goods-style-4-container .module-goods-list-base .item .item-content {
+    width: 100%;
+    padding-left: 0 !important;
+    margin-top: 1rem;
+}
+.category-goods-style-2-container .module-goods-list-base .item .item-content .base-content,
+.category-goods-style-4-container .module-goods-list-base .item .item-content .base-content {
+    margin-bottom: 0.8rem;
+}
+.category-goods-style-2-container .module-goods-list-base .item .item-content .bottom-content,
+.category-goods-style-4-container .module-goods-list-base .item .item-content .bottom-content {
+    width: 100%;
+    align-items: center;
+}
+.category-goods-style-2-container .zero-search-right .module-goods-list-base .item .goods-info,
+.category-goods-style-4-container .zero-search-right .module-goods-list-base .item .goods-info {
+    width: 100%;
+    height: auto;
+}
+/* PC宽图模式一行三个 */
+/* 风格三/四：左侧一级，右侧二级顶栏 + 三级块（无顶部一级，去掉为一行一级预留的顶距） */
+.zero-search-style-3 .zero-search-left,
+.zero-search-style-4 .zero-search-left {
+    float: left;
+}
+.zero-search-style-3 .zero-left,
+.zero-search-style-4 .zero-left {
+    margin-top: 0;
+}
+.zero-search-style-3 .zero-search-right,
+.zero-search-style-4 .zero-search-right {
+    width: calc(100% - 18.5rem);
+    float: right;
+}
+.zero-search-style-3 .zero-right,
+.zero-search-style-4 .zero-right {
+    width: 100%;
+    float: none;
+    padding-left: 1.2rem;
+    margin-top: 0;
+}
+.zero-right-l2 {
+    margin-top: 0;
+    margin-bottom: 0.6rem;
+}
+.zero-right-l2 a {
+    display: inline-block;
+    margin-right: 1.2rem;
+    margin-bottom: 1rem;
+    padding: 0.1rem 1rem;
+    font-size: 1.4rem;
+    color: #666666;
+    border: 0.1rem solid #d4d6d9;
+}
+.zero-right-l2 a:hover,
+.zero-right-l2 a.active {
+    border: 0.1rem solid var(--color-main-hover);
+    color: var(--color-main-hover);
+}
+.zero-right-l3 {
+    margin-bottom: 1.2rem;
+    padding: 1rem 1rem 0.2rem;
+    background: #ffffff;
+    border-radius: var(--border-radius);
+}
+.zero-right-l3 .zero-l3-item {
+    display: inline-block;
+    margin-right: 1.2rem;
+    margin-bottom: 1rem;
+    padding: 0.1rem 1rem;
+    font-size: 1.4rem;
+    color: #666666;
+    border: 0.1rem solid #d4d6d9;
+    background: #f5f5f5;
+    white-space: nowrap;
+}
+.zero-right-l3 .zero-l3-item:hover,
+.zero-right-l3 .zero-l3-item.active {
+    border: 0.1rem solid var(--color-main-hover);
+    color: var(--color-main-hover);
+    background: #fff;
+}
+@media only screen and (max-width: 640px) {
+    .zero-search-style-3 .zero-search-right,
+    .zero-search-style-4 .zero-search-right {
+        width: calc(100% - 13rem);
+        padding-right: 1rem;
+    }
+    .zero-search-style-3 .zero-right,
+    .zero-search-style-4 .zero-right {
+        padding-left: 0.6rem;
+    }
+}

@@ -1,0 +1,69 @@
+<!-- 按品类设置弹窗（结构参考订单支付弹窗，须放在保存表单外） -->
+<div class="am-popup am-radius" id="goods-detail-category-diy-popup">
+    <div class="am-popup-inner">
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">{{:MyLang('diy.goods_detail_category_diy_title')}}</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
+        <div class="am-popup-bd">
+            <form class="am-form form-validation-goods-detail-category-diy am-form-popup-fixed" action="javascript:;" method="POST" onsubmit="return false;">
+                <div class="am-form-group">
+                    <label>{{:MyLang('diy.goods_detail_category_diy_category')}}<span class="am-form-group-label-tips-must">*</span></label>
+                    <select id="goods-detail-category-diy-category" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}">
+                        <option value="">{{:MyLang('please_select_tips')}}</option>
+                        {{if !empty($goods_category_list)}}
+                            {{foreach $goods_category_list as $v}}
+                                <option value="{{$v.id}}" data-name="{{$v.name}}">{{$v.name}}</option>
+                                {{if !empty($v['items'])}}
+                                    {{foreach $v.items as $vs}}
+                                        <option style="padding-left: 20px;" value="{{$vs.id}}" data-name="{{$v.name}} > {{$vs.name}}">{{if empty($vs['items'])}}├{{else /}}└{{/if}}² {{$vs.name}}</option>
+                                        {{if !empty($vs['items'])}}
+                                            {{foreach $vs.items as $kss=>$vss}}
+                                                <option style="padding-left: 40px;" value="{{$vss.id}}" data-name="{{$v.name}} > {{$vs.name}} > {{$vss.name}}">{{if $kss eq count($vs['items'])-1}}└{{else /}}├{{/if}}³ {{$vss.name}}</option>
+                                            {{/foreach}}
+                                        {{/if}}
+                                    {{/foreach}}
+                                {{/if}}
+                            {{/foreach}}
+                        {{/if}}
+                    </select>
+                </div>
+                <div class="am-form-group">
+                    <label>{{:MyLang('diy.goods_detail_category_diy_clients')}}</label>
+                    <div class="home-diy-template-list goods-detail-category-diy-client-list">
+                        {{foreach $common_platform_type as $v}}
+                            {{if !in_array($v['value'], ['pc'])}}
+                                <div class="am-flex am-flex-row am-flex-items-center am-gap-1 am-margin-top-sm">
+                                    <span class="am-text-right">{{$v.name}}</span>
+                                    <select class="am-radius chosen-select goods-detail-category-diy-client" data-client="{{$v.value}}" data-client-name="{{$v.name}}" data-placeholder="{{:MyLang('optional_tips')}}">
+                                        <option value="">{{:MyLang('optional_tips')}}</option>
+                                        {{if !empty($goods_detail_diy_list)}}
+                                            {{foreach $goods_detail_diy_list as $diy}}
+                                                <option value="{{$diy.id}}">{{$diy.name}}</option>
+                                            {{/foreach}}
+                                        {{/if}}
+                                    </select>
+                                    <div class="form-multiple-where-input am-margin-left-sm">
+                                        <input type="text" autocomplete="off" class="Wdate am-radius goods-detail-category-diy-time-start" placeholder="{{:MyLang('form_time_start_title')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
+                                        <span class="am-text-grey">~</span>
+                                        <input type="text" autocomplete="off" class="Wdate am-radius goods-detail-category-diy-time-end" placeholder="{{:MyLang('form_time_end_title')}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
+                                    </div>
+                                </div>
+                            {{/if}}
+                        {{/foreach}}
+                    </div>
+                </div>
+                <div class="am-form-popup-submit">
+                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs" data-am-modal-close>
+                        <i class="am-icon-paint-brush"></i>
+                        <span>{{:MyLang('cancel_title')}}</span>
+                    </button>
+                    <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs goods-detail-category-diy-confirm">
+                        <i class="am-icon-check"></i>
+                        <span>{{:MyLang('confirm_title')}}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

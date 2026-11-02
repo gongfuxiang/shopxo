@@ -2000,16 +2000,17 @@ class I18nService
 	 * @blog    http://gong.gg/
 	 * @version 1.0.0
 	 * @date    2026-08-31
-	 * @param   [int]             $goods_id [商品id]
-	 * @param   [array]           $spec     [基础规格（含key、type/value为默认语言原文）]
-	 * @return  [array]                     [当前语言的展示规格]
+	 * @param   [int]             $goods_id  [商品id]
+	 * @param   [array]           $spec      [基础规格（含key、type/value为默认语言原文）]
+	 * @param   [boolean]         $is_force  [是否强制（后台等非前台模块也按当前语言）]
+	 * @return  [array]                      [当前语言的展示规格]
 	 */
-	public static function SpecShowData($goods_id, $spec)
+	public static function SpecShowData($goods_id, $spec, $is_force = false)
 	{
 		$result = [];
 		if(!empty($spec) && is_array($spec))
 		{
-			$is_handle = self::IsHandle();
+			$is_handle = self::IsHandle($is_force);
 			$lang = self::CurrentLang();
 			$values = $is_handle ? self::ValuesBatch('goods', [$goods_id]) : [];
 			$gv = isset($values[$goods_id]) ? $values[$goods_id] : [];
@@ -2039,6 +2040,72 @@ class I18nService
 			}
 		}
 		return $result;
+	}
+
+	/**
+	 * 商品标题 i18n 映射（goods_id => 当前语言标题）
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2026-10-08
+	 * @param   [array]           $goods_ids [商品id]
+	 * @param   [boolean]         $is_force  [是否强制（后台订单等）]
+	 */
+	public static function GoodsTitleMap($goods_ids, $is_force = true)
+	{
+		$result = [];
+		if(!self::IsHandle($is_force))
+		{
+			return $result;
+		}
+		$ids = array_unique(array_filter(array_map('intval', is_array($goods_ids) ? $goods_ids : [$goods_ids])));
+		if(empty($ids))
+		{
+			return $result;
+		}
+		$lang = self::CurrentLang();
+		$map = self::ValuesBatch('goods', $ids);
+		foreach($map as $gid=>$fields)
+		{
+			if(!empty($fields['title'][$lang]))
+			{
+				$result[intval($gid)] = $fields['title'][$lang];
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * 规格展示文案（当前语言优先，未翻译回退快照）
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2026-10-08
+	 * @param   [int]             $goods_id  [商品id]
+	 * @param   [mixed]           $spec      [规格数组或json]
+	 * @param   [boolean]         $is_force  [是否强制]
+	 * @param   [string]          $join      [连接符]
+	 */
+	public static function SpecTextShow($goods_id, $spec, $is_force = true, $join = '，')
+	{
+		if(empty($spec))
+		{
+			return '';
+		}
+		if(!is_array($spec))
+		{
+			$spec = json_decode($spec, true);
+		}
+		if(empty($spec) || !is_array($spec))
+		{
+			return '';
+		}
+		$show = self::SpecShowData(intval($goods_id), $spec, $is_force);
+		$list = !empty($show) ? $show : $spec;
+		return implode($join, array_map(function($sv)
+		{
+			return (isset($sv['type']) ? $sv['type'] : '').':'.(isset($sv['value']) ? $sv['value'] : '');
+		}, $list));
 	}
 
 	/**

@@ -19,7 +19,7 @@
         <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
             <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-right-list">
                 <!-- 菜单搜索 -->
-                <li class="am-dropdown admin-menu-search" data-am-dropdown="{trigger: 'hover'}">
+                <li class="am-dropdown admin-menu-search" data-am-dropdown>
                     <a href="javascript:;" class="am-dropdown-toggle am-flex am-flex-row am-flex-items-center am-gap-12">
                         <i class="iconfont icon-search-fine"></i>
                         <span class="am-show-sm-only">{{:MyLang('admin_menu_search.title')}}</span>
@@ -73,14 +73,39 @@
                     </li>
                 {{/if}}
 
-                <!-- 主题配色切换 -->
-                {{if !empty($theme_color_choice_data) and !empty($theme_color_choice_data['data']) and !empty($theme_color_choice_data['theme']) and !empty($theme_color_choice_data['value'])}}
-                    <li class="am-dropdown" data-am-dropdown="{trigger: 'hover'}" data-am-dropdown-toggle>
-                        <a class="am-dropdown-toggle am-flex am-flex-row am-flex-items-center am-gap-12" href="javascript:;">
-                            <i class="iconfont icon-theme"></i>
-                            <span class="am-show-sm-only">{{:MyLang('color_matching_title')}}[{{$theme_color_choice_data.theme}}]</span>
-                        </a>
-                        <ul class="am-dropdown-content am-radius-lg">
+                <!-- 主题配色 + 外观模式（浅色/深色/跟随系统置顶） -->
+                <li class="am-dropdown admin-theme-mode-menu" data-am-dropdown="{trigger: 'hover'}" data-am-dropdown-toggle>
+                    <a class="am-dropdown-toggle am-flex am-flex-row am-flex-items-center am-gap-12" href="javascript:;" data-am-popover="{content: '{{if !empty($theme_color_choice_data) and !empty($theme_color_choice_data.theme)}}{{:MyLang('color_matching_title')}}{{else /}}{{:MyLang('theme_mode_title')}}{{/if}}', trigger: 'hover focus', theme: 'sm'}">
+                        <i id="admin-theme-mode-icon" class="iconfont icon-theme"></i>
+                        <span class="am-show-sm-only">
+                            {{if !empty($theme_color_choice_data) and !empty($theme_color_choice_data['theme'])}}
+                                {{:MyLang('color_matching_title')}}[{{$theme_color_choice_data.theme}}]
+                            {{else /}}
+                                {{:MyLang('theme_mode_title')}}
+                            {{/if}}
+                        </span>
+                    </a>
+                    <ul class="am-dropdown-content am-radius-lg">
+                        <li data-admin-theme-mode="light">
+                            <a href="javascript:;">
+                                <i class="iconfont icon-light"></i>
+                                <span class="am-margin-left-xs">{{:MyLang('theme_mode_light_title')}}</span>
+                            </a>
+                        </li>
+                        <li data-admin-theme-mode="dark">
+                            <a href="javascript:;">
+                                <i class="iconfont icon-dark"></i>
+                                <span class="am-margin-left-xs">{{:MyLang('theme_mode_dark_title')}}</span>
+                            </a>
+                        </li>
+                        <li data-admin-theme-mode="system">
+                            <a href="javascript:;">
+                                <i class="iconfont icon-theme"></i>
+                                <span class="am-margin-left-xs">{{:MyLang('theme_mode_system_title')}}</span>
+                            </a>
+                        </li>
+                        {{if !empty($theme_color_choice_data) and !empty($theme_color_choice_data['data']) and !empty($theme_color_choice_data['theme']) and !empty($theme_color_choice_data['value'])}}
+                            <li class="am-divider"></li>
                             {{foreach $theme_color_choice_data.data as $v}}
                                 <li {{if $theme_color_choice_data['value'] eq $v['value']}}class="am-active"{{/if}}>
                                     <a href="{{$v.url}}">
@@ -89,9 +114,9 @@
                                     </a>
                                 </li>
                             {{/foreach}}
-                        </ul>
-                    </li>
-                {{/if}}
+                        {{/if}}
+                    </ul>
+                </li>
 
                 <!-- 清除缓存 -->
                 {{if AdminIsPower('cache', 'statusupdate')}}

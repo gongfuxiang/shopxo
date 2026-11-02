@@ -152,6 +152,7 @@ class ConstService
                 '6.9.0' => ['value' => '6.9.0', 'name' => 'v6.9.0'],
                 '6.9.1' => ['value' => '6.9.1', 'name' => 'v6.9.1'],
                 '6.9.2' => ['value' => '6.9.2', 'name' => 'v6.9.2'],
+                '6.9.3' => ['value' => '6.9.3', 'name' => 'v6.9.3'],
             ],
 
             // 搜索排序方式
@@ -385,6 +386,7 @@ class ConstService
             ],
             // 商品基础字段
             'common_goods_base_data_fields' => [
+                'title'                   => MyLang('common_goods_base_data_fields.title'),
                 'brand_name'              => MyLang('common_goods_base_data_fields.brand_name'),
                 'simple_desc'             => MyLang('common_goods_base_data_fields.simple_desc'),
                 'spec_desc'               => MyLang('common_goods_base_data_fields.spec_desc'),
@@ -620,6 +622,13 @@ class ConstService
                 1 => ['value' => 1, 'name' => MyLang('common_show_goods_category_level_list.1')],
                 2 => ['value' => 2, 'name' => MyLang('common_show_goods_category_level_list.2')],
                 3 => ['value' => 3, 'name' => MyLang('common_show_goods_category_level_list.3')],
+            ],
+            // 分类+商品列表风格
+            'common_goods_category_goods_style_list' => [
+                1 => ['value' => 1, 'name' => MyLang('common_goods_category_goods_style_list.1')],
+                2 => ['value' => 2, 'name' => MyLang('common_goods_category_goods_style_list.2')],
+                3 => ['value' => 3, 'name' => MyLang('common_goods_category_goods_style_list.3')],
+                4 => ['value' => 4, 'name' => MyLang('common_goods_category_goods_style_list.4')],
             ],
             // 商品分类页面商品列表模式一级分类图标类型
             'common_goods_category_model_icon_type_list' => [

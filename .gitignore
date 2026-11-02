@@ -5,7 +5,10 @@
 *.lock
 .tea
 .idea
+.cursor
 .env
 *.htaccess
 *payment_*_respond.php
 *payment_*_notify.php
+sourcecode/vue3-vite/src/types/auto-imports.d.ts
+sourcecode/vue3-vite/src/types/components.d.ts

@@ -3,7 +3,7 @@
  */
 html,
 body {
-    background: #f5f5f5;
+    background: var(--page-bg-color, #f5f5f5);
 }
 
 .content-right>.content {
@@ -12,7 +12,10 @@ body {
 
 .block-container,
 .block-combination-container-2 li {
-    background: #fff !important;
+    background: var(--surface-color, #ffffff) !important;
+    color: var(--text-color, #333);
+    border: 0;
+    box-shadow: none;
     padding: 1.2rem;
     border-radius: 8px;
     overflow: hidden;
@@ -42,7 +45,7 @@ body {
 
 .block-container .block-title .title,
 .block-combination-container-2 li .block-title .title {
-    color: #333;
+    color: var(--text-color, #333);
     font-size: 1.4rem;
     font-weight: 500;
     position: relative;
@@ -63,121 +66,13 @@ body {
     left: 0;
 }
 
-.right-operate .quick-time {
-    display: inline-flex;
-    position: relative;
-}
-
-.right-operate .quick-time a,
-.right-operate .quick-time .dropdown-more {
-    border: 0.1rem solid #f7f7f7;
-}
-
-.right-operate .quick-time a {
-    font-size: 1.2rem;
-    color: #666;
-    display: table-cell;
-    padding: 0.1rem 1rem;
-    transition: all 0.3s ease-in-out;
-    border-radius: 0;
-    position: relative;
-    border-right: 0;
-}
-
-.right-operate .quick-time a:first-child {
-    border-top-left-radius: var(--border-radius);
-    border-bottom-left-radius: var(--border-radius);
-}
-
-.right-operate .quick-time .dropdown-more {
-    border-top-right-radius: var(--border-radius);
-    border-bottom-right-radius: var(--border-radius);
-}
-
-.right-operate .quick-time .dropdown-more .am-dropdown {
-    height: 100%;
-}
-
-.right-operate .quick-time .dropdown-more a {
-    padding-right: 0.5rem;
-    border: 0;
-    border-radius: 0 var(--border-radius) var(--border-radius) 0;
-    display: inline-block;
-    height: 100%;
-}
-
-.right-operate .quick-time .dropdown-more a > i {
-    font-size: 1rem;
-}
-
-.right-operate .quick-time .am-dropdown-content {
-    width: 24rem;
-}
-
-.right-operate .quick-time .am-dropdown-content .item {
-    width: calc(100% / 3 - 0.7rem);
-}
-
-.right-operate .quick-time .am-dropdown-content .item a {
-    padding: 0.6rem;
-    width: 100%;
-    transition: all 0.3s ease-in-out;
-    border-radius: 0.2rem;
-}
-
-.right-operate .quick-time .dropdown-more:has(.am-active),
-.right-operate .quick-time .dropdown-more:hover,
-.right-operate .quick-time .dropdown-more.am-active,
-.right-operate .quick-time > a.am-active,
-.right-operate .quick-time > a:hover {
-    color: var(--color-main);
-    background-color: var(--color-main-light);
-    border-color: var(--color-main-light);
-}
-
-.right-operate .quick-time .dropdown-more:has(.am-active) > .am-dropdown > a,
-.right-operate .quick-time .dropdown-more:hover > .am-dropdown > a,
-.right-operate .quick-time .dropdown-more.am-active > .am-dropdown > a {
-    color: var(--color-main);
-}
-
-.right-operate .quick-time .dropdown-more .item a.am-active,
-.right-operate .quick-time .dropdown-more .item a:hover {
-    color: var(--color-main);
-    background-color: transparent !important;
-    font-weight: 500;
-}
-
-.right-operate .echarts-where input {
-    display: -webkit-inline-box !important;
-    width: 14rem !important;
-    color: #888;
-    height: 2.4rem;
-    border-color: #f7f7f7;
-}
-
-.right-operate .echarts-where-submit {
-    font-size: 1.2rem;
-    padding: 0.26rem 0.5rem;
-    height: auto;
-    line-height: normal;
-}
-
-.right-operate .echarts-where-submit i {
-    font-size: 1.2rem;
-}
-
-.right-operate .echarts-where .join {
-    color: #ccc;
-}
-
 .block-container .am-dropdown .am-selected-btn {
     padding: 0.3em 2em 0.3em 0.8em;
     border-radius: 0.3rem;
     margin-left: 0.5rem;
     width: 7.4rem;
-    background: #f2f4f7;
-    color: #666;
+    background: var(--fill-color, #f2f4f7);
+    color: var(--text-muted-color, #666);
 }
 
 @media only screen and (min-width: 641px) {}
@@ -186,11 +81,13 @@ body {
 
 @media only screen and (max-width: 1000px) {
     .right-operate .echarts-where {
-        display: block;
+        display: flex;
+        flex-wrap: wrap;
     }
 
     .right-operate .echarts-where input {
         width: calc(50% - 4.6rem) !important;
+        flex: 1 1 calc(50% - 4.6rem);
     }
 }
 
@@ -205,7 +102,7 @@ body {
 .shopxo-base li .li-content {
     padding: 1.1rem 1.4rem;
     border-radius: 0.8rem;
-    background: #F6F5FC;
+    background: var(--fill-color, #F6F5FC);
     position: relative;
 }
 
@@ -213,12 +110,12 @@ body {
     font-size: 1.2rem;
     font-weight: 700;
     margin: 0;
-    color: #333;
+    color: var(--text-color, #333);
 }
 
 .shopxo-base li .li-content .total {
     margin: 0 0 0.5rem 0;
-    color: #333;
+    color: var(--text-color, #333);
     font-size: 2.4rem;
     font-weight: 700;
 }
@@ -232,7 +129,7 @@ body {
 }
 
 .shopxo-base li .li-content .item {
-    color: #666;
+    color: var(--text-muted-color, #666);
     font-size: 1.2rem;
 }
 
@@ -245,9 +142,9 @@ body {
 }
 
 .shopxo-base li .li-content .li-content-foot {
-    border-top: 0.1rem solid #E2EAF2;
+    border-top: 0.1rem solid var(--border-color, #E2EAF2);
     padding-top: 0.8rem;
-    color: #666;
+    color: var(--text-muted-color, #666);
 }
 
 @media only screen and (max-width: 640px) {
@@ -313,8 +210,8 @@ body {
 
 .base-content-top .vip {
     padding: 0 0.6rem;
-    background: #e1e1e1;
-    color: #666;
+    background: var(--fill-color, #e1e1e1);
+    color: var(--text-muted-color, #666);
     display: -webkit-inline-box;
     height: 2.2rem;
     line-height: 2.2rem;
@@ -347,7 +244,7 @@ body {
 
     .base-content-top .right-content {
         margin-top: 1rem;
-        border-top: 0.1rem dashed #eee;
+        border-top: 0.1rem dashed var(--border-color, #eeeeee);
         padding-top: 1rem;
     }
 
@@ -421,7 +318,7 @@ body {
 .area-select .am-selected-btn {
     border-radius: var(--border-radius);
     border: 0;
-    background: #F2F4F7;
+    background: var(--fill-color, #F2F4F7);
     height: 2.4rem;
     line-height: 2.4rem;
     padding: 0 2.3rem 0 1rem;
@@ -429,7 +326,7 @@ body {
 
 .area-select .am-selected>.am-selected-btn.am-btn-default:hover,
 .area-select .am-dropdown.am-active .am-btn-default.am-dropdown-toggle {
-    background: #F2F4F7 !important;
+    background: var(--fill-color, #F2F4F7) !important;
 }
 
 .area-select .am-selected-content {
@@ -446,7 +343,7 @@ body {
 
     .user-flex .echarts-tabs {
         width: 100%;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid var(--border-color, #eeeeee);
         padding-bottom: 11px;
     }
 
@@ -563,7 +460,7 @@ body {
 
     .order-flex .echarts-tabs {
         width: 100%;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid var(--border-color, #eeeeee);
         padding-bottom: 11px;
     }
 

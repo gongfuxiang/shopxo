@@ -67,7 +67,7 @@ a.extraction-take-goods:hover .extraction-take-goods-title {
     color: #666;
     font-size: 2rem;
     border-radius: 50%;
-    background: #f5f5f5;
+    background: var(--fill-color, #f5f5f5);
     z-index: 1;
 }
 .extraction-take-switch .extraction-take-prev {

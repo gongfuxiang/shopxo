@@ -1,0 +1,49 @@
+# 仓库和工作区都用 LF。eol=lf 会盖过 Windows 的 core.autocrlf，
+# Mac 和 Windows 检出、提交的换行一致，避免整文件被标成已修改。
+* text=auto eol=lf
+
+*.php text eol=lf
+*.js text eol=lf
+*.ts text eol=lf
+*.vue text eol=lf
+*.css text eol=lf
+*.scss text eol=lf
+*.html text eol=lf
+*.htm text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.xml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sql text eol=lf
+*.sh text eol=lf
+
+# Windows 脚本必须 CRLF，两边都按 CRLF 检出
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.vbs text eol=crlf
+
+# 二进制不转换换行
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.bmp binary
+*.svg binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.otf binary
+*.mp3 binary
+*.mp4 binary
+*.zip binary
+*.gz binary
+*.7z binary
+*.rar binary
+*.pdf binary
+*.exe binary
+*.dll binary
