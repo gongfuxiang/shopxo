@@ -30,7 +30,22 @@ function LayerPagesLevelHandle (key) {
  * @date    2023-12-06
  * @desc    description
  */
+function AdminIsMobileLayout () {
+    return window.innerWidth <= 640;
+}
+
+function AdminResetMobileMenuLayout () {
+    $('#admin-offcanvas, #ifcontent, header.admin-header, .menu-scaling-submit').stop(true, false);
+    $('#admin-offcanvas').css('width', '');
+    $('#ifcontent').css('padding-left', '');
+    $('header.admin-header').css('left', '');
+}
+
 function OpenMenu () {
+    if (AdminIsMobileLayout()) {
+        AdminResetMobileMenuLayout();
+        return;
+    }
     $('.menu-scaling-submit').addClass('open-menu');
     $('.menu-scaling-submit').animate({ left: '135px' }, 300);
     $('.menu-scaling-submit').removeClass('icon-stretch').addClass('icon-shrink');
@@ -49,6 +64,10 @@ function OpenMenu () {
  * @desc    description
  */
 function CloseMenu () {
+    if (AdminIsMobileLayout()) {
+        AdminResetMobileMenuLayout();
+        return;
+    }
     $('.menu-scaling-submit').removeClass('open-menu');
     $('.menu-scaling-submit').animate({ left: '30px' }, 300);
     $('.menu-scaling-submit').removeClass('icon-shrink').addClass('icon-stretch');
