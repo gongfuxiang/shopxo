@@ -370,6 +370,24 @@ html body .child-menu-list .admin-sidebar-sub li {
         align-items: flex-end;
         border-top: 0.1rem solid var(--border-color, #eeeeee);
         background-color: var(--header-bg-color, #fff);
+        z-index: 1200;
+        overflow: visible;
+    }
+
+    header.admin-header .tabs-tool.am-active {
+        z-index: 1200;
+    }
+
+    header.admin-header .tabs-tool .am-dropdown-content {
+        z-index: 1200;
+        left: auto;
+        right: 0;
+    }
+
+    header.admin-header .tabs-tool .am-dropdown-content:before,
+    header.admin-header .tabs-tool .am-dropdown-content:after {
+        left: auto;
+        right: 1rem;
     }
 
     header.admin-header .header-menu-open-pages-list {
